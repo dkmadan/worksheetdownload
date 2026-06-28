@@ -15,7 +15,7 @@ export default function Logo({ size = 32, showText = true, textSize = "text-lg" 
         viewBox="0 0 40 40"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        aria-label="KidsWorksheets logo"
+        aria-label="Worksheet Download logo"
       >
         <defs>
           <linearGradient id={id} x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
@@ -56,8 +56,9 @@ export default function Logo({ size = 32, showText = true, textSize = "text-lg" 
       </svg>
 
       {showText && (
-        <span className={`font-semibold text-gray-900 ${textSize}`}>
-          KidsWorksheets
+        <span className={`font-bold ${textSize}`}>
+          <span className="text-gray-900">Worksheet</span>
+          <span className="text-cyan-600"> Download</span>
         </span>
       )}
     </span>

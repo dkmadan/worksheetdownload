@@ -2,20 +2,22 @@ import Link from "next/link";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "About | KidsWorksheets",
-  description: "Learn about KidsWorksheets — free printable worksheets for K–5 students.",
+  title: "About | Worksheet Download",
+  description: "Learn about Worksheet Download — free printable worksheets for K–5 students.",
 };
 
 export default function AboutPage() {
   return (
     <div className="max-w-3xl mx-auto px-4 sm:px-6 py-16">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">About KidsWorksheets</h1>
+        <h1 className="text-3xl font-bold text-gray-900">
+          About <span className="text-cyan-600">Worksheet Download</span>
+        </h1>
       </div>
 
       <div className="prose prose-gray max-w-none space-y-5 text-gray-600 leading-relaxed">
         <p>
-          KidsWorksheets is a free resource for parents and teachers looking for high-quality
+          Worksheet Download is a free resource for parents and teachers looking for high-quality
           printable worksheets for children in kindergarten through 5th grade.
         </p>
         <p>
