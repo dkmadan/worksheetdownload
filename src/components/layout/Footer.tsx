@@ -14,6 +14,7 @@ export default function Footer() {
           <Link href="/worksheets/reading" className="hover:text-gray-700 transition-colors">Reading</Link>
           <Link href="/worksheets/science" className="hover:text-gray-700 transition-colors">Science</Link>
           <Link href="/about" className="hover:text-gray-700 transition-colors">About</Link>
+          <Link href="/privacy-policy" className="hover:text-gray-700 transition-colors">Privacy Policy</Link>
         </div>
       </div>
     </footer>
