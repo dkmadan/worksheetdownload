@@ -12,7 +12,7 @@ export default function Navbar() {
         <div className="hidden sm:flex items-center gap-6 text-sm font-medium text-gray-600">
           <Link href="/" className="hover:text-gray-900 transition-colors">Home</Link>
           <Link href="/worksheets" className="hover:text-gray-900 transition-colors">Worksheets</Link>
-          <Link href="/grades/kindergarten" className="hover:text-gray-900 transition-colors">Grades</Link>
+          <Link href="/grades" className="hover:text-gray-900 transition-colors">Grades</Link>
           <Link href="/about" className="hover:text-gray-900 transition-colors">About</Link>
         </div>
 

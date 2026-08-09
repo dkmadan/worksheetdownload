@@ -30,3 +30,6 @@ export interface GradeMeta {
   label: string;
   ageRange: string;
 }
+
+// Re-export curriculum types for convenience
+export type { GradeDef, SubjectDef } from "./curriculum";
