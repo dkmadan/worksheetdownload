@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy | Worksheet Download",
+  title: "Privacy Policy | Worksheets Download",
   description:
-    "Privacy policy for the Worksheet Download website and mobile app.",
+    "Privacy policy for the Worksheets Download website and mobile app.",
 };
 
 export default function PrivacyPolicyPage() {
@@ -16,8 +16,8 @@ export default function PrivacyPolicyPage() {
 
       <div className="prose prose-gray max-w-none space-y-5 text-gray-600 leading-relaxed">
         <p>
-          This Privacy Policy applies to both the <strong>Worksheet Download</strong> website
-          (worksheetdownload.com) and the <strong>Worksheet Download</strong> mobile app for
+          This Privacy Policy applies to both the <strong>Worksheets Download</strong> website
+          (worksheetdownload.com) and the <strong>Worksheets Download</strong> mobile app for
           Android. It explains what information is collected when you use either product.
         </p>
 
@@ -32,7 +32,7 @@ export default function PrivacyPolicyPage() {
 
         <h2 className="font-semibold text-gray-900 text-xl mt-8">Children&apos;s Privacy</h2>
         <p>
-          Worksheet Download is intended to be used by parents and teachers to find worksheets for
+          Worksheets Download is intended to be used by parents and teachers to find worksheets for
           children. We do not knowingly collect any information from children, and since neither
           the website nor the app has any data collection mechanism today, no information about
           children is collected at all.

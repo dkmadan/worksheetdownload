@@ -10,7 +10,7 @@ const geistSans = Geist({
 });
 
 export const metadata: Metadata = {
-  title: "Worksheet Download | Free Fun Worksheets for Kids K–5",
+  title: "Worksheets Download | Free Fun Worksheets for Kids K–5",
   description:
     "Download hundreds of free printable worksheets for kids in kindergarten through 5th grade. Math, reading, writing, science, and art — all designed to make learning fun!",
 };
