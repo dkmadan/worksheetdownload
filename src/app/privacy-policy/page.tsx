@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy | Worksheets Download",
+  title: "Privacy Policy — WorksheetDownload",
   description:
-    "Privacy policy for the Worksheets Download website and mobile app.",
+    "Privacy policy for worksheetdownload.com and the Worksheets Download Android app. No personal data collection, no tracking, no ads.",
+  alternates: { canonical: "/privacy-policy" },
+  robots: { index: false, follow: false },
 };
 
 export default function PrivacyPolicyPage() {

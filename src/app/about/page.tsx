@@ -2,8 +2,17 @@ import Link from "next/link";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "About | Worksheets Download",
-  description: "Learn about Worksheets Download — free printable worksheets for K–5 students.",
+  title: "About WorksheetDownload — Free Printable Worksheets for K–8",
+  description:
+    "Learn about WorksheetDownload — a free resource for parents and teachers with 3,000+ printable worksheets for Kindergarten through Grade 8 covering Math, English, Science, EVS, GK and more.",
+  alternates: { canonical: "/about" },
+  openGraph: {
+    title: "About WorksheetDownload | Free Printable Worksheets for K–8",
+    description:
+      "3,000+ free printable worksheets for K–8 — Math, English, Science, EVS, GK, Reasoning. No sign-up, PDF download, answer keys included.",
+    url: "/about",
+    type: "website",
+  },
 };
 
 export default function AboutPage() {

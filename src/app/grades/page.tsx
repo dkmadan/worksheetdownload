@@ -3,8 +3,35 @@ import { GRADES_CURRICULUM } from "@/lib/curriculum";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Grades | Worksheets Download",
-  description: "Browse free printable worksheets by grade — Kindergarten through Grade 8.",
+  title: "Worksheets by Grade — Kindergarten to Grade 8",
+  description:
+    "Find free printable worksheets by grade level — Kindergarten through Grade 8. Each grade covers Math, English, Science, EVS, GK, Reasoning and more, with 4 practice sheets per topic.",
+  keywords: [
+    "worksheets by grade",
+    "kindergarten worksheets",
+    "grade 1 worksheets",
+    "grade 2 worksheets",
+    "grade 3 worksheets",
+    "grade 4 worksheets",
+    "grade 5 worksheets",
+    "grade 6 worksheets",
+    "grade 7 worksheets",
+    "grade 8 worksheets",
+    "printable worksheets by grade level",
+    "K-8 printable worksheets",
+  ],
+  alternates: { canonical: "/grades" },
+  openGraph: {
+    title: "Worksheets by Grade — K to Grade 8 | WorksheetDownload",
+    description:
+      "Free printable worksheets for every grade from Kindergarten to Grade 8. Math, English, Science, EVS, GK, Reasoning and more.",
+    url: "/grades",
+    type: "website",
+  },
+  twitter: {
+    title: "Worksheets by Grade — K to Grade 8 | WorksheetDownload",
+    description: "Browse free printable worksheets for every grade from Kindergarten to Grade 8.",
+  },
 };
 
 export default function GradesPage() {

@@ -30,9 +30,36 @@ export async function generateMetadata({
   const { subject } = await params;
   const subjectDef = SUBJECTS_META[subject];
   if (!subjectDef) return {};
+  const grades = getGradesForSubject(subject);
+  const totalTopics = getAllTopicsForSubject(subject).length;
+  const gradeRange = grades.length
+    ? `${grades[0].label}${grades.length > 1 ? ` to ${grades[grades.length - 1].label}` : ""}`
+    : "K–8";
+  const title = `${subjectDef.label} Worksheets for K–8 — ${totalTopics} Topics`;
+  const description = `Free printable ${subjectDef.label} worksheets from ${gradeRange}. ${totalTopics} topics — ${subjectDef.description} Download 4 unique practice sheets per topic with answer keys, PDF format.`;
   return {
-    title: `${subjectDef.label} Worksheets | Worksheets Download`,
-    description: `All ${subjectDef.label} topics from Kindergarten to Grade 8. ${subjectDef.description} Free printable worksheets.`,
+    title,
+    description,
+    keywords: [
+      `${subjectDef.label} worksheets`,
+      `free ${subjectDef.label} worksheets`,
+      `printable ${subjectDef.label} worksheets`,
+      `${subjectDef.label} practice sheets`,
+      `${subjectDef.label} worksheets K-8`,
+      `${subjectDef.label} PDF worksheets`,
+      ...grades.map((g) => `${g.label} ${subjectDef.label} worksheets`),
+    ],
+    alternates: { canonical: `/subjects/${subject}` },
+    openGraph: {
+      title: `${subjectDef.label} Worksheets — ${totalTopics} Topics | WorksheetDownload`,
+      description,
+      url: `/subjects/${subject}`,
+      type: "website",
+    },
+    twitter: {
+      title: `${subjectDef.label} Worksheets | WorksheetDownload`,
+      description,
+    },
   };
 }
 

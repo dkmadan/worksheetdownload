@@ -12,9 +12,43 @@ const geistSans = Geist({
 });
 
 export const metadata: Metadata = {
-  title: "Worksheets Download | Free Fun Worksheets for Kids K–5",
+  metadataBase: new URL("https://worksheetdownload.com"),
+  title: {
+    template: "%s | WorksheetDownload",
+    default: "Free Printable Worksheets for K–8 | WorksheetDownload",
+  },
   description:
-    "Download hundreds of free printable worksheets for kids in kindergarten through 5th grade. Math, reading, writing, science, and art — all designed to make learning fun!",
+    "Download 3,000+ free printable worksheets for Kindergarten through Grade 8. Math, English, Science, EVS, GK, Reasoning — topic-wise practice sheets with answer keys.",
+  keywords: [
+    "free printable worksheets",
+    "kindergarten worksheets",
+    "math worksheets",
+    "english worksheets",
+    "science worksheets",
+    "K-8 worksheets",
+    "practice sheets for kids",
+    "printable PDF worksheets",
+    "free worksheets for students",
+    "grade worksheets",
+  ],
+  authors: [{ name: "WorksheetDownload", url: "https://worksheetdownload.com" }],
+  creator: "WorksheetDownload",
+  publisher: "WorksheetDownload",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1 },
+  },
+  openGraph: {
+    type: "website",
+    siteName: "WorksheetDownload",
+    locale: "en_US",
+    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "WorksheetDownload — Free Printable Worksheets for K–8" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    images: ["/og-image.png"],
+  },
 };
 
 export default function RootLayout({

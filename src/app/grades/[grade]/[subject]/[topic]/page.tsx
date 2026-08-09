@@ -30,9 +30,32 @@ export async function generateMetadata({
   const gradeDef = GRADES_CURRICULUM.find((g) => g.id === grade);
   const subjectDef = SUBJECTS_META[subject];
   if (!gradeDef || !subjectDef || !topicLabel) return {};
+  const title = `${topicLabel} Worksheets — ${gradeDef.label} ${subjectDef.label}`;
+  const description = `Free printable ${topicLabel} worksheets for ${gradeDef.label} (${gradeDef.ageRange}). Download 4 unique ${subjectDef.label} practice sheets with answer keys — PDF format, no sign-up needed.`;
   return {
-    title: `${topicLabel} — ${subjectDef.label} ${gradeDef.label} | Worksheets Download`,
-    description: `Practice sheets for ${topicLabel} (${subjectDef.label}, ${gradeDef.label}). Free printable worksheets.`,
+    title,
+    description,
+    keywords: [
+      `${topicLabel} worksheet`,
+      `${topicLabel} ${gradeDef.label} worksheet`,
+      `free ${topicLabel} worksheet`,
+      `printable ${topicLabel} worksheet`,
+      `${topicLabel} practice sheet`,
+      `${gradeDef.label} ${subjectDef.label} worksheet`,
+      `${subjectDef.label} worksheets ${gradeDef.label}`,
+      `${topicLabel} PDF worksheet`,
+    ],
+    alternates: { canonical: `/grades/${grade}/${subject}/${topic}` },
+    openGraph: {
+      title: `${topicLabel} Worksheets — ${gradeDef.label} ${subjectDef.label} | WorksheetDownload`,
+      description,
+      url: `/grades/${grade}/${subject}/${topic}`,
+      type: "article",
+    },
+    twitter: {
+      title: `${topicLabel} Worksheets — ${gradeDef.label} | WorksheetDownload`,
+      description,
+    },
   };
 }
 

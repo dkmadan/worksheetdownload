@@ -3,9 +3,33 @@ import { SUBJECTS_META } from "@/lib/curriculum";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "All Subjects | Worksheets Download",
+  title: "Worksheets by Subject — Math, English, Science, EVS, GK & More",
   description:
-    "Browse all subjects — Mathematics, English, Science, EVS, GK, Reasoning, Social Studies and more. Free printable worksheets for K–8.",
+    "Browse all subjects — Mathematics, English, Science, EVS, GK, Reasoning, Social Studies and more. Free printable worksheets for K–8 with 4 practice sheets per topic and answer keys.",
+  keywords: [
+    "worksheets by subject",
+    "math worksheets",
+    "english worksheets",
+    "science worksheets",
+    "EVS worksheets",
+    "GK worksheets",
+    "reasoning worksheets",
+    "social studies worksheets",
+    "printable subject worksheets",
+    "free subject worksheets K-8",
+  ],
+  alternates: { canonical: "/subjects" },
+  openGraph: {
+    title: "Worksheets by Subject — Math, English, Science & More | WorksheetDownload",
+    description:
+      "Browse all subjects — Math, English, Science, EVS, GK, Reasoning and more. Free printable worksheets for K–8.",
+    url: "/subjects",
+    type: "website",
+  },
+  twitter: {
+    title: "Worksheets by Subject | WorksheetDownload",
+    description: "Math, English, Science, EVS, GK, Reasoning worksheets — free printable K–8.",
+  },
 };
 
 export default function SubjectsPage() {

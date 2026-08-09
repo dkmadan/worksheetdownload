@@ -1,12 +1,37 @@
+import type { Metadata } from "next";
 import TopicsBrowser from "@/components/worksheets/TopicsBrowser";
 import type { TopicEntry } from "@/components/worksheets/TopicsBrowser";
 import { CURRICULUM, GRADES_CURRICULUM, SUBJECTS_META, slugifyTopic } from "@/lib/curriculum";
-import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "All Worksheets | WorksheetDownload",
+  title: "Browse All Worksheets — 730+ Topics for K–8",
   description:
-    "Browse 700+ free printable worksheet topics for Kindergarten through Grade 8 — Math, English, Science, EVS, GK, Reasoning, and more.",
+    "Browse 730+ free printable worksheet topics across Kindergarten to Grade 8. Filter by grade or subject — Math, English, Science, EVS, GK, Reasoning — and download 4 practice sheets per topic.",
+  keywords: [
+    "all worksheets",
+    "printable worksheet topics",
+    "K-8 worksheet topics",
+    "math worksheet topics",
+    "english worksheet topics",
+    "science worksheet topics",
+    "browse worksheets by grade",
+    "browse worksheets by subject",
+    "free PDF worksheets",
+    "practice sheets for students",
+  ],
+  alternates: { canonical: "/worksheets" },
+  openGraph: {
+    title: "Browse All Worksheets — 730+ Topics | WorksheetDownload",
+    description:
+      "730+ free printable worksheet topics across Kindergarten to Grade 8. Filter by grade or subject and download 4 practice sheets per topic.",
+    url: "/worksheets",
+    type: "website",
+  },
+  twitter: {
+    title: "Browse All Worksheets — 730+ Topics | WorksheetDownload",
+    description:
+      "730+ free printable worksheet topics for K–8. Filter by grade or subject, download PDF practice sheets.",
+  },
 };
 
 function getAllTopics(): TopicEntry[] {

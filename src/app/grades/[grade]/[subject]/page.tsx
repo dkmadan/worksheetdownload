@@ -26,9 +26,31 @@ export async function generateMetadata({
   const gradeDef = GRADES_CURRICULUM.find((g) => g.id === grade);
   const subjectDef = SUBJECTS_META[subject];
   if (!gradeDef || !subjectDef) return {};
+  const topics = getTopicsForGradeSubject(grade, subject);
+  const sampleTopics = topics.slice(0, 3).join(", ");
+  const title = `${subjectDef.label} Worksheets for ${gradeDef.label} — ${topics.length} Topics`;
+  const description = `Free printable ${subjectDef.label} worksheets for ${gradeDef.label} (${gradeDef.ageRange}). ${topics.length} topics including ${sampleTopics} and more. Download 4 unique practice sheets per topic with answer keys.`;
   return {
-    title: `${subjectDef.label} — ${gradeDef.label} | Worksheets Download`,
-    description: `Browse ${subjectDef.label} topics for ${gradeDef.label}. Free printable worksheets.`,
+    title,
+    description,
+    keywords: [
+      `${gradeDef.label} ${subjectDef.label} worksheets`,
+      `${subjectDef.label} worksheets for ${gradeDef.label}`,
+      `free ${subjectDef.label} worksheets ${gradeDef.label}`,
+      `printable ${subjectDef.label} practice sheets`,
+      ...topics.slice(0, 5).map((t) => `${t} worksheet`),
+    ],
+    alternates: { canonical: `/grades/${grade}/${subject}` },
+    openGraph: {
+      title: `${subjectDef.label} Worksheets for ${gradeDef.label} | WorksheetDownload`,
+      description,
+      url: `/grades/${grade}/${subject}`,
+      type: "website",
+    },
+    twitter: {
+      title: `${subjectDef.label} Worksheets for ${gradeDef.label} | WorksheetDownload`,
+      description,
+    },
   };
 }
 
