@@ -7,7 +7,7 @@ export default function Footer() {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-gray-500">
         <div className="flex items-center gap-3">
           <Logo size={24} showText={true} textSize="text-sm" />
-          <span>— Free printable worksheets for K–5</span>
+          <span>— Free printable worksheets for K–8</span>
         </div>
         <div className="flex items-center gap-4">
           <Link href="/worksheets/math" className="hover:text-gray-700 transition-colors">Math</Link>

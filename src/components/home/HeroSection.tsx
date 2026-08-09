@@ -18,7 +18,7 @@ export default function HeroSection() {
           </h1>
 
           <p className="text-gray-600 text-lg max-w-md leading-relaxed">
-            Hundreds of printable worksheets for kindergarten through 5th grade.
+            Thousands of printable worksheets for kindergarten through 8th grade.
             Math, reading, writing, science, and art — all designed to spark
             curiosity.
           </p>
@@ -31,7 +31,7 @@ export default function HeroSection() {
               Browse Worksheets
             </Link>
             <Link
-              href="/grades/kindergarten"
+              href="/grades"
               className="border border-gray-900 text-gray-900 hover:bg-gray-100 text-sm font-medium px-5 py-2.5 rounded-full transition-colors"
             >
               Find by Grade
