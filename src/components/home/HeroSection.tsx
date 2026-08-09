@@ -39,13 +39,16 @@ export default function HeroSection() {
           </div>
         </div>
 
-        {/* Right column — illustration placeholder */}
-        <div className="flex-shrink-0 w-72 h-64 bg-white/60 rounded-2xl shadow-sm flex items-center justify-center">
-          <div className="text-center select-none">
-            <div className="text-7xl mb-3">👧🧒👦</div>
-            <div className="text-5xl">📚✏️🎨</div>
-            <p className="text-gray-400 text-xs mt-3 font-medium">Learning together</p>
-          </div>
+        {/* Right column — hero illustration */}
+        <div className="flex-shrink-0 flex items-center justify-center">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/hero.gif"
+            alt="Kids learning with worksheets — Math, Science, Reading and more"
+            width={480}
+            height={480}
+            className="w-full max-w-sm sm:max-w-md lg:max-w-lg object-contain drop-shadow-sm"
+          />
         </div>
       </div>
     </section>
