@@ -1,7 +1,5 @@
 import ViewPdfButton from "@/components/worksheets/ViewPdfButton";
 
-const PRACTICE_PDF = "/worksheets/pdfs/Class5_LCM_Worksheet.pdf";
-
 const SHEET_STYLES = [
   { bg: "from-blue-500 to-cyan-500",    badge: "bg-blue-100 text-blue-700",   num: "①" },
   { bg: "from-emerald-500 to-teal-500", badge: "bg-emerald-100 text-emerald-700", num: "②" },
@@ -14,10 +12,16 @@ interface PracticeSheetTileProps {
   gradeLabel: string;
   subjectLabel: string;
   topic: string;
+  gradeId: string;
+  subjectId: string;
+  topicSlug: string;
 }
 
-export default function PracticeSheetTile({ sheetNumber, gradeLabel, subjectLabel, topic }: PracticeSheetTileProps) {
+export default function PracticeSheetTile({
+  sheetNumber, gradeLabel, subjectLabel, topic, gradeId, subjectId, topicSlug
+}: PracticeSheetTileProps) {
   const style = SHEET_STYLES[sheetNumber - 1];
+  const pdfUrl = `/worksheets/pdfs/${gradeId}-${subjectId}-${topicSlug}-sheet-${sheetNumber}.pdf`;
   const title = `${gradeLabel} | ${subjectLabel} | ${topic} — PracticeSheet-${sheetNumber}`;
 
   return (
@@ -53,9 +57,9 @@ export default function PracticeSheetTile({ sheetNumber, gradeLabel, subjectLabe
         <p className="text-gray-400 text-xs">Practice Sheet {sheetNumber} of 4</p>
 
         <div className="flex gap-2 pt-2 mt-auto">
-          <ViewPdfButton pdfUrl={PRACTICE_PDF} title={title} />
+          <ViewPdfButton pdfUrl={pdfUrl} title={title} />
           <a
-            href={PRACTICE_PDF}
+            href={pdfUrl}
             download={title}
             target="_blank"
             rel="noopener noreferrer"

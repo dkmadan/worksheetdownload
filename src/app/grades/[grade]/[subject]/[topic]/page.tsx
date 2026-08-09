@@ -79,6 +79,9 @@ export default async function TopicPage({
           <PracticeSheetTile
             key={n}
             sheetNumber={n}
+            gradeId={grade}
+            subjectId={subject}
+            topicSlug={topic}
             gradeLabel={gradeDef.label}
             subjectLabel={subjectDef.label}
             topic={topicLabel}
