@@ -1,6 +1,5 @@
-import fs from "fs";
-import path from "path";
 import { randomUUID } from "crypto";
+import clientPromise from "./mongodb";
 
 export interface StoredUser {
   id: string;
@@ -10,32 +9,25 @@ export interface StoredUser {
   createdAt: string;
 }
 
-const DB_PATH = path.join(process.cwd(), "data", "users.json");
-
-function readUsers(): StoredUser[] {
-  try {
-    if (!fs.existsSync(DB_PATH)) return [];
-    return JSON.parse(fs.readFileSync(DB_PATH, "utf-8")) as StoredUser[];
-  } catch {
-    return [];
-  }
+async function getCollection() {
+  const client = await clientPromise;
+  return client.db("worksheetdownload").collection<StoredUser>("users");
 }
 
-function writeUsers(users: StoredUser[]): void {
-  const dir = path.dirname(DB_PATH);
-  if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-  fs.writeFileSync(DB_PATH, JSON.stringify(users, null, 2), "utf-8");
+export async function getUserByEmail(email: string): Promise<StoredUser | null> {
+  const col = await getCollection();
+  return col.findOne({ email: email.toLowerCase() }) as Promise<StoredUser | null>;
 }
 
-export function getUserByEmail(email: string): StoredUser | null {
-  return readUsers().find((u) => u.email.toLowerCase() === email.toLowerCase()) ?? null;
-}
+export async function createUser(
+  name: string,
+  email: string,
+  hashedPassword: string
+): Promise<StoredUser> {
+  const col = await getCollection();
+  const existing = await col.findOne({ email: email.toLowerCase() });
+  if (existing) throw new Error("Email already registered");
 
-export function createUser(name: string, email: string, hashedPassword: string): StoredUser {
-  const users = readUsers();
-  if (users.find((u) => u.email.toLowerCase() === email.toLowerCase())) {
-    throw new Error("Email already registered");
-  }
   const user: StoredUser = {
     id: randomUUID(),
     name,
@@ -43,6 +35,6 @@ export function createUser(name: string, email: string, hashedPassword: string):
     password: hashedPassword,
     createdAt: new Date().toISOString(),
   };
-  writeUsers([...users, user]);
+  await col.insertOne(user);
   return user;
 }
