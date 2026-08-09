@@ -2,6 +2,10 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Next.js version warning
+
+This project pins `next@16.2.9`, which is newer than most training data and has breaking API/convention changes vs. Next.js 13–14. Before writing App Router code (routing, data fetching, config, metadata, etc.), check the relevant guide in `node_modules/next/dist/docs/` rather than relying on prior Next.js knowledge, and heed any deprecation notices.
+
 ## Common Commands
 
 ```bash
@@ -9,6 +13,8 @@ npm run dev      # start dev server at http://localhost:3000
 npm run build    # production build (also runs TypeScript check)
 npm run lint     # run ESLint
 ```
+
+There is no test suite configured.
 
 ## Architecture
 
@@ -22,7 +28,10 @@ npm run lint     # run ESLint
 ### Data layer
 All worksheet data lives in `src/lib/data.ts` as a plain TypeScript array.  
 Types are in `src/lib/types.ts` (`Subject`, `Grade`, `Worksheet` etc.).  
+Every `Worksheet.pdfUrl` currently points at the same placeholder file (`WORKSHEET_TEST_PDF`, `public/worksheets/pdfs/Class5_LCM_Worksheet.pdf`) — none of the ~25 seeded worksheets have real per-worksheet PDFs yet.  
 To add real PDFs: place files in `public/worksheets/pdfs/` and update the `pdfUrl` field in each entry.
+
+Import alias `@/*` maps to `src/*` (see `tsconfig.json`).
 
 ### Component map
 - `src/components/layout/` — `Navbar`, `Footer` (used in `src/app/layout.tsx`)
