@@ -2,7 +2,7 @@ import { writeFileSync, existsSync, mkdirSync } from "fs";
 import { join } from "path";
 import { CURRICULUM, GRADES_CURRICULUM, SUBJECTS_META, slugifyTopic } from "../src/lib/curriculum";
 import { buildWorksheetPdf } from "./lib/pdf-builder";
-import { getQuestions } from "./lib/question-router";
+import { getQuestions, getLayout } from "./lib/question-router";
 
 const MATH_ONLY = process.argv.includes("--math-only");
 const FORCE     = process.argv.includes("--force");
@@ -68,12 +68,14 @@ async function run() {
     await Promise.all(batch.map(async (t) => {
       try {
         const questions = getQuestions(t.gradeId, t.subjectId, t.topic, t.sheetNumber);
+        const layout = getLayout(t.gradeId, t.subjectId, t.topic);
         const pdfBytes = await buildWorksheetPdf({
           topicLabel: t.topic,
           gradeLabel: t.gradeLabel,
           subjectLabel: t.subjectLabel,
           sheetNumber: t.sheetNumber,
           questions,
+          layout,
         });
         writeFileSync(t.filePath, pdfBytes);
         done++;

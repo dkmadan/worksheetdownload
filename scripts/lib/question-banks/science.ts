@@ -365,11 +365,8 @@ function findBank(topic: string): Question[] {
 export function generateScienceQuestions(
   _gradeId: string,
   topicLabel: string,
-  sheetNumber: number
+  _sheetNumber: number
 ): Question[] {
-  const bank = findBank(topicLabel);
-  const start = ((sheetNumber - 1) * 20) % bank.length;
-  const end = start + 20;
-  if (end <= bank.length) return bank.slice(start, end);
-  return [...bank.slice(start), ...bank.slice(0, end - bank.length)];
+  // Return the full bank; caller applies seeded shuffle + slice
+  return findBank(topicLabel);
 }
