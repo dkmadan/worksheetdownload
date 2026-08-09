@@ -13,6 +13,7 @@ export interface SubjectDef {
   description: string;
   color: string;
   iconColor: string;
+  headerGradient: string;
 }
 
 export const GRADES_CURRICULUM: GradeDef[] = [
@@ -28,19 +29,19 @@ export const GRADES_CURRICULUM: GradeDef[] = [
 ];
 
 export const SUBJECTS_META: Record<string, SubjectDef> = {
-  "english-language": { id: "english-language", label: "English / Language", emoji: "📚", description: "Alphabets, phonics, letter tracing, vowels, consonants, and more.", color: "bg-green-50 border-green-200", iconColor: "text-green-600" },
-  "mathematics":      { id: "mathematics",      label: "Mathematics",        emoji: "🔢", description: "Numbers, operations, geometry, measurement, and problem solving.", color: "bg-blue-50 border-blue-200", iconColor: "text-blue-600" },
-  "general-awareness":{ id: "general-awareness",label: "General Awareness / EVS", emoji: "🌿", description: "Self, family, environment, nature, and the world around us.", color: "bg-teal-50 border-teal-200", iconColor: "text-teal-600" },
-  "shapes-visual":    { id: "shapes-visual",    label: "Shapes & Visual Skills", emoji: "🔷", description: "Shapes, tracing, matching, and spatial awareness activities.", color: "bg-pink-50 border-pink-200", iconColor: "text-pink-600" },
-  "coloring-creative":{ id: "coloring-creative",label: "Coloring & Creative", emoji: "🎨", description: "Coloring pages, drawing, patterns, and creative expression.", color: "bg-orange-50 border-orange-200", iconColor: "text-orange-500" },
-  "logic-thinking":   { id: "logic-thinking",   label: "Logic & Thinking",   emoji: "🧩", description: "Matching, sorting, classification, sequencing, and mazes.", color: "bg-purple-50 border-purple-200", iconColor: "text-purple-600" },
-  "social-emotional": { id: "social-emotional", label: "Social & Emotional",  emoji: "💝", description: "Emotions, empathy, friendship, manners, and safety.", color: "bg-rose-50 border-rose-200", iconColor: "text-rose-500" },
-  "english":          { id: "english",          label: "English",             emoji: "📖", description: "Grammar, comprehension, vocabulary, writing, and literature.", color: "bg-emerald-50 border-emerald-200", iconColor: "text-emerald-600" },
-  "evs":              { id: "evs",              label: "EVS",                 emoji: "🌱", description: "Environmental studies — nature, body, family, community.", color: "bg-green-50 border-green-200", iconColor: "text-green-600" },
-  "gk":               { id: "gk",              label: "General Knowledge",   emoji: "🌐", description: "India, world, animals, sports, festivals, and more.", color: "bg-amber-50 border-amber-200", iconColor: "text-amber-600" },
-  "reasoning":        { id: "reasoning",        label: "Reasoning",           emoji: "🧠", description: "Analogy, series, coding, direction, and logical puzzles.", color: "bg-violet-50 border-violet-200", iconColor: "text-violet-600" },
-  "science":          { id: "science",          label: "Science",             emoji: "🔬", description: "Plants, animals, matter, energy, earth, and experiments.", color: "bg-cyan-50 border-cyan-200", iconColor: "text-cyan-600" },
-  "social-studies":   { id: "social-studies",   label: "Social Studies",      emoji: "🗺️", description: "History, geography, civics, maps, and society.", color: "bg-red-50 border-red-200", iconColor: "text-red-600" },
+  "english-language": { id: "english-language", label: "English / Language", emoji: "📚", description: "Alphabets, phonics, letter tracing, vowels, consonants, and more.", color: "bg-green-50 border-green-200", iconColor: "text-green-600", headerGradient: "from-green-400 to-emerald-600" },
+  "mathematics":      { id: "mathematics",      label: "Mathematics",        emoji: "🔢", description: "Numbers, operations, geometry, measurement, and problem solving.", color: "bg-blue-50 border-blue-200", iconColor: "text-blue-600", headerGradient: "from-blue-500 to-indigo-600" },
+  "general-awareness":{ id: "general-awareness",label: "General Awareness / EVS", emoji: "🌿", description: "Self, family, environment, nature, and the world around us.", color: "bg-teal-50 border-teal-200", iconColor: "text-teal-600", headerGradient: "from-teal-400 to-teal-600" },
+  "shapes-visual":    { id: "shapes-visual",    label: "Shapes & Visual Skills", emoji: "🔷", description: "Shapes, tracing, matching, and spatial awareness activities.", color: "bg-pink-50 border-pink-200", iconColor: "text-pink-600", headerGradient: "from-pink-400 to-fuchsia-500" },
+  "coloring-creative":{ id: "coloring-creative",label: "Coloring & Creative", emoji: "🎨", description: "Coloring pages, drawing, patterns, and creative expression.", color: "bg-orange-50 border-orange-200", iconColor: "text-orange-500", headerGradient: "from-orange-400 to-amber-500" },
+  "logic-thinking":   { id: "logic-thinking",   label: "Logic & Thinking",   emoji: "🧩", description: "Matching, sorting, classification, sequencing, and mazes.", color: "bg-purple-50 border-purple-200", iconColor: "text-purple-600", headerGradient: "from-purple-500 to-violet-600" },
+  "social-emotional": { id: "social-emotional", label: "Social & Emotional",  emoji: "💝", description: "Emotions, empathy, friendship, manners, and safety.", color: "bg-rose-50 border-rose-200", iconColor: "text-rose-500", headerGradient: "from-rose-400 to-pink-600" },
+  "english":          { id: "english",          label: "English",             emoji: "📖", description: "Grammar, comprehension, vocabulary, writing, and literature.", color: "bg-emerald-50 border-emerald-200", iconColor: "text-emerald-600", headerGradient: "from-emerald-500 to-green-600" },
+  "evs":              { id: "evs",              label: "EVS",                 emoji: "🌱", description: "Environmental studies — nature, body, family, community.", color: "bg-green-50 border-green-200", iconColor: "text-green-600", headerGradient: "from-green-500 to-teal-600" },
+  "gk":               { id: "gk",              label: "General Knowledge",   emoji: "🌐", description: "India, world, animals, sports, festivals, and more.", color: "bg-amber-50 border-amber-200", iconColor: "text-amber-600", headerGradient: "from-amber-400 to-orange-500" },
+  "reasoning":        { id: "reasoning",        label: "Reasoning",           emoji: "🧠", description: "Analogy, series, coding, direction, and logical puzzles.", color: "bg-violet-50 border-violet-200", iconColor: "text-violet-600", headerGradient: "from-violet-500 to-purple-600" },
+  "science":          { id: "science",          label: "Science",             emoji: "🔬", description: "Plants, animals, matter, energy, earth, and experiments.", color: "bg-cyan-50 border-cyan-200", iconColor: "text-cyan-600", headerGradient: "from-cyan-500 to-sky-600" },
+  "social-studies":   { id: "social-studies",   label: "Social Studies",      emoji: "🗺️", description: "History, geography, civics, maps, and society.", color: "bg-red-50 border-red-200", iconColor: "text-red-600", headerGradient: "from-red-500 to-rose-600" },
 };
 
 export const CURRICULUM: Record<string, Record<string, string[]>> = {
@@ -357,4 +358,24 @@ export function isValidGrade(gradeId: string): boolean {
 
 export function isValidSubject(gradeId: string, subjectId: string): boolean {
   return subjectId in (CURRICULUM[gradeId] ?? {});
+}
+
+export function isValidSubjectGlobal(subjectId: string): boolean {
+  return GRADES_CURRICULUM.some((g) => subjectId in (CURRICULUM[g.id] ?? {}));
+}
+
+export function getGradesForSubject(subjectId: string): GradeDef[] {
+  return GRADES_CURRICULUM.filter((g) => (CURRICULUM[g.id]?.[subjectId]?.length ?? 0) > 0);
+}
+
+export function getAllTopicsForSubject(
+  subjectId: string
+): { gradeId: string; gradeLabel: string; gradeEmoji: string; topic: string }[] {
+  const out: { gradeId: string; gradeLabel: string; gradeEmoji: string; topic: string }[] = [];
+  for (const grade of GRADES_CURRICULUM) {
+    for (const topic of (CURRICULUM[grade.id]?.[subjectId] ?? [])) {
+      out.push({ gradeId: grade.id, gradeLabel: grade.label, gradeEmoji: grade.emoji, topic });
+    }
+  }
+  return out;
 }

@@ -13,6 +13,7 @@ export default function Navbar() {
           <Link href="/" className="hover:text-gray-900 transition-colors">Home</Link>
           <Link href="/worksheets" className="hover:text-gray-900 transition-colors">Worksheets</Link>
           <Link href="/grades" className="hover:text-gray-900 transition-colors">Grades</Link>
+          <Link href="/subjects" className="hover:text-gray-900 transition-colors">Subjects</Link>
           <Link href="/about" className="hover:text-gray-900 transition-colors">About</Link>
         </div>
 
