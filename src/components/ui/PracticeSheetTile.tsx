@@ -1,4 +1,4 @@
-import ViewPdfButton from "@/components/worksheets/ViewPdfButton";
+import DownloadButtons from "@/components/ui/DownloadButtons";
 
 const SHEET_STYLES = [
   { bg: "from-blue-500 to-cyan-500",    badge: "bg-blue-100 text-blue-700",   num: "①" },
@@ -57,16 +57,7 @@ export default function PracticeSheetTile({
         <p className="text-gray-400 text-xs">Practice Sheet {sheetNumber} of 4</p>
 
         <div className="flex gap-2 pt-2 mt-auto">
-          <ViewPdfButton pdfUrl={pdfUrl} title={title} />
-          <a
-            href={pdfUrl}
-            download={title}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex-1 text-center border border-gray-200 hover:border-gray-400 text-gray-700 text-sm font-medium py-2 rounded-lg transition-colors"
-          >
-            Download
-          </a>
+          <DownloadButtons pdfUrl={pdfUrl} title={title} />
         </div>
       </div>
     </div>

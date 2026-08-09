@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Logo from "@/components/ui/Logo";
+import NavAuthButton from "@/components/auth/NavAuthButton";
 
 export default function Navbar() {
   return (
@@ -17,12 +18,15 @@ export default function Navbar() {
           <Link href="/about" className="hover:text-gray-900 transition-colors">About</Link>
         </div>
 
-        <Link
-          href="/worksheets"
-          className="bg-pink-400 hover:bg-pink-500 text-white text-sm font-medium px-4 py-2 rounded-full transition-colors"
-        >
-          Browse All
-        </Link>
+        <div className="flex items-center gap-2">
+          <NavAuthButton />
+          <Link
+            href="/worksheets"
+            className="hidden sm:block bg-pink-400 hover:bg-pink-500 text-white text-sm font-medium px-4 py-2 rounded-full transition-colors"
+          >
+            Browse All
+          </Link>
+        </div>
       </nav>
     </header>
   );
