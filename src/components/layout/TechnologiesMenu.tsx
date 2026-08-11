@@ -59,12 +59,14 @@ export default function TechnologiesMenu() {
       {/* Mega-menu panel */}
       {open && (
         <div
-          className="absolute top-[calc(100%+12px)] left-1/2 -translate-x-1/2 z-[200] rounded-2xl overflow-hidden"
+          className="fixed z-[200] rounded-2xl overflow-hidden"
           style={{
+            top: "68px",
+            left: "50%",
+            transform: "translateX(-50%)",
+            width: "min(960px, calc(100vw - 32px))",
             background: "#111317",
             border: "1px solid #1f2127",
-            width: "960px",
-            maxWidth: "96vw",
             boxShadow: "0 30px 70px rgba(0,0,0,0.5)",
           }}
         >

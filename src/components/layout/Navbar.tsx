@@ -4,6 +4,7 @@ import NavAuthButton from "@/components/auth/NavAuthButton";
 import GradesMenu from "@/components/layout/GradesMenu";
 import SubjectsMenu from "@/components/layout/SubjectsMenu";
 import TechnologiesMenu from "@/components/layout/TechnologiesMenu";
+import MobileMenu from "@/components/layout/MobileMenu";
 
 export default function Navbar() {
   return (
@@ -24,6 +25,7 @@ export default function Navbar() {
 
         <div className="flex items-center gap-2">
           <NavAuthButton />
+          <MobileMenu />
           <Link
             href="/worksheets"
             className="hidden sm:block bg-pink-400 hover:bg-pink-500 text-white text-sm font-medium px-4 py-2 rounded-full transition-colors"

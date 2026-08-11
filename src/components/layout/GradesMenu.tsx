@@ -50,9 +50,12 @@ export default function GradesMenu() {
 
       {open && (
         <div
-          className="absolute top-[calc(100%+12px)] left-1/2 -translate-x-1/2 z-[200] rounded-2xl overflow-hidden"
+          className="fixed z-[200] rounded-2xl overflow-hidden"
           style={{
-            width: "min(1280px, 95vw)",
+            top: "68px",
+            left: "50%",
+            transform: "translateX(-50%)",
+            width: "min(1280px, calc(100vw - 32px))",
             background: "#181818",
             border: "1px solid rgba(255,255,255,0.08)",
             boxShadow: "0 24px 64px rgba(0,0,0,0.55)",
