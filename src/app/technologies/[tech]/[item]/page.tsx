@@ -225,13 +225,13 @@ export default async function TechItemPage({
             <div className={`bg-gradient-to-r ${cat.color} rounded-2xl p-6`}>
               <h2 className="text-lg font-bold text-white mb-2">Practice &amp; Learn</h2>
               <p className="text-white/70 text-sm mb-4">
-                Build your {techItem.name} skills with structured worksheets, coding challenges, and interview prep materials.
+                Build your {techItem.name} skills with structured worksheets, cheatsheet, and interview sheet.
               </p>
               <Link
-                href="/worksheets"
+                href={`/technologies/${tech}/${item}/resources`}
                 className="inline-flex items-center gap-2 bg-white/20 hover:bg-white/30 text-white font-semibold px-4 py-2 rounded-full transition-colors text-sm"
               >
-                Browse Worksheets →
+                Browse {techItem.name} worksheets →
               </Link>
             </div>
           </div>
