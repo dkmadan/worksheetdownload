@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Logo from "@/components/ui/Logo";
 import NavAuthButton from "@/components/auth/NavAuthButton";
+import TechnologiesMenu from "@/components/layout/TechnologiesMenu";
 
 export default function Navbar() {
   return (
@@ -15,6 +16,7 @@ export default function Navbar() {
           <Link href="/worksheets" className="hover:text-gray-900 transition-colors">Worksheets</Link>
           <Link href="/grades" className="hover:text-gray-900 transition-colors">Grades</Link>
           <Link href="/subjects" className="hover:text-gray-900 transition-colors">Subjects</Link>
+          <TechnologiesMenu />
           <Link href="/about" className="hover:text-gray-900 transition-colors">About</Link>
         </div>
 
