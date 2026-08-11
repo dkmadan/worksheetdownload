@@ -41,11 +41,6 @@ export default function TechnologiesMenu() {
     };
   }, []);
 
-  const totalItems = activeCat.subcategories.reduce(
-    (sum, s) => sum + s.items.length,
-    0
-  );
-
   return (
     <div ref={ref} className="relative">
       {/* Trigger */}
@@ -64,16 +59,26 @@ export default function TechnologiesMenu() {
       {/* Mega-menu panel */}
       {open && (
         <div
-          className="absolute top-[calc(100%+12px)] left-1/2 -translate-x-1/2 z-[200]
-                     bg-gray-950 rounded-2xl shadow-2xl border border-gray-800
-                     w-[920px] max-w-[96vw] flex overflow-hidden"
-          style={{ boxShadow: "0 30px 70px rgba(0,0,0,0.45)" }}
+          className="absolute top-[calc(100%+12px)] left-1/2 -translate-x-1/2 z-[200] rounded-2xl overflow-hidden"
+          style={{
+            background: "#111317",
+            border: "1px solid #1f2127",
+            width: "960px",
+            maxWidth: "96vw",
+            boxShadow: "0 30px 70px rgba(0,0,0,0.5)",
+          }}
         >
-          {/* ── LEFT: category list ── */}
-          <div className="w-52 flex-shrink-0 border-r border-gray-800 py-2 overflow-y-auto max-h-[520px]">
-            <p className="px-4 pt-2 pb-3 text-[10px] font-bold text-gray-600 uppercase tracking-widest">
-              37 Categories
-            </p>
+          {/* ── Category tabs ── */}
+          <div
+            className="flex overflow-x-auto"
+            style={{
+              background: "#0d0f12",
+              borderBottom: "1px solid #1f2127",
+              padding: "10px 16px 0",
+              gap: "3px",
+              scrollbarWidth: "none",
+            }}
+          >
             {TECH_DATA.map((cat) => {
               const isActive = cat.slug === activeSlug;
               return (
@@ -84,59 +89,84 @@ export default function TechnologiesMenu() {
                     setOpen(false);
                     window.location.href = `/technologies/${cat.slug}`;
                   }}
-                  className={`w-full text-left px-3 py-2 flex items-center gap-2 text-xs transition-colors rounded-lg mx-1 ${
-                    isActive
-                      ? "bg-gray-800 text-white"
-                      : "text-gray-400 hover:text-white hover:bg-gray-800/60"
-                  }`}
-                  style={{ width: "calc(100% - 8px)" }}
+                  className="flex items-center gap-1.5 text-xs font-medium whitespace-nowrap flex-shrink-0 transition-colors duration-100"
+                  style={{
+                    padding: "8px 12px 9px",
+                    borderRadius: "8px 8px 0 0",
+                    border: isActive ? "1px solid #1f2127" : "1px solid transparent",
+                    borderBottom: isActive ? "1px solid #111317" : "1px solid transparent",
+                    color: isActive ? "#e5e7eb" : "#6b7280",
+                    background: isActive ? "#111317" : "transparent",
+                    position: "relative",
+                    top: "1px",
+                    cursor: "pointer",
+                    fontFamily: "inherit",
+                  }}
                 >
-                  <span className="text-base leading-none flex-shrink-0">{cat.icon}</span>
-                  <span className="truncate font-medium">{cat.label}</span>
-                  {isActive && (
-                    <svg className="w-3 h-3 ml-auto flex-shrink-0 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
-                    </svg>
-                  )}
+                  <span style={{ fontSize: "13px", lineHeight: 1 }}>{cat.icon}</span>
+                  {cat.label}
                 </button>
               );
             })}
           </div>
 
-          {/* ── RIGHT: tech items panel ── */}
-          <div className="flex-1 flex flex-col min-w-0 max-h-[520px]">
+          {/* ── Panel ── */}
+          <div style={{ maxHeight: "460px", display: "flex", flexDirection: "column", overflow: "hidden" }}>
             {/* Panel header */}
-            <div className={`flex items-center justify-between px-5 py-3.5 bg-gradient-to-r ${activeCat.color} flex-shrink-0`}>
-              <div className="flex items-center gap-2.5">
-                <span className="text-2xl">{activeCat.icon}</span>
-                <div>
-                  <p className="text-white font-bold text-sm leading-tight">{activeCat.label}</p>
-                  <p className="text-white/60 text-xs">{totalItems} technologies</p>
+            <div
+              className="flex items-center justify-between flex-shrink-0"
+              style={{ padding: "13px 20px", borderBottom: "1px solid #1f2127", background: "#0f1114" }}
+            >
+              <div className="flex items-center gap-2.5 min-w-0">
+                <span style={{ fontSize: "18px", flexShrink: 0 }}>{activeCat.icon}</span>
+                <div className="min-w-0">
+                  <p className="text-sm font-bold text-gray-200 leading-tight">{activeCat.label}</p>
+                  <p className="text-[11px] text-gray-600 truncate" style={{ maxWidth: "520px" }}>
+                    {activeCat.description}
+                  </p>
                 </div>
               </div>
               <Link
                 href={`/technologies/${activeCat.slug}`}
                 onClick={() => setOpen(false)}
-                className="text-xs text-white/80 hover:text-white font-semibold bg-white/10 hover:bg-white/20 rounded-full px-3 py-1 transition-colors flex-shrink-0"
+                className="text-xs text-blue-400 hover:text-blue-300 transition-colors flex-shrink-0 ml-6"
               >
-                View all →
+                View all technologies →
               </Link>
             </div>
 
             {/* Subcategory sections */}
-            <div className="flex-1 overflow-y-auto p-5 space-y-5">
+            <div className="flex-1 overflow-y-auto" style={{ padding: "18px 20px" }}>
               {activeCat.subcategories.map((sub) => (
-                <div key={sub.name}>
-                  <p className="text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-2">
+                <div key={sub.name} style={{ marginBottom: "20px" }}>
+                  {/* Subcategory label + extending rule */}
+                  <div
+                    className="flex items-center gap-2 mb-2"
+                    style={{
+                      fontSize: "10px",
+                      fontWeight: 700,
+                      letterSpacing: "0.12em",
+                      textTransform: "uppercase",
+                      color: "#3b82f6",
+                    }}
+                  >
                     {sub.name}
-                  </p>
-                  <div className="flex flex-wrap gap-1.5">
+                    <div style={{ flex: 1, height: "1px", background: "#1f2d4a" }} />
+                  </div>
+                  {/* 4-column item grid */}
+                  <div
+                    style={{
+                      display: "grid",
+                      gridTemplateColumns: "repeat(4, 1fr)",
+                      gap: "1px 0",
+                    }}
+                  >
                     {sub.items.map((tech) => (
                       <Link
                         key={tech.slug}
                         href={`/technologies/${activeCat.slug}/${tech.slug}`}
                         onClick={() => setOpen(false)}
-                        className="px-2.5 py-1 rounded-md text-xs text-gray-300 bg-gray-800 hover:bg-gray-700 hover:text-white border border-gray-700/50 hover:border-gray-600 transition-all duration-100"
+                        className="text-xs text-gray-400 hover:text-gray-100 hover:underline transition-colors py-1 block"
                       >
                         {tech.name}
                       </Link>
@@ -144,13 +174,6 @@ export default function TechnologiesMenu() {
                   </div>
                 </div>
               ))}
-            </div>
-
-            {/* Footer */}
-            <div className="px-5 py-3 border-t border-gray-800 flex-shrink-0">
-              <p className="text-[11px] text-gray-600">
-                {activeCat.description}
-              </p>
             </div>
           </div>
         </div>
