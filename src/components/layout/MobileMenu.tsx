@@ -151,9 +151,9 @@ export default function MobileMenu() {
               className="flex items-center px-5 py-3.5 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors">
               Technologies
             </Link>
-            <Link href="/about" onClick={close}
+            <Link href="/quiz" onClick={close}
               className="flex items-center px-5 py-3.5 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors">
-              About
+              Quiz
             </Link>
 
             {/* Browse CTA */}

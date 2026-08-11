@@ -20,7 +20,7 @@ export default function Navbar() {
           <GradesMenu />
           <SubjectsMenu />
           <TechnologiesMenu />
-          <Link href="/about" className="hover:text-gray-900 transition-colors">About</Link>
+          <Link href="/quiz" className="hover:text-gray-900 transition-colors">Quiz</Link>
         </div>
 
         <div className="flex items-center gap-2">
