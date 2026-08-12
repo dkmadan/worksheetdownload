@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { getAttemptById, submitAttempt } from "@/lib/quizAttempts";
-import { SAMPLE_QUESTIONS } from "@/lib/quiz";
+import { getQuestionsForScoring } from "@/lib/questionsDb";
 
 export async function POST(req: NextRequest) {
   const session = await getServerSession(authOptions);
@@ -35,9 +35,10 @@ export async function POST(req: NextRequest) {
   }
 
   // Server-side scoring — correct answers never leave the server
+  const scoringQuestions = await getQuestionsForScoring(attempt.questionIds);
   let score = 0;
   for (let i = 0; i < attempt.questionIds.length; i++) {
-    const question = SAMPLE_QUESTIONS.find((q) => q.id === attempt.questionIds[i]);
+    const question = scoringQuestions.find((q) => q.id === attempt.questionIds[i]);
     if (question && answers[i] === question.correctIndex) {
       score++;
     }

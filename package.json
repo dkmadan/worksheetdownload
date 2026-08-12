@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "generate-pdfs": "tsx scripts/generate-worksheets.ts",
-    "generate-pdfs-math": "tsx scripts/generate-worksheets.ts --math-only"
+    "generate-pdfs-math": "tsx scripts/generate-worksheets.ts --math-only",
+    "seed-questions": "tsx scripts/seed-questions.ts"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",

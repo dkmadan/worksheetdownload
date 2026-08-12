@@ -3,7 +3,7 @@ import Link from "next/link";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { getAttemptById } from "@/lib/quizAttempts";
-import { SAMPLE_QUESTIONS } from "@/lib/quiz";
+import { getQuestionsForScoring } from "@/lib/questionsDb";
 import QuizReviewAccordion, { type ReviewItem } from "@/components/quiz/QuizReviewAccordion";
 
 export const dynamic = "force-dynamic";
@@ -25,8 +25,9 @@ export default async function QuizResultPage({
   if (!attempt || attempt.userId !== userId) notFound();
   if (attempt.status !== "completed") redirect("/quiz");
 
+  const scoringQuestions = await getQuestionsForScoring(attempt.questionIds);
   const review: ReviewItem[] = attempt.questionIds.map((qId, i) => {
-    const q = SAMPLE_QUESTIONS.find((x) => x.id === qId)!;
+    const q = scoringQuestions.find((x) => x.id === qId)!;
     const userAnswer = attempt.answers[i] ?? null;
     return {
       questionNumber: i + 1,
