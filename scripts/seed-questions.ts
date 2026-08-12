@@ -1,4 +1,24 @@
 #!/usr/bin/env tsx
+// Load .env.local so MONGODB_URI is available when running via tsx
+import { readFileSync } from "fs";
+import { resolve } from "path";
+
+try {
+  const envPath = resolve(__dirname, "../.env.local");
+  const lines = readFileSync(envPath, "utf-8").split("\n");
+  for (const line of lines) {
+    const trimmed = line.trim();
+    if (!trimmed || trimmed.startsWith("#")) continue;
+    const eqIdx = trimmed.indexOf("=");
+    if (eqIdx === -1) continue;
+    const key = trimmed.slice(0, eqIdx).trim();
+    const val = trimmed.slice(eqIdx + 1).trim();
+    if (!process.env[key]) process.env[key] = val;
+  }
+} catch {
+  // .env.local not found — rely on shell env vars
+}
+
 import clientPromise from "../src/lib/mongodb";
 
 // [text, optA, optB, optC, optD, correctIdx(0-3), explanation]
