@@ -50,7 +50,7 @@ export default async function TechResourcesPage({
 
   const { category: cat, subcategory: sub, item: techItem } = found;
 
-  const slug = techItem.name.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+  const slug = techItem.slug;
 
   const resources = [
     {
@@ -66,7 +66,7 @@ export default async function TechResourcesPage({
       icon: "📋",
       label: "Cheatsheet",
       description: `One-page quick-reference for ${techItem.name} — key syntax, commands, patterns, and best practices at a glance.`,
-      pdfUrl: PLACEHOLDER_PDF,
+      pdfUrl: `/worksheets/pdfs/${slug}-cheatsheet.pdf`,
       filename: `${slug}-cheatsheet.pdf`,
     },
     {

@@ -9,7 +9,8 @@
     "lint": "eslint",
     "generate-pdfs": "tsx scripts/generate-worksheets.ts",
     "generate-pdfs-math": "tsx scripts/generate-worksheets.ts --math-only",
-    "seed-questions": "tsx scripts/seed-questions.ts"
+    "seed-questions": "tsx scripts/seed-questions.ts",
+    "generate-tech-cheatsheets": "tsx scripts/generate-tech-cheatsheets.ts"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",
