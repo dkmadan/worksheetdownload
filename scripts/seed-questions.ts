@@ -19,7 +19,7 @@ try {
   // .env.local not found — rely on shell env vars
 }
 
-import clientPromise from "../src/lib/mongodb";
+import { MongoClient } from "mongodb";
 
 // [text, optA, optB, optC, optD, correctIdx(0-3), explanation]
 type Q = [string, string, string, string, string, number, string];
@@ -1165,7 +1165,13 @@ function buildTechDoc(slug: string, q: Q, n: number): SeedQuestion {
 }
 
 async function main() {
-  const client = await clientPromise;
+  const uri = process.env.MONGODB_URI;
+  if (!uri || uri.includes("<user>")) {
+    console.error("❌  MONGODB_URI not configured. Update .env.local with your real Atlas connection string.");
+    process.exit(1);
+  }
+  const client = new MongoClient(uri);
+  await client.connect();
   const col = client.db("worksheetdownload").collection("questions");
 
   await Promise.all([
