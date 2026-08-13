@@ -5,6 +5,7 @@ import GradesMenu from "@/components/layout/GradesMenu";
 import SubjectsMenu from "@/components/layout/SubjectsMenu";
 import TechnologiesMenu from "@/components/layout/TechnologiesMenu";
 import MobileMenu from "@/components/layout/MobileMenu";
+import NavSearch from "@/components/layout/NavSearch";
 
 export default function Navbar() {
   return (
@@ -24,6 +25,9 @@ export default function Navbar() {
         </div>
 
         <div className="flex items-center gap-2">
+          <div className="hidden sm:block">
+            <NavSearch />
+          </div>
           <NavAuthButton />
           <MobileMenu />
           <Link

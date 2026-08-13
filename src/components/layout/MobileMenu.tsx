@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { GRADES_CURRICULUM, SUBJECTS_META } from "@/lib/curriculum";
+import NavSearch from "@/components/layout/NavSearch";
 
 const MOBILE_SUBJECTS = [
   "mathematics",
@@ -46,6 +47,9 @@ export default function MobileMenu() {
       {open && (
         <div className="fixed inset-x-0 top-16 bottom-0 z-[150] bg-white overflow-y-auto sm:hidden">
           <nav className="flex flex-col divide-y divide-gray-100">
+
+            {/* Search bar */}
+            <NavSearch inline />
 
             {/* Simple links */}
             <Link href="/" onClick={close}
