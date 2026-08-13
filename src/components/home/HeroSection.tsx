@@ -1,11 +1,12 @@
 import Link from "next/link";
+import HeroVisual from "@/components/home/HeroVisual";
 
 export default function HeroSection() {
   return (
-    <section className="bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950 py-16 sm:py-20 px-4 sm:px-6">
-      <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-10 md:gap-16">
+    <section className="bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950 py-16 sm:py-20 px-4 sm:px-6 overflow-hidden">
+      <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-10 md:gap-12">
 
-        {/* Left column */}
+        {/* Left column — copy */}
         <div className="flex-1 flex flex-col gap-5">
           {/* Eyebrow badges */}
           <div className="flex flex-wrap gap-2">
@@ -27,7 +28,7 @@ export default function HeroSection() {
           <p className="text-slate-300 text-lg max-w-lg leading-relaxed">
             Free printable worksheets for every grade{" "}
             <span className="text-white font-medium">and</span> developer cheat
-            sheets for 647 technologies — all in one place.
+            sheets for 647 technologies — one place for every learner.
           </p>
 
           <div className="flex flex-wrap gap-3 pt-1">
@@ -46,7 +47,7 @@ export default function HeroSection() {
           </div>
 
           {/* Stats row */}
-          <div className="flex flex-wrap items-center gap-x-4 gap-y-1 pt-2 text-sm text-slate-400 border-t border-slate-800 mt-1 pt-4">
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-1 pt-4 border-t border-slate-800 text-sm text-slate-400">
             <span><span className="text-white font-semibold">3,000+</span> practice sheets</span>
             <span className="text-slate-700 hidden sm:inline">·</span>
             <span><span className="text-white font-semibold">647</span> tech resources</span>
@@ -57,16 +58,9 @@ export default function HeroSection() {
           </div>
         </div>
 
-        {/* Right column — hero illustration */}
+        {/* Right column — animated visual */}
         <div className="flex-shrink-0 flex items-center justify-center">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/hero.gif"
-            alt="Kids learning with worksheets — Math, Science, Reading and more"
-            width={460}
-            height={460}
-            className="w-full max-w-xs sm:max-w-sm lg:max-w-[400px] object-contain drop-shadow-2xl"
-          />
+          <HeroVisual />
         </div>
       </div>
     </section>
