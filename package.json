@@ -11,7 +11,8 @@
     "generate-pdfs-math": "tsx scripts/generate-worksheets.ts --math-only",
     "seed-questions": "tsx scripts/seed-questions.ts",
     "generate-tech-cheatsheets": "tsx scripts/generate-tech-cheatsheets.ts",
-    "generate-tech-interviews": "tsx scripts/generate-tech-interview-sheets.ts"
+    "generate-tech-interviews": "tsx scripts/generate-tech-interview-sheets.ts",
+    "generate-tech-practice": "tsx scripts/generate-tech-practice-sheets.ts"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",

@@ -58,7 +58,7 @@ export default async function TechResourcesPage({
       icon: "📝",
       label: "Practice Worksheet",
       description: `Structured exercises and problems to build hands-on ${techItem.name} skills. Work through key concepts step by step.`,
-      pdfUrl: PLACEHOLDER_PDF,
+      pdfUrl: `/worksheets/pdfs/${slug}-practice-worksheet.pdf`,
       filename: `${slug}-practice-worksheet.pdf`,
     },
     {
