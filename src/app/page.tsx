@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import HeroSection from "@/components/home/HeroSection";
+import TechSection from "@/components/home/TechSection";
 import SubjectSection from "@/components/home/SubjectSection";
 import GradeSection from "@/components/home/GradeSection";
 import CtaSection from "@/components/home/CtaSection";
@@ -47,6 +48,7 @@ export default function HomePage() {
   return (
     <>
       <HeroSection />
+      <TechSection />
       <SubjectSection subjects={subjects} />
       <GradeSection grades={GRADES_CURRICULUM} />
       <CtaSection />

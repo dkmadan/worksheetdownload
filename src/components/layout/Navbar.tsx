@@ -9,7 +9,7 @@ import NavSearch from "@/components/layout/NavSearch";
 
 export default function Navbar() {
   return (
-    <header className="sticky top-0 z-50 bg-white shadow-sm">
+    <header className="sticky top-0 z-50 bg-white border-b border-slate-200">
       <nav className="max-w-6xl mx-auto px-4 sm:px-6 py-2.5 flex items-center justify-between gap-4">
 
         {/* ── Logo ── */}
@@ -18,13 +18,13 @@ export default function Navbar() {
         </Link>
 
         {/* ── Desktop nav links ── */}
-        <div className="hidden sm:flex items-center gap-6 text-sm font-medium text-gray-600 flex-1">
-          <Link href="/" className="hover:text-gray-900 transition-colors">Home</Link>
-          <Link href="/worksheets" className="hover:text-gray-900 transition-colors">Worksheets</Link>
+        <div className="hidden sm:flex items-center gap-6 text-sm font-medium text-slate-700 flex-1">
+          <Link href="/" className="hover:text-slate-900 transition-colors">Home</Link>
+          <Link href="/worksheets" className="hover:text-slate-900 transition-colors">Worksheets</Link>
           <GradesMenu />
           <SubjectsMenu />
           <TechnologiesMenu />
-          <Link href="/quiz" className="hover:text-gray-900 transition-colors">Quiz</Link>
+          <Link href="/quiz" className="hover:text-slate-900 transition-colors">Quiz</Link>
         </div>
 
         {/* ── Right side: two rows (desktop) + hamburger (mobile) ── */}

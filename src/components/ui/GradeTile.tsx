@@ -36,8 +36,8 @@ export default function GradeTile({ id, label, ageRange, gradient }: GradeDef) {
           <p className="font-bold text-gray-900 text-sm leading-snug">{label}</p>
           <p className="text-gray-400 text-xs mt-0.5">{ageRange}</p>
         </div>
-        <div className="w-8 h-8 rounded-full bg-gray-100 group-hover:bg-cyan-100 flex items-center justify-center transition-colors flex-shrink-0">
-          <span className="text-gray-400 group-hover:text-cyan-600 transition-colors text-lg leading-none">›</span>
+        <div className="w-8 h-8 rounded-full bg-gray-100 group-hover:bg-violet-100 flex items-center justify-center transition-colors flex-shrink-0">
+          <span className="text-gray-400 group-hover:text-violet-600 transition-colors text-lg leading-none">›</span>
         </div>
       </div>
     </Link>

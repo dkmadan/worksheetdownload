@@ -2,40 +2,58 @@ import Link from "next/link";
 
 export default function HeroSection() {
   return (
-    <section className="bg-[#dbeafe] py-16 px-4 sm:px-6">
-      <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-10">
+    <section className="bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950 py-16 sm:py-20 px-4 sm:px-6">
+      <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-10 md:gap-16">
+
         {/* Left column */}
         <div className="flex-1 flex flex-col gap-5">
-          <span className="self-start text-xs font-semibold bg-teal-100 text-teal-700 px-3 py-1 rounded-full">
-            ✦ Free for everyone
-          </span>
+          {/* Eyebrow badges */}
+          <div className="flex flex-wrap gap-2">
+            <span className="text-xs font-semibold bg-pink-900/50 text-pink-300 border border-pink-700/40 px-3 py-1 rounded-full">
+              📚 K–8 Printable Worksheets
+            </span>
+            <span className="text-xs font-semibold bg-indigo-900/50 text-indigo-300 border border-indigo-700/40 px-3 py-1 rounded-full">
+              💻 647+ Tech Cheat Sheets
+            </span>
+          </div>
 
-          <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 leading-tight">
-            Worksheets that make{" "}
-            <span className="bg-gradient-to-r from-cyan-600 to-teal-500 bg-clip-text text-transparent">
-              learning fun
+          <h1 className="text-4xl sm:text-5xl lg:text-[3.25rem] font-black text-white leading-[1.1] tracking-tight">
+            Learn Smarter.{" "}
+            <span className="bg-gradient-to-r from-indigo-400 via-violet-400 to-pink-400 bg-clip-text text-transparent">
+              Practice Better.
             </span>
           </h1>
 
-          <p className="text-gray-600 text-lg max-w-md leading-relaxed">
-            Thousands of printable worksheets for kindergarten through 8th grade.
-            Math, reading, writing, science, and art — all designed to spark
-            curiosity.
+          <p className="text-slate-300 text-lg max-w-lg leading-relaxed">
+            Free printable worksheets for every grade{" "}
+            <span className="text-white font-medium">and</span> developer cheat
+            sheets for 647 technologies — all in one place.
           </p>
 
           <div className="flex flex-wrap gap-3 pt-1">
             <Link
-              href="/worksheets"
-              className="bg-gray-900 hover:bg-gray-700 text-white text-sm font-medium px-5 py-2.5 rounded-full transition-colors"
+              href="/grades"
+              className="bg-pink-500 hover:bg-pink-400 text-white text-sm font-semibold px-5 py-2.5 rounded-full transition-colors shadow-lg shadow-pink-950/50"
             >
               Browse Worksheets
             </Link>
             <Link
-              href="/grades"
-              className="border border-gray-900 text-gray-900 hover:bg-gray-100 text-sm font-medium px-5 py-2.5 rounded-full transition-colors"
+              href="/technologies"
+              className="bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold px-5 py-2.5 rounded-full transition-colors shadow-lg shadow-indigo-950/50"
             >
-              Find by Grade
+              Tech Cheat Sheets
             </Link>
+          </div>
+
+          {/* Stats row */}
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-1 pt-2 text-sm text-slate-400 border-t border-slate-800 mt-1 pt-4">
+            <span><span className="text-white font-semibold">3,000+</span> practice sheets</span>
+            <span className="text-slate-700 hidden sm:inline">·</span>
+            <span><span className="text-white font-semibold">647</span> tech resources</span>
+            <span className="text-slate-700 hidden sm:inline">·</span>
+            <span><span className="text-white font-semibold">K–8</span> all grades</span>
+            <span className="text-slate-700 hidden sm:inline">·</span>
+            <span className="text-emerald-400 font-semibold">Always free</span>
           </div>
         </div>
 
@@ -45,9 +63,9 @@ export default function HeroSection() {
           <img
             src="/hero.gif"
             alt="Kids learning with worksheets — Math, Science, Reading and more"
-            width={480}
-            height={480}
-            className="w-full max-w-sm sm:max-w-md lg:max-w-lg object-contain drop-shadow-sm"
+            width={460}
+            height={460}
+            className="w-full max-w-xs sm:max-w-sm lg:max-w-[400px] object-contain drop-shadow-2xl"
           />
         </div>
       </div>

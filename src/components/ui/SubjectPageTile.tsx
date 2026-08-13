@@ -31,7 +31,7 @@ export default function SubjectPageTile({ subject }: { subject: SubjectDef }) {
 
       {/* Body */}
       <div className="p-4 flex flex-col flex-1">
-        <h3 className="font-bold text-gray-900 text-base leading-tight group-hover:text-cyan-700 transition-colors">
+        <h3 className="font-bold text-gray-900 text-base leading-tight group-hover:text-violet-700 transition-colors">
           {subject.label}
         </h3>
         <p className="text-xs text-gray-500 mt-1 line-clamp-2 flex-1">{subject.description}</p>
@@ -40,7 +40,7 @@ export default function SubjectPageTile({ subject }: { subject: SubjectDef }) {
           <span className="inline-flex items-center gap-1 text-xs bg-gray-100 rounded-full px-2.5 py-1 text-gray-600 font-medium">
             🎓 {gradeRange}
           </span>
-          <span className="text-xs text-gray-400 group-hover:text-cyan-600 transition-colors font-semibold">
+          <span className="text-xs text-gray-400 group-hover:text-violet-600 transition-colors font-semibold">
             Explore →
           </span>
         </div>
