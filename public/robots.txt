@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://worksheetdownload.com/sitemap.xml
