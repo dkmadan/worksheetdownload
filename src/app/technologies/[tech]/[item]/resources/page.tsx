@@ -74,7 +74,7 @@ export default async function TechResourcesPage({
       icon: "🎯",
       label: "Interview Sheet",
       description: `Top ${techItem.name} interview questions with concise answers. Get ready for any technical round with this focused prep sheet.`,
-      pdfUrl: PLACEHOLDER_PDF,
+      pdfUrl: `/worksheets/pdfs/${slug}-interview-sheet.pdf`,
       filename: `${slug}-interview-sheet.pdf`,
     },
   ];
