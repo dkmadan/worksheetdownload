@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { TECH_DATA, totalItemCount } from "@/lib/technologies";
+import { getMeshForIndex, FEATURED_MESH } from "@/lib/patterns";
 
 export const metadata: Metadata = {
   title: "Technologies — Browse by Tech Topic",
@@ -33,22 +34,43 @@ export default function TechnologiesPage() {
         </p>
       </div>
 
+      {/* Shared noise filter for all cards */}
+      <svg style={{ display: "none" }} xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <filter id="tech-list-noise">
+            <feTurbulence type="fractalNoise" baseFrequency="0.72" numOctaves="4" stitchTiles="stitch" />
+            <feColorMatrix type="saturate" values="0" />
+          </filter>
+        </defs>
+      </svg>
+
       {/* Category grid */}
       <div className="max-w-6xl mx-auto px-4 sm:px-6 pb-16">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {TECH_DATA.map((cat) => {
+          {TECH_DATA.map((cat, i) => {
             const itemCount = cat.subcategories.reduce((sum, s) => sum + s.items.length, 0);
             const sampleItems = cat.subcategories[0]?.items.slice(0, 4).map((it) => it.name) ?? [];
+            const bg = FEATURED_MESH[cat.slug] ?? getMeshForIndex(i);
             return (
               <Link
                 key={cat.slug}
                 href={`/technologies/${cat.slug}`}
-                className="group bg-gray-800/50 hover:bg-gray-800 border border-gray-700/50 hover:border-gray-600 rounded-2xl overflow-hidden transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-black/30"
+                className="group bg-gray-800/50 hover:bg-gray-800 border border-gray-700/50 hover:border-gray-600/80 rounded-2xl overflow-hidden transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-black/30"
               >
-                {/* Gradient header */}
-                <div className={`bg-gradient-to-r ${cat.color} px-4 py-4 flex items-center gap-3`}>
-                  <span className="text-3xl">{cat.icon}</span>
-                  <div>
+                {/* Mesh gradient header strip */}
+                <div className="relative px-4 py-4 flex items-center gap-3 overflow-hidden" style={{ background: bg }}>
+                  <svg
+                    className="absolute inset-0 w-full h-full pointer-events-none opacity-[0.14] mix-blend-soft-light"
+                    xmlns="http://www.w3.org/2000/svg" aria-hidden="true"
+                  >
+                    <rect width="100%" height="100%" filter="url(#tech-list-noise)" />
+                  </svg>
+                  <div
+                    className="absolute inset-0 pointer-events-none"
+                    style={{ background: "radial-gradient(ellipse at center, transparent 20%, rgba(0,0,0,0.40) 100%)" }}
+                  />
+                  <span className="relative text-3xl z-10">{cat.icon}</span>
+                  <div className="relative z-10">
                     <p className="text-white font-bold text-sm leading-tight">{cat.label}</p>
                     <p className="text-white/60 text-xs">{itemCount} technologies</p>
                   </div>
