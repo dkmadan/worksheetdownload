@@ -47,7 +47,8 @@ export default function NavAuthButton() {
         {/* Sign out */}
         <button
           onClick={() => signOut()}
-          className="text-sm font-semibold text-slate-600 hover:text-slate-900 border border-slate-200 hover:border-slate-400 px-5 py-2 rounded-full transition-colors"
+          className="text-sm font-semibold text-white px-5 py-2 rounded-full transition-opacity hover:opacity-90 shadow-sm"
+          style={{ backgroundImage: STAR_BUTTON_BG, backgroundSize: "cover", backgroundPosition: "center" }}
         >
           Sign out
         </button>
