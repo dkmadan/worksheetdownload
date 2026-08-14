@@ -1,6 +1,6 @@
 import type { GradeMeta, Grade, Subject, SubjectMeta, Worksheet } from "./types";
 
-const WORKSHEET_TEST_PDF = "/worksheets/pdfs/Class5_LCM_Worksheet.pdf";
+const WORKSHEET_TEST_PDF = "https://cdn.worksheetdownload.com/pdfs/Class5_LCM_Worksheet.pdf";
 
 export const SUBJECTS: SubjectMeta[] = [
   { id: "math", label: "Math", emoji: "🔢", description: "Numbers, counting, addition, subtraction, and more fun math activities." },

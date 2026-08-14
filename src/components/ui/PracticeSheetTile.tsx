@@ -22,7 +22,7 @@ export default function PracticeSheetTile({
   sheetNumber, gradeLabel, subjectLabel, topic, gradeId, subjectId, topicSlug
 }: PracticeSheetTileProps) {
   const style = SHEET_STYLES[sheetNumber - 1];
-  const pdfUrl = `/worksheets/pdfs/${gradeId}-${subjectId}-${topicSlug}-sheet-${sheetNumber}.pdf`;
+  const pdfUrl = `https://cdn.worksheetdownload.com/pdfs/${gradeId}-${subjectId}-${topicSlug}-sheet-${sheetNumber}.pdf`;
   const title = `${gradeLabel} | ${subjectLabel} | ${topic} — PracticeSheet-${sheetNumber}`;
 
   return (

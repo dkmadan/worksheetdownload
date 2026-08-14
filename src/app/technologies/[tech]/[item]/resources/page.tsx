@@ -58,7 +58,7 @@ export default async function TechResourcesPage({
       icon: "📝",
       label: "Practice Worksheet",
       description: `Structured exercises and problems to build hands-on ${techItem.name} skills. Work through key concepts step by step.`,
-      pdfUrl: `/worksheets/pdfs/${slug}-practice-worksheet.pdf`,
+      pdfUrl: `https://cdn.worksheetdownload.com/pdfs/${slug}-practice-worksheet.pdf`,
       filename: `${slug}-practice-worksheet.pdf`,
     },
     {
@@ -66,7 +66,7 @@ export default async function TechResourcesPage({
       icon: "📋",
       label: "Cheatsheet",
       description: `One-page quick-reference for ${techItem.name} — key syntax, commands, patterns, and best practices at a glance.`,
-      pdfUrl: `/worksheets/pdfs/${slug}-cheatsheet.pdf`,
+      pdfUrl: `https://cdn.worksheetdownload.com/pdfs/${slug}-cheatsheet.pdf`,
       filename: `${slug}-cheatsheet.pdf`,
     },
     {
@@ -74,7 +74,7 @@ export default async function TechResourcesPage({
       icon: "🎯",
       label: "Interview Sheet",
       description: `Top ${techItem.name} interview questions with concise answers. Get ready for any technical round with this focused prep sheet.`,
-      pdfUrl: `/worksheets/pdfs/${slug}-interview-sheet.pdf`,
+      pdfUrl: `https://cdn.worksheetdownload.com/pdfs/${slug}-interview-sheet.pdf`,
       filename: `${slug}-interview-sheet.pdf`,
     },
   ];
