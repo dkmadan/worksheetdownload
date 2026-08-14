@@ -1,5 +1,5 @@
 export default function HeroDoodleBackground() {
-  const col = "#94a3b8"; // slate-400 — visible on dark bg
+  const col = "#64748b"; // slate-500 — visible on light bg
 
   return (
     <svg
@@ -16,8 +16,8 @@ export default function HeroDoodleBackground() {
           height="300"
           patternUnits="userSpaceOnUse"
         >
-          {/* Dark grey background */}
-          <rect width="400" height="300" fill="#1e293b" />
+          {/* Light grey background */}
+          <rect width="400" height="300" fill="#e2e8f0" />
 
           {/* ── ROW 1: Robot · Laptop · Code Window · Game Controller ── */}
 
