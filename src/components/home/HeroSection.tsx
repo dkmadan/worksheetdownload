@@ -7,8 +7,8 @@ export default function HeroSection() {
     <section className="relative py-16 sm:py-20 px-4 sm:px-6 overflow-hidden">
       {/* Inline SVG doodle pattern — no external image required */}
       <HeroDoodleBackground />
-      {/* Dark overlay for text legibility */}
-      <div className="absolute inset-0 bg-slate-950/50" />
+      {/* Thin overlay so text sits cleanly over gradient */}
+      <div className="absolute inset-0 bg-slate-950/30" />
       <div className="relative z-10 max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-10 md:gap-12">
 
         {/* Left column — copy */}

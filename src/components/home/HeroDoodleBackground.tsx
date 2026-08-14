@@ -1,5 +1,5 @@
 export default function HeroDoodleBackground() {
-  const col = "#94a3b8"; // slate-400 — light icons on dark bg
+  const col = "#6a95b2"; // blue-grey icons visible on gradient
 
   return (
     <svg
@@ -8,6 +8,14 @@ export default function HeroDoodleBackground() {
       aria-hidden="true"
     >
       <defs>
+        {/* Gradient covers the full SVG viewport once — not tiled */}
+        <radialGradient id="hero-bg-grad" cx="0.32" cy="0.46" r="0.72">
+          <stop offset="0%" stopColor="#4a6478" />
+          <stop offset="50%" stopColor="#2e4559" />
+          <stop offset="100%" stopColor="#192838" />
+        </radialGradient>
+
+        {/* Pattern has transparent bg — gradient shows through */}
         <pattern
           id="tech-icon-pattern"
           x="0"
@@ -16,9 +24,6 @@ export default function HeroDoodleBackground() {
           height="300"
           patternUnits="userSpaceOnUse"
         >
-          {/* Dark grey background */}
-          <rect width="400" height="300" fill="#1e293b" />
-
           {/* ── ROW 1: Robot · Laptop · Code Window · Game Controller ── */}
 
           {/* Robot @ (50, 52) */}
@@ -226,6 +231,10 @@ export default function HeroDoodleBackground() {
 
         </pattern>
       </defs>
+
+      {/* 1 — gradient fills the whole hero once (not tiled) */}
+      <rect width="100%" height="100%" fill="url(#hero-bg-grad)" />
+      {/* 2 — icon pattern tiles on top with transparent bg */}
       <rect width="100%" height="100%" fill="url(#tech-icon-pattern)" />
     </svg>
   );
