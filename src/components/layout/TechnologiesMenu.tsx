@@ -18,7 +18,7 @@ function ChevronDown({ open }: { open: boolean }) {
   );
 }
 
-export default function TechnologiesMenu() {
+export default function TechnologiesMenu({ dark = false }: { dark?: boolean }) {
   const [open, setOpen] = useState(false);
   const [activeSlug, setActiveSlug] = useState(TECH_DATA[0].slug);
   const ref = useRef<HTMLDivElement>(null);
@@ -48,8 +48,10 @@ export default function TechnologiesMenu() {
         onClick={() => setOpen((v) => !v)}
         aria-haspopup="true"
         aria-expanded={open}
-        className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-sm font-medium transition-all duration-150 hover:bg-slate-100 hover:text-slate-900 ${
-          open ? "text-slate-900 bg-slate-100" : "text-slate-600"
+        className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-150 ${
+          dark
+            ? open ? "text-white bg-white/10" : "text-slate-300 hover:text-white hover:bg-white/10"
+            : open ? "text-slate-900 bg-slate-100" : "text-slate-600 hover:text-slate-900 hover:bg-slate-100"
         }`}
       >
         Technologies
@@ -61,7 +63,7 @@ export default function TechnologiesMenu() {
         <div
           className="fixed z-[200] rounded-2xl overflow-hidden"
           style={{
-            top: "56px",
+            top: "106px",
             left: "50%",
             transform: "translateX(-50%)",
             width: "min(960px, calc(100vw - 32px))",

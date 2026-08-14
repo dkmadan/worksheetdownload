@@ -45,7 +45,7 @@ export default function MobileMenu() {
 
       {/* Mobile nav overlay */}
       {open && (
-        <div className="fixed inset-x-0 top-16 bottom-0 z-[150] bg-white overflow-y-auto sm:hidden">
+        <div className="fixed inset-x-0 top-[57px] bottom-0 z-[150] bg-white overflow-y-auto sm:hidden">
           <nav className="flex flex-col divide-y divide-gray-100">
 
             {/* Quick CTA pills */}
