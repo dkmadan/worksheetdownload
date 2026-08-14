@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useSession, signOut } from "next-auth/react";
 import AuthModal from "./AuthModal";
 import Image from "next/image";
+import { STAR_BUTTON_BG, STAR_NAVY } from "@/lib/starButtonBg";
 
 export default function NavAuthButton() {
   const { data: session, status } = useSession();
@@ -32,7 +33,8 @@ export default function NavAuthButton() {
             className="rounded-full border border-gray-200"
           />
         ) : (
-          <div className="w-7 h-7 rounded-full bg-indigo-600 flex items-center justify-center text-white text-xs font-bold select-none">
+          <div className="w-7 h-7 rounded-full flex items-center justify-center text-white text-xs font-bold select-none"
+            style={{ backgroundColor: STAR_NAVY }}>
             {initial}
           </div>
         )}
@@ -57,7 +59,8 @@ export default function NavAuthButton() {
     <>
       <button
         onClick={() => setShowModal(true)}
-        className="bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold px-5 py-2 rounded-full transition-colors shadow-sm"
+        className="text-white text-sm font-semibold px-5 py-2 rounded-full shadow-sm transition-opacity hover:opacity-90"
+        style={{ backgroundImage: STAR_BUTTON_BG, backgroundSize: "cover", backgroundPosition: "center" }}
       >
         Login
       </button>

@@ -19,8 +19,8 @@ export default function Logo({ size = 32, showText = true, textSize = "text-lg" 
       >
         <defs>
           <linearGradient id={id} x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
-            <stop offset="0%" stopColor="#6366F1" />
-            <stop offset="100%" stopColor="#7C3AED" />
+            <stop offset="0%" stopColor="#3d5280" />
+            <stop offset="100%" stopColor="#2a3f6a" />
           </linearGradient>
         </defs>
 
@@ -53,7 +53,7 @@ export default function Logo({ size = 32, showText = true, textSize = "text-lg" 
       {showText && (
         <span className={`font-bold ${textSize} tracking-tight`}>
           <span className="text-slate-900">Worksheet</span>
-          <span className="text-indigo-600">Download</span>
+          <span style={{ color: "#3d5280" }}>Download</span>
         </span>
       )}
     </span>

@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect, useMemo, useCallback } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { STAR_BUTTON_BG } from "@/lib/starButtonBg";
 import { TECH_DATA } from "@/lib/technologies";
 import { CURRICULUM, GRADES_CURRICULUM, SUBJECTS_META, slugifyTopic } from "@/lib/curriculum";
 import { WORKSHEETS } from "@/lib/data";
@@ -211,7 +212,8 @@ export default function NavSearch({ inline = false, large = false }: NavSearchPr
           <button
             type="button"
             onClick={() => { if (results[0]) router.push(results[0].href); }}
-            className="flex items-center gap-1.5 px-5 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold flex-shrink-0 transition-colors"
+            className="flex items-center gap-1.5 px-5 text-white text-sm font-semibold flex-shrink-0 transition-opacity hover:opacity-90"
+            style={{ backgroundImage: STAR_BUTTON_BG, backgroundSize: "cover", backgroundPosition: "center" }}
             aria-label="Search"
           >
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
