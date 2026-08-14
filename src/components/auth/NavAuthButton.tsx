@@ -32,7 +32,7 @@ export default function NavAuthButton() {
             className="rounded-full border border-gray-200"
           />
         ) : (
-          <div className="w-7 h-7 rounded-full bg-blue-600 flex items-center justify-center text-white text-xs font-bold select-none">
+          <div className="w-7 h-7 rounded-full bg-indigo-600 flex items-center justify-center text-white text-xs font-bold select-none">
             {initial}
           </div>
         )}
@@ -57,7 +57,7 @@ export default function NavAuthButton() {
     <>
       <button
         onClick={() => setShowModal(true)}
-        className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-4 py-1.5 rounded-full transition-colors shadow-sm"
+        className="bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium px-4 py-1.5 rounded-full transition-colors shadow-sm"
       >
         Login
       </button>

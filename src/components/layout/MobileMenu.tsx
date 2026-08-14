@@ -28,16 +28,16 @@ export default function MobileMenu() {
     <>
       {/* Hamburger — mobile only */}
       <button
-        className="sm:hidden flex items-center justify-center w-9 h-9 rounded-lg hover:bg-gray-100 transition-colors"
+        className="sm:hidden flex items-center justify-center w-9 h-9 rounded-lg hover:bg-slate-100 transition-colors"
         onClick={() => setOpen((v) => !v)}
         aria-label={open ? "Close menu" : "Open menu"}
       >
         {open ? (
-          <svg className="w-5 h-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg className="w-5 h-5 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
           </svg>
         ) : (
-          <svg className="w-5 h-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg className="w-5 h-5 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
           </svg>
         )}
@@ -47,6 +47,30 @@ export default function MobileMenu() {
       {open && (
         <div className="fixed inset-x-0 top-16 bottom-0 z-[150] bg-white overflow-y-auto sm:hidden">
           <nav className="flex flex-col divide-y divide-gray-100">
+
+            {/* Quick CTA pills */}
+            <div className="flex gap-3 px-5 py-4">
+              <Link
+                href="/grades"
+                onClick={close}
+                className="flex-1 flex items-center justify-center gap-2 text-sm font-semibold text-pink-600 bg-pink-50 hover:bg-pink-100 border border-pink-200 px-4 py-2.5 rounded-full transition-all"
+              >
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                </svg>
+                K–8 Worksheets
+              </Link>
+              <Link
+                href="/technologies"
+                onClick={close}
+                className="flex-1 flex items-center justify-center gap-2 text-sm font-semibold text-indigo-600 bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 px-4 py-2.5 rounded-full transition-all"
+              >
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                </svg>
+                Tech Sheets
+              </Link>
+            </div>
 
             {/* Search bar */}
             <NavSearch inline />

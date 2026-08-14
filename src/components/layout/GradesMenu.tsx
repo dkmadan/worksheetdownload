@@ -40,8 +40,8 @@ export default function GradesMenu() {
         onClick={() => setOpen((v) => !v)}
         aria-haspopup="true"
         aria-expanded={open}
-        className={`flex items-center gap-1 text-sm font-medium transition-colors hover:text-gray-900 ${
-          open ? "text-gray-900" : "text-gray-600"
+        className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-sm font-medium transition-all duration-150 hover:bg-slate-100 hover:text-slate-900 ${
+          open ? "text-slate-900 bg-slate-100" : "text-slate-600"
         }`}
       >
         Grades
@@ -52,7 +52,7 @@ export default function GradesMenu() {
         <div
           className="fixed z-[200] rounded-2xl overflow-hidden"
           style={{
-            top: "68px",
+            top: "56px",
             left: "50%",
             transform: "translateX(-50%)",
             width: "min(1280px, calc(100vw - 32px))",
