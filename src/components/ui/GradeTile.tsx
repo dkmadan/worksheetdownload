@@ -5,67 +5,67 @@ import { GradeIcon } from "@/components/icons/GradeIcons";
 // Mesh gradient patterns — organic radial blobs, rich but not neon, on near-black base
 const GRADE_MESH: Record<string, string> = {
   kindergarten:
-    "radial-gradient(ellipse 80% 60% at 20% 25%, rgba(244,114,182,0.72) 0%, transparent 62%)," +
-    "radial-gradient(ellipse 55% 70% at 78% 72%, rgba(192,38,211,0.68) 0%, transparent 60%)," +
-    "radial-gradient(ellipse 45% 50% at 50% 45%, rgba(249,168,212,0.28) 0%, transparent 55%)," +
-    "radial-gradient(ellipse 40% 40% at 28% 75%, rgba(162,28,175,0.60) 0%, transparent 50%)," +
-    "linear-gradient(148deg,#0e030e,#180614)",
+    "radial-gradient(ellipse 80% 60% at 20% 25%, rgba(244,114,182,0.92) 0%, transparent 62%)," +
+    "radial-gradient(ellipse 55% 70% at 78% 72%, rgba(192,38,211,0.85) 0%, transparent 60%)," +
+    "radial-gradient(ellipse 45% 50% at 50% 45%, rgba(249,168,212,0.35) 0%, transparent 55%)," +
+    "radial-gradient(ellipse 40% 40% at 28% 75%, rgba(162,28,175,0.72) 0%, transparent 50%)," +
+    "linear-gradient(148deg,#300a30,#420a48)",
 
   "grade-1":
-    "radial-gradient(ellipse 80% 60% at 20% 25%, rgba(59,130,246,0.68) 0%, transparent 62%)," +
-    "radial-gradient(ellipse 55% 70% at 78% 72%, rgba(6,182,212,0.64) 0%, transparent 60%)," +
-    "radial-gradient(ellipse 45% 50% at 50% 45%, rgba(96,165,250,0.26) 0%, transparent 55%)," +
-    "radial-gradient(ellipse 40% 40% at 28% 75%, rgba(8,145,178,0.58) 0%, transparent 50%)," +
-    "linear-gradient(148deg,#020810,#03111c)",
+    "radial-gradient(ellipse 80% 60% at 20% 25%, rgba(59,130,246,0.92) 0%, transparent 62%)," +
+    "radial-gradient(ellipse 55% 70% at 78% 72%, rgba(6,182,212,0.85) 0%, transparent 60%)," +
+    "radial-gradient(ellipse 45% 50% at 50% 45%, rgba(147,197,253,0.32) 0%, transparent 55%)," +
+    "radial-gradient(ellipse 40% 40% at 28% 75%, rgba(8,145,178,0.72) 0%, transparent 50%)," +
+    "linear-gradient(148deg,#0c1a45,#101e55)",
 
   "grade-2":
-    "radial-gradient(ellipse 80% 60% at 20% 25%, rgba(16,185,129,0.68) 0%, transparent 62%)," +
-    "radial-gradient(ellipse 55% 70% at 78% 72%, rgba(20,184,166,0.64) 0%, transparent 60%)," +
-    "radial-gradient(ellipse 45% 50% at 50% 45%, rgba(52,211,153,0.26) 0%, transparent 55%)," +
-    "radial-gradient(ellipse 40% 40% at 28% 75%, rgba(15,118,110,0.58) 0%, transparent 50%)," +
-    "linear-gradient(148deg,#01090a,#021512)",
+    "radial-gradient(ellipse 80% 60% at 20% 25%, rgba(16,185,129,0.92) 0%, transparent 62%)," +
+    "radial-gradient(ellipse 55% 70% at 78% 72%, rgba(20,184,166,0.85) 0%, transparent 60%)," +
+    "radial-gradient(ellipse 45% 50% at 50% 45%, rgba(110,231,183,0.32) 0%, transparent 55%)," +
+    "radial-gradient(ellipse 40% 40% at 28% 75%, rgba(15,118,110,0.72) 0%, transparent 50%)," +
+    "linear-gradient(148deg,#061a10,#0a2518)",
 
   "grade-3":
-    "radial-gradient(ellipse 80% 60% at 20% 25%, rgba(251,146,60,0.65) 0%, transparent 62%)," +
-    "radial-gradient(ellipse 55% 70% at 78% 72%, rgba(245,158,11,0.62) 0%, transparent 60%)," +
-    "radial-gradient(ellipse 45% 50% at 50% 45%, rgba(253,186,116,0.24) 0%, transparent 55%)," +
-    "radial-gradient(ellipse 40% 40% at 28% 75%, rgba(180,83,9,0.58) 0%, transparent 50%)," +
-    "linear-gradient(148deg,#0e0802,#180e02)",
+    "radial-gradient(ellipse 80% 60% at 20% 25%, rgba(251,146,60,0.90) 0%, transparent 62%)," +
+    "radial-gradient(ellipse 55% 70% at 78% 72%, rgba(245,158,11,0.85) 0%, transparent 60%)," +
+    "radial-gradient(ellipse 45% 50% at 50% 45%, rgba(253,211,77,0.30) 0%, transparent 55%)," +
+    "radial-gradient(ellipse 40% 40% at 28% 75%, rgba(180,83,9,0.72) 0%, transparent 50%)," +
+    "linear-gradient(148deg,#2a1500,#381c00)",
 
   "grade-4":
-    "radial-gradient(ellipse 80% 60% at 20% 25%, rgba(20,184,166,0.66) 0%, transparent 62%)," +
-    "radial-gradient(ellipse 55% 70% at 78% 72%, rgba(14,165,233,0.62) 0%, transparent 60%)," +
-    "radial-gradient(ellipse 45% 50% at 50% 45%, rgba(94,234,212,0.24) 0%, transparent 55%)," +
-    "radial-gradient(ellipse 40% 40% at 28% 75%, rgba(8,145,178,0.56) 0%, transparent 50%)," +
-    "linear-gradient(148deg,#020c0e,#031618)",
+    "radial-gradient(ellipse 80% 60% at 20% 25%, rgba(20,184,166,0.90) 0%, transparent 62%)," +
+    "radial-gradient(ellipse 55% 70% at 78% 72%, rgba(14,165,233,0.85) 0%, transparent 60%)," +
+    "radial-gradient(ellipse 45% 50% at 50% 45%, rgba(153,246,228,0.30) 0%, transparent 55%)," +
+    "radial-gradient(ellipse 40% 40% at 28% 75%, rgba(8,145,178,0.70) 0%, transparent 50%)," +
+    "linear-gradient(148deg,#041818,#061e22)",
 
   "grade-5":
-    "radial-gradient(ellipse 80% 60% at 20% 25%, rgba(139,92,246,0.68) 0%, transparent 62%)," +
-    "radial-gradient(ellipse 55% 70% at 78% 72%, rgba(99,102,241,0.64) 0%, transparent 60%)," +
-    "radial-gradient(ellipse 45% 50% at 50% 45%, rgba(167,139,250,0.26) 0%, transparent 55%)," +
-    "radial-gradient(ellipse 40% 40% at 28% 75%, rgba(79,70,229,0.58) 0%, transparent 50%)," +
-    "linear-gradient(148deg,#06040e,#0c081e)",
+    "radial-gradient(ellipse 80% 60% at 20% 25%, rgba(139,92,246,0.92) 0%, transparent 62%)," +
+    "radial-gradient(ellipse 55% 70% at 78% 72%, rgba(99,102,241,0.86) 0%, transparent 60%)," +
+    "radial-gradient(ellipse 45% 50% at 50% 45%, rgba(196,181,253,0.30) 0%, transparent 55%)," +
+    "radial-gradient(ellipse 40% 40% at 28% 75%, rgba(79,70,229,0.72) 0%, transparent 50%)," +
+    "linear-gradient(148deg,#180a3e,#201050)",
 
   "grade-6":
-    "radial-gradient(ellipse 80% 60% at 20% 25%, rgba(239,68,68,0.66) 0%, transparent 62%)," +
-    "radial-gradient(ellipse 55% 70% at 78% 72%, rgba(234,88,12,0.62) 0%, transparent 60%)," +
-    "radial-gradient(ellipse 45% 50% at 50% 45%, rgba(252,165,165,0.24) 0%, transparent 55%)," +
-    "radial-gradient(ellipse 40% 40% at 28% 75%, rgba(185,28,28,0.58) 0%, transparent 50%)," +
-    "linear-gradient(148deg,#0e0202,#180504)",
+    "radial-gradient(ellipse 80% 60% at 20% 25%, rgba(239,68,68,0.90) 0%, transparent 62%)," +
+    "radial-gradient(ellipse 55% 70% at 78% 72%, rgba(234,88,12,0.85) 0%, transparent 60%)," +
+    "radial-gradient(ellipse 45% 50% at 50% 45%, rgba(252,165,165,0.28) 0%, transparent 55%)," +
+    "radial-gradient(ellipse 40% 40% at 28% 75%, rgba(185,28,28,0.72) 0%, transparent 50%)," +
+    "linear-gradient(148deg,#2a0808,#380a0a)",
 
   "grade-7":
-    "radial-gradient(ellipse 80% 60% at 20% 25%, rgba(99,102,241,0.66) 0%, transparent 62%)," +
-    "radial-gradient(ellipse 55% 70% at 78% 72%, rgba(59,130,246,0.62) 0%, transparent 60%)," +
-    "radial-gradient(ellipse 45% 50% at 50% 45%, rgba(165,180,252,0.24) 0%, transparent 55%)," +
-    "radial-gradient(ellipse 40% 40% at 28% 75%, rgba(37,99,235,0.56) 0%, transparent 50%)," +
-    "linear-gradient(148deg,#040610,#060c1e)",
+    "radial-gradient(ellipse 80% 60% at 20% 25%, rgba(99,102,241,0.90) 0%, transparent 62%)," +
+    "radial-gradient(ellipse 55% 70% at 78% 72%, rgba(59,130,246,0.85) 0%, transparent 60%)," +
+    "radial-gradient(ellipse 45% 50% at 50% 45%, rgba(165,180,252,0.30) 0%, transparent 55%)," +
+    "radial-gradient(ellipse 40% 40% at 28% 75%, rgba(37,99,235,0.70) 0%, transparent 50%)," +
+    "linear-gradient(148deg,#0e1038,#121448)",
 
   "grade-8":
-    "radial-gradient(ellipse 80% 60% at 20% 25%, rgba(71,85,105,0.78) 0%, transparent 62%)," +
-    "radial-gradient(ellipse 55% 70% at 78% 72%, rgba(51,65,85,0.74) 0%, transparent 60%)," +
-    "radial-gradient(ellipse 45% 50% at 50% 45%, rgba(148,163,184,0.24) 0%, transparent 55%)," +
-    "radial-gradient(ellipse 40% 40% at 28% 75%, rgba(30,41,59,0.68) 0%, transparent 50%)," +
-    "linear-gradient(148deg,#060810,#0c1020)",
+    "radial-gradient(ellipse 80% 60% at 20% 25%, rgba(100,116,139,0.92) 0%, transparent 62%)," +
+    "radial-gradient(ellipse 55% 70% at 78% 72%, rgba(71,85,105,0.88) 0%, transparent 60%)," +
+    "radial-gradient(ellipse 45% 50% at 50% 45%, rgba(203,213,225,0.26) 0%, transparent 55%)," +
+    "radial-gradient(ellipse 40% 40% at 28% 75%, rgba(51,65,85,0.78) 0%, transparent 50%)," +
+    "linear-gradient(148deg,#0d1525,#141d30)",
 };
 
 export default function GradeTile({ id, label, ageRange }: GradeDef) {
@@ -97,10 +97,10 @@ export default function GradeTile({ id, label, ageRange }: GradeDef) {
           <rect width="100%" height="100%" filter={`url(#grade-noise-${id})`} />
         </svg>
 
-        {/* Radial vignette */}
+        {/* Radial vignette — subtle only */}
         <div
           className="absolute inset-0 pointer-events-none"
-          style={{ background: "radial-gradient(ellipse at center, transparent 30%, rgba(0,0,0,0.45) 100%)" }}
+          style={{ background: "radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.20) 100%)" }}
         />
 
         {/* Decorative ring accents */}

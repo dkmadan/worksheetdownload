@@ -67,7 +67,7 @@ export default function TechnologiesPage() {
                   </svg>
                   <div
                     className="absolute inset-0 pointer-events-none"
-                    style={{ background: "radial-gradient(ellipse at center, transparent 20%, rgba(0,0,0,0.40) 100%)" }}
+                    style={{ background: "radial-gradient(ellipse at center, transparent 30%, rgba(0,0,0,0.18) 100%)" }}
                   />
                   <span className="relative text-3xl z-10">{cat.icon}</span>
                   <div className="relative z-10">

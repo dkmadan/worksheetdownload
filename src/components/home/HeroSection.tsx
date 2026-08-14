@@ -1,10 +1,15 @@
 import Link from "next/link";
 import HeroVisual from "@/components/home/HeroVisual";
+import HeroDoodleBackground from "@/components/home/HeroDoodleBackground";
 
 export default function HeroSection() {
   return (
-    <section className="bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950 py-16 sm:py-20 px-4 sm:px-6 overflow-hidden">
-      <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-10 md:gap-12">
+    <section className="relative py-16 sm:py-20 px-4 sm:px-6 overflow-hidden">
+      {/* Inline SVG doodle pattern — no external image required */}
+      <HeroDoodleBackground />
+      {/* Dark overlay so text stays readable */}
+      <div className="absolute inset-0 bg-slate-950/62" />
+      <div className="relative z-10 max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-10 md:gap-12">
 
         {/* Left column — copy */}
         <div className="flex-1 flex flex-col gap-5">
