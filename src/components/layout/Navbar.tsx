@@ -39,7 +39,7 @@ export default function Navbar() {
       </div>
 
       {/* ── Row 2: Nav links · CTA buttons (desktop) ─────────────────────── */}
-      <div className="hidden sm:block bg-slate-900">
+      <div className="hidden sm:block bg-slate-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-1 flex items-center justify-between gap-2">
 
           {/* Nav links */}

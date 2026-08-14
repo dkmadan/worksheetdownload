@@ -191,14 +191,14 @@ export default function NavSearch({ inline = false, large = false }: NavSearchPr
   if (large) {
     return (
       <div ref={containerRef} className="relative w-full">
-        <div className="flex items-center border border-slate-200 rounded-xl overflow-hidden bg-white focus-within:border-indigo-400 focus-within:ring-2 focus-within:ring-indigo-100 transition-all">
-          <svg
-            className="ml-3.5 w-4.5 h-4.5 text-slate-400 flex-shrink-0 w-5 h-5"
-            fill="none" viewBox="0 0 24 24" stroke="currentColor"
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-          </svg>
+        {/* Explicit h-11 so the button fills the full height flush with the border */}
+        <div className="flex h-11 border border-slate-200 rounded-xl overflow-hidden bg-white focus-within:border-indigo-400 focus-within:ring-2 focus-within:ring-indigo-100 transition-all">
+          <div className="flex items-center pl-3.5 flex-shrink-0">
+            <svg className="w-5 h-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+          </div>
           <input
             ref={inputRef}
             type="search"
@@ -206,12 +206,12 @@ export default function NavSearch({ inline = false, large = false }: NavSearchPr
             onChange={(e) => setQuery(e.target.value)}
             onKeyDown={handleKeyDown}
             placeholder="Search topics, technologies, worksheets…"
-            className="flex-1 px-3 py-2.5 text-sm text-slate-900 bg-transparent outline-none placeholder:text-slate-400"
+            className="flex-1 px-3 text-sm text-slate-900 bg-transparent outline-none placeholder:text-slate-400"
           />
           <button
             type="button"
             onClick={() => { if (results[0]) router.push(results[0].href); }}
-            className="flex items-center justify-center gap-1.5 px-4 h-full bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold self-stretch transition-colors whitespace-nowrap flex-shrink-0"
+            className="flex items-center gap-1.5 px-5 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold flex-shrink-0 transition-colors"
             aria-label="Search"
           >
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
