@@ -1,75 +1,335 @@
 import React from "react";
+import {
+  siPostman, siGraphql, siReact, siNodedotjs, siPython, siDocker, siKubernetes,
+  siPostgresql, siMysql, siMongodb, siRedis, siGit, siGithub, siGitlab,
+  siTypescript, siJavascript, siTerraform, siAnsible, siJenkins, siNginx,
+  siTensorflow, siPytorch, siDjango, siFlask, siFastapi, siSpringboot, siSpring,
+  siSpringsecurity, siLaravel, siSymfony, siCodeigniter, siRubyonrails,
+  siKotlin, siSwift, siFlutter, siAngular, siVuedotjs, siSvelte, siNextdotjs,
+  siAstro, siRemix, siNuxt, siLit, siSolid,
+  siGooglecloud, siKong, siTraefikproxy, siSwagger, siOpenapiinitiative, siInsomnia,
+  siElasticsearch, siApachekafka, siRabbitmq, siWordpress, siDrupal, siNeo4j,
+  siGrafana, siPrometheus, siElectron, siBootstrap, siTailwindcss, siSass,
+  siBitbucket, siHelm, siIstio, siAuth0, siOkta, siDatadog,
+  siSqlite, siMariadb, siSnowflake, siDatabricks, siInfluxdb,
+  siFastify, siNestjs, siQuarkus, siGin, siDotnet, siBlazor,
+  siLangchain, siHuggingface, siMilvus, siQdrant,
+  siRaspberrypi, siArduino, siMqtt,
+  siPulumi, siCircleci, siGithubactions,
+  siPhp, siRuby, siGo, siRust, siHaskell, siElixir, siDart, siScala,
+  siSap, siJunit5, siSelenium, siCypress, siJest, siVitest, siK6,
+  siBitcoin, siEthereum, siSolana, siSolidity,
+  siNpm, siYarn, siPnpm, siGradle, siApachemaven,
+  siContentful, siStrapi, siSanity, siCloudflare, siVercel, siNetlify,
+  siLinux, siUbuntu, siDebian, siAlpinelinux, siRedhat, siRedhatopenshift,
+  siMlflow, siApacheairflow, siDvc, siWeightsandbiases,
+  siCelery, siScikitlearn, siNumpy, siPandas, siJupyter,
+  siApachehadoop, siApachespark, siApacheflink, siApachepulsar, siApachenifi,
+  siClickhouse, siVault, siKeycloak, siSnyk, siCheckmarx,
+  siNewrelic, siDynatrace, siSentry, siOpentelemetry, siJaeger, siFluentd,
+  siSupabase, siPrisma, siArangodb,
+  siBun, siVite, siWebpack, siEsbuild, siDeno,
+  siGatling, siLocust,
+  siExpress, siKoa, siMui, siAntdesign, siChakraui,
+  siDigitalocean, siHashicorp, siEtcd, siLinkerd,
+  siApachejmeter, siSonar,
+  siIntellijidea, siPycharm, siXcode, siAndroidstudio, siGithubcopilot, siCursor,
+} from "simple-icons";
 
-// [bgColor, fgColor, label] — label is 1–4 chars shown inside the icon
-type BrandEntry = [string, string, string];
+// ── luminance helper ──────────────────────────────────────────────────────────
+function fg(hex: string): string {
+  const r = parseInt(hex.substring(0, 2), 16) / 255;
+  const g = parseInt(hex.substring(2, 4), 16) / 255;
+  const b = parseInt(hex.substring(4, 6), 16) / 255;
+  const lin = (c: number) => c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
+  const lum = 0.2126 * lin(r) + 0.7152 * lin(g) + 0.0722 * lin(b);
+  return lum > 0.35 ? "#000000" : "#ffffff";
+}
 
-const BRANDS: Record<string, BrandEntry> = {
-  // ── AI Agents ──────────────────────────────────────────────────────────────
-  "ai agents":             ["#4F46E5", "#ffffff", "AI"],
-  "agentic ai":            ["#7C3AED", "#ffffff", "Ag"],
-  "tool calling":          ["#2563EB", "#ffffff", "TC"],
-  "function calling":      ["#1D4ED8", "#ffffff", "FC"],
-  "mcp":                   ["#374151", "#ffffff", "MCP"],
-  "multi-agent systems":   ["#059669", "#ffffff", "MAS"],
-  "agent memory":          ["#7C3AED", "#ffffff", "AM"],
-  "planning":              ["#0891B2", "#ffffff", "Pl"],
-  "reasoning":             ["#DB2777", "#ffffff", "Rz"],
-  "react":                 ["#20232A", "#61DAFB", "⚛"],
-  "langgraph":             ["#1C3C3C", "#22C55E", "LG"],
-  "crewai":                ["#0F172A", "#F59E0B", "CA"],
-  "autogen":               ["#2563EB", "#ffffff", "AG"],
-  "semantic kernel":       ["#5C2D91", "#ffffff", "SK"],
-  "openai agents sdk":     ["#412991", "#ffffff", "OAI"],
-  "llamaindex":            ["#FF6B6B", "#ffffff", "LI"],
+// ── Simple Icons map: lowercase tech name → SI icon ───────────────────────────
+type SI = { path: string; hex: string };
+const SI_MAP: Record<string, SI> = {
+  // API styles & tools
+  "graphql":               siGraphql,
+  "postman":               siPostman,
+  "swagger/openapi":       siSwagger,
+  "openapi":               siOpenapiinitiative,
+  "insomnia":              siInsomnia,
+  "graphql playground":    siGraphql,
+  "kong":                  siKong,
+  "nginx":                 siNginx,
+  "traefik":               siTraefikproxy,
 
-  // ── AI/ML ──────────────────────────────────────────────────────────────────
-  "tensorflow":            ["#FF6F00", "#ffffff", "TF"],
-  "pytorch":               ["#EE4C2C", "#ffffff", "PT"],
-  "scikit-learn":          ["#F7931E", "#000000", "SK"],
-  "xgboost":               ["#189AB4", "#ffffff", "XG"],
-  "lightgbm":              ["#2AA876", "#ffffff", "LGB"],
-  "keras":                 ["#D00000", "#ffffff", "Ke"],
-  "cnn":                   ["#E91E63", "#ffffff", "CNN"],
-  "rnn":                   ["#9C27B0", "#ffffff", "RNN"],
-  "lstm":                  ["#673AB7", "#ffffff", "LSTM"],
-  "gru":                   ["#3F51B5", "#ffffff", "GRU"],
-  "transformer":           ["#FF6B35", "#ffffff", "TR"],
-  "gan":                   ["#2196F3", "#ffffff", "GAN"],
-  "autoencoder":           ["#00BCD4", "#ffffff", "AE"],
-  "diffusion models":      ["#03A9F4", "#ffffff", "DM"],
-  "llm":                   ["#5B21B6", "#ffffff", "LLM"],
-  "slm":                   ["#795548", "#ffffff", "SLM"],
-  "generative ai":         ["#FF5722", "#ffffff", "GenAI"],
-  "multimodal ai":         ["#FFC107", "#000000", "MM"],
-  "computer vision":       ["#8BC34A", "#000000", "CV"],
-  "nlp":                   ["#FFEB3B", "#000000", "NLP"],
-  "speech ai":             ["#FF9800", "#ffffff", "SA"],
-  "reinforcement learning":["#00BCD4", "#ffffff", "RL"],
-  "fine-tuning":           ["#009688", "#ffffff", "FT"],
-  "distillation":          ["#4CAF50", "#ffffff", "Di"],
-  "quantization":          ["#8BC34A", "#000000", "Qn"],
+  // Backend — JS/TS
+  "node.js":               siNodedotjs,
+  "express.js":            siExpress,
+  "nestjs":                siNestjs,
+  "fastify":               siFastify,
+  "koa":                   siKoa,
+  "deno":                  siDeno,
+  "bun":                   siBun,
 
-  // ── API Technologies ───────────────────────────────────────────────────────
+  // Backend — Python
+  "python":                siPython,
+  "django":                siDjango,
+  "flask":                 siFlask,
+  "fastapi":               siFastapi,
+  "celery":                siCelery,
+
+  // Backend — Java
+  "spring":                siSpring,
+  "spring boot":           siSpringboot,
+  "spring cloud":          siSpring,
+  "spring security":       siSpringsecurity,
+  "quarkus":               siQuarkus,
+
+  // Backend — .NET
+  ".net":                  siDotnet,
+  "asp.net core":          siDotnet,
+  "entity framework core": siDotnet,
+  "blazor":                siBlazor,
+
+  // Backend — Go
+  "go":                    siGo,
+  "gin":                   siGin,
+
+  // Backend — PHP
+  "php":                   siPhp,
+  "laravel":               siLaravel,
+  "symfony":               siSymfony,
+  "codeigniter":           siCodeigniter,
+
+  // Backend — Ruby
+  "ruby":                  siRuby,
+  "ruby on rails":         siRubyonrails,
+
+  // Web frontend
+  "react":                 siReact,
+  "react native":          siReact,
+  "angular":               siAngular,
+  "vue.js":                siVuedotjs,
+  "svelte":                siSvelte,
+  "next.js":               siNextdotjs,
+  "nuxt":                  siNuxt,
+  "astro":                 siAstro,
+  "remix":                 siRemix,
+  "lit":                   siLit,
+  "solidjs":               siSolid,
+
+  // CSS / UI
+  "bootstrap":             siBootstrap,
+  "tailwind css":          siTailwindcss,
+  "sass":                  siSass,
+  "material ui":           siMui,
+  "ant design":            siAntdesign,
+  "chakra ui":             siChakraui,
+
+  // Build / bundlers
+  "vite":                  siVite,
+  "webpack":               siWebpack,
+  "esbuild":               siEsbuild,
+
+  // Package managers
+  "npm":                   siNpm,
+  "yarn":                  siYarn,
+  "pnpm":                  siPnpm,
+  "gradle":                siGradle,
+  "maven":                 siApachemaven,
+  "apache maven":          siApachemaven,
+
+  // Languages
+  "javascript":            siJavascript,
+  "typescript":            siTypescript,
+  "kotlin":                siKotlin,
+  "swift":                 siSwift,
+  "dart":                  siDart,
+  "rust":                  siRust,
+  "haskell":               siHaskell,
+  "elixir":                siElixir,
+  "scala":                 siScala,
+  "ruby (lang)":           siRuby,
+
+  // Mobile
+  "flutter":               siFlutter,
+  "android studio":        siAndroidstudio,
+
+  // Cloud
+  "google cloud":          siGooglecloud,
+  "cloudflare":            siCloudflare,
+  "vercel":                siVercel,
+  "netlify":               siNetlify,
+  "digitalocean":          siDigitalocean,
+
+  // Databases — SQL
+  "postgresql":            siPostgresql,
+  "mysql":                 siMysql,
+  "mariadb":               siMariadb,
+  "sqlite":                siSqlite,
+
+  // Databases — NoSQL
+  "mongodb":               siMongodb,
+  "redis":                 siRedis,
+  "neo4j":                 siNeo4j,
+  "influxdb":              siInfluxdb,
+  "arangodb":              siArangodb,
+  "supabase":              siSupabase,
+  "prisma":                siPrisma,
+
+  // Data / analytics
+  "snowflake":             siSnowflake,
+  "databricks":            siDatabricks,
+  "clickhouse":            siClickhouse,
+  "apache spark":          siApachespark,
+  "apache hadoop":         siApachehadoop,
+  "apache flink":          siApacheflink,
+  "apache pulsar":         siApachepulsar,
+  "apache nifi":           siApachenifi,
+  "apache airflow":        siApacheairflow,
+  "airflow":               siApacheairflow,
+  "pandas":                siPandas,
+  "numpy":                 siNumpy,
+  "jupyter":               siJupyter,
+
+  // ML / AI
+  "tensorflow":            siTensorflow,
+  "pytorch":               siPytorch,
+  "scikit-learn":          siScikitlearn,
+  "keras":                 siTensorflow,
+  "langchain":             siLangchain,
+  "hugging face":          siHuggingface,
+  "milvus":                siMilvus,
+  "qdrant":                siQdrant,
+  "openai agents sdk":     siGithubcopilot,
+
+  // MLOps
+  "mlflow":                siMlflow,
+  "dvc":                   siDvc,
+  "weights & biases":      siWeightsandbiases,
+  "airflow (mlops)":       siApacheairflow,
+
+  // DevOps
+  "docker":                siDocker,
+  "kubernetes":            siKubernetes,
+  "helm":                  siHelm,
+  "istio":                 siIstio,
+  "linkerd":               siLinkerd,
+  "jenkins":               siJenkins,
+  "github actions":        siGithubactions,
+  "gitlab ci/cd":          siGitlab,
+  "circleci":              siCircleci,
+  "terraform":             siTerraform,
+  "ansible":               siAnsible,
+  "pulumi":                siPulumi,
+  "openshift":             siRedhatopenshift,
+  "hashicorp":             siHashicorp,
+
+  // Security
+  "auth0":                 siAuth0,
+  "okta":                  siOkta,
+  "keycloak":              siKeycloak,
+  "hashicorp vault":       siVault,
+  "vault":                 siVault,
+  "snyk":                  siSnyk,
+  "checkmarx":             siCheckmarx,
+
+  // Messaging
+  "apache kafka":          siApachekafka,
+  "kafka":                 siApachekafka,
+  "rabbitmq":              siRabbitmq,
+  "mqtt":                  siMqtt,
+
+  // Observability
+  "grafana":               siGrafana,
+  "prometheus":            siPrometheus,
+  "datadog":               siDatadog,
+  "new relic":             siNewrelic,
+  "dynatrace":             siDynatrace,
+  "sentry":                siSentry,
+  "opentelemetry":         siOpentelemetry,
+  "jaeger":                siJaeger,
+  "fluentd":               siFluentd,
+  "elasticsearch":         siElasticsearch,
+  "logstash":              siElasticsearch,
+  "kibana":                siElasticsearch,
+  "etcd":                  siEtcd,
+
+  // OS / Linux
+  "linux":                 siLinux,
+  "ubuntu":                siUbuntu,
+  "debian":                siDebian,
+  "alpine":                siAlpinelinux,
+  "red hat":               siRedhat,
+  "red hat enterprise linux": siRedhat,
+
+  // Version control
+  "git":                   siGit,
+  "github":                siGithub,
+  "gitlab":                siGitlab,
+  "bitbucket":             siBitbucket,
+
+  // Testing
+  "jest":                  siJest,
+  "vitest":                siVitest,
+  "cypress":               siCypress,
+  "selenium":              siSelenium,
+  "k6":                    siK6,
+  "gatling":               siGatling,
+  "locust":                siLocust,
+  "junit":                 siJunit5,
+
+  // Blockchain
+  "bitcoin":               siBitcoin,
+  "ethereum":              siEthereum,
+  "solana":                siSolana,
+  "solidity":              siSolidity,
+
+  // CMS
+  "wordpress":             siWordpress,
+  "drupal":                siDrupal,
+  "contentful":            siContentful,
+  "strapi":                siStrapi,
+  "sanity":                siSanity,
+
+  // Enterprise
+  "sap":                   siSap,
+
+  // Dev tools
+  "intellij idea":         siIntellijidea,
+  "pycharm":               siPycharm,
+  "xcode":                 siXcode,
+  "github copilot":        siGithubcopilot,
+  "cursor":                siCursor,
+
+  // Desktop
+  "electron":              siElectron,
+
+  // IoT
+  "raspberry pi":          siRaspberrypi,
+  "arduino":               siArduino,
+
+  // Misc
+  "sonarqube":             siSonar,
+  "apache jmeter":         siApachejmeter,
+};
+
+// ── Text-badge fallback: covers protocols, concepts, and logo-less techs ──────
+// [bgColor, fgColor, label]
+type Badge = [string, string, string];
+const BADGE_MAP: Record<string, Badge> = {
+  // API protocols (no official logo)
   "rest":                  ["#009688", "#ffffff", "REST"],
   "soap":                  ["#F59E0B", "#000000", "SOAP"],
-  "graphql":               ["#E10098", "#ffffff", "GQL"],
   "grpc":                  ["#244C5A", "#ffffff", "gRPC"],
   "websocket":             ["#4A90D9", "#ffffff", "WS"],
   "server-sent events":    ["#6366F1", "#ffffff", "SSE"],
   "webhooks":              ["#7C3AED", "#ffffff", "WH"],
-  "postman":               ["#FF6C37", "#ffffff", "PM"],
-  "swagger/openapi":       ["#85EA2D", "#000000", "OA"],
-  "insomnia":              ["#4000BF", "#ffffff", "In"],
   "graphql playground":    ["#E10098", "#ffffff", "GP"],
-  "kong":                  ["#003459", "#1CE1C1", "Ko"],
   "apache apisix":         ["#E0234E", "#ffffff", "AP"],
-  "nginx":                 ["#009639", "#ffffff", "Nx"],
   "aws api gateway":       ["#FF9900", "#000000", "AG"],
   "azure api management":  ["#0078D4", "#ffffff", "AM"],
   "apigee":                ["#4285F4", "#ffffff", "Ap"],
-  "traefik":               ["#24A1C1", "#ffffff", "Tr"],
 
-  // ── Architecture ───────────────────────────────────────────────────────────
+  // Architecture concepts
   "monolithic architecture":   ["#455A64", "#ffffff", "Mon"],
   "modular monolith":          ["#546E7A", "#ffffff", "MM"],
   "microservices":             ["#3F51B5", "#ffffff", "MS"],
@@ -89,88 +349,83 @@ const BRANDS: Record<string, BrandEntry> = {
   "backend for frontend":      ["#374151", "#ffffff", "BFF"],
   "strangler fig":             ["#5D4037", "#ffffff", "SF"],
 
-  // ── BI & Visualization ─────────────────────────────────────────────────────
-  "power bi":              ["#F2C811", "#000000", "PBI"],
-  "tableau":               ["#E97627", "#ffffff", "Ta"],
-  "looker":                ["#4285F4", "#ffffff", "Lo"],
-  "qlik":                  ["#009845", "#ffffff", "Qk"],
-  "apache superset":       ["#20A7C9", "#ffffff", "AS"],
-  "grafana":               ["#F46800", "#ffffff", "Gr"],
-  "kibana":                ["#005571", "#ffffff", "Ki"],
+  // AI/ML concepts (no logo)
+  "ai agents":             ["#4F46E5", "#ffffff", "AI"],
+  "agentic ai":            ["#7C3AED", "#ffffff", "Ag"],
+  "tool calling":          ["#2563EB", "#ffffff", "TC"],
+  "function calling":      ["#1D4ED8", "#ffffff", "FC"],
+  "mcp":                   ["#374151", "#ffffff", "MCP"],
+  "multi-agent systems":   ["#059669", "#ffffff", "MAS"],
+  "agent memory":          ["#7C3AED", "#ffffff", "AM"],
+  "planning":              ["#0891B2", "#ffffff", "Pl"],
+  "reasoning":             ["#DB2777", "#ffffff", "Rz"],
+  "react":                 ["#20232A", "#61DAFB", "⚛"],  // AI Agents ReAct pattern
+  "langgraph":             ["#1C3C3C", "#22C55E", "LG"],
+  "crewai":                ["#0F172A", "#F59E0B", "CA"],
+  "autogen":               ["#2563EB", "#ffffff", "AG"],
+  "semantic kernel":       ["#5C2D91", "#ffffff", "SK"],
+  "llamaindex":            ["#FF6B6B", "#ffffff", "LI"],
+  "cnn":                   ["#E91E63", "#ffffff", "CNN"],
+  "rnn":                   ["#9C27B0", "#ffffff", "RNN"],
+  "lstm":                  ["#673AB7", "#ffffff", "LSTM"],
+  "gru":                   ["#3F51B5", "#ffffff", "GRU"],
+  "transformer":           ["#FF6B35", "#ffffff", "TR"],
+  "gan":                   ["#2196F3", "#ffffff", "GAN"],
+  "autoencoder":           ["#00BCD4", "#ffffff", "AE"],
+  "diffusion models":      ["#03A9F4", "#ffffff", "DM"],
+  "llm":                   ["#5B21B6", "#ffffff", "LLM"],
+  "slm":                   ["#795548", "#ffffff", "SLM"],
+  "generative ai":         ["#FF5722", "#ffffff", "GenAI"],
+  "multimodal ai":         ["#FFC107", "#000000", "MM"],
+  "computer vision":       ["#8BC34A", "#000000", "CV"],
+  "nlp":                   ["#FFEB3B", "#000000", "NLP"],
+  "speech ai":             ["#FF9800", "#ffffff", "SA"],
+  "reinforcement learning":["#00BCD4", "#ffffff", "RL"],
+  "fine-tuning":           ["#009688", "#ffffff", "FT"],
+  "distillation":          ["#4CAF50", "#ffffff", "Di"],
+  "quantization":          ["#8BC34A", "#000000", "Qn"],
+  "rag":                   ["#7C3AED", "#ffffff", "RAG"],
+  "hybrid search":         ["#6366F1", "#ffffff", "HS"],
+  "semantic search":       ["#8B5CF6", "#ffffff", "Sm"],
+  "embeddings":            ["#1E40AF", "#ffffff", "Em"],
+  "reranking":             ["#6D28D9", "#ffffff", "Rr"],
+  "prompt engineering":    ["#7C3AED", "#ffffff", "PE"],
+  "context engineering":   ["#0F766E", "#ffffff", "CE"],
+  "agentic rag":           ["#4F46E5", "#ffffff", "AR"],
+  "pinecone":              ["#000000", "#00B285", "Pi"],
+  "weaviate":              ["#fa0171", "#ffffff", "Wv"],
+  "chroma":                ["#F97316", "#ffffff", "Ch"],
+  "pgvector":              ["#336791", "#ffffff", "pgV"],
+  "chunking":              ["#374151", "#ffffff", "Ch"],
+  "gpt":                   ["#412991", "#ffffff", "GPT"],
+  "claude":                ["#D4702B", "#ffffff", "Cl"],
+  "gemini":                ["#4285F4", "#ffffff", "Gem"],
+  "llama":                 ["#7C3AED", "#ffffff", "Ll"],
+  "mistral":               ["#F54E42", "#ffffff", "Mi"],
+  "qwen":                  ["#7346EE", "#ffffff", "Qw"],
+  "deepseek":              ["#4A90D9", "#ffffff", "DS"],
+  "dspy":                  ["#2563EB", "#ffffff", "DS"],
+  "haystack":              ["#1A1A1A", "#6AB187", "Hy"],
+  "opensearch":            ["#005EB8", "#ffffff", "OS"],
 
-  // ── Backend Technologies ────────────────────────────────────────────────────
-  "spring":                ["#6DB33F", "#ffffff", "Sp"],
-  "spring boot":           ["#6DB33F", "#ffffff", "SB"],
-  "spring cloud":          ["#6DB33F", "#ffffff", "SC"],
-  "spring security":       ["#6DB33F", "#ffffff", "SS"],
-  "hibernate":             ["#59666C", "#ffffff", "Hi"],
-  "jpa":                   ["#4A90D9", "#ffffff", "JPA"],
-  "jakarta ee":            ["#4285F4", "#ffffff", "JE"],
-  "quarkus":               ["#4695EB", "#ffffff", "Qu"],
-  "micronaut":             ["#09AFE5", "#ffffff", "Mn"],
-  "django":                ["#092E20", "#ffffff", "Dj"],
-  "flask":                 ["#000000", "#ffffff", "Fl"],
-  "fastapi":               ["#009688", "#ffffff", "FA"],
-  "tornado":               ["#F97316", "#ffffff", "To"],
-  "celery":                ["#37814A", "#ffffff", "Ce"],
-  "node.js":               ["#339933", "#ffffff", "No"],
-  "express.js":            ["#000000", "#ffffff", "Ex"],
-  "nestjs":                ["#E0234E", "#ffffff", "Nt"],
-  "fastify":               ["#000000", "#ffffff", "Fy"],
-  "koa":                   ["#33333D", "#ffffff", "Ko"],
-  "asp.net core":          ["#512BD4", "#ffffff", "AS"],
-  ".net":                  ["#512BD4", "#ffffff", ".N"],
-  "entity framework core": ["#512BD4", "#ffffff", "EF"],
-  "blazor":                ["#512BD4", "#ffffff", "Bl"],
-  "gin":                   ["#00ADD8", "#ffffff", "Gi"],
-  "echo":                  ["#00ADD8", "#ffffff", "Ec"],
-  "fiber":                 ["#00ADD8", "#ffffff", "Fi"],
-  "chi":                   ["#00ADD8", "#ffffff", "χ"],
-  "laravel":               ["#FF2D20", "#ffffff", "La"],
-  "symfony":               ["#000000", "#ffffff", "Sf"],
-  "codeigniter":           ["#EF4223", "#ffffff", "CI"],
-  "ruby on rails":         ["#CC0000", "#ffffff", "RoR"],
-  "sinatra":               ["#1C1C1C", "#ffffff", "Si"],
+  // Distributed systems concepts
+  "distributed databases": ["#1565C0", "#ffffff", "DDB"],
+  "distributed caching":   ["#DC382D", "#ffffff", "DC"],
+  "distributed transactions": ["#1565C0", "#ffffff", "DT"],
+  "consensus":             ["#374151", "#ffffff", "Cs"],
+  "leader election":       ["#374151", "#ffffff", "LE"],
+  "replication":           ["#374151", "#ffffff", "Rep"],
+  "sharding":              ["#374151", "#ffffff", "Sh"],
+  "cap theorem":           ["#374151", "#ffffff", "CAP"],
+  "eventual consistency":  ["#374151", "#ffffff", "EC"],
+  "fault tolerance":       ["#374151", "#ffffff", "FT"],
+  "load balancing":        ["#374151", "#ffffff", "LB"],
+  "zookeeper":             ["#E24829", "#ffffff", "ZK"],
+  "consul":                ["#CA2171", "#ffffff", "Co"],
 
-  // ── Blockchain / Web3 ──────────────────────────────────────────────────────
-  "bitcoin":               ["#F7931A", "#ffffff", "₿"],
-  "ethereum":              ["#3C3C3D", "#ffffff", "Eth"],
-  "solana":                ["#9945FF", "#ffffff", "Sol"],
-  "hyperledger":           ["#2F3134", "#ffffff", "HL"],
-  "solidity":              ["#363636", "#ffffff", "Sol"],
-  "smart contracts":       ["#F7931A", "#ffffff", "SC"],
-  "nfts":                  ["#9945FF", "#ffffff", "NFT"],
-  "defi":                  ["#06B6D4", "#ffffff", "DeFi"],
-  "web3":                  ["#F6851B", "#ffffff", "W3"],
-  "wallets":               ["#374151", "#ffffff", "Wl"],
-  "distributed ledger":    ["#374151", "#ffffff", "DL"],
-
-  // ── Build & Package Management ─────────────────────────────────────────────
-  "maven":                 ["#C71A36", "#ffffff", "Mv"],
-  "gradle":                ["#02303A", "#ffffff", "Gr"],
-  "npm":                   ["#CB3837", "#ffffff", "npm"],
-  "yarn":                  ["#2C8EBB", "#ffffff", "Yn"],
-  "pnpm":                  ["#F69220", "#000000", "pn"],
-  "bun":                   ["#FBF0DF", "#000000", "Bun"],
-  "pip":                   ["#3775A9", "#ffffff", "pip"],
-  "poetry":                ["#60A5FA", "#000000", "Po"],
-  "uv":                    ["#DE5FE9", "#ffffff", "uv"],
-  "conda":                 ["#44A833", "#ffffff", "Cn"],
-  "nuget":                 ["#004880", "#ffffff", "NuG"],
-  "cmake":                 ["#064F8C", "#ffffff", "CM"],
-  "make":                  ["#374151", "#ffffff", "Mk"],
-  "conan":                 ["#6699CB", "#ffffff", "Co"],
-  "vcpkg":                 ["#0078D4", "#ffffff", "VP"],
-
-  // ── Caching ────────────────────────────────────────────────────────────────
-  "redis":                 ["#DC382D", "#ffffff", "Re"],
-  "memcached":             ["#6CB4E4", "#ffffff", "Mc"],
-  "hazelcast":             ["#FF6600", "#ffffff", "Hz"],
-  "ehcache":               ["#0033A0", "#ffffff", "EhC"],
-  "caffeine":              ["#6DB33F", "#ffffff", "Caf"],
-  "varnish":               ["#1A1A1A", "#ffffff", "Va"],
-
-  // ── Cloud — AWS ────────────────────────────────────────────────────────────
+  // Cloud providers (AWS/Azure don't have clean SI entries)
+  "aws":                   ["#232F3E", "#FF9900", "AWS"],
+  "azure":                 ["#0078D4", "#ffffff", "Az"],
   "ec2":                   ["#FF9900", "#000000", "EC2"],
   "ecs":                   ["#FF9900", "#000000", "ECS"],
   "eks":                   ["#FF9900", "#000000", "EKS"],
@@ -179,7 +434,6 @@ const BRANDS: Record<string, BrandEntry> = {
   "rds":                   ["#FF9900", "#000000", "RDS"],
   "dynamodb":              ["#FF9900", "#000000", "DDB"],
   "aurora":                ["#FF9900", "#000000", "Au"],
-  "elasticache":           ["#FF9900", "#000000", "EC"],
   "cloudfront":            ["#FF9900", "#000000", "CF"],
   "sqs":                   ["#FF9900", "#000000", "SQS"],
   "sns":                   ["#FF9900", "#000000", "SNS"],
@@ -187,19 +441,17 @@ const BRANDS: Record<string, BrandEntry> = {
   "eventbridge":           ["#FF9900", "#000000", "EB"],
   "cloudformation":        ["#FF9900", "#000000", "CFn"],
   "bedrock":               ["#FF9900", "#000000", "BR"],
-  // Cloud — Azure
   "azure vm":              ["#0078D4", "#ffffff", "VM"],
   "aks":                   ["#0078D4", "#ffffff", "AKS"],
   "azure functions":       ["#0062AD", "#ffffff", "AF"],
   "blob storage":          ["#0078D4", "#ffffff", "BS"],
-  "azure sql":             ["#0078D4", "#ffffff", "SQL"],
   "cosmos db":             ["#0078D4", "#ffffff", "Cos"],
+  "azure sql":             ["#0078D4", "#ffffff", "SQL"],
   "service bus":           ["#0078D4", "#ffffff", "SB"],
   "event hubs":            ["#0078D4", "#ffffff", "EH"],
   "azure devops":          ["#0078D4", "#ffffff", "ADO"],
   "azure openai":          ["#0078D4", "#ffffff", "AOI"],
   "api management":        ["#0078D4", "#ffffff", "APM"],
-  // Cloud — GCP
   "compute engine":        ["#4285F4", "#ffffff", "CE"],
   "gke":                   ["#4285F4", "#ffffff", "GKE"],
   "cloud run":             ["#4285F4", "#ffffff", "CR"],
@@ -210,243 +462,55 @@ const BRANDS: Record<string, BrandEntry> = {
   "pub/sub":               ["#4285F4", "#ffffff", "P/S"],
   "vertex ai":             ["#4285F4", "#ffffff", "VAI"],
 
-  // ── Content Management ─────────────────────────────────────────────────────
-  "wordpress":             ["#21759B", "#ffffff", "WP"],
-  "drupal":                ["#0678BE", "#ffffff", "Dr"],
-  "adobe experience manager": ["#FF0000", "#ffffff", "AEM"],
-  "contentful":            ["#2478CC", "#ffffff", "Cf"],
-  "strapi":                ["#4945FF", "#ffffff", "St"],
-  "sanity":                ["#F03E2F", "#ffffff", "Sa"],
-  "sitecore":              ["#EB3C00", "#ffffff", "SC"],
-  "optimizely":            ["#003DFF", "#ffffff", "Op"],
-  "edge delivery services":["#374151", "#ffffff", "EDS"],
-  "headless cms":          ["#374151", "#ffffff", "HCMS"],
-  "jamstack":              ["#F0047F", "#ffffff", "JAM"],
-  "cdn":                   ["#F38020", "#ffffff", "CDN"],
-  "edge computing":        ["#374151", "#ffffff", "Edge"],
-
-  // ── Data Engineering ───────────────────────────────────────────────────────
-  "apache airflow":        ["#017CEE", "#ffffff", "AF"],
-  "apache nifi":           ["#728E9B", "#ffffff", "NiFi"],
-  "talend":                ["#FF6D00", "#ffffff", "Ta"],
-  "informatica":           ["#FF6C37", "#ffffff", "In"],
-  "dbt":                   ["#FF694A", "#ffffff", "dbt"],
-  "aws glue":              ["#FF9900", "#000000", "Gl"],
-  "azure data factory":    ["#0078D4", "#ffffff", "ADF"],
-  "google dataflow":       ["#4285F4", "#ffffff", "DF"],
-  "apache hadoop":         ["#FFCC00", "#000000", "Hdp"],
-  "apache spark":          ["#E25A1C", "#ffffff", "Sp"],
-  "apache flink":          ["#E6526F", "#ffffff", "Fk"],
-  "apache beam":           ["#FFAA00", "#000000", "Bm"],
-  "hive":                  ["#FDEE21", "#000000", "Hv"],
-  "presto":                ["#5890FF", "#ffffff", "Pr"],
-  "trino":                 ["#DD00A1", "#ffffff", "Tr"],
-  "pyspark":               ["#E25A1C", "#ffffff", "PyS"],
-  "spark sql":             ["#E25A1C", "#ffffff", "SQL"],
-  "kafka streams":         ["#231F20", "#ffffff", "KS"],
-  "flink":                 ["#E6526F", "#ffffff", "Fk"],
-  "pandas":                ["#150458", "#ffffff", "Pd"],
-  "polars":                ["#CD792C", "#ffffff", "Pl"],
-  "numpy":                 ["#4DABCF", "#000000", "Np"],
-
-  // ── Data Platforms ─────────────────────────────────────────────────────────
-  "snowflake":             ["#29B5E8", "#000000", "SF"],
-  "google bigquery":       ["#4285F4", "#ffffff", "BQ"],
-  "amazon redshift":       ["#FF9900", "#000000", "RS"],
-  "azure synapse":         ["#0078D4", "#ffffff", "Sy"],
-  "teradata":              ["#F37440", "#ffffff", "TD"],
-  "databricks sql":        ["#FF3621", "#ffffff", "DBS"],
-  "databricks":            ["#FF3621", "#ffffff", "DB"],
-  "delta lake":            ["#003087", "#ffffff", "DL"],
-  "apache iceberg":        ["#005F73", "#ffffff", "Ice"],
-  "apache hudi":           ["#00B4D8", "#ffffff", "Hu"],
-  "amazon s3":             ["#FF9900", "#000000", "S3"],
-  "azure data lake storage": ["#0078D4", "#ffffff", "ADLS"],
-  "google cloud storage":  ["#4285F4", "#ffffff", "GCS"],
-
-  // ── Databases ──────────────────────────────────────────────────────────────
-  "postgresql":            ["#336791", "#ffffff", "PG"],
-  "mysql":                 ["#4479A1", "#ffffff", "My"],
-  "mariadb":               ["#003545", "#ffffff", "MD"],
+  // Databases without SI
   "oracle database":       ["#F80000", "#ffffff", "Or"],
+  "oracle":                ["#F80000", "#ffffff", "Or"],
   "microsoft sql server":  ["#CC2927", "#ffffff", "SQL"],
   "ibm db2":               ["#1F70C1", "#ffffff", "DB2"],
-  "sqlite":                ["#003B57", "#ffffff", "SL"],
   "cockroachdb":           ["#6933FF", "#ffffff", "CR"],
+  "couchdb":               ["#E42528", "#ffffff", "Co"],
+  "amazon documentdb":     ["#FF9900", "#000000", "DDB"],
+  "firebase firestore":    ["#FFCA28", "#000000", "FS"],
+  "amazon dynamodb":       ["#FF9900", "#000000", "DDB"],
+  "amazon neptune":        ["#FF9900", "#000000", "Nep"],
+  "google bigtable":       ["#4285F4", "#ffffff", "BT"],
+  "janusgraph":            ["#6A55F2", "#ffffff", "JG"],
+  "scylladb":              ["#6CD5E7", "#000000", "Sc"],
+  "hbase":                 ["#FF0000", "#ffffff", "HB"],
+  "timescaledb":           ["#FDB515", "#000000", "TS"],
+  "opentsdb":              ["#4A90D9", "#ffffff", "OTS"],
+  "riak":                  ["#FF7D47", "#ffffff", "Ri"],
+  "apache cassandra":      ["#1287B1", "#ffffff", "Cs"],
+  "cassandra":             ["#1287B1", "#ffffff", "Cs"],
   "sql":                   ["#336791", "#ffffff", "SQL"],
   "pl/sql":                ["#F80000", "#ffffff", "PL/"],
   "t-sql":                 ["#CC2927", "#ffffff", "T-SQL"],
   "jdbc":                  ["#007396", "#ffffff", "JDB"],
   "odbc":                  ["#0078D4", "#ffffff", "ODB"],
-  "mongodb":               ["#47A248", "#ffffff", "MG"],
-  "couchdb":               ["#E42528", "#ffffff", "Co"],
-  "amazon documentdb":     ["#FF9900", "#000000", "DDB"],
-  "firebase firestore":    ["#FFCA28", "#000000", "FS"],
-  "amazon dynamodb":       ["#FF9900", "#000000", "DDB"],
-  "riak":                  ["#FF7D47", "#ffffff", "Ri"],
-  "apache cassandra":      ["#1287B1", "#ffffff", "Cs"],
-  "scylladb":              ["#6CD5E7", "#000000", "Sc"],
-  "hbase":                 ["#FF0000", "#ffffff", "HB"],
-  "google bigtable":       ["#4285F4", "#ffffff", "BT"],
-  "neo4j":                 ["#008CC1", "#ffffff", "Neo"],
-  "amazon neptune":        ["#FF9900", "#000000", "Nep"],
-  "janusgraph":            ["#6A55F2", "#ffffff", "JG"],
-  "arangodb":              ["#DDE072", "#000000", "ADB"],
-  "influxdb":              ["#22ADF6", "#000000", "IF"],
-  "timescaledb":           ["#FDB515", "#000000", "TS"],
-  "opentsdb":              ["#4A90D9", "#ffffff", "OTS"],
+  "jpa":                   ["#4A90D9", "#ffffff", "JPA"],
+  "hibernate":             ["#59666C", "#ffffff", "Hi"],
 
-  // ── Desktop ────────────────────────────────────────────────────────────────
-  ".net/wpf":              ["#512BD4", "#ffffff", "WPF"],
-  "winui":                 ["#0078D4", "#ffffff", "WUI"],
-  "windows forms":         ["#0078D4", "#ffffff", "WF"],
-  "javafx":                ["#007396", "#ffffff", "JFX"],
-  "electron":              ["#47848F", "#ffffff", "El"],
-  "qt":                    ["#41CD52", "#000000", "Qt"],
-  "gtk":                   ["#7FE719", "#000000", "GTK"],
-  "tauri":                 ["#FFC131", "#000000", "Ta"],
+  // Backend (no SI)
+  "jakarta ee":            ["#4285F4", "#ffffff", "JE"],
+  "micronaut":             ["#09AFE5", "#ffffff", "Mn"],
+  "echo":                  ["#00ADD8", "#ffffff", "Ec"],
+  "fiber":                 ["#00ADD8", "#ffffff", "Fi"],
+  "chi":                   ["#00ADD8", "#ffffff", "χ"],
+  "sinatra":               ["#1C1C1C", "#ffffff", "Si"],
+  "tornado":               ["#F97316", "#ffffff", "To"],
+  "spring cloud":          ["#6DB33F", "#ffffff", "SC"],
 
-  // ── DevOps ─────────────────────────────────────────────────────────────────
-  "docker":                ["#2496ED", "#ffffff", "Do"],
-  "podman":                ["#892CA0", "#ffffff", "Po"],
-  "containerd":            ["#575757", "#ffffff", "ct"],
-  "cri-o":                 ["#C9001F", "#ffffff", "CRI"],
-  "kubernetes":            ["#326CE5", "#ffffff", "K8s"],
-  "openshift":             ["#EE0000", "#ffffff", "OS"],
-  "amazon eks":            ["#FF9900", "#000000", "EKS"],
-  "azure aks":             ["#0078D4", "#ffffff", "AKS"],
-  "google gke":            ["#4285F4", "#ffffff", "GKE"],
-  "jenkins":               ["#D24939", "#ffffff", "Jk"],
-  "github actions":        ["#2088FF", "#ffffff", "GH"],
-  "gitlab ci/cd":          ["#FC6D26", "#ffffff", "GL"],
-  "circleci":              ["#343434", "#ffffff", "CC"],
-  "argo cd":               ["#EF7B4D", "#ffffff", "AC"],
-  "tekton":                ["#FD495C", "#ffffff", "Tk"],
-  "terraform":             ["#7B42BC", "#ffffff", "Tf"],
-  "opentofu":              ["#FFDA18", "#000000", "OTf"],
-  "aws cloudformation":    ["#FF9900", "#000000", "CFn"],
-  "azure bicep":           ["#5C2D91", "#ffffff", "Bi"],
-  "pulumi":                ["#8A3391", "#ffffff", "Pu"],
-  "ansible":               ["#EE0000", "#ffffff", "An"],
+  // Mobile (no SI)
+  "java":                  ["#007396", "#ffffff", "Jv"],
+  "android sdk":           ["#3DDC84", "#000000", "SDK"],
+  "jetpack compose":       ["#4285F4", "#ffffff", "JC"],
+  "swiftui":               ["#FA7343", "#ffffff", "SwUI"],
+  "objective-c":           ["#438EFF", "#ffffff", "OC"],
+  ".net maui":             ["#512BD4", "#ffffff", "MAUI"],
+  "ionic":                 ["#3880FF", "#ffffff", "Io"],
+  "kotlin multiplatform":  ["#7F52FF", "#ffffff", "KMP"],
 
-  // ── Developer Tools ────────────────────────────────────────────────────────
-  "intellij idea":         ["#000000", "#FC801D", "IJ"],
-  "visual studio":         ["#5C2D91", "#ffffff", "VS"],
-  "visual studio code":    ["#007ACC", "#ffffff", "VSC"],
-  "eclipse":               ["#2C2255", "#ffffff", "Ec"],
-  "pycharm":               ["#000000", "#22D880", "PC"],
-  "android studio":        ["#3DDC84", "#000000", "AS"],
-  "xcode":                 ["#147EFB", "#ffffff", "Xc"],
-  "cursor":                ["#000000", "#ffffff", "Cu"],
-  "github copilot":        ["#181717", "#ffffff", "Co"],
-
-  // ── Distributed Systems ────────────────────────────────────────────────────
-  "distributed databases": ["#1565C0", "#ffffff", "DDB"],
-  "distributed caching":   ["#DC382D", "#ffffff", "DC"],
-  "distributed transactions": ["#1565C0", "#ffffff", "DT"],
-  "consensus":             ["#374151", "#ffffff", "Cs"],
-  "leader election":       ["#374151", "#ffffff", "LE"],
-  "replication":           ["#374151", "#ffffff", "Rep"],
-  "sharding":              ["#374151", "#ffffff", "Sh"],
-  "partitioning":          ["#374151", "#ffffff", "Par"],
-  "cap theorem":           ["#374151", "#ffffff", "CAP"],
-  "eventual consistency":  ["#374151", "#ffffff", "EC"],
-  "fault tolerance":       ["#374151", "#ffffff", "FT"],
-  "load balancing":        ["#374151", "#ffffff", "LB"],
-  "zookeeper":             ["#E24829", "#ffffff", "ZK"],
-  "etcd":                  ["#419EDA", "#ffffff", "et"],
-  "kafka":                 ["#231F20", "#ffffff", "KF"],
-  "cassandra":             ["#1287B1", "#ffffff", "Cs"],
-  "consul":                ["#CA2171", "#ffffff", "Co"],
-
-  // ── Emerging Technologies ──────────────────────────────────────────────────
-  "quantum computing":     ["#374151", "#ffffff", "QC"],
-  "spatial computing":     ["#374151", "#ffffff", "SC"],
-  "digital twins":         ["#374151", "#ffffff", "DT"],
-  "neuromorphic computing":["#374151", "#ffffff", "NC"],
-  "confidential computing":["#374151", "#ffffff", "CC"],
-  "homomorphic encryption":["#374151", "#ffffff", "HE"],
-  "ai coding":             ["#374151", "#ffffff", "AIC"],
-  "edge ai":               ["#374151", "#ffffff", "EA"],
-  "webassembly":           ["#654FF0", "#ffffff", "WA"],
-
-  // ── Enterprise ─────────────────────────────────────────────────────────────
-  "sap":                   ["#0FAAFF", "#000000", "SAP"],
-  "salesforce":            ["#00A1E0", "#ffffff", "SF"],
-  "servicenow":            ["#62D84E", "#000000", "SN"],
-  "oracle":                ["#F80000", "#ffffff", "Or"],
-  "microsoft dynamics":    ["#0078D4", "#ffffff", "MD"],
-  "mulesoft":              ["#00A1DF", "#ffffff", "MS"],
-  "boomi":                 ["#2196F3", "#ffffff", "Bm"],
-  "ibm websphere":         ["#1F70C1", "#ffffff", "WS"],
-  "red hat":               ["#EE0000", "#ffffff", "RH"],
-  "pega":                  ["#00A2DD", "#ffffff", "Pg"],
-
-  // ── Generative AI ──────────────────────────────────────────────────────────
-  "gpt":                   ["#412991", "#ffffff", "GPT"],
-  "claude":                ["#D4702B", "#ffffff", "Cl"],
-  "gemini":                ["#4285F4", "#ffffff", "Gem"],
-  "llama":                 ["#7C3AED", "#ffffff", "Ll"],
-  "mistral":               ["#F54E42", "#ffffff", "Mi"],
-  "qwen":                  ["#7346EE", "#ffffff", "Qw"],
-  "deepseek":              ["#4A90D9", "#ffffff", "DS"],
-  "langchain":             ["#1C3C3C", "#22C55E", "LC"],
-  "haystack":              ["#1A1A1A", "#6AB187", "Hy"],
-  "dspy":                  ["#2563EB", "#ffffff", "DS"],
-  "rag":                   ["#7C3AED", "#ffffff", "RAG"],
-  "hybrid search":         ["#6366F1", "#ffffff", "HS"],
-  "semantic search":       ["#8B5CF6", "#ffffff", "Sm"],
-  "chunking":              ["#374151", "#ffffff", "Ch"],
-  "embeddings":            ["#1E40AF", "#ffffff", "Em"],
-  "reranking":             ["#6D28D9", "#ffffff", "Rr"],
-  "context engineering":   ["#0F766E", "#ffffff", "CE"],
-  "prompt engineering":    ["#7C3AED", "#ffffff", "PE"],
-  "agentic rag":           ["#4F46E5", "#ffffff", "AR"],
-  "pinecone":              ["#000000", "#00B285", "Pi"],
-  "milvus":                ["#00A1EA", "#ffffff", "Mv"],
-  "weaviate":              ["#fa0171", "#ffffff", "Wv"],
-  "qdrant":                ["#FF5722", "#ffffff", "Qd"],
-  "chroma":                ["#F97316", "#ffffff", "Ch"],
-  "pgvector":              ["#336791", "#ffffff", "pgV"],
-  "elasticsearch":         ["#005571", "#ffffff", "ES"],
-  "opensearch":            ["#005EB8", "#ffffff", "OS"],
-
-  // ── IoT & Edge ─────────────────────────────────────────────────────────────
-  "raspberry pi":          ["#A22846", "#ffffff", "RPi"],
-  "arduino":               ["#00979D", "#ffffff", "Ard"],
-  "esp32":                 ["#E7352C", "#ffffff", "E32"],
-  "nvidia jetson":         ["#76B900", "#000000", "Jts"],
-  "arm":                   ["#00979D", "#ffffff", "ARM"],
-  "mqtt":                  ["#660066", "#ffffff", "MQ"],
-  "coap":                  ["#6366F1", "#ffffff", "CoAP"],
-  "opc-ua":                ["#0032A0", "#ffffff", "OPC"],
-  "embedded c/c++":        ["#00599C", "#ffffff", "EC"],
-
-  // ── Kubernetes Ecosystem ───────────────────────────────────────────────────
-  "helm":                  ["#277A9F", "#ffffff", "He"],
-  "kustomize":             ["#326CE5", "#ffffff", "Kz"],
-  "istio":                 ["#466BB0", "#ffffff", "Is"],
-  "linkerd":               ["#2BEDA7", "#000000", "Lk"],
-  "envoy":                 ["#AC6199", "#ffffff", "En"],
-  "argo rollouts":         ["#EF7B4D", "#ffffff", "AR"],
-  "prometheus":            ["#E6522C", "#ffffff", "Pm"],
-  "fluent bit":            ["#00B6C3", "#ffffff", "FB"],
-  "opentelemetry":         ["#F5A800", "#000000", "OT"],
-  "rancher":               ["#0075A8", "#ffffff", "Rn"],
-  "fluentd":               ["#0E83C8", "#ffffff", "Fd"],
-  "loki":                  ["#F46800", "#ffffff", "Lk"],
-
-  // ── MLOps / LLMOps ────────────────────────────────────────────────────────
-  "mlflow":                ["#0194E2", "#ffffff", "ML"],
-  "kubeflow":              ["#326CE5", "#ffffff", "KF"],
-  "weights & biases":      ["#FFBE00", "#000000", "W&B"],
-  "dvc":                   ["#945DD6", "#ffffff", "DVC"],
-  "airflow":               ["#017CEE", "#ffffff", "AF"],
-  "feast":                 ["#2496ED", "#ffffff", "Fs"],
-  "bentoml":               ["#FF6C37", "#ffffff", "BML"],
-  "ray":                   ["#029CF5", "#000000", "Ray"],
-  "nvidia triton":         ["#76B900", "#000000", "NvT"],
-  "kserve":                ["#326CE5", "#ffffff", "KSv"],
+  // MLOps concepts
   "prompt management":     ["#7C3AED", "#ffffff", "PM"],
   "model evaluation":      ["#7C3AED", "#ffffff", "ME"],
   "llm observability":     ["#7C3AED", "#ffffff", "LO"],
@@ -456,46 +520,14 @@ const BRANDS: Record<string, BrandEntry> = {
   "model gateway":         ["#7C3AED", "#ffffff", "MG"],
   "model routing":         ["#7C3AED", "#ffffff", "MR"],
   "rag evaluation":        ["#7C3AED", "#ffffff", "RE"],
+  "bentoml":               ["#000000", "#ffffff", "BML"],
+  "ray":                   ["#029CF5", "#000000", "Ray"],
+  "nvidia triton":         ["#76B900", "#000000", "NvT"],
+  "kserve":                ["#326CE5", "#ffffff", "KSv"],
+  "feast":                 ["#2496ED", "#ffffff", "Fs"],
+  "kubeflow":              ["#326CE5", "#ffffff", "KF"],
 
-  // ── Messaging & Streaming ──────────────────────────────────────────────────
-  "rabbitmq":              ["#FF6600", "#ffffff", "RQ"],
-  "apache activemq":       ["#D3280C", "#ffffff", "AMQ"],
-  "amazon sqs":            ["#FF9900", "#000000", "SQS"],
-  "azure service bus":     ["#0078D4", "#ffffff", "SB"],
-  "google pub/sub":        ["#4285F4", "#ffffff", "P/S"],
-  "apache kafka":          ["#231F20", "#ffffff", "KF"],
-  "apache pulsar":         ["#198FE3", "#ffffff", "Pu"],
-  "amazon kinesis":        ["#FF9900", "#000000", "Kn"],
-  "redpanda":              ["#E84142", "#ffffff", "RP"],
-  "kafka connect":         ["#231F20", "#ffffff", "KC"],
-  "schema registry":       ["#231F20", "#ffffff", "SR"],
-  "ksqldb":                ["#231F20", "#ffffff", "KSQL"],
-
-  // ── Microservices Patterns ─────────────────────────────────────────────────
-  "service discovery":     ["#374151", "#ffffff", "SD"],
-  "circuit breaker":       ["#374151", "#ffffff", "CB"],
-  "strangler fig (micro)": ["#5D4037", "#ffffff", "SF"],
-  "bulkhead":              ["#374151", "#ffffff", "BH"],
-  "retry":                 ["#374151", "#ffffff", "RT"],
-  "rate limiting":         ["#374151", "#ffffff", "RL"],
-  "openfeign":             ["#374151", "#ffffff", "OF"],
-  "eureka":                ["#374151", "#ffffff", "Eu"],
-
-  // ── Mobile ────────────────────────────────────────────────────────────────
-  "kotlin":                ["#7F52FF", "#ffffff", "Kt"],
-  "java":                  ["#007396", "#ffffff", "Jv"],
-  "android sdk":           ["#3DDC84", "#000000", "SDK"],
-  "jetpack compose":       ["#4285F4", "#ffffff", "JC"],
-  "swift":                 ["#FA7343", "#ffffff", "Sw"],
-  "swiftui":               ["#FA7343", "#ffffff", "SwUI"],
-  "objective-c":           ["#438EFF", "#ffffff", "OC"],
-  "flutter":               ["#02569B", "#ffffff", "FL"],
-  "react native":          ["#20232A", "#61DAFB", "RN"],
-  ".net maui":             ["#512BD4", "#ffffff", "MAUI"],
-  "ionic":                 ["#3880FF", "#ffffff", "Io"],
-  "kotlin multiplatform":  ["#7F52FF", "#ffffff", "KMP"],
-
-  // ── Networking ────────────────────────────────────────────────────────────
+  // Networking concepts
   "tcp/ip":                ["#374151", "#ffffff", "TCP"],
   "http/https":            ["#374151", "#ffffff", "HTTP"],
   "dns":                   ["#374151", "#ffffff", "DNS"],
@@ -512,81 +544,16 @@ const BRANDS: Record<string, BrandEntry> = {
   "sdn":                   ["#374151", "#ffffff", "SDN"],
   "service mesh":          ["#374151", "#ffffff", "SM"],
   "haproxy":               ["#374151", "#ffffff", "HA"],
-  "cloudflare":            ["#F38020", "#ffffff", "CF"],
   "f5":                    ["#E4002B", "#ffffff", "F5"],
+  "cdn":                   ["#F38020", "#ffffff", "CDN"],
 
-  // ── Observability ─────────────────────────────────────────────────────────
-  "datadog":               ["#632CA6", "#ffffff", "DD"],
-  "new relic":             ["#008C99", "#ffffff", "NR"],
-  "logstash":              ["#005571", "#ffffff", "Ls"],
-  "jaeger":                ["#60D0E4", "#000000", "Ja"],
-  "zipkin":                ["#FF6600", "#ffffff", "Zi"],
-  "dynatrace":             ["#1496FF", "#ffffff", "Dy"],
-  "appdynamics":           ["#00A1DF", "#ffffff", "AD"],
-
-  // ── Operating Systems ─────────────────────────────────────────────────────
-  "linux":                 ["#FCC624", "#000000", "Li"],
-  "windows":               ["#0078D4", "#ffffff", "Win"],
-  "macos":                 ["#000000", "#ffffff", "Mac"],
-  "unix":                  ["#374151", "#ffffff", "Unix"],
-  "android":               ["#3DDC84", "#000000", "And"],
-  "ios":                   ["#000000", "#ffffff", "iOS"],
-  "ubuntu":                ["#E95420", "#ffffff", "Ub"],
-  "red hat enterprise linux": ["#EE0000", "#ffffff", "RHEL"],
-  "rocky linux":           ["#10B981", "#ffffff", "RL"],
-  "debian":                ["#A81D33", "#ffffff", "De"],
-  "alpine":                ["#0D597F", "#ffffff", "Al"],
-  "centos stream":         ["#262577", "#ffffff", "CS"],
-
-  // ── Programming Languages ─────────────────────────────────────────────────
-  "python":                ["#3776AB", "#ffffff", "Py"],
-  "c":                     ["#A8B9CC", "#000000", "C"],
-  "c++":                   ["#00599C", "#ffffff", "C++"],
-  "c#":                    ["#239120", "#ffffff", "C#"],
-  "go":                    ["#00ADD8", "#ffffff", "Go"],
-  "rust":                  ["#000000", "#ffffff", "Rs"],
-  "javascript":            ["#F7DF1E", "#000000", "JS"],
-  "typescript":            ["#3178C6", "#ffffff", "TS"],
-  "php":                   ["#777BB4", "#ffffff", "PHP"],
-  "ruby":                  ["#CC342D", "#ffffff", "Rb"],
-  "dart":                  ["#0175C2", "#ffffff", "Da"],
-  "r":                     ["#276DC3", "#ffffff", "R"],
-  "julia":                 ["#9558B2", "#ffffff", "Jl"],
-  "matlab":                ["#0076A8", "#ffffff", "ML"],
-  "haskell":               ["#5D4F85", "#ffffff", "Hs"],
-  "erlang":                ["#A90533", "#ffffff", "Er"],
-  "elixir":                ["#4B275F", "#ffffff", "Ex"],
-  "f#":                    ["#378BBA", "#ffffff", "F#"],
-  "clojure":               ["#5881D8", "#ffffff", "Cl"],
-  "cobol":                 ["#005CA5", "#ffffff", "CO"],
-  "fortran":               ["#734F96", "#ffffff", "Fo"],
-  "pl/i":                  ["#005CA5", "#ffffff", "PL/I"],
-  "rpg":                   ["#0066CC", "#ffffff", "RPG"],
-  "move":                  ["#4F46E5", "#ffffff", "Mv"],
-
-  // ── Robotics ──────────────────────────────────────────────────────────────
-  "ros/ros2":              ["#22314E", "#ffffff", "ROS"],
-  "nvidia isaac":          ["#76B900", "#000000", "Isa"],
-  "gazebo":                ["#374151", "#ffffff", "Gz"],
-  "slam":                  ["#374151", "#ffffff", "SLAM"],
-  "motion planning":       ["#374151", "#ffffff", "MP"],
-
-  // ── Search ────────────────────────────────────────────────────────────────
-  "apache solr":           ["#D9411E", "#ffffff", "So"],
-  "algolia":               ["#003DFF", "#ffffff", "Al"],
-  "typesense":             ["#E35E0D", "#ffffff", "Ts"],
-  "meilisearch":           ["#FF5CAA", "#ffffff", "Me"],
-
-  // ── Security ──────────────────────────────────────────────────────────────
+  // Security concepts
   "oauth 2.0":             ["#EB5424", "#ffffff", "OA"],
   "openid connect":        ["#F78C40", "#000000", "OID"],
   "saml":                  ["#B03A2E", "#ffffff", "SAML"],
   "jwt":                   ["#000000", "#fb015b", "JWT"],
   "ldap":                  ["#00439C", "#ffffff", "LDAP"],
   "active directory":      ["#0078D4", "#ffffff", "AD"],
-  "keycloak":              ["#008AAA", "#ffffff", "KC"],
-  "auth0":                 ["#EB5424", "#ffffff", "A0"],
-  "okta":                  ["#007DC1", "#ffffff", "Ok"],
   "waf":                   ["#232F3E", "#FF9900", "WAF"],
   "iam":                   ["#232F3E", "#FF9900", "IAM"],
   "zero trust":            ["#374151", "#ffffff", "ZT"],
@@ -596,69 +563,211 @@ const BRANDS: Record<string, BrandEntry> = {
   "pki":                   ["#374151", "#ffffff", "PKI"],
   "tls/ssl":               ["#374151", "#ffffff", "TLS"],
   "mtls":                  ["#374151", "#ffffff", "mTLS"],
-  "hashicorp vault":       ["#000000", "#FFCA28", "Vt"],
   "cyberark":              ["#274B7A", "#ffffff", "CA"],
-  "sonarqube":             ["#4E9BCD", "#ffffff", "SQ"],
-  "snyk":                  ["#4C4A73", "#ffffff", "Sk"],
-  "checkmarx":             ["#47A141", "#ffffff", "Cx"],
   "fortify":               ["#00ABE5", "#ffffff", "Fo"],
 
-  // ── Testing ───────────────────────────────────────────────────────────────
-  "junit":                 ["#25A162", "#ffffff", "JU"],
+  // Testing (no SI)
   "mockito":               ["#C5D928", "#000000", "Mo"],
-  "jest":                  ["#C21325", "#ffffff", "Jt"],
-  "vitest":                ["#6E9F18", "#ffffff", "Vt"],
-  "pytest":                ["#0A9EDC", "#ffffff", "Py"],
   "nunit":                 ["#239120", "#ffffff", "NU"],
   "xunit":                 ["#512BD4", "#ffffff", "xU"],
   "rest assured":          ["#374151", "#ffffff", "RA"],
   "karate":                ["#374151", "#ffffff", "Ka"],
   "soapui":                ["#F47920", "#ffffff", "SUI"],
-  "selenium":              ["#43B02A", "#ffffff", "Se"],
   "playwright":            ["#45BA4B", "#ffffff", "Pw"],
-  "cypress":               ["#17202C", "#ffffff", "Cy"],
   "webdriverio":           ["#EA5906", "#ffffff", "WIO"],
   "jmeter":                ["#D22128", "#ffffff", "JM"],
-  "gatling":               ["#FF9E2A", "#000000", "Ga"],
-  "k6":                    ["#7D64FF", "#ffffff", "k6"],
-  "locust":                ["#00BFB3", "#000000", "Lo"],
   "owasp zap":             ["#00549E", "#ffffff", "ZAP"],
   "burp suite":            ["#F47421", "#ffffff", "BS"],
 
-  // ── Version Control ────────────────────────────────────────────────────────
-  "git":                   ["#F05032", "#ffffff", "Git"],
-  "github":                ["#181717", "#ffffff", "GH"],
-  "gitlab":                ["#FC6D26", "#ffffff", "GL"],
-  "bitbucket":             ["#0052CC", "#ffffff", "BB"],
-  "azure repos":           ["#0078D4", "#ffffff", "AR"],
+  // Version control
   "svn":                   ["#809CC9", "#ffffff", "SVN"],
   "perforce":              ["#F26724", "#ffffff", "P4"],
+  "azure repos":           ["#0078D4", "#ffffff", "AR"],
 
-  // ── Web Technologies ───────────────────────────────────────────────────────
-  "html":                  ["#E34F26", "#ffffff", "H5"],
-  "css":                   ["#1572B6", "#ffffff", "CSS"],
-  "web components":        ["#29ABE2", "#ffffff", "WC"],
-  "ajax":                  ["#374151", "#ffffff", "AJAX"],
-  "json":                  ["#000000", "#ffffff", "JSON"],
-  "xml":                   ["#F80000", "#ffffff", "XML"],
-  "angular":               ["#DD0031", "#ffffff", "Ng"],
-  "vue.js":                ["#42B883", "#000000", "Vue"],
-  "svelte":                ["#FF3E00", "#ffffff", "Sv"],
-  "next.js":               ["#000000", "#ffffff", "Nxt"],
-  "nuxt":                  ["#00C58E", "#000000", "Nx"],
-  "astro":                 ["#FF5D01", "#ffffff", "As"],
-  "remix":                 ["#000000", "#ffffff", "Rmx"],
-  "lit":                   ["#324FFF", "#ffffff", "Lit"],
-  "solidjs":               ["#2C4F7C", "#ffffff", "So"],
-  "bootstrap":             ["#7952B3", "#ffffff", "BS"],
-  "tailwind css":          ["#06B6D4", "#000000", "TW"],
-  "material ui":           ["#0081CB", "#ffffff", "MUI"],
-  "ant design":            ["#0170FE", "#ffffff", "AntD"],
-  "sass":                  ["#CC6699", "#ffffff", "Sass"],
-  "less":                  ["#1D365D", "#ffffff", "Less"],
-  "chakra ui":             ["#319795", "#ffffff", "Cha"],
+  // OS
+  "macos":                 ["#000000", "#ffffff", "Mac"],
+  "windows":               ["#0078D4", "#ffffff", "Win"],
+  "unix":                  ["#374151", "#ffffff", "Unix"],
+  "ios":                   ["#000000", "#ffffff", "iOS"],
+  "android":               ["#3DDC84", "#000000", "And"],
+  "rocky linux":           ["#10B981", "#ffffff", "RL"],
+  "centos stream":         ["#262577", "#ffffff", "CS"],
+
+  // CMS
+  "adobe experience manager": ["#FF0000", "#ffffff", "AEM"],
+  "sitecore":              ["#EB3C00", "#ffffff", "SC"],
+  "optimizely":            ["#003DFF", "#ffffff", "Op"],
+  "edge delivery services":["#374151", "#ffffff", "EDS"],
+  "headless cms":          ["#374151", "#ffffff", "HCMS"],
+  "jamstack":              ["#F0047F", "#ffffff", "JAM"],
+
+  // Enterprise
+  "servicenow":            ["#62D84E", "#000000", "SN"],
+  "microsoft dynamics":    ["#0078D4", "#ffffff", "MD"],
+  "mulesoft":              ["#00A1DF", "#ffffff", "MS"],
+  "boomi":                 ["#2196F3", "#ffffff", "Bm"],
+  "ibm websphere":         ["#1F70C1", "#ffffff", "WS"],
+  "pega":                  ["#00A2DD", "#ffffff", "Pg"],
+  "salesforce":            ["#00A1E0", "#ffffff", "SF"],
+
+  // BI
+  "power bi":              ["#F2C811", "#000000", "PBI"],
+  "tableau":               ["#E97627", "#ffffff", "Ta"],
+  "looker":                ["#4285F4", "#ffffff", "Lo"],
+  "qlik":                  ["#009845", "#ffffff", "Qk"],
+  "apache superset":       ["#20A7C9", "#ffffff", "AS"],
+
+  // Blockchain
+  "smart contracts":       ["#F7931A", "#ffffff", "SC"],
+  "nfts":                  ["#9945FF", "#ffffff", "NFT"],
+  "defi":                  ["#06B6D4", "#ffffff", "DeFi"],
+  "web3":                  ["#F6851B", "#ffffff", "W3"],
+  "wallets":               ["#374151", "#ffffff", "Wl"],
+  "distributed ledger":    ["#374151", "#ffffff", "DL"],
+  "hyperledger":           ["#2F3134", "#ffffff", "HL"],
+  "move":                  ["#4F46E5", "#ffffff", "Mv"],
+
+  // Build
+  "make":                  ["#374151", "#ffffff", "Mk"],
+  "cmake":                 ["#064F8C", "#ffffff", "CM"],
+  "conan":                 ["#6699CB", "#ffffff", "Co"],
+  "vcpkg":                 ["#0078D4", "#ffffff", "VP"],
+  "pip":                   ["#3775A9", "#ffffff", "pip"],
+  "poetry":                ["#60A5FA", "#000000", "Po"],
+  "uv":                    ["#DE5FE9", "#ffffff", "uv"],
+  "conda":                 ["#44A833", "#ffffff", "Cn"],
+  "nuget":                 ["#004880", "#ffffff", "NuG"],
+
+  // Caching
+  "memcached":             ["#6CB4E4", "#ffffff", "Mc"],
+  "hazelcast":             ["#FF6600", "#ffffff", "Hz"],
+  "ehcache":               ["#0033A0", "#ffffff", "EhC"],
+  "caffeine":              ["#6DB33F", "#ffffff", "Caf"],
+  "varnish":               ["#1A1A1A", "#ffffff", "Va"],
+
+  // Data engineering
+  "dbt":                   ["#FF694A", "#ffffff", "dbt"],
+  "aws glue":              ["#FF9900", "#000000", "Gl"],
+  "azure data factory":    ["#0078D4", "#ffffff", "ADF"],
+  "google dataflow":       ["#4285F4", "#ffffff", "DF"],
+  "hive":                  ["#FDEE21", "#000000", "Hv"],
+  "presto":                ["#5890FF", "#ffffff", "Pr"],
+  "trino":                 ["#DD00A1", "#ffffff", "Tr"],
+  "pyspark":               ["#E25A1C", "#ffffff", "PyS"],
+  "spark sql":             ["#E25A1C", "#ffffff", "SQL"],
+  "kafka streams":         ["#231F20", "#ffffff", "KS"],
+  "polars":                ["#CD792C", "#ffffff", "Pl"],
+
+  // Data platforms
+  "google bigquery":       ["#4285F4", "#ffffff", "BQ"],
+  "amazon redshift":       ["#FF9900", "#000000", "RS"],
+  "azure synapse":         ["#0078D4", "#ffffff", "Sy"],
+  "teradata":              ["#F37440", "#ffffff", "TD"],
+  "databricks sql":        ["#FF3621", "#ffffff", "DBS"],
+  "delta lake":            ["#003087", "#ffffff", "DL"],
+  "apache iceberg":        ["#005F73", "#ffffff", "Ice"],
+  "apache hudi":           ["#00B4D8", "#ffffff", "Hu"],
+  "amazon s3":             ["#FF9900", "#000000", "S3"],
+  "azure data lake storage": ["#0078D4", "#ffffff", "ADLS"],
+  "google cloud storage":  ["#4285F4", "#ffffff", "GCS"],
+
+  // Desktop
+  ".net/wpf":              ["#512BD4", "#ffffff", "WPF"],
+  "winui":                 ["#0078D4", "#ffffff", "WUI"],
+  "windows forms":         ["#0078D4", "#ffffff", "WF"],
+  "javafx":                ["#007396", "#ffffff", "JFX"],
+  "qt":                    ["#41CD52", "#000000", "Qt"],
+  "gtk":                   ["#7FE719", "#000000", "GTK"],
+  "tauri":                 ["#FFC131", "#000000", "Ta"],
+
+  // Emerging tech
+  "quantum computing":     ["#374151", "#ffffff", "QC"],
+  "spatial computing":     ["#374151", "#ffffff", "SC"],
+  "digital twins":         ["#374151", "#ffffff", "DT"],
+  "neuromorphic computing":["#374151", "#ffffff", "NC"],
+  "confidential computing":["#374151", "#ffffff", "CC"],
+  "homomorphic encryption":["#374151", "#ffffff", "HE"],
+  "ai coding":             ["#374151", "#ffffff", "AIC"],
+  "edge ai":               ["#374151", "#ffffff", "EA"],
+  "edge computing":        ["#374151", "#ffffff", "Edge"],
+  "webassembly":           ["#654FF0", "#ffffff", "WA"],
+
+  // IoT
+  "esp32":                 ["#E7352C", "#ffffff", "E32"],
+  "nvidia jetson":         ["#76B900", "#000000", "Jts"],
+  "arm":                   ["#00979D", "#ffffff", "ARM"],
+  "coap":                  ["#6366F1", "#ffffff", "CoAP"],
+  "opc-ua":                ["#0032A0", "#ffffff", "OPC"],
+  "embedded c/c++":        ["#00599C", "#ffffff", "EC"],
+
+  // Microservices patterns
+  "service discovery":     ["#374151", "#ffffff", "SD"],
+  "circuit breaker":       ["#374151", "#ffffff", "CB"],
+  "bulkhead":              ["#374151", "#ffffff", "BH"],
+  "retry":                 ["#374151", "#ffffff", "RT"],
+  "rate limiting":         ["#374151", "#ffffff", "RL"],
+  "openfeign":             ["#374151", "#ffffff", "OF"],
+  "eureka":                ["#374151", "#ffffff", "Eu"],
+
+  // Kubernetes ecosystem
+  "kustomize":             ["#326CE5", "#ffffff", "Kz"],
+  "argo cd":               ["#EF7B4D", "#ffffff", "AC"],
+  "argo rollouts":         ["#EF7B4D", "#ffffff", "AR"],
+  "fluent bit":            ["#00B6C3", "#ffffff", "FB"],
+  "rancher":               ["#0075A8", "#ffffff", "Rn"],
+  "envoy":                 ["#AC6199", "#ffffff", "En"],
+  "openshift":             ["#EE0000", "#ffffff", "OS"],
+
+  // Robotics
+  "ros/ros2":              ["#22314E", "#ffffff", "ROS"],
+  "nvidia isaac":          ["#76B900", "#000000", "Isa"],
+  "gazebo":                ["#374151", "#ffffff", "Gz"],
+  "slam":                  ["#374151", "#ffffff", "SLAM"],
+  "motion planning":       ["#374151", "#ffffff", "MP"],
+
+  // Programming languages (no SI)
+  "c":                     ["#A8B9CC", "#000000", "C"],
+  "c++":                   ["#00599C", "#ffffff", "C++"],
+  "c#":                    ["#239120", "#ffffff", "C#"],
+  "f#":                    ["#378BBA", "#ffffff", "F#"],
+  "clojure":               ["#5881D8", "#ffffff", "Cl"],
+  "erlang":                ["#A90533", "#ffffff", "Er"],
+  "julia":                 ["#9558B2", "#ffffff", "Jl"],
+  "matlab":                ["#0076A8", "#ffffff", "ML"],
+  "r":                     ["#276DC3", "#ffffff", "R"],
+  "cobol":                 ["#005CA5", "#ffffff", "CO"],
+  "fortran":               ["#734F96", "#ffffff", "Fo"],
+  "pl/i":                  ["#005CA5", "#ffffff", "PL/I"],
+  "rpg":                   ["#0066CC", "#ffffff", "RPG"],
+
+  // Messaging
+  "amazon sqs":            ["#FF9900", "#000000", "SQS"],
+  "azure service bus":     ["#0078D4", "#ffffff", "SB"],
+  "google pub/sub":        ["#4285F4", "#ffffff", "P/S"],
+  "amazon kinesis":        ["#FF9900", "#000000", "Kn"],
+  "redpanda":              ["#E84142", "#ffffff", "RP"],
+  "kafka connect":         ["#231F20", "#ffffff", "KC"],
+  "schema registry":       ["#231F20", "#ffffff", "SR"],
+  "ksqldb":                ["#231F20", "#ffffff", "KSQL"],
+  "apache activemq":       ["#D3280C", "#ffffff", "AMQ"],
+
+  // Observability
+  "loki":                  ["#F46800", "#ffffff", "Lk"],
+  "zipkin":                ["#FF6600", "#ffffff", "Zi"],
+  "appdynamics":           ["#00A1DF", "#ffffff", "AD"],
+  "new relic (apm)":       ["#008C99", "#ffffff", "NR"],
+
+  // Search
+  "apache solr":           ["#D9411E", "#ffffff", "So"],
+  "algolia":               ["#003DFF", "#ffffff", "Al"],
+  "typesense":             ["#E35E0D", "#ffffff", "Ts"],
+  "meilisearch":           ["#FF5CAA", "#ffffff", "Me"],
+
+  // Misc
+  "partitioning":          ["#374151", "#ffffff", "Par"],
 };
 
+// ── Component ─────────────────────────────────────────────────────────────────
 interface TechItemIconProps {
   name: string;
   size?: number;
@@ -668,41 +777,59 @@ interface TechItemIconProps {
 
 export function TechItemIcon({ name, size = 32, className, style }: TechItemIconProps) {
   const key = name.toLowerCase();
-  const brand = BRANDS[key];
+  const radius = Math.max(4, Math.round(size * 0.22));
+  const iconSize = Math.round(size * 0.58);
 
-  const bg  = brand ? brand[0] : "#374151";
-  const fg  = brand ? brand[1] : "#ffffff";
-  const raw = brand ? brand[2] : name.charAt(0).toUpperCase();
+  // Try Simple Icons first (actual brand logo)
+  const siIcon = SI_MAP[key];
+  if (siIcon) {
+    const bg = `#${siIcon.hex}`;
+    const iconColor = fg(siIcon.hex);
+    return (
+      <div
+        className={className}
+        style={{ width: size, height: size, backgroundColor: bg, borderRadius: radius, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, ...style }}
+      >
+        <svg
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+          fill={iconColor}
+          style={{ width: iconSize, height: iconSize }}
+          aria-label={name}
+        >
+          <path d={siIcon.path} />
+        </svg>
+      </div>
+    );
+  }
+
+  // Text badge fallback
+  const badge = BADGE_MAP[key];
+  const bg  = badge ? badge[0] : "#374151";
+  const fgColor = badge ? badge[1] : "#ffffff";
+  const label = badge ? badge[2] : name.charAt(0).toUpperCase();
 
   const fontSize =
-    raw.length <= 2 ? Math.round(size * 0.38) :
-    raw.length === 3 ? Math.round(size * 0.3) :
-    raw.length === 4 ? Math.round(size * 0.24) :
+    label.length <= 2 ? Math.round(size * 0.38) :
+    label.length === 3 ? Math.round(size * 0.3) :
+    label.length === 4 ? Math.round(size * 0.24) :
     Math.round(size * 0.19);
 
   return (
     <div
       className={className}
       style={{
-        width: size,
-        height: size,
-        backgroundColor: bg,
-        borderRadius: Math.max(4, Math.round(size * 0.22)),
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
+        width: size, height: size, backgroundColor: bg, borderRadius: radius,
+        display: "flex", alignItems: "center", justifyContent: "center",
         flexShrink: 0,
         fontFamily: "system-ui, -apple-system, 'Segoe UI', sans-serif",
-        fontWeight: 800,
-        color: fg,
-        fontSize,
-        letterSpacing: raw.length >= 3 ? "-0.04em" : "0",
-        lineHeight: "1",
-        userSelect: "none",
+        fontWeight: 800, color: fgColor, fontSize,
+        letterSpacing: label.length >= 3 ? "-0.04em" : "0",
+        lineHeight: "1", userSelect: "none",
         ...style,
       }}
     >
-      {raw}
+      {label}
     </div>
   );
 }
