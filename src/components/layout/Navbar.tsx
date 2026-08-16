@@ -30,8 +30,9 @@ export default function Navbar() {
             <NavAuthButton />
           </div>
 
-          {/* Mobile: hamburger takes auth slot */}
-          <div className="sm:hidden ml-auto">
+          {/* Mobile: auth button + hamburger */}
+          <div className="sm:hidden ml-auto flex items-center gap-2">
+            <NavAuthButton />
             <MobileMenu />
           </div>
 

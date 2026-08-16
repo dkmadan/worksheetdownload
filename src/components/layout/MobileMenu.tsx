@@ -2,8 +2,10 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useSession, signOut } from "next-auth/react";
 import { GRADES_CURRICULUM, SUBJECTS_META } from "@/lib/curriculum";
 import NavSearch from "@/components/layout/NavSearch";
+import AuthModal from "@/components/auth/AuthModal";
 
 const MOBILE_SUBJECTS = [
   "mathematics",
@@ -21,6 +23,8 @@ export default function MobileMenu() {
   const [open, setOpen] = useState(false);
   const [gradesOpen, setGradesOpen] = useState(false);
   const [subjectsOpen, setSubjectsOpen] = useState(false);
+  const [showAuth, setShowAuth] = useState(false);
+  const { data: session } = useSession();
 
   const close = () => setOpen(false);
 
@@ -195,8 +199,48 @@ export default function MobileMenu() {
               </Link>
             </div>
 
+            {/* Auth section */}
+            <div className="px-5 py-4 border-t border-gray-100 bg-gray-50">
+              {session?.user ? (
+                <div className="flex items-center justify-between gap-3">
+                  <div className="flex items-center gap-2.5 min-w-0">
+                    <div className="w-8 h-8 rounded-full bg-indigo-600 flex items-center justify-center text-white text-sm font-bold flex-shrink-0">
+                      {(session.user.name?.[0] ?? session.user.email?.[0] ?? "U").toUpperCase()}
+                    </div>
+                    <div className="min-w-0">
+                      <div className="text-sm font-semibold text-gray-800 truncate">
+                        {session.user.name || session.user.email}
+                      </div>
+                      <div className="text-xs text-gray-400">Signed in</div>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => { signOut(); close(); }}
+                    className="text-sm font-semibold text-gray-500 hover:text-gray-700 border border-gray-200 px-4 py-2 rounded-full transition-colors flex-shrink-0"
+                  >
+                    Sign out
+                  </button>
+                </div>
+              ) : (
+                <button
+                  onClick={() => setShowAuth(true)}
+                  className="w-full text-center bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold px-4 py-3 rounded-full transition-colors"
+                >
+                  Login / Sign up
+                </button>
+              )}
+            </div>
+
           </nav>
         </div>
+      )}
+
+      {showAuth && (
+        <AuthModal
+          onClose={() => setShowAuth(false)}
+          onSuccess={() => { setShowAuth(false); close(); }}
+          message="Sign in for unlimited free worksheet downloads."
+        />
       )}
     </>
   );
