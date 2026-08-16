@@ -20,6 +20,29 @@ interface SearchResult {
   emoji: string;
 }
 
+// ── Synonym map — common shorthands → canonical terms ────────────────────────
+
+const SYNONYMS: Record<string, string> = {
+  maths:     "mathematics",
+  math:      "mathematics",
+  sci:       "science",
+  eng:       "english",
+  sst:       "social studies",
+  social:    "social studies",
+  gk:        "general knowledge",
+  "gen knowledge": "general knowledge",
+  "gen awareness": "general awareness",
+  logic:     "logic thinking",
+  shapes:    "shapes visual",
+  coloring:  "coloring creative",
+  colouring: "coloring creative",
+  emotional: "social emotional",
+  kg:        "kindergarten",
+  kinder:    "kindergarten",
+  reasoning: "reasoning",
+  evs:       "evs",
+};
+
 // ── Static search index (built once) ─────────────────────────────────────────
 
 function buildIndex(): SearchResult[] {
@@ -43,8 +66,35 @@ function buildIndex(): SearchResult[] {
     }
   }
 
-  // Curriculum topic pages
   const gradeMap = Object.fromEntries(GRADES_CURRICULUM.map((g) => [g.id, g]));
+
+  // Grade-level pages (e.g. searching "grade 5" or "kindergarten")
+  for (const grade of GRADES_CURRICULUM) {
+    out.push({
+      type: "topic",
+      label: grade.label,
+      subtitle: `${grade.ageRange} · All subjects`,
+      href: `/grades/${grade.id}`,
+      emoji: grade.emoji,
+    });
+  }
+
+  // Grade + subject pages (e.g. searching "mathematics" or "evs grade 3")
+  for (const [gradeId, subjects] of Object.entries(CURRICULUM)) {
+    const grade = gradeMap[gradeId];
+    for (const [subjectId, topics] of Object.entries(subjects)) {
+      const subject = SUBJECTS_META[subjectId];
+      out.push({
+        type: "topic",
+        label: subject?.label ?? subjectId,
+        subtitle: `${grade?.label ?? gradeId} · ${topics.length} topics`,
+        href: `/grades/${gradeId}/${subjectId}`,
+        emoji: subject?.emoji ?? "📚",
+      });
+    }
+  }
+
+  // Individual curriculum topic pages
   for (const [gradeId, subjects] of Object.entries(CURRICULUM)) {
     const grade = gradeMap[gradeId];
     for (const [subjectId, topics] of Object.entries(subjects)) {
@@ -80,31 +130,43 @@ function buildIndex(): SearchResult[] {
 const INDEX = buildIndex(); // singleton — computed once per page load
 
 function runSearch(query: string): SearchResult[] {
-  const q = query.toLowerCase().trim();
-  if (q.length < 2) return [];
+  const raw = query.toLowerCase().trim();
+  if (raw.length < 2) return [];
+
+  // Expand shorthand synonyms to canonical term; keep both so "maths" also
+  // matches tech items that literally contain "maths".
+  const canonical = SYNONYMS[raw];
+  const terms = canonical ? [canonical, raw] : [raw];
 
   const exact: SearchResult[] = [];
   const starts: SearchResult[] = [];
   const contains: SearchResult[] = [];
 
   for (const r of INDEX) {
-    const l = r.label.toLowerCase();
-    if (l === q) exact.push(r);
-    else if (l.startsWith(q)) starts.push(r);
-    else if (l.includes(q)) contains.push(r);
+    const label = r.label.toLowerCase();
+    // Search the full "label subtitle" string so subject/grade names are matched
+    const searchable = label + " " + r.subtitle.toLowerCase();
+
+    if (terms.some((t) => label === t)) {
+      exact.push(r);
+    } else if (terms.some((t) => label.startsWith(t) || searchable.startsWith(t))) {
+      starts.push(r);
+    } else if (terms.some((t) => searchable.includes(t))) {
+      contains.push(r);
+    }
   }
 
-  // Cap: 4 tech + 4 topics + 2 worksheets, then fill rest from overflow
+  // Cap: tech results + topic/curriculum results + legacy worksheets
   const pick = (arr: SearchResult[], type: ResultType, max: number) =>
     arr.filter((r) => r.type === type).slice(0, max);
 
   const merged = [
     ...exact,
     ...pick(starts, "technology", 4),
-    ...pick(starts, "topic", 4),
+    ...pick(starts, "topic", 6),
     ...pick(starts, "worksheet", 2),
     ...pick(contains, "technology", 3),
-    ...pick(contains, "topic", 3),
+    ...pick(contains, "topic", 5),
     ...pick(contains, "worksheet", 1),
   ];
 
