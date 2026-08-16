@@ -48,9 +48,9 @@ export default function HomePage() {
   return (
     <>
       <HeroSection />
-      <TechSection />
-      <SubjectSection subjects={subjects} />
       <GradeSection grades={GRADES_CURRICULUM} />
+      <SubjectSection subjects={subjects} />
+      <TechSection />
       <CtaSection />
     </>
   );
