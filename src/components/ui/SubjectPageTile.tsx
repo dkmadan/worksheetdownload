@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getSubjectIcon } from "@/components/icons/SubjectIcons";
+import { SubjectKid } from "@/components/icons/SubjectKidAvatars";
 import { getGradesForSubject, getAllTopicsForSubject } from "@/lib/curriculum";
 import type { SubjectDef } from "@/lib/curriculum";
 
@@ -20,10 +20,12 @@ export default function SubjectPageTile({ subject }: { subject: SubjectDef }) {
       className="group rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-200 hover:-translate-y-1 bg-white flex flex-col"
     >
       {/* Gradient header */}
-      <div className={`bg-gradient-to-br ${subject.headerGradient} h-28 flex items-center justify-center relative`}>
-        <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center shadow-md">
-          {getSubjectIcon(subject.id, "w-10 h-10")}
-        </div>
+      <div className={`bg-gradient-to-br ${subject.headerGradient} h-28 flex items-center justify-center relative overflow-hidden`}>
+        <SubjectKid
+          subjectId={subject.id}
+          style={{ width: 88, height: 88, filter: "drop-shadow(0 4px 12px rgba(0,0,0,0.25))" }}
+          className="group-hover:scale-105 transition-transform duration-200"
+        />
         <div className="absolute top-3 right-3 bg-black/20 backdrop-blur-sm rounded-full px-2.5 py-0.5 text-white text-xs font-semibold">
           {totalTopics} topics
         </div>
