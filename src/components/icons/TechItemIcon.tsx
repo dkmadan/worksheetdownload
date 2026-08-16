@@ -1,4 +1,5 @@
 import React from "react";
+import * as Custom from "./apiTechIcons";
 import {
   siPostman, siGraphql, siReact, siNodedotjs, siPython, siDocker, siKubernetes,
   siPostgresql, siMysql, siMongodb, siRedis, siGit, siGithub, siGitlab,
@@ -45,6 +46,29 @@ function fg(hex: string): string {
   const lum = 0.2126 * lin(r) + 0.7152 * lin(g) + 0.0722 * lin(b);
   return lum > 0.35 ? "#000000" : "#ffffff";
 }
+
+// ── Custom illustrated SVG icons (highest priority) ───────────────────────────
+const CUSTOM_MAP: Record<string, React.FC<{ size: number }>> = {
+  "rest":                  Custom.RestIcon,
+  "soap":                  Custom.SoapIcon,
+  "graphql":               Custom.GraphqlIcon,
+  "grpc":                  Custom.GrpcIcon,
+  "websocket":             Custom.WebSocketIcon,
+  "server-sent events":    Custom.SseIcon,
+  "webhooks":              Custom.WebhooksIcon,
+  "postman":               Custom.PostmanIcon,
+  "swagger/openapi":       Custom.SwaggerIcon,
+  "oauth 2.0":             Custom.OAuthIcon,
+  "jwt":                   Custom.JwtIcon,
+  "api gateway":           Custom.ApiGatewayIcon,
+  "rate limiting":         Custom.RateLimitingIcon,
+  "apache kafka":          Custom.KafkaIcon,
+  "kafka":                 Custom.KafkaIcon,
+  "json-rpc":              Custom.JsonRpcIcon,
+  "api caching":           Custom.ApiCachingIcon,
+  "microservices mesh":    Custom.MicroservicesMeshIcon,
+  "api mocking":           Custom.ApiMockingIcon,
+};
 
 // ── Simple Icons map: lowercase tech name → SI icon ───────────────────────────
 type SI = { path: string; hex: string };
@@ -780,7 +804,17 @@ export function TechItemIcon({ name, size = 32, className, style }: TechItemIcon
   const radius = Math.max(4, Math.round(size * 0.22));
   const iconSize = Math.round(size * 0.58);
 
-  // Try Simple Icons first (actual brand logo)
+  // Check custom illustrated SVGs first (highest priority)
+  const CustomIcon = CUSTOM_MAP[key];
+  if (CustomIcon) {
+    return (
+      <div className={className} style={{ flexShrink: 0, lineHeight: 0, ...style }}>
+        <CustomIcon size={size} />
+      </div>
+    );
+  }
+
+  // Try Simple Icons (actual brand logo)
   const siIcon = SI_MAP[key];
   if (siIcon) {
     const bg = `#${siIcon.hex}`;
