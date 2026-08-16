@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { TECH_DATA } from "@/lib/technologies";
 import { FEATURED_MESH, getMeshForIndex } from "@/lib/patterns";
+import { TechAvatar } from "@/components/icons/TechAvatars";
 
 const FEATURED_SLUGS = [
   "backend-technologies",
@@ -83,9 +84,18 @@ export default function TechSection() {
                 {/* Subtle top-edge light reflection on hover */}
                 <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
+                {/* Avatar — right side decorative */}
+                <div className="absolute bottom-0 right-0 pointer-events-none opacity-90" style={{ width: 76, height: 76 }}>
+                  <TechAvatar
+                    slug={cat.slug}
+                    style={{ width: "100%", height: "100%", filter: "drop-shadow(0 4px 16px rgba(0,0,0,0.5))" }}
+                    className="group-hover:scale-105 transition-transform duration-200"
+                  />
+                </div>
+
                 {/* Content */}
-                <span className="relative text-3xl leading-none drop-shadow-sm">{cat.icon}</span>
-                <div className="relative mt-auto">
+                <span className="relative z-10 text-3xl leading-none drop-shadow-sm">{cat.icon}</span>
+                <div className="relative z-10 mt-auto pr-16">
                   <h3 className="font-bold text-white text-sm leading-snug drop-shadow-sm">
                     {cat.label}
                   </h3>
