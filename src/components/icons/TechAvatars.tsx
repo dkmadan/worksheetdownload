@@ -220,12 +220,12 @@ export function UiUxAvatar({ className, style }: AvatarProps) {
 const TECH_AVATAR_MAP: Record<string, (p: AvatarProps) => React.ReactElement> = {
   "backend-technologies": BackendAvatar,
   "ai-ml":                PythonAiAvatar,
-  "ai-agents":            FrontendAvatar,
+  "web-technologies":     FrontendAvatar,
   "cloud":                CloudAvatar,
-  "api-technologies":     MobileAvatar,
-  "architecture":         SecurityAvatar,
-  "caching":              DatabaseAvatar,
-  "bi-visualization":     UiUxAvatar,
+  "mobile":               MobileAvatar,
+  "security":             SecurityAvatar,
+  "databases":            DatabaseAvatar,
+  "content-management":   UiUxAvatar,
 };
 
 export function TechAvatar({ slug, ...rest }: { slug: string } & AvatarProps) {

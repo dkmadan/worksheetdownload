@@ -6,12 +6,12 @@ import { TechAvatar } from "@/components/icons/TechAvatars";
 const FEATURED_SLUGS = [
   "backend-technologies",
   "ai-ml",
-  "ai-agents",
+  "web-technologies",
   "cloud",
-  "api-technologies",
-  "architecture",
-  "caching",
-  "bi-visualization",
+  "mobile",
+  "security",
+  "databases",
+  "content-management",
 ];
 
 export default function TechSection() {
