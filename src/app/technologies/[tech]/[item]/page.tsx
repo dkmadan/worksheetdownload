@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { TECH_DATA, findCategory, findTechItem } from "@/lib/technologies";
+import { TechItemIcon } from "@/components/icons/TechItemIcon";
 
 export function generateStaticParams() {
   const params: { tech: string; item: string }[] = [];
@@ -174,8 +175,8 @@ export default async function TechItemPage({
           </nav>
 
           <div className="flex items-start gap-5">
-            <div className="w-16 h-16 bg-white/15 backdrop-blur-sm rounded-2xl flex items-center justify-center flex-shrink-0">
-              <span className="text-3xl">{cat.icon}</span>
+            <div className="flex-shrink-0">
+              <TechItemIcon name={techItem.name} size={64} style={{ borderRadius: 16, boxShadow: "0 4px 16px rgba(0,0,0,0.3)" }} />
             </div>
             <div>
               <div className="flex flex-wrap items-center gap-2 mb-2">

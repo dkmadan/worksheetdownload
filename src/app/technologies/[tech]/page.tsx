@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { TECH_DATA, findCategory } from "@/lib/technologies";
+import { TechItemIcon } from "@/components/icons/TechItemIcon";
 
 export function generateStaticParams() {
   return TECH_DATA.map((cat) => ({ tech: cat.slug }));
@@ -91,9 +92,7 @@ export default async function TechCategoryPage({
                   href={`/technologies/${cat.slug}/${item.slug}`}
                   className="group bg-gray-800/60 hover:bg-gray-800 border border-gray-700/50 hover:border-gray-600 rounded-xl p-3.5 flex flex-col gap-2 transition-all duration-150 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-black/20"
                 >
-                  <div className={`w-8 h-8 rounded-lg bg-gradient-to-br ${cat.color} flex items-center justify-center flex-shrink-0`}>
-                    <span className="text-white text-sm font-bold">{item.name.charAt(0)}</span>
-                  </div>
+                  <TechItemIcon name={item.name} size={32} />
                   <p className="text-sm font-semibold text-gray-200 group-hover:text-white transition-colors leading-snug">
                     {item.name}
                   </p>
