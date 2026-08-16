@@ -1,6 +1,5 @@
 import Link from "next/link";
 import type { GradeDef } from "@/lib/curriculum";
-import { GradeIcon } from "@/components/icons/GradeIcons";
 import { GradeKid } from "@/components/icons/KidAvatars";
 
 // Mesh gradient patterns — organic radial blobs, rich but not neon, on near-black base
@@ -114,16 +113,14 @@ export default function GradeTile({ id, label, ageRange }: GradeDef) {
           <span className="text-white text-xs font-black tracking-tight">{gradeNum}</span>
         </div>
 
-        {/* Icon in white card — left-centre */}
-        <div className="w-20 h-20 bg-white rounded-2xl flex items-center justify-center shadow-xl group-hover:scale-105 transition-transform duration-200 relative z-10 -translate-x-10">
-          <GradeIcon gradeId={id} className="w-12 h-12" />
-        </div>
-
-        {/* Kid bust portrait — right side, flush to bottom */}
-        <div className="absolute bottom-0 right-2 z-20" style={{ width: 86, height: 86 }}>
+        {/* Kid avatar — centred, square self-contained icon */}
+        <div
+          className="relative z-10 group-hover:scale-105 transition-transform duration-200"
+          style={{ width: 128, height: 128 }}
+        >
           <GradeKid
             gradeId={id}
-            style={{ width: "100%", height: "100%", filter: "drop-shadow(0 3px 6px rgba(0,0,0,0.32))" }}
+            style={{ width: "100%", height: "100%", filter: "drop-shadow(0 6px 16px rgba(0,0,0,0.35))" }}
           />
         </div>
 
