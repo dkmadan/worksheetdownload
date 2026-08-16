@@ -1,325 +1,404 @@
 /**
- * Cartoon-style subject-specific kid avatars.
- * Large round cartoon eyes with iris+pupil+catchlight, subject props, distinct characters.
- * viewBox="0 0 100 120"  Head: cx=50 cy=46 r=30
+ * Subject-specific kid avatars — self-contained circular icon tiles.
+ * viewBox="0 0 100 100". Designs from gemini-code-1786898444045.html.
+ * 13 subjects: Math, English, EnglishLanguage, Science, EVS, GeneralAwareness,
+ *   SocialStudies, GK, Reasoning, Shapes, Coloring/Creative, Logic, SocialEmotional.
  */
+
+import React from "react";
 
 interface KidProps {
   className?: string;
   style?: React.CSSProperties;
 }
 
-const DOME = "M 20 46 C 20 16 80 16 80 46 Z";
-const DOME_L = "M 50 16 C 37 16 20 29 20 46 L 50 46 Z";
-const DOME_R = "M 50 16 C 63 16 80 29 80 46 L 50 46 Z";
-
-// ── Cartoon eye (big, with iris / pupil / catchlight) ────────────────────────
-function Eye({ cx, cy, iris = "#4A90D9", girl = false }: {
-  cx: number; cy: number; iris?: string; girl?: boolean;
-}) {
-  return (
-    <>
-      <ellipse cx={cx} cy={cy}       rx={7.5} ry={8.5} fill="white" />
-      <ellipse cx={cx} cy={cy + 0.5} rx={5}   ry={6}   fill={iris} />
-      <ellipse cx={cx} cy={cy + 0.5} rx={3.5} ry={4.5} fill="#1a1005" />
-      <ellipse cx={cx - 2.2} cy={cy - 2.5} rx={1.8} ry={2.2} fill="white" opacity={0.92} />
-      {girl && (
-        <path
-          d={`M ${cx - 7.5} ${cy - 7} Q ${cx} ${cy - 12.5} ${cx + 7.5} ${cy - 7}`}
-          stroke="#2b1200" strokeWidth={1.8} fill="none" strokeLinecap="round"
-        />
-      )}
-    </>
-  );
-}
-
-// ── Shared face drawn on top of hair ─────────────────────────────────────────
-function Face({ skin, eyeY = 44, mouthY = 59, girl = false, iris = "#4A90D9" }: {
-  skin: string; eyeY?: number; mouthY?: number; girl?: boolean; iris?: string;
-}) {
-  return (
-    <>
-      <circle cx="50" cy="46" r="30" fill={skin} />
-      <Eye cx={38} cy={eyeY} iris={iris} girl={girl} />
-      <Eye cx={62} cy={eyeY} iris={iris} girl={girl} />
-      <ellipse cx={26} cy={mouthY - 4} rx={8}   ry={5}   fill="#FF8A80" opacity={0.4} />
-      <ellipse cx={74} cy={mouthY - 4} rx={8}   ry={5}   fill="#FF8A80" opacity={0.4} />
-      <path
-        d={`M 38 ${mouthY} Q 50 ${mouthY + 9} 62 ${mouthY}`}
-        stroke="#C45050" strokeWidth={2.5} fill="none" strokeLinecap="round"
-      />
-    </>
-  );
-}
-
-function Shirt({ color, skin }: { color: string; skin: string }) {
-  return (
-    <>
-      <rect x="43" y="73" width="14" height="11" rx="4" fill={skin} />
-      <path d="M 5 84 Q 10 77 28 77 Q 50 85 72 77 Q 90 77 95 84 L 100 120 L 0 120 Z" fill={color} />
-    </>
-  );
-}
-
-// ── Mathematics — boy, dark+brown swept hair, chalkboard ─────────────────────
+// ── Mathematics — glasses, dark hair, blue shirt · blackboard + triangle ──────
 export function MathKid({ className, style }: KidProps) {
-  const skin = "#FDDAB9";
   return (
-    <svg viewBox="0 0 100 120" fill="none" xmlns="http://www.w3.org/2000/svg" className={className} style={style}>
-      <rect x="17" y="34" width="9" height="48" rx="4" fill="#212121" />
-      <rect x="74" y="34" width="9" height="48" rx="4" fill="#212121" />
-      <Shirt color="#1565C0" skin={skin} />
-      <Face skin={skin} iris="#42A5F5" />
-      <path d={DOME} fill="#212121" />
-      <path d="M 20 44 C 28 22 46 16 64 19 C 46 17 30 27 26 44 Z" fill="#5D4037" />
-      {/* Chalkboard */}
-      <rect x="65" y="55" width="27" height="20" rx="3" fill="#1B5E20" />
-      <rect x="67" y="57" width="23" height="16" rx="2" fill="#2E7D32" />
-      <text x="78.5" y="64" fontSize="5.5" fill="white" textAnchor="middle"
-        fontFamily="Arial,sans-serif" fontWeight="bold">1+2</text>
-      <text x="78.5" y="70" fontSize="5.5" fill="#A5D6A7" textAnchor="middle"
-        fontFamily="Arial,sans-serif" fontWeight="bold">=3</text>
+    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" className={className} style={style}>
+      <rect width="100" height="100" rx="28" fill="#EFF6FF"/>
+      <circle cx="50" cy="50" r="42" fill="#DBEAFE"/>
+      <ellipse cx="50" cy="45" rx="22" ry="20" fill="#451A03"/>
+      <ellipse cx="50" cy="53" rx="19" ry="18" fill="#FFDFC4"/>
+      <path d="M30 43 Q50 38 70 43 Q50 34 30 43 Z" fill="#451A03"/>
+      <circle cx="42" cy="51" r="6" fill="none" stroke="#2563EB" strokeWidth="2"/>
+      <circle cx="58" cy="51" r="6" fill="none" stroke="#2563EB" strokeWidth="2"/>
+      <line x1="48" y1="51" x2="52" y2="51" stroke="#2563EB" strokeWidth="2"/>
+      <circle cx="42" cy="51" r="2" fill="#1E293B"/>
+      <circle cx="58" cy="51" r="2" fill="#1E293B"/>
+      <path d="M45 61 Q50 65 55 61" fill="none" stroke="#1E293B" strokeWidth="2" strokeLinecap="round"/>
+      <path d="M32 71 Q50 67 68 71 L74 92 L26 92 Z" fill="#3B82F6"/>
+      {/* Blackboard */}
+      <g transform="translate(64, 42) rotate(8)">
+        <rect width="22" height="18" rx="2" fill="#064E3B" stroke="#D97706" strokeWidth="1.5"/>
+        <text x="11" y="12" fontSize="7" fontFamily="monospace" fontWeight="900" fill="#FEF08A" textAnchor="middle">1+2</text>
+      </g>
+      {/* Triangle */}
+      <g transform="translate(10, 50)">
+        <polygon points="4,18 16,18 4,4" fill="#F59E0B" stroke="#D97706" strokeWidth="1"/>
+      </g>
+      <rect x="22" y="78" width="56" height="15" rx="7.5" fill="#2563EB"/>
+      <text x="50" y="89" fontSize="8.5" fontFamily="sans-serif" fontWeight="900" fill="#FFFFFF" textAnchor="middle">MATH</text>
     </svg>
   );
 }
 
-// ── English — girl, brown pigtails, open ABC book ─────────────────────────────
+// ── English — purple hair, pink shirt · ABC reading book ──────────────────────
 export function EnglishKid({ className, style }: KidProps) {
-  const skin = "#FDDAB9";
   return (
-    <svg viewBox="0 0 100 120" fill="none" xmlns="http://www.w3.org/2000/svg" className={className} style={style}>
-      <ellipse cx="14" cy="50" rx="12" ry="20" fill="#8B5E3C" />
-      <ellipse cx="86" cy="50" rx="12" ry="20" fill="#8B5E3C" />
-      <Shirt color="#C62828" skin={skin} />
-      <Face skin={skin} girl iris="#66BB6A" />
-      <path d={DOME} fill="#8B5E3C" />
-      <line x1="50" y1="16" x2="50" y2="40" stroke="#6B4226" strokeWidth="2.5" />
-      <ellipse cx="14" cy="38" rx="8" ry="5" fill="#F06292" />
-      {/* Open book */}
-      <path d="M 36 58 L 36 78 Q 49 74 50 78 L 50 58 Q 38 54 36 58 Z" fill="#EF9A9A" />
-      <path d="M 64 58 L 64 78 Q 51 74 50 78 L 50 58 Q 62 54 64 58 Z" fill="#E53935" />
-      <line x1="50" y1="58" x2="50" y2="78" stroke="#C62828" strokeWidth="1.5" />
-      <text x="57" y="70" fontSize="6" fill="white" textAnchor="middle"
-        fontFamily="Arial,sans-serif" fontWeight="bold">ABC</text>
+    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" className={className} style={style}>
+      <rect width="100" height="100" rx="28" fill="#FDF2F8"/>
+      <circle cx="50" cy="50" r="42" fill="#FCE7F3"/>
+      <ellipse cx="50" cy="48" rx="23" ry="21" fill="#701A75"/>
+      <ellipse cx="50" cy="54" rx="19" ry="18" fill="#FCD34D"/>
+      <path d="M30 45 Q50 40 70 45 Q50 35 30 45 Z" fill="#701A75"/>
+      <circle cx="43" cy="52" r="2.5" fill="#1E293B"/>
+      <circle cx="57" cy="52" r="2.5" fill="#1E293B"/>
+      <path d="M44 59 Q50 65 56 59" fill="none" stroke="#1E293B" strokeWidth="2.2" strokeLinecap="round"/>
+      <path d="M31 72 Q50 68 69 72 L75 92 L25 92 Z" fill="#DB2777"/>
+      {/* Reading book */}
+      <g transform="translate(62, 50) rotate(12)">
+        <path d="M2 4 Q12 2 22 6 L22 22 Q12 18 2 20 Z" fill="#3B82F6"/>
+        <path d="M4 6 Q12 4 20 8 L20 20 Q12 17 4 18 Z" fill="#FFFFFF"/>
+        <text x="12" y="14" fontSize="5.5" fontFamily="sans-serif" fontWeight="900" fill="#1E293B" textAnchor="middle">ABC</text>
+      </g>
+      <rect x="22" y="78" width="56" height="15" rx="7.5" fill="#DB2777"/>
+      <text x="50" y="89" fontSize="8.5" fontFamily="sans-serif" fontWeight="900" fill="#FFFFFF" textAnchor="middle">ENGLISH</text>
     </svg>
   );
 }
 
-// ── Science — girl, brown ponytail, beaker with liquid ────────────────────────
-export function ScienceKid({ className, style }: KidProps) {
-  const skin = "#FDDAB9";
-  return (
-    <svg viewBox="0 0 100 120" fill="none" xmlns="http://www.w3.org/2000/svg" className={className} style={style}>
-      {/* Ponytail behind right side */}
-      <rect x="64" y="18" width="12" height="44" rx="6" fill="#8B5E3C" />
-      <rect x="17" y="34" width="9" height="44" rx="4" fill="#8B5E3C" />
-      <Shirt color="#0277BD" skin={skin} />
-      <Face skin={skin} girl iris="#00BCD4" />
-      <path d={DOME} fill="#8B5E3C" />
-      <ellipse cx="70" cy="27" rx="5" ry="4" fill="#E91E63" />
-      {/* Beaker */}
-      <path d="M 70 56 L 66 72 Q 66 81 76 81 Q 86 81 86 72 L 82 56 Z" fill="#B3E5FC" stroke="#0288D1" strokeWidth="1.5" />
-      <ellipse cx="76" cy="56" rx="7" ry="3" fill="#E1F5FE" stroke="#0288D1" strokeWidth="1" />
-      <path d="M 68 70 Q 68 79 76 79 Q 84 79 84 70 Z" fill="#29B6F6" opacity={0.78} />
-      <circle cx="74" cy="68" r="2"   fill="white" opacity={0.6} />
-      <circle cx="79" cy="64" r="1.5" fill="white" opacity={0.5} />
-    </svg>
-  );
-}
-
-// ── EVS / General Awareness — boy, dark hair, leaf + sun ─────────────────────
-export function EvsKid({ className, style }: KidProps) {
-  const skin = "#FDDAB9";
-  return (
-    <svg viewBox="0 0 100 120" fill="none" xmlns="http://www.w3.org/2000/svg" className={className} style={style}>
-      <rect x="17" y="38" width="8" height="14" rx="4" fill="#212121" />
-      <rect x="75" y="38" width="8" height="14" rx="4" fill="#212121" />
-      <Shirt color="#2E7D32" skin={skin} />
-      <Face skin={skin} iris="#8BC34A" />
-      <path d={DOME} fill="#212121" />
-      {/* Leaf */}
-      <path d="M 66 55 C 68 42 86 38 90 51 C 94 64 78 72 68 64 Z" fill="#4CAF50" />
-      <path d="M 66 55 C 73 57 82 58 90 51" stroke="#1B5E20" strokeWidth="1.2" fill="none" />
-      <line x1="66" y1="55" x2="82" y2="49" stroke="#1B5E20" strokeWidth="1.2" />
-      {/* Mini sun */}
-      <circle cx="80" cy="22" r="7" fill="#FDD835" />
-      {["0","45","90","135","180","225","270","315"].map((deg, i) => {
-        const r = Number(deg) * Math.PI / 180;
-        return (
-          <line key={i}
-            x1={80 + Math.cos(r) * 9}  y1={22 + Math.sin(r) * 9}
-            x2={80 + Math.cos(r) * 12} y2={22 + Math.sin(r) * 12}
-            stroke="#FDD835" strokeWidth="2" strokeLinecap="round"
-          />
-        );
-      })}
-    </svg>
-  );
-}
-
-// ── GK — girl, caramel bun hair, globe ───────────────────────────────────────
-export function GkKid({ className, style }: KidProps) {
-  const skin = "#FDDAB9";
-  return (
-    <svg viewBox="0 0 100 120" fill="none" xmlns="http://www.w3.org/2000/svg" className={className} style={style}>
-      <circle cx="50" cy="13" r="10" fill="#C8A96E" />
-      <rect x="12" y="26" width="13" height="72" rx="6" fill="#C8A96E" />
-      <rect x="75" y="26" width="13" height="72" rx="6" fill="#C8A96E" />
-      <Shirt color="#6A1B9A" skin={skin} />
-      <Face skin={skin} girl iris="#AB47BC" />
-      <path d={DOME} fill="#C8A96E" />
-      {/* Globe */}
-      <circle cx="77" cy="64" r="14" fill="#1565C0" />
-      <ellipse cx="77" cy="64" rx="5"  ry="14" fill="none" stroke="#64B5F6" strokeWidth="1" />
-      <ellipse cx="77" cy="59" rx="14" ry="5"  fill="none" stroke="#64B5F6" strokeWidth="0.8" />
-      <line x1="63" y1="64" x2="91" y2="64" stroke="#64B5F6" strokeWidth="1" />
-      <circle cx="77" cy="64" r="14" fill="none" stroke="#0D47A1" strokeWidth="1.5" />
-    </svg>
-  );
-}
-
-// ── Reasoning — boy, dark hair with fringe, glowing lightbulb ────────────────
-export function ReasoningKid({ className, style }: KidProps) {
-  const skin = "#FDDAB9";
-  return (
-    <svg viewBox="0 0 100 120" fill="none" xmlns="http://www.w3.org/2000/svg" className={className} style={style}>
-      <rect x="17" y="38" width="8" height="14" rx="4" fill="#1a1a1a" />
-      <rect x="75" y="38" width="8" height="14" rx="4" fill="#1a1a1a" />
-      <Shirt color="#E65100" skin={skin} />
-      <Face skin={skin} iris="#FF8F00" />
-      <path d={DOME} fill="#1a1a1a" />
-      <path d="M 20 44 C 28 22 46 16 64 19 C 46 17 30 27 26 44 Z" fill="#5D4037" />
-      {/* Glowing bulb */}
-      <circle cx="76" cy="22" r="11" fill="#FFF176" />
-      <circle cx="76" cy="22" r="11" fill="none" stroke="#F9A825" strokeWidth="1.5" />
-      <path d="M 70 28 Q 70 34 76 34 Q 82 34 82 28" stroke="#F9A825" strokeWidth="1.5" fill="none" />
-      <rect x="73" y="33" width="6" height="4" rx="1" fill="#BDBDBD" />
-      <line x1="76" y1="10" x2="76" y2="6"  stroke="#FDD835" strokeWidth="2.5" strokeLinecap="round" />
-      <line x1="66" y1="14" x2="63" y2="11" stroke="#FDD835" strokeWidth="2"   strokeLinecap="round" />
-      <line x1="86" y1="14" x2="89" y2="11" stroke="#FDD835" strokeWidth="2"   strokeLinecap="round" />
-      <line x1="64" y1="22" x2="60" y2="22" stroke="#FDD835" strokeWidth="2"   strokeLinecap="round" />
-      <line x1="88" y1="22" x2="92" y2="22" stroke="#FDD835" strokeWidth="2"   strokeLinecap="round" />
-    </svg>
-  );
-}
-
-// ── Social Studies — girl, brown ponytail + hair tie, map scroll ──────────────
-export function SocialStudiesKid({ className, style }: KidProps) {
-  const skin = "#FDDAB9";
-  return (
-    <svg viewBox="0 0 100 120" fill="none" xmlns="http://www.w3.org/2000/svg" className={className} style={style}>
-      <rect x="64" y="18" width="12" height="50" rx="6" fill="#8B5E3C" />
-      <rect x="17" y="34" width="9"  height="44" rx="4" fill="#8B5E3C" />
-      <Shirt color="#B71C1C" skin={skin} />
-      <Face skin={skin} girl iris="#FF5722" />
-      <path d={DOME} fill="#8B5E3C" />
-      <ellipse cx="70" cy="26" rx="6" ry="5" fill="#E91E63" />
-      {/* Map scroll */}
-      <rect x="63" y="54" width="28" height="22" rx="4" fill="#FFF8E1" stroke="#F9A825" strokeWidth="1.5" />
-      <line x1="70" y1="61" x2="85" y2="61" stroke="#8D6E63" strokeWidth="1.2" />
-      <line x1="70" y1="66" x2="85" y2="66" stroke="#8D6E63" strokeWidth="1.2" />
-      <line x1="70" y1="71" x2="78" y2="71" stroke="#8D6E63" strokeWidth="1.2" />
-      <circle cx="80" cy="63" r="4" fill="none" stroke="#F9A825" strokeWidth="1.2" />
-      <circle cx="80" cy="63" r="1.5" fill="#F9A825" />
-    </svg>
-  );
-}
-
-// ── Coloring & Creative / Social Emotional — girl, buns, artist palette ───────
-export function ArtKid({ className, style }: KidProps) {
-  const skin = "#FDDAB9";
-  return (
-    <svg viewBox="0 0 100 120" fill="none" xmlns="http://www.w3.org/2000/svg" className={className} style={style}>
-      <circle cx="28" cy="15" r="9" fill="#8B5E3C" />
-      <circle cx="72" cy="15" r="9" fill="#8B5E3C" />
-      <rect x="13" y="22" width="12" height="72" rx="6" fill="#8B5E3C" />
-      <rect x="75" y="22" width="12" height="72" rx="6" fill="#8B5E3C" />
-      <Shirt color="#880E4F" skin={skin} />
-      <Face skin={skin} girl iris="#E040FB" />
-      <path d={DOME} fill="#8B5E3C" />
-      {/* Palette */}
-      <path d="M 63 53 C 63 47 69 43 77 45 C 87 43 93 51 91 59 C 89 69 79 71 73 67 C 65 69 61 61 63 53 Z" fill="#FFECB3" />
-      <circle cx="70" cy="49" r="3.5" fill="#E53935" />
-      <circle cx="79" cy="47" r="3.5" fill="#FDD835" />
-      <circle cx="87" cy="54" r="3.5" fill="#43A047" />
-      <circle cx="86" cy="63" r="3.5" fill="#1E88E5" />
-      <ellipse cx="77" cy="54" rx="4.5" ry="4.5" fill="white" />
-    </svg>
-  );
-}
-
-// ── Logic Thinking — boy, dark hair, puzzle piece ────────────────────────────
-export function LogicKid({ className, style }: KidProps) {
-  const skin = "#FDDAB9";
-  return (
-    <svg viewBox="0 0 100 120" fill="none" xmlns="http://www.w3.org/2000/svg" className={className} style={style}>
-      <rect x="17" y="38" width="8" height="14" rx="4" fill="#1a1a1a" />
-      <rect x="75" y="38" width="8" height="14" rx="4" fill="#1a1a1a" />
-      <Shirt color="#4A148C" skin={skin} />
-      <Face skin={skin} iris="#CE93D8" />
-      <path d={DOME} fill="#1a1a1a" />
-      {/* Puzzle piece */}
-      <path
-        d="M 63 52 L 63 63 Q 68 61 68 66 Q 68 71 63 69 L 63 80
-           L 92 80 L 92 69 Q 87 71 87 66 Q 87 61 92 63 L 92 52 Z"
-        fill="#7E57C2" stroke="#4527A0" strokeWidth="1.2"
-      />
-      <line x1="63" y1="66" x2="92" y2="66" stroke="#4527A0" strokeWidth="0.8" opacity={0.5} />
-    </svg>
-  );
-}
-
-// ── Shapes & Visual — boy, brown hair, floating geometric shapes ──────────────
-export function ShapesKid({ className, style }: KidProps) {
-  const skin = "#FDDAB9";
-  return (
-    <svg viewBox="0 0 100 120" fill="none" xmlns="http://www.w3.org/2000/svg" className={className} style={style}>
-      <rect x="17" y="38" width="8" height="14" rx="4" fill="#5D4037" />
-      <rect x="75" y="38" width="8" height="14" rx="4" fill="#5D4037" />
-      <Shirt color="#00695C" skin={skin} />
-      <Face skin={skin} iris="#26C6DA" />
-      <path d={DOME} fill="#5D4037" />
-      {/* Shapes prop */}
-      <circle cx="81" cy="55" r="11" fill="#29B6F6" opacity={0.88} />
-      <path d="M 64 74 L 72 58 L 80 74 Z" fill="#FF7043" opacity={0.92} />
-      <rect x="64" y="54" width="12" height="12" rx="2" fill="#66BB6A" opacity={0.88} />
-    </svg>
-  );
-}
-
-// ── Two-tone hair boy for kindergarten subjects ───────────────────────────────
+// ── English / Language (KG) — brown hair, amber shirt · stacked books + pencil ─
 export function KgSubjectKid({ className, style }: KidProps) {
-  const skin = "#FDDAB9";
   return (
-    <svg viewBox="0 0 100 120" fill="none" xmlns="http://www.w3.org/2000/svg" className={className} style={style}>
-      <Shirt color="#FF8F00" skin={skin} />
-      <Face skin={skin} girl iris="#FFCA28" />
-      {/* Long blonde side panels */}
-      <rect x="11" y="26" width="14" height="76" rx="7" fill="#FFCA28" />
-      <rect x="75" y="26" width="14" height="76" rx="7" fill="#FFCA28" />
-      <path d={DOME} fill="#FFCA28" />
-      {/* Star props */}
-      <text x="78" y="28" fontSize="18" textAnchor="middle" fontFamily="Arial,sans-serif">⭐</text>
+    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" className={className} style={style}>
+      <rect width="100" height="100" rx="28" fill="#FFFBEB"/>
+      <circle cx="50" cy="50" r="42" fill="#FEF3C7"/>
+      <ellipse cx="50" cy="46" rx="22" ry="20" fill="#78350F"/>
+      <ellipse cx="50" cy="53" rx="19" ry="18" fill="#FFDFC4"/>
+      <path d="M31 44 Q50 38 69 44 Q50 35 31 44 Z" fill="#78350F"/>
+      <circle cx="43" cy="51" r="2.5" fill="#1E293B"/>
+      <circle cx="57" cy="51" r="2.5" fill="#1E293B"/>
+      <path d="M45 58 Q50 63 55 58" fill="none" stroke="#1E293B" strokeWidth="2.2" strokeLinecap="round"/>
+      <path d="M32 71 Q50 67 68 71 L74 92 L26 92 Z" fill="#F59E0B"/>
+      {/* Stacked books */}
+      <g transform="translate(66, 44)">
+        <rect x="2"  y="16" width="20" height="5" rx="1.5" fill="#EF4444"/>
+        <rect x="4"  y="10" width="18" height="5" rx="1.5" fill="#10B981"/>
+        <rect x="6"  y="4"  width="16" height="5" rx="1.5" fill="#3B82F6"/>
+      </g>
+      {/* Pencil */}
+      <g transform="translate(10, 46) rotate(-20)">
+        <polygon points="4,16 6,1 9,1 11,16" fill="#FCD34D"/>
+        <polygon points="6,1 7.5,-3 9,1" fill="#1E293B"/>
+      </g>
+      <rect x="18" y="78" width="64" height="15" rx="7.5" fill="#D97706"/>
+      <text x="50" y="89" fontSize="8" fontFamily="sans-serif" fontWeight="900" fill="#FFFFFF" textAnchor="middle">LANGUAGE</text>
     </svg>
   );
 }
 
-// ── Subject → kid component map ──────────────────────────────────────────────
+// ── Science — dark hair, lab goggles, lab coat · flask + atom ─────────────────
+export function ScienceKid({ className, style }: KidProps) {
+  return (
+    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" className={className} style={style}>
+      <rect width="100" height="100" rx="28" fill="#F0FDFA"/>
+      <circle cx="50" cy="50" r="42" fill="#CCFBF1"/>
+      <ellipse cx="50" cy="46" rx="22" ry="20" fill="#1E293B"/>
+      <ellipse cx="50" cy="53" rx="19" ry="18" fill="#FFDFC4"/>
+      {/* Lab goggles */}
+      <rect x="30" y="45" width="40" height="12" rx="6" fill="#06B6D4" opacity={0.8}/>
+      <circle cx="42" cy="51" r="3" fill="#FFFFFF"/>
+      <circle cx="58" cy="51" r="3" fill="#FFFFFF"/>
+      <path d="M45 61 Q50 65 55 61" fill="none" stroke="#1E293B" strokeWidth="2" strokeLinecap="round"/>
+      {/* Lab coat */}
+      <path d="M32 71 Q50 67 68 71 L74 92 L26 92 Z" fill="#F8FAFC"/>
+      <polygon points="43,71 50,80 57,71" fill="#0D9488"/>
+      {/* Flask */}
+      <g transform="translate(68, 48)">
+        <path d="M8 2 L12 2 L12 8 L18 18 Q19 20 17 21 L3 21 Q1 20 2 18 L8 8 Z" fill="#14B8A6"/>
+        <circle cx="10" cy="14" r="1.5" fill="#FFFFFF"/>
+        <circle cx="7"  cy="17" r="1"   fill="#FFFFFF"/>
+      </g>
+      {/* Atom */}
+      <g transform="translate(10, 44)">
+        <ellipse cx="10" cy="10" rx="8" ry="3" fill="none" stroke="#0D9488" strokeWidth="1.2" transform="rotate(30 10 10)"/>
+        <ellipse cx="10" cy="10" rx="8" ry="3" fill="none" stroke="#0D9488" strokeWidth="1.2" transform="rotate(-30 10 10)"/>
+        <circle cx="10" cy="10" r="2" fill="#F59E0B"/>
+      </g>
+      <rect x="22" y="78" width="56" height="15" rx="7.5" fill="#0D9488"/>
+      <text x="50" y="89" fontSize="8.5" fontFamily="sans-serif" fontWeight="900" fill="#FFFFFF" textAnchor="middle">SCIENCE</text>
+    </svg>
+  );
+}
+
+// ── EVS — green hair buns, green shirt · plant sprout in pot ──────────────────
+export function EvsKid({ className, style }: KidProps) {
+  return (
+    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" className={className} style={style}>
+      <rect width="100" height="100" rx="28" fill="#F0FDF4"/>
+      <circle cx="50" cy="50" r="42" fill="#DCFCE7"/>
+      <circle cx="28" cy="32" r="9" fill="#15803D"/>
+      <circle cx="72" cy="32" r="9" fill="#15803D"/>
+      <ellipse cx="50" cy="46" rx="22" ry="20" fill="#15803D"/>
+      <ellipse cx="50" cy="53" rx="19" ry="18" fill="#FCD34D"/>
+      <path d="M31 47 Q50 38 69 47 Z" fill="#15803D"/>
+      <circle cx="43" cy="51" r="2.5" fill="#14532D"/>
+      <circle cx="57" cy="51" r="2.5" fill="#14532D"/>
+      <path d="M45 58 Q50 63 55 58" fill="none" stroke="#14532D" strokeWidth="2.2" strokeLinecap="round"/>
+      <path d="M32 71 Q50 67 68 71 L74 92 L26 92 Z" fill="#22C55E"/>
+      {/* Plant sprout in pot */}
+      <g transform="translate(68, 48)">
+        <path d="M4 12 L16 12 L14 20 L6 20 Z" fill="#B45309"/>
+        <path d="M10 12 L10 5 Q14 2 17 6 Q14 9 10 7" fill="#4ADE80"/>
+        <path d="M10 8 Q6 4 3 8 Q6 11 10 9" fill="#22C55E"/>
+      </g>
+      <rect x="26" y="78" width="48" height="15" rx="7.5" fill="#16A34A"/>
+      <text x="50" y="89" fontSize="8.5" fontFamily="sans-serif" fontWeight="900" fill="#FFFFFF" textAnchor="middle">EVS</text>
+    </svg>
+  );
+}
+
+// ── General Awareness / EVS — green cap, green shirt · leaf + sun ─────────────
+export function GeneralAwarenessKid({ className, style }: KidProps) {
+  return (
+    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" className={className} style={style}>
+      <rect width="100" height="100" rx="28" fill="#ECFDF5"/>
+      <circle cx="50" cy="50" r="42" fill="#D1FAE5"/>
+      {/* Cap */}
+      <path d="M26 40 C26 26, 74 26, 74 40 Z" fill="#15803D"/>
+      <ellipse cx="50" cy="52" rx="19" ry="18" fill="#F7D0B4"/>
+      <circle cx="43" cy="50" r="2.5" fill="#1E293B"/>
+      <circle cx="57" cy="50" r="2.5" fill="#1E293B"/>
+      <path d="M44 57 Q50 64 56 57" fill="#1E293B"/>
+      <path d="M32 70 Q50 66 68 70 L74 92 L26 92 Z" fill="#047857"/>
+      {/* Leaf */}
+      <g transform="translate(68, 45) rotate(15)">
+        <path d="M2 18 Q12 18 18 4 Q4 10 2 18 Z" fill="#10B981"/>
+        <line x1="2" y1="18" x2="14" y2="7" stroke="#065F46" strokeWidth="1.5"/>
+      </g>
+      {/* Sun */}
+      <g transform="translate(12, 42)">
+        <circle cx="8" cy="8" r="6" fill="#FBBF24"/>
+      </g>
+      <rect x="16" y="78" width="68" height="15" rx="7.5" fill="#047857"/>
+      <text x="50" y="89" fontSize="8" fontFamily="sans-serif" fontWeight="900" fill="#FFFFFF" textAnchor="middle">GEN AWARE</text>
+    </svg>
+  );
+}
+
+// ── Social Studies — dark hair, blue shirt · map + compass ────────────────────
+export function SocialStudiesKid({ className, style }: KidProps) {
+  return (
+    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" className={className} style={style}>
+      <rect width="100" height="100" rx="28" fill="#F0F9FF"/>
+      <circle cx="50" cy="50" r="42" fill="#E0F2FE"/>
+      <ellipse cx="50" cy="46" rx="22" ry="20" fill="#334155"/>
+      <ellipse cx="50" cy="53" rx="19" ry="18" fill="#FFDFC4"/>
+      <path d="M31 44 Q50 38 69 44 Z" fill="#334155"/>
+      <circle cx="43" cy="51" r="2.5" fill="#1E293B"/>
+      <circle cx="57" cy="51" r="2.5" fill="#1E293B"/>
+      <path d="M45 58 Q50 63 55 58" fill="none" stroke="#1E293B" strokeWidth="2.2" strokeLinecap="round"/>
+      <path d="M32 71 Q50 67 68 71 L74 92 L26 92 Z" fill="#0284C7"/>
+      {/* Map */}
+      <g transform="translate(66, 48) rotate(10)">
+        <rect width="20" height="16" rx="2" fill="#FEF3C7" stroke="#D97706" strokeWidth="1.2"/>
+        <path d="M4 8 Q10 4 16 10" fill="none" stroke="#EF4444" strokeWidth="1.5" strokeDasharray="2 1"/>
+      </g>
+      {/* Compass */}
+      <g transform="translate(10, 48)">
+        <circle cx="9" cy="9" r="8" fill="#FFFFFF" stroke="#0284C7" strokeWidth="1.5"/>
+        <polygon points="9,3 12,9 9,15 6,9" fill="#EF4444"/>
+      </g>
+      <rect x="18" y="78" width="64" height="15" rx="7.5" fill="#0369A1"/>
+      <text x="50" y="89" fontSize="8" fontFamily="sans-serif" fontWeight="900" fill="#FFFFFF" textAnchor="middle">SOC STUDIES</text>
+    </svg>
+  );
+}
+
+// ── General Knowledge — dark hair, blue shirt · globe ─────────────────────────
+export function GkKid({ className, style }: KidProps) {
+  return (
+    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" className={className} style={style}>
+      <rect width="100" height="100" rx="28" fill="#EFF6FF"/>
+      <circle cx="50" cy="50" r="42" fill="#DBEAFE"/>
+      <ellipse cx="50" cy="46" rx="23" ry="20" fill="#1E293B"/>
+      <ellipse cx="50" cy="53" rx="19" ry="18" fill="#FCD34D"/>
+      <path d="M31 46 Q50 40 69 46 Z" fill="#1E293B"/>
+      <circle cx="43" cy="51" r="2.5" fill="#1E293B"/>
+      <circle cx="57" cy="51" r="2.5" fill="#1E293B"/>
+      <path d="M45 58 Q50 63 55 58" fill="none" stroke="#1E293B" strokeWidth="2.2" strokeLinecap="round"/>
+      <path d="M32 71 Q50 67 68 71 L74 92 L26 92 Z" fill="#2563EB"/>
+      {/* Globe */}
+      <g transform="translate(68, 44)">
+        <circle cx="12" cy="12" r="10" fill="#38BDF8"/>
+        <path d="M5 10 Q10 8 13 11 Q17 9 19 13 Q15 17 11 16 Z" fill="#4ADE80"/>
+        <path d="M2 12 A10 10 0 0 0 22 12" fill="none" stroke="#1E40AF" strokeWidth="1.8"/>
+        <line x1="12" y1="22" x2="12" y2="26" stroke="#1E40AF" strokeWidth="1.8"/>
+        <line x1="7"  y1="26" x2="17" y2="26" stroke="#1E40AF" strokeWidth="1.8" strokeLinecap="round"/>
+      </g>
+      <rect x="24" y="78" width="52" height="15" rx="7.5" fill="#1D4ED8"/>
+      <text x="50" y="89" fontSize="8.5" fontFamily="sans-serif" fontWeight="900" fill="#FFFFFF" textAnchor="middle">GK</text>
+    </svg>
+  );
+}
+
+// ── Reasoning — purple hair, purple shirt · brain + magnifier ─────────────────
+export function ReasoningKid({ className, style }: KidProps) {
+  return (
+    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" className={className} style={style}>
+      <rect width="100" height="100" rx="28" fill="#FDF2F8"/>
+      <circle cx="50" cy="50" r="42" fill="#FCE7F3"/>
+      <ellipse cx="50" cy="45" rx="22" ry="20" fill="#4C1D95"/>
+      <ellipse cx="50" cy="53" rx="19" ry="18" fill="#FFDFC4"/>
+      <path d="M30 43 Q50 38 70 43 Z" fill="#4C1D95"/>
+      <circle cx="43" cy="51" r="2.5" fill="#1E293B"/>
+      <circle cx="57" cy="51" r="2.5" fill="#1E293B"/>
+      <path d="M45 59 Q50 64 55 59" fill="none" stroke="#1E293B" strokeWidth="2.2" strokeLinecap="round"/>
+      <path d="M32 71 Q50 67 68 71 L74 92 L26 92 Z" fill="#9333EA"/>
+      {/* Brain */}
+      <g transform="translate(68, 42)">
+        <ellipse cx="10" cy="8" rx="8" ry="6" fill="#F472B6"/>
+        <path d="M6 7 Q10 4 14 7 M6 10 Q10 12 14 10" stroke="#DB2777" strokeWidth="1.2" fill="none"/>
+      </g>
+      {/* Magnifier */}
+      <g transform="translate(10, 48) rotate(-15)">
+        <circle cx="9" cy="9" r="7" fill="#FFFFFF" stroke="#9333EA" strokeWidth="2"/>
+        <line x1="14" y1="14" x2="20" y2="20" stroke="#D97706" strokeWidth="3" strokeLinecap="round"/>
+      </g>
+      <rect x="18" y="78" width="64" height="15" rx="7.5" fill="#9333EA"/>
+      <text x="50" y="89" fontSize="8" fontFamily="sans-serif" fontWeight="900" fill="#FFFFFF" textAnchor="middle">REASONING</text>
+    </svg>
+  );
+}
+
+// ── Shapes & Visual Skills — black hair, blue shirt · triangle + square ────────
+export function ShapesKid({ className, style }: KidProps) {
+  return (
+    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" className={className} style={style}>
+      <rect width="100" height="100" rx="28" fill="#F0F9FF"/>
+      <circle cx="50" cy="50" r="42" fill="#E0F2FE"/>
+      <ellipse cx="50" cy="46" rx="22" ry="20" fill="#0F172A"/>
+      <ellipse cx="50" cy="53" rx="19" ry="18" fill="#FFDFC4"/>
+      <path d="M31 45 Q50 39 69 45 Z" fill="#0F172A"/>
+      <circle cx="43" cy="51" r="2.5" fill="#1E293B"/>
+      <circle cx="57" cy="51" r="2.5" fill="#1E293B"/>
+      <path d="M45 58 Q50 63 55 58" fill="none" stroke="#1E293B" strokeWidth="2.2" strokeLinecap="round"/>
+      <path d="M32 71 Q50 67 68 71 L74 92 L26 92 Z" fill="#0284C7"/>
+      {/* Triangle + white circle */}
+      <g transform="translate(68, 44)">
+        <polygon points="10,2 18,16 2,16" fill="#F59E0B"/>
+        <circle cx="10" cy="10" r="3" fill="#FFFFFF"/>
+      </g>
+      {/* Square + white triangle */}
+      <g transform="translate(10, 48)">
+        <rect width="14" height="14" rx="2" fill="#EC4899"/>
+        <polygon points="7,2 12,12 2,12" fill="#FFFFFF"/>
+      </g>
+      <rect x="22" y="78" width="56" height="15" rx="7.5" fill="#0284C7"/>
+      <text x="50" y="89" fontSize="8.5" fontFamily="sans-serif" fontWeight="900" fill="#FFFFFF" textAnchor="middle">SHAPES</text>
+    </svg>
+  );
+}
+
+// ── Coloring & Creative — brown curly hair, amber shirt · palette + brush ──────
+export function ArtKid({ className, style }: KidProps) {
+  return (
+    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" className={className} style={style}>
+      <rect width="100" height="100" rx="28" fill="#FEF3C7"/>
+      <circle cx="50" cy="50" r="42" fill="#FDE68A"/>
+      <circle cx="25" cy="46" r="8" fill="#B45309"/>
+      <circle cx="75" cy="46" r="8" fill="#B45309"/>
+      <ellipse cx="50" cy="47" rx="24" ry="22" fill="#B45309"/>
+      <ellipse cx="50" cy="53" rx="19" ry="18" fill="#FFDFC4"/>
+      <circle cx="43" cy="51" r="2.5" fill="#1E293B"/>
+      <circle cx="57" cy="51" r="2.5" fill="#1E293B"/>
+      <path d="M45 57 Q50 63 55 57" fill="none" stroke="#1E293B" strokeWidth="2.2" strokeLinecap="round"/>
+      <path d="M33 71 Q50 67 67 71 L73 92 L27 92 Z" fill="#F59E0B"/>
+      {/* Palette */}
+      <g transform="translate(66, 48) rotate(12)">
+        <ellipse cx="11" cy="11" rx="11" ry="9" fill="#FFFBEB" stroke="#D97706" strokeWidth="1.5"/>
+        <circle cx="6"  cy="9"  r="2" fill="#EF4444"/>
+        <circle cx="11" cy="6"  r="2" fill="#3B82F6"/>
+        <circle cx="16" cy="9"  r="2" fill="#10B981"/>
+      </g>
+      {/* Brush */}
+      <g transform="translate(12, 50) rotate(-35)">
+        <rect width="3" height="16" rx="1" fill="#78350F"/>
+        <polygon points="0,3 3,3 1.5,-2" fill="#EC4899"/>
+      </g>
+      <rect x="20" y="78" width="60" height="15" rx="7.5" fill="#D97706"/>
+      <text x="50" y="89" fontSize="8.5" fontFamily="sans-serif" fontWeight="900" fill="#FFFFFF" textAnchor="middle">CREATIVE</text>
+    </svg>
+  );
+}
+
+// ── Logic & Thinking — green cap, green shirt · puzzle piece ──────────────────
+export function LogicKid({ className, style }: KidProps) {
+  return (
+    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" className={className} style={style}>
+      <rect width="100" height="100" rx="28" fill="#ECFDF5"/>
+      <circle cx="50" cy="50" r="42" fill="#D1FAE5"/>
+      <path d="M26 38 C26 24, 74 24, 74 38 Z" fill="#059669"/>
+      <ellipse cx="50" cy="52" rx="19" ry="18" fill="#FCD34D"/>
+      <circle cx="43" cy="50" r="2.5" fill="#1E293B"/>
+      <circle cx="57" cy="50" r="2.5" fill="#1E293B"/>
+      <path d="M44 57 Q50 64 56 57" fill="#1E293B"/>
+      <path d="M32 70 Q50 66 68 70 L74 92 L26 92 Z" fill="#047857"/>
+      {/* Puzzle piece */}
+      <g transform="translate(66, 46)">
+        <rect width="18" height="18" rx="3" fill="#10B981"/>
+        <circle cx="9" cy="0"  r="3.5" fill="#10B981"/>
+        <circle cx="18" cy="9" r="3.5" fill="#10B981"/>
+        <circle cx="9" cy="9"  r="2.5" fill="#FFFFFF"/>
+      </g>
+      <rect x="24" y="78" width="52" height="15" rx="7.5" fill="#059669"/>
+      <text x="50" y="89" fontSize="8.5" fontFamily="sans-serif" fontWeight="900" fill="#FFFFFF" textAnchor="middle">LOGIC</text>
+    </svg>
+  );
+}
+
+// ── Social & Emotional — dark red hair, red shirt · glowing heart ─────────────
+export function SocialEmotionalKid({ className, style }: KidProps) {
+  return (
+    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" className={className} style={style}>
+      <rect width="100" height="100" rx="28" fill="#FFF1F2"/>
+      <circle cx="50" cy="50" r="42" fill="#FFE4E6"/>
+      <ellipse cx="50" cy="46" rx="23" ry="21" fill="#881337"/>
+      <ellipse cx="50" cy="53" rx="19" ry="18" fill="#FFDFC4"/>
+      <circle cx="37" cy="55" r="3.5" fill="#F43F5E" opacity={0.5}/>
+      <circle cx="63" cy="55" r="3.5" fill="#F43F5E" opacity={0.5}/>
+      <circle cx="43" cy="51" r="2.5" fill="#1E293B"/>
+      <circle cx="57" cy="51" r="2.5" fill="#1E293B"/>
+      <path d="M44 57 Q50 63 56 57" fill="none" stroke="#1E293B" strokeWidth="2.2" strokeLinecap="round"/>
+      <path d="M32 71 Q50 67 68 71 L74 92 L26 92 Z" fill="#E11D48"/>
+      {/* Heart */}
+      <g transform="translate(68, 44)">
+        <path d="M10 5 C6 0, 0 3, 0 9 C0 15, 10 20, 10 20 C10 20, 20 15, 20 9 C20 3, 14 0, 10 5 Z" fill="#E11D48"/>
+        <circle cx="6" cy="6" r="1.5" fill="#FFFFFF"/>
+      </g>
+      <rect x="22" y="78" width="56" height="15" rx="7.5" fill="#E11D48"/>
+      <text x="50" y="89" fontSize="8.5" fontFamily="sans-serif" fontWeight="900" fill="#FFFFFF" textAnchor="middle">EMOTION</text>
+    </svg>
+  );
+}
+
+// ── Subject → kid map ────────────────────────────────────────────────────────
 
 const MAP: Record<string, (p: KidProps) => React.ReactElement> = {
   "mathematics":        MathKid,
-  "english":           EnglishKid,
-  "english-language":  KgSubjectKid,
-  "science":           ScienceKid,
-  "evs":              EvsKid,
-  "general-awareness": EvsKid,
-  "gk":               GkKid,
-  "reasoning":        ReasoningKid,
-  "logic-thinking":   LogicKid,
-  "social-studies":   SocialStudiesKid,
-  "coloring-creative": ArtKid,
-  "social-emotional":  ArtKid,
-  "shapes-visual":     ShapesKid,
+  "english":            EnglishKid,
+  "english-language":   KgSubjectKid,
+  "science":            ScienceKid,
+  "evs":                EvsKid,
+  "general-awareness":  GeneralAwarenessKid,
+  "gk":                 GkKid,
+  "reasoning":          ReasoningKid,
+  "logic-thinking":     LogicKid,
+  "social-studies":     SocialStudiesKid,
+  "coloring-creative":  ArtKid,
+  "social-emotional":   SocialEmotionalKid,
+  "shapes-visual":      ShapesKid,
 };
 
 export function SubjectKid({ subjectId, ...rest }: { subjectId: string } & KidProps) {

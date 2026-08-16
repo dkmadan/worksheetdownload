@@ -16,7 +16,7 @@ export default function SubjectTile({ id, label, description, color, gradeId, gr
       className={`group relative rounded-2xl border-2 ${color} bg-white hover:shadow-md transition-all duration-200 hover:-translate-y-0.5 p-5 flex flex-col gap-3 overflow-hidden`}
     >
       {/* Subject-specific kid — bottom-right decorative */}
-      <div className="absolute bottom-0 right-0 opacity-95 pointer-events-none" style={{ width: 64, height: 77 }}>
+      <div className="absolute bottom-0 right-0 opacity-95 pointer-events-none" style={{ width: 70, height: 70 }}>
         <SubjectKid
           subjectId={id}
           style={{ width: "100%", height: "100%", filter: "drop-shadow(0 2px 6px rgba(0,0,0,0.18))" }}
@@ -30,7 +30,7 @@ export default function SubjectTile({ id, label, description, color, gradeId, gr
         </span>
       </div>
 
-      <div className="pr-[66px]">
+      <div className="pr-[74px]">
         <p className="text-xs text-gray-400 font-medium mb-0.5">{gradeLabel}</p>
         <h3 className="font-bold text-gray-900 text-base leading-tight">{label}</h3>
         <p className="text-gray-500 text-xs mt-1 leading-relaxed line-clamp-2">{description}</p>
