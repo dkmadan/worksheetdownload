@@ -114,16 +114,16 @@ export default function GradeTile({ id, label, ageRange }: GradeDef) {
           <span className="text-white text-xs font-black tracking-tight">{gradeNum}</span>
         </div>
 
-        {/* Icon in white card — shifted left to make room for kid */}
-        <div className="w-20 h-20 bg-white rounded-2xl flex items-center justify-center shadow-xl group-hover:scale-105 transition-transform duration-200 relative z-10 -translate-x-8">
+        {/* Icon in white card — left-centre */}
+        <div className="w-20 h-20 bg-white rounded-2xl flex items-center justify-center shadow-xl group-hover:scale-105 transition-transform duration-200 relative z-10 -translate-x-10">
           <GradeIcon gradeId={id} className="w-12 h-12" />
         </div>
 
-        {/* Kid character — standing in bottom-right of header */}
-        <div className="absolute bottom-0 right-3 z-20" style={{ width: 72, height: 96 }}>
+        {/* Kid bust portrait — right side, flush to bottom */}
+        <div className="absolute bottom-0 right-2 z-20" style={{ width: 86, height: 86 }}>
           <GradeKid
             gradeId={id}
-            style={{ width: "100%", height: "100%", filter: "drop-shadow(0 4px 8px rgba(0,0,0,0.28))" }}
+            style={{ width: "100%", height: "100%", filter: "drop-shadow(0 3px 6px rgba(0,0,0,0.32))" }}
           />
         </div>
 
