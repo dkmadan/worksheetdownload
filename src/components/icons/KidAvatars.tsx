@@ -1,7 +1,8 @@
 /**
- * Flat-design kid bust portraits — matches the reference image style.
- * Simple solid colors, clean geometric hair, small happy eyes, rosy cheeks.
- * viewBox="0 0 100 110" — head + shoulders bust crop.
+ * Flat-design kid bust portraits — exact reference image style.
+ * Round dot eyes, clean geometric hair domes, round cheeks.
+ * viewBox="0 0 100 110" — head + shoulders.
+ * Head: cx=50 cy=42 r=29  |  top y=13  |  sides x=21, x=79
  */
 
 interface KidProps {
@@ -9,234 +10,214 @@ interface KidProps {
   style?: React.CSSProperties;
 }
 
-// ── Shared face formula ──────────────────────────────────────────────────────
+// ── Shared hair dome paths ───────────────────────────────────────────────────
+const DOME       = "M 21 42 C 21 13 79 13 79 42 Z";         // full dome cap
+const DOME_LEFT  = "M 50 13 C 37 13 21 26 21 42 L 50 42 Z"; // left half
+const DOME_RIGHT = "M 50 13 C 63 13 79 26 79 42 L 50 42 Z"; // right half
 
-function Face({
-  skin, eyeY = 44, smileY = 55,
-}: { skin: string; eyeY?: number; smileY?: number }) {
+// ── Shared face: small round dot eyes, round cheeks, curved smile ────────────
+function Face({ skin, eyeY = 44, smileY = 55 }: { skin: string; eyeY?: number; smileY?: number }) {
   return (
     <>
-      {/* Eyes — small happy squint */}
-      <ellipse cx={41} cy={eyeY} rx={4.5} ry={3.2} fill="#2b1700" />
-      <ellipse cx={59} cy={eyeY} rx={4.5} ry={3.2} fill="#2b1700" />
-      {/* Rosy cheeks */}
-      <ellipse cx={28} cy={smileY - 2} rx={7}   ry={4.5} fill="#FF8A80" opacity={0.45} />
-      <ellipse cx={72} cy={smileY - 2} rx={7}   ry={4.5} fill="#FF8A80" opacity={0.45} />
-      {/* Smile */}
+      <circle cx={41} cy={eyeY} r={3.5} fill="#2b1200" />
+      <circle cx={59} cy={eyeY} r={3.5} fill="#2b1200" />
+      <circle cx={28} cy={smileY - 2} r={6}   fill="#FF8A80" opacity={0.4} />
+      <circle cx={72} cy={smileY - 2} r={6}   fill="#FF8A80" opacity={0.4} />
       <path
-        d={`M ${41} ${smileY} Q 50 ${smileY + 7} ${59} ${smileY}`}
+        d={`M 41 ${smileY} Q 50 ${smileY + 7} 59 ${smileY}`}
         stroke="#C45050" strokeWidth={2} fill="none" strokeLinecap="round"
       />
     </>
   );
 }
 
-// Shirt block — shoulder trapezoid at bottom of bust
+// ── Shirt block ──────────────────────────────────────────────────────────────
 function Shirt({ color, skin }: { color: string; skin: string }) {
   return (
     <>
-      {/* Neck */}
       <rect x="43" y="67" width="14" height="12" rx="5" fill={skin} />
-      {/* Shirt body */}
       <path d="M 8 80 Q 10 74 28 74 Q 50 82 72 74 Q 90 74 92 80 L 100 110 L 0 110 Z" fill={color} />
     </>
   );
 }
 
-// ── KG — Blonde girl, orange headband, long blonde hair, teal top ────────────
+// ── KG — Long straight blonde hair, teal top ────────────────────────────────
 export function KgKid({ className, style }: KidProps) {
   const skin = "#FDDAB9";
   return (
     <svg viewBox="0 0 100 110" fill="none" xmlns="http://www.w3.org/2000/svg" className={className} style={style}>
-      {/* Long blonde hair behind head */}
-      <rect x="13" y="26" width="14" height="68" rx="7"  fill="#FFCA28" />
-      <rect x="73" y="26" width="14" height="68" rx="7"  fill="#FFCA28" />
+      {/* Long blonde side panels behind head */}
+      <rect x="11" y="28" width="15" height="74" rx="7" fill="#FFCA28" />
+      <rect x="74" y="28" width="15" height="74" rx="7" fill="#FFCA28" />
       <Shirt color="#26C6DA" skin={skin} />
-      {/* Head */}
       <circle cx="50" cy="42" r="29" fill={skin} />
-      {/* Top hair */}
-      <path d="M 21 36 C 21 10 79 10 79 36 C 79 20 50 10 50 10 Z" fill="#FFCA28" />
-      {/* Orange headband */}
-      <path d="M 21 30 Q 50 24 79 30" stroke="#FF8F00" strokeWidth="8" fill="none" strokeLinecap="round" />
+      {/* Blonde dome */}
+      <path d={DOME} fill="#FFCA28" />
       <Face skin={skin} />
     </svg>
   );
 }
 
-// ── G1 — Boy, short black hair, yellow top with teal bib/overalls ────────────
+// ── G1 — Boy, two-tone split hair (dark left / brown right), yellow + teal bib ─
 export function G1Kid({ className, style }: KidProps) {
   const skin = "#FDDAB9";
   return (
     <svg viewBox="0 0 100 110" fill="none" xmlns="http://www.w3.org/2000/svg" className={className} style={style}>
       <Shirt color="#FDD835" skin={skin} />
       {/* Teal overalls bib */}
-      <rect x="36" y="76" width="28" height="34" rx="4" fill="#26C6DA" />
-      {/* Head */}
+      <rect x="36" y="76" width="28" height="34" rx="3" fill="#26C6DA" />
       <circle cx="50" cy="42" r="29" fill={skin} />
-      {/* Short black hair cap */}
-      <path d="M 21 38 C 21 10 79 10 79 38 C 79 22 50 10 50 10 Z" fill="#212121" />
-      {/* Side hair tabs */}
-      <rect x="19" y="34" width="7"  height="14" rx="3.5" fill="#212121" />
-      <rect x="74" y="34" width="7"  height="14" rx="3.5" fill="#212121" />
+      {/* Two-tone dome: dark left, brown right */}
+      <path d={DOME_LEFT}  fill="#1a1a1a" />
+      <path d={DOME_RIGHT} fill="#8B6343" />
+      {/* Side sideburn tabs matching each half */}
+      <rect x="19" y="36" width="7" height="13" rx="3.5" fill="#1a1a1a" />
+      <rect x="74" y="36" width="7" height="13" rx="3.5" fill="#8B6343" />
       <Face skin={skin} />
     </svg>
   );
 }
 
-// ── G2 — Girl, brown pigtail strands, pink top ──────────────────────────────
+// ── G2 — Girl, brown pigtails, center part, pink top ────────────────────────
 export function G2Kid({ className, style }: KidProps) {
   const skin = "#FDDAB9";
   return (
     <svg viewBox="0 0 100 110" fill="none" xmlns="http://www.w3.org/2000/svg" className={className} style={style}>
-      {/* Pigtail strands hanging on both sides */}
-      <rect x="14" y="30" width="13" height="52" rx="6.5" fill="#6D4C41" />
-      <rect x="73" y="30" width="13" height="52" rx="6.5" fill="#6D4C41" />
-      {/* Pink ribbon bands */}
-      <rect x="12" y="38" width="17" height="7"  rx="3.5" fill="#F06292" />
-      <rect x="71" y="38" width="17" height="7"  rx="3.5" fill="#F06292" />
+      {/* Pigtail blobs at sides */}
+      <ellipse cx="16" cy="52" rx="12" ry="22" fill="#8B5E3C" />
+      <ellipse cx="84" cy="52" rx="12" ry="22" fill="#8B5E3C" />
       <Shirt color="#F48FB1" skin={skin} />
-      {/* Head */}
       <circle cx="50" cy="42" r="29" fill={skin} />
-      {/* Top hair */}
-      <path d="M 21 36 C 21 10 79 10 79 36 C 79 20 50 10 50 10 Z" fill="#6D4C41" />
+      {/* Brown dome */}
+      <path d={DOME} fill="#8B5E3C" />
+      {/* Center part line */}
+      <line x1="50" y1="13" x2="50" y2="38" stroke="#6B4226" strokeWidth="2.5" />
       <Face skin={skin} />
     </svg>
   );
 }
 
-// ── G3 — Boy, teal baseball cap, orange hair, green hoodie ──────────────────
+// ── G3 — Boy, teal baseball cap (brim right), orange hair sides, green top ──
 export function G3Kid({ className, style }: KidProps) {
   const skin = "#FDDAB9";
   return (
     <svg viewBox="0 0 100 110" fill="none" xmlns="http://www.w3.org/2000/svg" className={className} style={style}>
       {/* Orange hair visible at sides under cap */}
-      <circle cx="22" cy="46" r="12" fill="#E64A19" />
-      <circle cx="78" cy="46" r="12" fill="#E64A19" />
+      <ellipse cx="19" cy="47" rx="12" ry="16" fill="#E64A19" />
+      <ellipse cx="81" cy="47" rx="12" ry="16" fill="#E64A19" />
       <Shirt color="#66BB6A" skin={skin} />
-      {/* Head */}
       <circle cx="50" cy="42" r="29" fill={skin} />
-      {/* Cap dome (teal) */}
-      <path d="M 20 44 C 20 13 80 13 80 44 Z" fill="#26C6DA" />
-      {/* Cap brim — extends to right, slightly angled */}
-      <path d="M 46 44 Q 76 40 90 46 L 88 53 Q 74 48 46 50 Z" fill="#00ACC1" />
+      {/* Cap dome */}
+      <path d={DOME} fill="#26C6DA" />
       {/* Cap band */}
-      <rect x="20" y="42" width="60" height="5" rx="2" fill="#00ACC1" />
+      <rect x="20" y="40" width="60" height="6" rx="2" fill="#00ACC1" />
+      {/* Brim — extends right */}
+      <path d="M 46 43 Q 76 38 92 45 L 90 52 Q 74 48 46 50 Z" fill="#00ACC1" />
       {/* Cap button */}
-      <circle cx="50" cy="15" r="3" fill="#0097A7" />
+      <circle cx="50" cy="14" r="3" fill="#0097A7" />
       <Face skin={skin} eyeY={46} smileY={57} />
     </svg>
   );
 }
 
-// ── G4 — Girl, long dark two-tone hair, teal top ────────────────────────────
+// ── G4 — Girl, long dark hair + inner yellow strip (left), teal top ─────────
 export function G4Kid({ className, style }: KidProps) {
   const skin = "#FDDAB9";
   return (
     <svg viewBox="0 0 100 110" fill="none" xmlns="http://www.w3.org/2000/svg" className={className} style={style}>
-      {/* Dark back hair panels */}
-      <rect x="12" y="22" width="16" height="75" rx="8"  fill="#212121" />
-      <rect x="72" y="22" width="16" height="75" rx="8"  fill="#212121" />
-      {/* Lighter inner highlight strip (two-tone effect) */}
-      <rect x="15" y="28" width="8"  height="58" rx="4"  fill="#616161" />
-      <rect x="77" y="28" width="8"  height="58" rx="4"  fill="#616161" />
+      {/* Dark outer panels */}
+      <rect x="10" y="24" width="18" height="78" rx="8" fill="#1a1a1a" />
+      <rect x="72" y="24" width="18" height="78" rx="8" fill="#1a1a1a" />
+      {/* Yellow inner highlight strip on left panel */}
+      <rect x="17" y="32" width="9"  height="64" rx="4" fill="#FFCA28" />
       <Shirt color="#26C6DA" skin={skin} />
-      {/* Head */}
       <circle cx="50" cy="42" r="29" fill={skin} />
-      {/* Top hair */}
-      <path d="M 21 34 C 21 10 79 10 79 34 C 79 19 50 10 50 10 Z" fill="#212121" />
+      {/* Dark dome */}
+      <path d={DOME} fill="#1a1a1a" />
       <Face skin={skin} />
     </svg>
   );
 }
 
-// ── G5 — Girl, dark hair with side braid, red-orange striped top ─────────────
+// ── G5 — Girl, dark hair + right side braid, red top ────────────────────────
 export function G5Kid({ className, style }: KidProps) {
   const skin = "#FDDAB9";
   return (
     <svg viewBox="0 0 100 110" fill="none" xmlns="http://www.w3.org/2000/svg" className={className} style={style}>
-      {/* Left short hair panel */}
-      <rect x="14" y="26" width="12" height="32" rx="6" fill="#212121" />
-      {/* Right braid — thick rope shape */}
-      <path d="M 76 32 Q 84 52 78 72 Q 74 84 72 96"
-        stroke="#212121" strokeWidth="12" fill="none" strokeLinecap="round" />
+      {/* Short left hair panel */}
+      <rect x="13" y="26" width="13" height="36" rx="6" fill="#1a1a1a" />
+      {/* Right side braid rope */}
+      <path d="M 75 30 Q 88 54 84 80 Q 82 92 82 102"
+        stroke="#1a1a1a" strokeWidth="13" fill="none" strokeLinecap="round" />
       {/* Braid texture highlight */}
-      <path d="M 76 32 Q 84 52 78 72 Q 74 84 72 96"
-        stroke="#616161" strokeWidth="4" fill="none" strokeLinecap="round" strokeDasharray="5 7" />
+      <path d="M 75 30 Q 88 54 84 80 Q 82 92 82 102"
+        stroke="#424242" strokeWidth="4"  fill="none" strokeLinecap="round" strokeDasharray="6 6" />
       <Shirt color="#EF5350" skin={skin} />
       {/* Orange stripe on shirt */}
       <path d="M 8 88 Q 50 96 92 88 L 92 96 Q 50 104 8 96 Z" fill="#FF7043" />
-      {/* Head */}
       <circle cx="50" cy="42" r="29" fill={skin} />
-      {/* Top hair */}
-      <path d="M 21 34 C 21 10 79 10 79 34 C 79 19 50 10 50 10 Z" fill="#212121" />
-      {/* Side part line */}
-      <line x1="42" y1="14" x2="38" y2="28" stroke="#1a1a1a" strokeWidth="2" />
+      {/* Dark dome */}
+      <path d={DOME} fill="#1a1a1a" />
       <Face skin={skin} />
     </svg>
   );
 }
 
-// ── G6 — Boy, neat short dark hair, teal top ────────────────────────────────
+// ── G6 — Boy, dark hair with brown side-swept fringe, teal top ───────────────
 export function G6Kid({ className, style }: KidProps) {
   const skin = "#FDDAB9";
   return (
     <svg viewBox="0 0 100 110" fill="none" xmlns="http://www.w3.org/2000/svg" className={className} style={style}>
       <Shirt color="#26C6DA" skin={skin} />
-      {/* Head */}
       <circle cx="50" cy="42" r="29" fill={skin} />
-      {/* Neat short hair */}
-      <path d="M 21 38 C 21 10 79 10 79 38 C 79 22 50 10 50 10 Z" fill="#212121" />
-      {/* Slight side parting emphasis */}
-      <path d="M 21 38 Q 32 16 50 20" fill="#212121" />
-      <rect x="19" y="33" width="7"  height="12" rx="3.5" fill="#212121" />
-      <rect x="74" y="33" width="7"  height="12" rx="3.5" fill="#212121" />
+      {/* Dark main dome */}
+      <path d={DOME} fill="#1a1a1a" />
+      {/* Brown side-swept fringe accent */}
+      <path d="M 21 40 C 28 20 46 14 64 17 C 46 15 30 25 27 40 Z" fill="#5D4037" />
+      {/* Side sideburn tabs */}
+      <rect x="19" y="35" width="7" height="13" rx="3.5" fill="#1a1a1a" />
+      <rect x="74" y="35" width="7" height="13" rx="3.5" fill="#1a1a1a" />
       <Face skin={skin} />
     </svg>
   );
 }
 
-// ── G7 — Girl, blonde hair, purple headband, purple top ─────────────────────
+// ── G7 — Girl, orange hair, purple headband, purple top ──────────────────────
 export function G7Kid({ className, style }: KidProps) {
   const skin = "#FDDAB9";
   return (
     <svg viewBox="0 0 100 110" fill="none" xmlns="http://www.w3.org/2000/svg" className={className} style={style}>
-      {/* Blonde shoulder-length hair on sides */}
-      <rect x="13" y="26" width="14" height="58" rx="7"  fill="#FFCA28" />
-      <rect x="73" y="26" width="14" height="58" rx="7"  fill="#FFCA28" />
+      {/* Orange side panels */}
+      <rect x="11" y="28" width="15" height="65" rx="7" fill="#FF8F00" />
+      <rect x="74" y="28" width="15" height="65" rx="7" fill="#FF8F00" />
       <Shirt color="#9C27B0" skin={skin} />
-      {/* Head */}
       <circle cx="50" cy="42" r="29" fill={skin} />
-      {/* Top blonde hair */}
-      <path d="M 21 36 C 21 10 79 10 79 36 C 79 20 50 10 50 10 Z" fill="#FFCA28" />
+      {/* Orange dome */}
+      <path d={DOME} fill="#FF8F00" />
       {/* Purple headband */}
-      <path d="M 21 30 Q 50 24 79 30" stroke="#7B1FA2" strokeWidth="8"  fill="none" strokeLinecap="round" />
+      <path d="M 22 32 Q 50 26 78 32" stroke="#7B1FA2" strokeWidth="9" fill="none" strokeLinecap="round" />
       <Face skin={skin} />
     </svg>
   );
 }
 
-// ── G8 — Girl, brown braids on both sides, teal top ─────────────────────────
+// ── G8 — Girl, brown hair + right side braid, teal top ───────────────────────
 export function G8Kid({ className, style }: KidProps) {
   const skin = "#FDDAB9";
   return (
     <svg viewBox="0 0 100 110" fill="none" xmlns="http://www.w3.org/2000/svg" className={className} style={style}>
-      {/* Left braid */}
-      <path d="M 26 34 Q 16 54 20 78 Q 22 88 22 96"
-        stroke="#8D6E63" strokeWidth="11" fill="none" strokeLinecap="round" />
-      <path d="M 26 34 Q 16 54 20 78 Q 22 88 22 96"
-        stroke="#A1887F" strokeWidth="4"  fill="none" strokeLinecap="round" strokeDasharray="5 7" />
-      {/* Right braid */}
-      <path d="M 74 34 Q 84 54 80 78 Q 78 88 78 96"
-        stroke="#8D6E63" strokeWidth="11" fill="none" strokeLinecap="round" />
-      <path d="M 74 34 Q 84 54 80 78 Q 78 88 78 96"
-        stroke="#A1887F" strokeWidth="4"  fill="none" strokeLinecap="round" strokeDasharray="5 7" />
+      {/* Short left hair panel */}
+      <rect x="13" y="28" width="13" height="38" rx="6" fill="#8D6E63" />
+      {/* Right side braid rope */}
+      <path d="M 74 32 Q 86 56 82 80 Q 80 90 80 100"
+        stroke="#8D6E63" strokeWidth="13" fill="none" strokeLinecap="round" />
+      {/* Braid texture highlight */}
+      <path d="M 74 32 Q 86 56 82 80 Q 80 90 80 100"
+        stroke="#BCAAA4" strokeWidth="4"  fill="none" strokeLinecap="round" strokeDasharray="6 6" />
       <Shirt color="#26C6DA" skin={skin} />
-      {/* Head */}
       <circle cx="50" cy="42" r="29" fill={skin} />
-      {/* Top hair */}
-      <path d="M 22 36 C 22 10 78 10 78 36 C 78 20 50 10 50 10 Z" fill="#8D6E63" />
-      {/* Centre parting */}
-      <line x1="50" y1="11" x2="50" y2="28" stroke="#6D4C41" strokeWidth="2" />
+      {/* Brown dome */}
+      <path d={DOME} fill="#8D6E63" />
       <Face skin={skin} />
     </svg>
   );
@@ -268,10 +249,9 @@ export function StudentKid({ className, style }: KidProps) {
     <svg viewBox="0 0 100 110" fill="none" xmlns="http://www.w3.org/2000/svg" className={className} style={style}>
       <Shirt color="#29B6F6" skin={skin} />
       <circle cx="50" cy="42" r="29" fill={skin} />
-      {/* Short neat hair */}
-      <path d="M 21 38 C 21 10 79 10 79 38 C 79 22 50 10 50 10 Z" fill="#5D4037" />
-      <rect x="19" y="33" width="7" height="12" rx="3.5" fill="#5D4037" />
-      <rect x="74" y="33" width="7" height="12" rx="3.5" fill="#5D4037" />
+      <path d={DOME} fill="#5D4037" />
+      <rect x="19" y="35" width="7" height="13" rx="3.5" fill="#5D4037" />
+      <rect x="74" y="35" width="7" height="13" rx="3.5" fill="#5D4037" />
       <Face skin={skin} />
     </svg>
   );
