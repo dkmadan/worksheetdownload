@@ -1,6 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
+import { useSession } from "next-auth/react";
+import AuthModal from "@/components/auth/AuthModal";
+
+const STORAGE_KEY = "wsd_dl_count";
+const FREE_LIMIT  = 1;
 
 interface Props {
   type: string;
@@ -21,7 +26,46 @@ export default function TechResourceTile({
   techName,
   filename,
 }: Props) {
-  const [viewOpen, setViewOpen] = useState(false);
+  const { data: session } = useSession();
+  const [viewOpen,  setViewOpen]  = useState(false);
+  const [showAuth,  setShowAuth]  = useState(false);
+  const pendingFn = useRef<(() => void) | null>(null);
+
+  function gate(action: () => void) {
+    if (session) { action(); return; }
+    const count = parseInt(sessionStorage.getItem(STORAGE_KEY) ?? "0", 10);
+    if (count >= FREE_LIMIT) {
+      pendingFn.current = action;
+      setShowAuth(true);
+      return;
+    }
+    sessionStorage.setItem(STORAGE_KEY, String(count + 1));
+    action();
+  }
+
+  function onAuthSuccess() {
+    setShowAuth(false);
+    const fn = pendingFn.current;
+    pendingFn.current = null;
+    fn?.();
+  }
+
+  function handleView() {
+    gate(() => setViewOpen(true));
+  }
+
+  function handleDownload() {
+    gate(() => {
+      const a = document.createElement("a");
+      a.href     = pdfUrl;
+      a.download = filename;
+      a.target   = "_blank";
+      a.rel      = "noopener noreferrer";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    });
+  }
 
   return (
     <>
@@ -71,7 +115,7 @@ export default function TechResourceTile({
           {/* ── Actions ── */}
           <div className="flex gap-3 mt-auto">
             <button
-              onClick={() => setViewOpen(true)}
+              onClick={handleView}
               className="flex-1 flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-500 text-white font-semibold py-2.5 rounded-xl transition-colors text-sm"
             >
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -80,19 +124,27 @@ export default function TechResourceTile({
               </svg>
               View
             </button>
-            <a
-              href={pdfUrl}
-              download={filename}
+            <button
+              onClick={handleDownload}
               className="flex-1 flex items-center justify-center gap-2 bg-gray-700 hover:bg-gray-600 text-white font-semibold py-2.5 rounded-xl transition-colors text-sm"
             >
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
               </svg>
               Download
-            </a>
+            </button>
           </div>
         </div>
       </div>
+
+      {/* ── Auth gate modal ── */}
+      {showAuth && (
+        <AuthModal
+          onClose={() => setShowAuth(false)}
+          onSuccess={onAuthSuccess}
+          message="Sign in for unlimited free resource downloads."
+        />
+      )}
 
       {/* ── PDF View Modal ── */}
       {viewOpen && (
@@ -114,16 +166,15 @@ export default function TechResourceTile({
                 </span>
               </div>
               <div className="flex items-center gap-2 flex-shrink-0 ml-4">
-                <a
-                  href={pdfUrl}
-                  download={filename}
+                <button
+                  onClick={handleDownload}
                   className="flex items-center gap-1.5 text-xs font-semibold text-blue-400 hover:text-blue-300 bg-blue-600/15 hover:bg-blue-600/25 px-3 py-1.5 rounded-lg transition-colors"
                 >
                   <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                   </svg>
                   Download
-                </a>
+                </button>
                 <button
                   onClick={() => setViewOpen(false)}
                   className="text-gray-400 hover:text-white p-1.5 rounded-lg hover:bg-gray-700 transition-colors"
