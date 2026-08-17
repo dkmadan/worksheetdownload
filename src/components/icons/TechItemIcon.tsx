@@ -2,6 +2,7 @@ import React from "react";
 import * as Custom from "./apiTechIcons";
 import * as ML from "./mlTechIcons";
 import * as TechCat from "./techCategoryIcons";
+import * as TechCat2 from "./techCategoryIcons2";
 import {
   siPostman, siGraphql, siReact, siNodedotjs, siPython, siDocker, siKubernetes,
   siPostgresql, siMysql, siMongodb, siRedis, siGit, siGithub, siGitlab,
@@ -239,6 +240,109 @@ const CUSTOM_MAP: Record<string, React.FC<{ size: number }>> = {
   "jax":                   ML.JaxIcon,
   "fastai":                ML.FastAiIcon,
   "onnx":                  ML.OnnxIcon,
+
+  // Search
+  "elasticsearch":         TechCat2.ElasticsearchIcon,
+  "opensearch":            TechCat2.OpenSearchIcon,
+  "apache solr":           TechCat2.ApacheSolrIcon,
+  "meilisearch":           TechCat2.MeilisearchIcon,
+  "typesense":             TechCat2.TypesenseIcon,
+  "algolia":               TechCat2.AlgoliaIcon,
+
+  // Security
+  "hashicorp vault":       TechCat2.VaultIcon,
+  "waf":                   TechCat2.WafIcon,
+  "sonarqube":             TechCat2.SonarQubeIcon,
+  "snyk":                  TechCat2.SnykIcon,
+  "trivy":                 TechCat2.TrivyIcon,
+  "keycloak":              TechCat2.KeycloakIcon,
+  "zero trust":            TechCat2.ZeroTrustIcon,
+
+  // Testing
+  "jest":                  TechCat2.JestIcon,
+  "playwright":            TechCat2.PlaywrightIcon,
+  "cypress":               TechCat2.CypressIcon,
+  "selenium":              TechCat2.SeleniumIcon,
+  "junit":                 TechCat2.JUnitIcon,
+  "pytest":                TechCat2.PyTestIcon,
+  "k6":                    TechCat2.K6Icon,
+  "vitest":                TechCat2.VitestIcon,
+
+  // Operating Systems
+  "linux":                 TechCat2.LinuxIcon,
+  "red hat enterprise linux": TechCat2.RhelIcon,
+  "macos":                 TechCat2.MacOsIcon,
+  "windows":               TechCat2.WindowsServerIcon,
+  "freebsd":               TechCat2.FreeBsdIcon,
+  "alpine":                TechCat2.AlpineLinuxIcon,
+
+  // Programming Languages
+  "python":                TechCat2.PythonIcon,
+  "javascript":            TechCat2.JavaScriptIcon,
+  "typescript":            TechCat2.TypeScriptIcon,
+  "rust":                  TechCat2.RustIcon,
+  "go":                    TechCat2.GoIcon,
+  "java":                  TechCat2.JavaIcon,
+  "c++":                   TechCat2.CppIcon,
+  "c#":                    TechCat2.CSharpIcon,
+  "php":                   TechCat2.PhpIcon,
+  "ruby":                  TechCat2.RubyIcon,
+  "swift":                 TechCat2.SwiftIcon,
+  "kotlin":                TechCat2.KotlinIcon,
+  "scala":                 TechCat2.ScalaIcon,
+  "r":                     TechCat2.RLanguageIcon,
+
+  // Robotics
+  "ros/ros2":              TechCat2.RosIcon,
+  "gazebo":                TechCat2.GazeboIcon,
+  "slam":                  TechCat2.SlamIcon,
+  "computer vision":       TechCat2.ComputerVisionIcon,
+
+  // Mobile
+  "react native":          TechCat2.ReactNativeIcon,
+  "jetpack compose":       TechCat2.JetpackComposeIcon,
+  "swiftui":               TechCat2.SwiftUiIcon,
+  "ionic":                 TechCat2.IonicIcon,
+  "expo":                  TechCat2.ExpoIcon,
+
+  // Networking
+  "tcp/ip":                TechCat2.TcpIpIcon,
+  "dns":                   TechCat2.DnsIcon,
+  "load balancer":         TechCat2.LoadBalancerIcon,
+  "wireguard":             TechCat2.WireGuardIcon,
+  "envoy":                 TechCat2.EnvoyIcon,
+
+  // Observability
+  "opentelemetry":         TechCat2.OpenTelemetryIcon,
+  "datadog":               TechCat2.DatadogIcon,
+  "new relic":             TechCat2.NewRelicIcon,
+  "jaeger":                TechCat2.JaegerIcon,
+  "loki":                  TechCat2.LokiIcon,
+  "elk stack":             TechCat2.ElkStackIcon,
+
+  // MLOps
+  "mlflow":                TechCat2.MlflowIcon,
+  "kubeflow":              TechCat2.KubeflowIcon,
+  "weights & biases":      TechCat2.WeightsAndBiasesIcon,
+  "langsmith":             TechCat2.LangSmithIcon,
+  "dvc":                   TechCat2.DvcIcon,
+  "bentoml":               TechCat2.BentoMlIcon,
+  "nvidia triton":         TechCat2.TritonServerIcon,
+
+  // Messaging
+  "rabbitmq":              TechCat2.RabbitMqIcon,
+  "apache pulsar":         TechCat2.ApachePulsarIcon,
+  "nats":                  TechCat2.NatsIcon,
+  "amazon sqs":            TechCat2.AwsSqsIcon,
+  "apache activemq":       TechCat2.ActiveMqIcon,
+  "google pub/sub":        TechCat2.GooglePubSubIcon,
+  "zeromq":                TechCat2.ZeroMqIcon,
+
+  // Microservices
+  "eureka":                TechCat2.EurekaIcon,
+  "traefik":               TechCat2.TraefikIcon,
+  "kong":                  TechCat2.KongIcon,
+  "dapr":                  TechCat2.DaprIcon,
 };
 
 // ── Simple Icons map: lowercase tech name → SI icon ───────────────────────────
