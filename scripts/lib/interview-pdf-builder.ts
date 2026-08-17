@@ -1,167 +1,248 @@
-import { PDFDocument, StandardFonts, rgb, degrees } from "pdf-lib";
+import { PDFDocument, PDFPage, PDFFont, StandardFonts, rgb, degrees } from "pdf-lib";
 
-const W = 792, H = 612;
-const M = 15;
-const HDR_H = 52;
-const FTR_H = 18;
-const COL_GAP = 8;
-const COL_W = (W - M * 2 - COL_GAP) / 2; // ~377
-const BODY_TOP = H - M - HDR_H;           // 545
-const CONTENT_TOP = BODY_TOP - 6;         // 539
-const CONTENT_BOT = M + FTR_H + 2;        // 35
-const CONTENT_H = CONTENT_TOP - CONTENT_BOT; // 504
-const Q_H = CONTENT_H / 5;               // ~100.8 per question slot
+// ── A4 Portrait layout ───────────────────────────────────────────────────────
+const W = 595, H = 842;
+const ML = 30, MR = 30, MT = 28, MB = 25;
+const CW = W - ML - MR; // 535
 
-function sanitize(text: string): string {
-  return text.replace(/[^\x00-\xFF]/g, "").trim();
+const LOGO_SZ  = 40;
+const HDR_H    = 54;
+const HDR_GAP  = 8;
+const STRIP_H  = 28;
+const STRIP_GAP= 8;
+const BNR_H    = 44;
+const BNR_GAP  = 10;
+const FTR_H    = 20;
+const FTR_GAP  = 6;
+
+const HDR_TOP   = H - MT;
+const HDR_BOT   = HDR_TOP - HDR_H;
+const STRIP_TOP = HDR_BOT - HDR_GAP;
+const STRIP_BOT = STRIP_TOP - STRIP_H;
+const BNR_TOP   = STRIP_BOT - STRIP_GAP;
+const BNR_BOT   = BNR_TOP - BNR_H;
+const GRID_TOP  = BNR_BOT - BNR_GAP;
+const FTR_TOP   = MB + FTR_H;
+const GRID_BOT  = FTR_TOP + FTR_GAP;
+const GRID_H    = GRID_TOP - GRID_BOT;
+const Q_GAP     = 7;
+const Q_H       = Math.floor((GRID_H - 4 * Q_GAP) / 5);
+
+type RGB3 = readonly [number, number, number];
+const NAVY:  RGB3 = [0.118, 0.227, 0.541];
+const BLUE:  RGB3 = [0.145, 0.388, 0.922];
+const SL100: RGB3 = [0.945, 0.961, 0.976];
+const SL200: RGB3 = [0.886, 0.910, 0.941];
+const SL300: RGB3 = [0.796, 0.835, 0.882];
+const SL500: RGB3 = [0.392, 0.455, 0.545];
+const SL700: RGB3 = [0.200, 0.255, 0.333];
+const SL900: RGB3 = [0.059, 0.090, 0.165];
+const BPILL: RGB3 = [0.937, 0.961, 1.000];
+const BLINE: RGB3 = [0.749, 0.859, 0.996];
+const BTEXT: RGB3 = [0.114, 0.306, 0.847];
+
+const Q_TAGS = [
+  "Fundamentals", "Architecture", "Configuration", "Security Ops", "Integration",
+  "Key Mgmt",     "Monitoring",   "Compliance",    "Pen-Testing",  "Performance",
+];
+
+interface Fonts { bold: PDFFont; reg: PDFFont; mono: PDFFont }
+function c3(c: RGB3) { return rgb(c[0], c[1], c[2]); }
+
+function sanitize(t: string): string {
+  return t.replace(/[^\x00-\xFF]/g, "").replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">").trim();
 }
 
-function wrap(text: string, maxChars: number): string[] {
-  if (text.length <= maxChars) return [text];
-  const words = text.split(" ");
-  const out: string[] = [];
-  let line = "";
+function wrap(text: string, maxW: number, font: PDFFont, sz: number): string[] {
+  const s = sanitize(text);
+  if (font.widthOfTextAtSize(s, sz) <= maxW) return [s];
+  const words = s.split(" "); const out: string[] = []; let line = "";
   for (const w of words) {
-    if ((line + " " + w).trim().length > maxChars) {
-      if (line) out.push(line.trim());
-      line = w;
-    } else {
-      line = line ? line + " " + w : w;
-    }
+    const t = line ? line + " " + w : w;
+    if (font.widthOfTextAtSize(t, sz) > maxW && line) { out.push(line); line = w; } else line = t;
   }
-  if (line) out.push(line.trim());
+  if (line) out.push(line);
   return out;
 }
 
-function hexToRgb(hex: string): [number, number, number] {
-  return [
-    parseInt(hex.slice(1, 3), 16),
-    parseInt(hex.slice(3, 5), 16),
-    parseInt(hex.slice(5, 7), 16),
-  ];
+function drawGrad(page: PDFPage, x: number, y: number, w: number, h: number, c1: RGB3, c2: RGB3) {
+  const n = 24, sw = w / n;
+  for (let i = 0; i < n; i++) {
+    const t = i / (n - 1);
+    page.drawRectangle({
+      x: x + i * sw, y, width: sw + 0.5, height: h,
+      color: rgb(c1[0]+t*(c2[0]-c1[0]), c1[1]+t*(c2[1]-c1[1]), c1[2]+t*(c2[2]-c1[2])),
+    });
+  }
+}
+
+function drawLogo(page: PDFPage, sx: number, sy: number) {
+  const s = LOGO_SZ / 100;
+  page.drawRectangle({ x: sx, y: sy, width: LOGO_SZ, height: LOGO_SZ, color: rgb(0.141,0.231,0.431) });
+  page.drawRectangle({ x: sx+18*s, y: sy+22*s, width: 52*s, height: 64*s, color: rgb(1,1,1) });
+  for (const [gy,x1,x2] of [[36,28,60],[46,28,56],[56,28,58],[66,28,50]] as [number,number,number][]) {
+    page.drawLine({ start: { x: sx+x1*s, y: sy+(100-gy)*s }, end: { x: sx+x2*s, y: sy+(100-gy)*s }, thickness: 3.5*s, color: rgb(0.58,0.64,0.73) });
+  }
+  page.drawLine({ start: { x: sx+38*s, y: sy+32*s }, end: { x: sx+65*s, y: sy+60*s }, thickness: 7*s, color: rgb(0.984,0.749,0.141) });
+  page.drawLine({ start: { x: sx+63*s, y: sy+62*s }, end: { x: sx+70*s, y: sy+69*s }, thickness: 7*s, color: rgb(0.984,0.443,0.522) });
+  page.drawLine({ start: { x: sx+33*s, y: sy+28*s }, end: { x: sx+38*s, y: sy+32*s }, thickness: 5*s, color: rgb(0.216,0.255,0.318) });
+}
+
+function drawWatermark(page: PDFPage, font: PDFFont) {
+  page.drawText("WORKSHEETDOWNLOAD", { x: 70, y: H/2+30, size: 52, font, color: c3(BLUE), opacity: 0.032, rotate: degrees(-34) });
+}
+
+function drawHeader(page: PDFPage, tagline: string, badgeLabel: string, badgeName: string, f: Fonts) {
+  const logoY = HDR_BOT + (HDR_H - LOGO_SZ) / 2;
+  drawLogo(page, ML, logoY);
+  const bx = ML + LOGO_SZ + 10, by = logoY + LOGO_SZ - 11;
+  const ws = f.bold.widthOfTextAtSize("Worksheet", 12);
+  const dl = f.bold.widthOfTextAtSize("Download", 12);
+  page.drawText("Worksheet", { x: bx,      y: by, size: 12, font: f.bold, color: c3(SL900) });
+  page.drawText("Download",  { x: bx+ws,   y: by, size: 12, font: f.bold, color: c3(BLUE) });
+  page.drawText(".com",      { x: bx+ws+dl, y: by, size: 12, font: f.bold, color: c3(SL900) });
+  page.drawText(sanitize(tagline).toUpperCase(), { x: bx, y: by-13, size: 6.5, font: f.bold, color: c3(SL500) });
+
+  const bW=130, bH=34, bX=W-MR-bW, bY=HDR_BOT+(HDR_H-bH)/2;
+  page.drawRectangle({ x: bX, y: bY, width: bW, height: bH, color: c3(BPILL), borderColor: c3(BLINE), borderWidth: 0.75 });
+  const lbl = sanitize(badgeLabel).substring(0,24).toUpperCase();
+  const lw = f.bold.widthOfTextAtSize(lbl, 6);
+  page.drawText(lbl, { x: bX+bW-lw-7, y: bY+bH-11, size: 6, font: f.bold, color: c3(BTEXT) });
+  const nm = sanitize(badgeName).substring(0,18);
+  const nw = f.bold.widthOfTextAtSize(nm, 9.5);
+  page.drawText(nm, { x: bX+bW-nw-7, y: bY+8, size: 9.5, font: f.bold, color: c3(NAVY) });
+  page.drawLine({ start: { x: ML, y: HDR_BOT }, end: { x: W-MR, y: HDR_BOT }, thickness: 1.5, color: c3(SL100) });
+}
+
+function drawCandidateStrip(page: PDFPage, f: Fonts) {
+  page.drawRectangle({ x: ML, y: STRIP_BOT, width: CW, height: STRIP_H, color: rgb(0.973,0.980,0.988), borderColor: c3(SL200), borderWidth: 0.75 });
+  const labels = ["Candidate Name:", "Interviewer:", "Date:", "Score:"];
+  const widths = [0.30, 0.24, 0.18, 0.15];
+  let lx = ML + 8;
+  const ly = STRIP_BOT + STRIP_H / 2 + 2;
+  for (let i = 0; i < labels.length; i++) {
+    const lbl = labels[i];
+    const lw2 = f.bold.widthOfTextAtSize(lbl, 7);
+    page.drawText(lbl, { x: lx, y: ly, size: 7, font: f.bold, color: c3(SL500) });
+    lx += lw2 + 4;
+    const fieldW = CW * widths[i] - 4;
+    page.drawLine({ start: { x: lx, y: ly-1 }, end: { x: lx+fieldW, y: ly-1 }, thickness: 1.2, color: c3(SL300), dashArray: [2,2], dashPhase: 0 });
+    lx += fieldW + 10;
+  }
+}
+
+function drawBanner(page: PDFPage, title: string, subtitle: string, pill: string, f: Fonts) {
+  drawGrad(page, ML, BNR_BOT, CW, BNR_H, NAVY, BLUE);
+  page.drawText(sanitize(title).substring(0, 60), { x: ML+12, y: BNR_BOT+BNR_H-17, size: 10.5, font: f.bold, color: rgb(1,1,1) });
+  page.drawText(sanitize(subtitle).substring(0, 85), { x: ML+12, y: BNR_BOT+BNR_H-30, size: 7, font: f.reg, color: c3(BLINE) });
+  const pt = sanitize(pill).toUpperCase();
+  const pW = f.bold.widthOfTextAtSize(pt, 6.5) + 18;
+  const pX = W-MR-pW-4, pY = BNR_BOT+(BNR_H-18)/2;
+  page.drawRectangle({ x: pX, y: pY, width: pW, height: 18, color: rgb(1,1,1), opacity: 0.2 });
+  page.drawRectangle({ x: pX, y: pY, width: pW, height: 18, color: rgb(1,1,1), opacity: 0, borderColor: rgb(1,1,1), borderWidth: 0.75, borderOpacity: 0.35 });
+  page.drawText(pt, { x: pX+9, y: pY+6, size: 6.5, font: f.bold, color: rgb(1,1,1) });
+}
+
+function drawFooter(page: PDFPage, pgNum: number, docType: string, f: Fonts) {
+  page.drawLine({ start: { x: ML, y: FTR_TOP }, end: { x: W-MR, y: FTR_TOP }, thickness: 1, color: c3(SL100) });
+  const fy = MB + 7;
+  page.drawText("(c) 2026 ", { x: ML, y: fy, size: 7, font: f.reg, color: c3(SL500) });
+  const c1w = f.reg.widthOfTextAtSize("(c) 2026 ", 7);
+  page.drawText("WorksheetDownload.com", { x: ML+c1w, y: fy, size: 7, font: f.bold, color: c3(BLUE) });
+  const c2w = f.bold.widthOfTextAtSize("WorksheetDownload.com", 7);
+  page.drawText(` - Free Tech ${docType} Resources`, { x: ML+c1w+c2w, y: fy, size: 7, font: f.reg, color: c3(SL500) });
+  const url = "https://worksheetdownload.com/";
+  const uw = f.reg.widthOfTextAtSize(url, 7);
+  page.drawText(url, { x: W/2-uw/2, y: fy, size: 7, font: f.reg, color: c3(SL300) });
+  const badge = `Sheet ${pgNum}/2`;
+  const bw = f.bold.widthOfTextAtSize(badge, 7) + 14;
+  page.drawRectangle({ x: W-MR-bw, y: MB+3, width: bw, height: 13, color: c3(SL100), borderColor: c3(SL200), borderWidth: 0.5 });
+  page.drawText(badge, { x: W-MR-bw+7, y: MB+6, size: 7, font: f.bold, color: c3(SL500) });
+}
+
+function drawQuestionCard(
+  page: PDFPage, x: number, top: number, width: number, height: number,
+  qNum: number, question: string, tag: string, f: Fonts
+) {
+  const bot = top - height;
+  page.drawRectangle({ x, y: bot, width, height, color: rgb(1,1,1), borderColor: c3(SL200), borderWidth: 0.75 });
+  page.drawRectangle({ x, y: bot, width: 3.5, height, color: c3(BLUE) });
+
+  // Q number pill
+  const numStr = `Q${qNum}`;
+  const numW = 28;
+  page.drawRectangle({ x: x+7, y: top-22, width: numW, height: 18, color: c3(BPILL), borderColor: c3(BLINE), borderWidth: 0.75 });
+  const nw = f.bold.widthOfTextAtSize(numStr, 7.5);
+  page.drawText(numStr, { x: x+7+(numW-nw)/2, y: top-17, size: 7.5, font: f.bold, color: c3(BTEXT) });
+
+  // Tag
+  const tagTxt = sanitize(tag);
+  const tagW = f.bold.widthOfTextAtSize(tagTxt, 6.2) + 10;
+  const tagX = x + width - tagW - 5;
+  page.drawRectangle({ x: tagX, y: top-22, width: tagW, height: 11, color: c3(BPILL), borderColor: c3(BLINE), borderWidth: 0.5 });
+  page.drawText(tagTxt, { x: tagX+5, y: top-18, size: 6.2, font: f.bold, color: c3(BTEXT) });
+
+  // Question text (wrapping)
+  const qLines = wrap(sanitize(question), width - numW - tagW - 30, f.bold, 8);
+  let qy = top - 17;
+  for (const ql of qLines.slice(0, 3)) {
+    page.drawText(ql, { x: x+7+numW+6, y: qy, size: 8, font: f.bold, color: c3(SL900) });
+    qy -= 10;
+  }
+
+  // Answer lines (3 lines)
+  const ansY = bot + height - 44;
+  page.drawText("Answer:", { x: x+42, y: ansY, size: 7, font: f.reg, color: c3(SL500) });
+  const lineX = x + 42;
+  const lineW = width - 52;
+  for (let l = 0; l < 3; l++) {
+    const ly = ansY - 3 - l * 15;
+    if (ly < bot + 6) break;
+    page.drawLine({ start: { x: lineX, y: ly }, end: { x: lineX+lineW, y: ly }, thickness: 1.2, color: c3(SL300) });
+  }
 }
 
 export interface InterviewSheetSpec {
-  name: string;
-  subtitle: string;
-  accentHex: string;
-  questions: string[]; // exactly 10
+  name: string; subtitle: string; accentHex: string;
+  questions: string[];
 }
 
 export async function buildInterviewSheetPdf(spec: InterviewSheetSpec): Promise<Uint8Array> {
   const doc = await PDFDocument.create();
-  const page = doc.addPage([W, H]);
-
   const fontBold = await doc.embedFont(StandardFonts.HelveticaBold);
   const fontReg  = await doc.embedFont(StandardFonts.Helvetica);
+  const fontMono = await doc.embedFont(StandardFonts.Courier);
+  const f: Fonts = { bold: fontBold, reg: fontReg, mono: fontMono };
 
-  const accent     = hexToRgb(spec.accentHex);
-  const accentDark = accent.map(v => Math.max(0, v - 40)) as [number, number, number];
-  const ar = accent[0] / 255, ag = accent[1] / 255, ab = accent[2] / 255;
-
-  // ── Diagonal watermark ─────────────────────────────────────────────────
-  for (const pos of [
-    { x: 55,  y: 200 }, { x: 300, y: 340 }, { x: 540, y: 185 },
-    { x: 155, y: 430 }, { x: 430, y: 445 },
-  ]) {
-    page.drawText("worksheetdownload.com", {
-      x: pos.x, y: pos.y,
-      size: 14, font: fontBold,
-      color: rgb(0.88, 0.88, 0.88),
-      rotate: degrees(30),
-      opacity: 0.45,
-    });
-  }
-
-  // ── Header band ────────────────────────────────────────────────────────
-  page.drawRectangle({ x: 0, y: H - HDR_H, width: W, height: HDR_H,
-    color: rgb(ar, ag, ab) });
-  page.drawRectangle({ x: W - 160, y: H - HDR_H, width: 160, height: HDR_H,
-    color: rgb(accentDark[0] / 255, accentDark[1] / 255, accentDark[2] / 255) });
-
-  page.drawText(`${sanitize(spec.name)} - Interview Sheet`, {
-    x: M + 2, y: H - 23, size: 16, font: fontBold, color: rgb(1, 1, 1) });
-  page.drawText(sanitize(spec.subtitle), {
-    x: M + 2, y: H - 39, size: 7.5, font: fontReg, color: rgb(0.88, 0.88, 0.88) });
-
-  page.drawText("worksheetdownload.com", {
-    x: W - 158, y: H - 21, size: 8, font: fontBold, color: rgb(0.95, 0.95, 0.95) });
-  page.drawText("Top 10 Interview Questions", {
-    x: W - 153, y: H - 36, size: 7, font: fontReg, color: rgb(0.85, 0.85, 0.85) });
-
-  // ── Footer ─────────────────────────────────────────────────────────────
-  page.drawText(
-    `${sanitize(spec.name)} Interview Sheet  -  worksheetdownload.com  -  Free Tech Interview Prep`,
-    { x: M, y: M + 5, size: 6.5, font: fontReg, color: rgb(0.55, 0.55, 0.55) });
-
-  // ── Questions: 2 columns × 5 rows ─────────────────────────────────────
+  const name = sanitize(spec.name);
+  const subtitle = sanitize(spec.subtitle || "Interview Prep");
   const qs = spec.questions.slice(0, 10);
 
-  for (let i = 0; i < 10; i++) {
-    const col = Math.floor(i / 5);
-    const row = i % 5;
-    const colX = M + col * (COL_W + COL_GAP);
-    const qTop = CONTENT_TOP - row * Q_H;
-    const qBot = qTop - Q_H;
+  const PAGE_DEFS = [
+    { pill: "Part 1: Questions 1 - 5",  sub: "Core mechanisms, architecture, production configs & identity integration" },
+    { pill: "Part 2: Questions 6 - 10", sub: "Credential lifecycle, audit, compliance, vulnerability testing & performance" },
+  ];
 
-    // Left accent bar
-    page.drawRectangle({
-      x: colX, y: qBot + 3,
-      width: 3, height: Q_H - 5,
-      color: rgb(ar, ag, ab),
-    });
+  for (let pi = 0; pi < 2; pi++) {
+    const page = doc.addPage([W, H]);
+    const def = PAGE_DEFS[pi];
 
-    // Q-number
-    page.drawText(`Q${i + 1}.`, {
-      x: colX + 7, y: qTop - 14,
-      size: 8.5, font: fontBold,
-      color: rgb(ar, ag, ab),
-    });
+    drawWatermark(page, fontBold);
+    drawHeader(page, subtitle + " · Interview Prep", "Interview Series", name, f);
+    drawCandidateStrip(page, f);
+    drawBanner(page, `TOP 10 ${name.toUpperCase()} INTERVIEW QUESTIONS`, def.sub, def.pill, f);
+    drawFooter(page, pi + 1, "Interview Prep", f);
 
-    // Question text (2 lines max)
-    const qLines = wrap(sanitize(qs[i] || ""), 67);
-    page.drawText(qLines[0] || "", {
-      x: colX + 27, y: qTop - 13,
-      size: 7.5, font: fontBold, color: rgb(0.1, 0.1, 0.1),
-    });
-    if (qLines[1]) {
-      page.drawText(qLines[1], {
-        x: colX + 27, y: qTop - 23,
-        size: 7.5, font: fontBold, color: rgb(0.1, 0.1, 0.1),
-      });
-    }
-
-    // "Answer:" label + 3 ruled lines
-    const ansY = qTop - 40;
-    page.drawText("Answer:", {
-      x: colX + 7, y: ansY,
-      size: 6.5, font: fontReg, color: rgb(0.5, 0.5, 0.5),
-    });
-    for (let l = 0; l < 3; l++) {
-      page.drawLine({
-        start: { x: colX + 7, y: ansY - 3 - l * 17 },
-        end:   { x: colX + COL_W - 4, y: ansY - 3 - l * 17 },
-        thickness: 0.5, color: rgb(0.78, 0.78, 0.78),
-      });
-    }
-
-    // Row separator (except after last row in each column)
-    if (row < 4) {
-      page.drawLine({
-        start: { x: colX + 3, y: qBot + 3 },
-        end:   { x: colX + COL_W, y: qBot + 3 },
-        thickness: 0.3, color: rgb(0.85, 0.85, 0.85),
-      });
+    // 5 question cards per page
+    let cardY = GRID_TOP;
+    for (let qi = 0; qi < 5; qi++) {
+      const globalIdx = pi * 5 + qi;
+      const question = qs[globalIdx] ?? "";
+      const tag = Q_TAGS[globalIdx] ?? "General";
+      drawQuestionCard(page, ML, cardY, CW, Q_H, globalIdx + 1, question, tag, f);
+      cardY -= Q_H + Q_GAP;
     }
   }
-
-  // Column divider
-  const sepX = M + COL_W + COL_GAP / 2;
-  page.drawLine({
-    start: { x: sepX, y: CONTENT_TOP },
-    end:   { x: sepX, y: CONTENT_BOT },
-    thickness: 0.5, color: rgb(0.82, 0.82, 0.82),
-  });
 
   return doc.save();
 }
