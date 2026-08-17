@@ -5,55 +5,59 @@ interface LogoProps {
 }
 
 export default function Logo({ size = 32, showText = true, textSize = "text-lg" }: LogoProps) {
-  const id = "logoGradV2";
-
   return (
     <span className="flex items-center gap-2.5">
       <svg
         width={size}
         height={size}
-        viewBox="0 0 40 40"
+        viewBox="0 0 100 100"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
         aria-label="WorksheetDownload logo"
       >
+        {/* Dark navy background */}
+        <rect width="100" height="100" rx="22" fill="#1e3a5f" />
+        <rect width="100" height="100" rx="22" fill="url(#bgGrad)" />
+
         <defs>
-          <linearGradient id={id} x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
-            <stop offset="0%" stopColor="#3d5280" />
-            <stop offset="100%" stopColor="#2a3f6a" />
+          <linearGradient id="bgGrad" x1="0" y1="0" x2="100" y2="100" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stopColor="#243b6e" />
+            <stop offset="100%" stopColor="#1a2f56" />
           </linearGradient>
         </defs>
 
-        {/* Background rounded square */}
-        <rect x="0" y="0" width="40" height="40" rx="9" fill={`url(#${id})`} />
+        {/* Document / paper */}
+        <rect x="18" y="14" width="52" height="64" rx="5" fill="white" opacity="0.97" />
 
-        {/* Worksheet paper */}
-        <rect x="7" y="7" width="20" height="25" rx="2.5" fill="white" opacity="0.95" />
+        {/* Folded corner dog-ear */}
+        <path d="M58 14 L70 26 L58 26 Z" fill="#c7d2e8" opacity="0.7" />
+        <path d="M58 14 L70 14 L70 26 Z" fill="white" opacity="0.5" />
 
-        {/* Folded corner */}
-        <path d="M23 7 L27 7 L27 11 Z" fill="#C4B5FD" opacity="0.6" />
-        <path d="M23 7 L27 11 L23 11 Z" fill="white" opacity="0.7" />
+        {/* Text lines on document */}
+        <line x1="28" y1="36" x2="60" y2="36" stroke="#94a3b8" strokeWidth="3.5" strokeLinecap="round" />
+        <line x1="28" y1="46" x2="56" y2="46" stroke="#94a3b8" strokeWidth="3.5" strokeLinecap="round" />
+        <line x1="28" y1="56" x2="58" y2="56" stroke="#94a3b8" strokeWidth="3.5" strokeLinecap="round" />
+        <line x1="28" y1="66" x2="50" y2="66" stroke="#94a3b8" strokeWidth="3.5" strokeLinecap="round" />
 
-        {/* Lines on paper */}
-        <line x1="11" y1="15" x2="23" y2="15" stroke="#94A3B8" strokeWidth="1.5" strokeLinecap="round" />
-        <line x1="11" y1="19" x2="21" y2="19" stroke="#94A3B8" strokeWidth="1.5" strokeLinecap="round" />
-        <line x1="11" y1="23" x2="22" y2="23" stroke="#94A3B8" strokeWidth="1.5" strokeLinecap="round" />
-        <line x1="11" y1="27" x2="19" y2="27" stroke="#94A3B8" strokeWidth="1.5" strokeLinecap="round" />
-
-        {/* Pencil — tilted 45° */}
-        <g transform="rotate(-45 30 28)">
-          <rect x="27" y="16" width="6" height="3" rx="1" fill="#FB7185" />
-          <rect x="27" y="19" width="6" height="1.5" fill="#9CA3AF" />
-          <rect x="27" y="20.5" width="6" height="9" fill="#FCD34D" />
-          <path d="M27 29.5 L33 29.5 L30 34 Z" fill="#F5E6C8" />
-          <path d="M28.5 29.5 L31.5 29.5 L30 32.5 Z" fill="#374151" />
+        {/* Pencil — diagonal, bottom-right, pointing lower-left */}
+        <g transform="translate(52, 52) rotate(-45)">
+          {/* Eraser (top) */}
+          <rect x="-5" y="-28" width="10" height="8" rx="2.5" fill="#fb7185" />
+          {/* Ferrule (metal band) */}
+          <rect x="-5" y="-20" width="10" height="4" fill="#94a3b8" />
+          {/* Body (yellow) */}
+          <rect x="-5" y="-16" width="10" height="26" fill="#fbbf24" />
+          {/* Wood tip */}
+          <path d="M-5 10 L5 10 L0 20 Z" fill="#f5deb3" />
+          {/* Graphite tip */}
+          <path d="M-2 12 L2 12 L0 18 Z" fill="#374151" />
         </g>
       </svg>
 
       {showText && (
         <span className={`font-bold ${textSize} tracking-tight`}>
           <span className="text-slate-900">Worksheet</span>
-          <span style={{ color: "#3d5280" }}>Download</span>
+          <span style={{ color: "#243b6e" }}>Download</span>
         </span>
       )}
     </span>
