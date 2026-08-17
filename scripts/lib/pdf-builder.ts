@@ -231,19 +231,25 @@ function drawBanner(
 // ── Footer ───────────────────────────────────────────────────────────────────
 function drawFooter(page: PDFPage, pgNum: number, f: Fonts) {
   page.drawLine({ start: { x: ML, y: FTR_TOP }, end: { x: W-MR, y: FTR_TOP }, thickness: 1, color: SL100 });
-  const fy = MB + 7;
-  page.drawText("\xA9 2026 ", { x: ML, y: fy, size: 7, font: f.reg, color: SL500 });
+
+  // Line 1 (top): full-width copyright — no badge here so no overlap possible
+  const fy1 = MB + 13;
+  page.drawText("\xA9 2026 ", { x: ML, y: fy1, size: 7, font: f.reg, color: SL500 });
   const c1w = f.reg.widthOfTextAtSize("\xA9 2026 ", 7);
-  page.drawText("WorksheetDownload.com", { x: ML+c1w, y: fy, size: 7, font: f.bold, color: BLUE });
+  page.drawText("WorksheetDownload.com", { x: ML+c1w, y: fy1, size: 7, font: f.bold, color: BLUE });
   const c2w = f.bold.widthOfTextAtSize("WorksheetDownload.com", 7);
-  page.drawText(" - Free Printable Educational Resources", { x: ML+c1w+c2w, y: fy, size: 7, font: f.reg, color: SL500 });
+  page.drawText(" - Free Printable Educational Resources", { x: ML+c1w+c2w, y: fy1, size: 7, font: f.reg, color: SL500 });
+
+  // Line 2 (bottom): centered URL + right-aligned sheet badge — different x ranges, no overlap
+  const fy2 = MB + 3;
   const url = "https://worksheetdownload.com/";
-  const uw = f.reg.widthOfTextAtSize(url, 7);
-  page.drawText(url, { x: W/2-uw/2, y: fy, size: 7, font: f.reg, color: SL400 });
+  const uw = f.reg.widthOfTextAtSize(url, 6.5);
+  page.drawText(url, { x: W/2-uw/2, y: fy2+1, size: 6.5, font: f.reg, color: SL400 });
+
   const badge = `Sheet ${pgNum}/2`;
   const bw = f.bold.widthOfTextAtSize(badge, 7) + 14;
-  page.drawRectangle({ x: W-MR-bw, y: MB+3, width: bw, height: 13, color: SL100, borderColor: SL200, borderWidth: 0.5 });
-  page.drawText(badge, { x: W-MR-bw+7, y: MB+6, size: 7, font: f.bold, color: SL500 });
+  page.drawRectangle({ x: W-MR-bw, y: fy2-1, width: bw, height: 11, color: SL100, borderColor: SL200, borderWidth: 0.5 });
+  page.drawText(badge, { x: W-MR-bw+7, y: fy2, size: 7, font: f.bold, color: SL500 });
 }
 
 // ── Q card (page 1) ──────────────────────────────────────────────────────────
