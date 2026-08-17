@@ -251,11 +251,12 @@ function drawACard(page: PDFPage, x: number, top: number, w: number, h: number, 
   let ty = top - 17;
   page.drawText(titleLines[0] ?? "", { x: x+32, y: ty, size: 7.5, font: f.bold, color: c3(GRN_ACC) });
 
-  // Separator below title row
-  ty -= 12;
-  page.drawLine({ start: { x: x+3, y: ty+2 }, end: { x: x+w, y: ty+2 }, thickness: 0.5, color: c3(GRN_BD) });
+  // Separator — 14pt below title baseline, clearly above answer text
+  ty -= 14;
+  page.drawLine({ start: { x: x+3, y: ty }, end: { x: x+w, y: ty }, thickness: 0.5, color: c3(GRN_BD) });
 
-  // Answer text — full card width, below separator
+  // Answer text starts 8pt below the separator line
+  ty -= 8;
   const aLines = wrap(sanitize(a), w - 14, f.reg, 7);
   for (const al of aLines.slice(0, 5)) {
     if (ty < bot + 6) break;
