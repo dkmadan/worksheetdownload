@@ -31,7 +31,7 @@ const CARD_PAD_B  = 6;    // bottom inner padding
 const PROSE_LH    = 9.5;  // prose line height (pt)
 const CODE_LH     = 8.5;  // code line height (pt)
 const CODE_PAD    = 4;    // code block top/bottom inner padding
-const CODE_BLK_GAP = 5;   // gap below a code block before next seg
+const CODE_BLK_GAP = 10;  // gap below a code block before next seg
 const CARD_GAP    = 12;   // vertical gap between cards
 const CARD_MIN_H  = 72;   // minimum card height
 
@@ -290,7 +290,7 @@ function drawCard(
         const trimmed = raw.trimStart();
         // Gray for comments, near-white for code
         const isComment = trimmed.startsWith("#") || trimmed.startsWith("//") || trimmed.startsWith("--");
-        const textColor = isComment ? rgb(0.53, 0.62, 0.75) : rgb(0.973, 0.980, 0.988);
+        const textColor = isComment ? rgb(0.580, 0.639, 0.722) : rgb(0.973, 0.980, 0.988);
         page.drawText(txt, { x: cx+4, y: cy - CODE_LH + 2, size: 6, font: f.mono, color: textColor });
         cy -= CODE_LH;
       }
