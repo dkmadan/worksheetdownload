@@ -25,7 +25,7 @@ const GRID_TOP  = BNR_BOT - BNR_GAP;
 const FTR_TOP   = MB + FTR_H;
 const GRID_BOT  = FTR_TOP + FTR_GAP;
 const GRID_H    = GRID_TOP - GRID_BOT;
-const Q_GAP     = 7;
+const Q_GAP     = 12;
 const Q_H       = Math.floor((GRID_H - 4 * Q_GAP) / 5);
 
 type RGB3 = readonly [number, number, number];

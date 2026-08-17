@@ -27,7 +27,7 @@ const GRID_TOP  = BNR_BOT - BNR_GAP;
 const FTR_TOP   = MB + FTR_H;
 const GRID_BOT  = FTR_TOP + FTR_GAP;
 const GRID_H    = GRID_TOP - GRID_BOT;
-const CARD_GAP  = 7;
+const CARD_GAP  = 12;
 const CARD_H    = Math.floor((GRID_H - 4 * CARD_GAP) / 5);
 
 // Page 2 (no strip): banner starts right after header
@@ -188,28 +188,39 @@ function drawQCard(page: PDFPage, x: number, top: number, w: number, h: number, 
   const qnw = f.bold.widthOfTextAtSize(qStr, 6.8);
   page.drawText(qStr, { x: x+5+(24-qnw)/2, y: top-17, size: 6.8, font: f.bold, color: c3(BTEXT) });
 
-  // Tag
+  // Tag — computed first so question text can avoid it
   const tagTxt = sanitize(tag);
-  const tagW = f.bold.widthOfTextAtSize(tagTxt, 5.8) + 8;
-  const tagX = x + w - tagW - 4;
-  page.drawRectangle({ x: tagX, y: top-22, width: tagW, height: 11, color: c3(BPILL), borderColor: c3(BLINE), borderWidth: 0.5 });
-  page.drawText(tagTxt, { x: tagX+4, y: top-17, size: 5.8, font: f.bold, color: c3(BTEXT) });
+  const tagW = f.bold.widthOfTextAtSize(tagTxt, 5.8) + 10;
+  const tagX = x + w - tagW - 6;
+  page.drawRectangle({ x: tagX, y: top-22, width: tagW, height: 13, color: c3(BPILL), borderColor: c3(BLINE), borderWidth: 0.5 });
+  page.drawText(tagTxt, { x: tagX+5, y: top-16, size: 5.8, font: f.bold, color: c3(BTEXT) });
 
-  // Question text
-  const qLines = wrap(sanitize(q), w - 40, f.bold, 7.4);
+  // Question text — width constrained so line 1 never reaches the tag pill
+  const qTextX = x + 32;
+  const maxQW = Math.max(60, tagX - qTextX - 8);
+  const qLines = wrap(sanitize(q), maxQW, f.bold, 7.4);
   let qy = top - 17;
-  const maxQLines = Math.min(qLines.length, 2);
-  for (let i = 0; i < maxQLines; i++) {
-    page.drawText(qLines[i], { x: x+32, y: qy, size: 7.4, font: f.bold, color: c3(SL900) });
+  const drawnQLines = Math.min(qLines.length, 2);
+  for (let i = 0; i < drawnQLines; i++) {
+    page.drawText(qLines[i], { x: qTextX, y: qy, size: 7.4, font: f.bold, color: c3(SL900) });
     qy -= 9;
   }
+  // If question has a 2nd line that was truncated because of the tag, show the rest on line 2 at full width
+  if (qLines.length > drawnQLines) {
+    const rest = qLines.slice(drawnQLines).join(" ");
+    const restLines = wrap(rest, w - 14, f.bold, 7.4);
+    if (restLines[0] && qy >= bot + 26) {
+      page.drawText(restLines[0], { x: x+7, y: qy, size: 7.4, font: f.bold, color: c3(SL900) });
+      qy -= 9;
+    }
+  }
 
-  // 2 answer lines — positioned below question text with spacing
+  // 2 answer lines — below question text with a clear gap
   const lineX = x + 7, lineW = w - 14;
-  const ansMinY = bot + 6;
-  const ansStartY = qy - 8; // 8pt gap below last question line
+  const ansMinY = bot + 8;
+  const ansStartY = Math.max(bot + 30, qy - 10);
   for (let l = 0; l < 2; l++) {
-    const ly = ansStartY - l * 14;
+    const ly = ansStartY - l * 15;
     if (ly < ansMinY) break;
     page.drawLine({ start: { x: lineX, y: ly }, end: { x: lineX+lineW, y: ly }, thickness: 1.2, color: c3(SL300) });
   }
@@ -226,26 +237,30 @@ function drawACard(page: PDFPage, x: number, top: number, w: number, h: number, 
   const anw = f.bold.widthOfTextAtSize(aStr, 6.8);
   page.drawText(aStr, { x: x+5+(24-anw)/2, y: top-17, size: 6.8, font: f.bold, color: c3(GRN_TXT) });
 
-  // Green tag
+  // Green tag — computed first so title can avoid it
   const tagTxt = sanitize(tag);
-  const tagW = f.bold.widthOfTextAtSize(tagTxt, 5.8) + 8;
-  const tagX = x + w - tagW - 4;
-  page.drawRectangle({ x: tagX, y: top-22, width: tagW, height: 11, color: c3(GRN_BG), borderColor: c3(GRN_BD), borderWidth: 0.5 });
-  page.drawText(tagTxt, { x: tagX+4, y: top-17, size: 5.8, font: f.bold, color: c3(GRN_TXT) });
+  const tagW = f.bold.widthOfTextAtSize(tagTxt, 5.8) + 10;
+  const tagX = x + w - tagW - 6;
+  page.drawRectangle({ x: tagX, y: top-22, width: tagW, height: 13, color: c3(GRN_BG), borderColor: c3(GRN_BD), borderWidth: 0.5 });
+  page.drawText(tagTxt, { x: tagX+5, y: top-16, size: 5.8, font: f.bold, color: c3(GRN_TXT) });
 
-  // Key title (first ~8 words of answer)
-  const titleWords = sanitize(a).split(" ").slice(0, 7).join(" ");
-  const titleLines = wrap(titleWords, w - 40, f.bold, 7.5);
+  // Key title (first 6 words of answer), constrained to not reach tag
+  const titleWords = sanitize(a).split(" ").slice(0, 6).join(" ");
+  const maxTitleW = Math.max(60, tagX - (x + 32) - 8);
+  const titleLines = wrap(titleWords, maxTitleW, f.bold, 7.5);
   let ty = top - 17;
   page.drawText(titleLines[0] ?? "", { x: x+32, y: ty, size: 7.5, font: f.bold, color: c3(GRN_ACC) });
-  ty -= 10;
 
-  // Answer text
-  const aLines = wrap(sanitize(a), w - 14, f.reg, 6.8);
-  for (const al of aLines.slice(0, 4)) {
+  // Separator below title row
+  ty -= 12;
+  page.drawLine({ start: { x: x+3, y: ty+2 }, end: { x: x+w, y: ty+2 }, thickness: 0.5, color: c3(GRN_BD) });
+
+  // Answer text — full card width, below separator
+  const aLines = wrap(sanitize(a), w - 14, f.reg, 7);
+  for (const al of aLines.slice(0, 5)) {
     if (ty < bot + 6) break;
-    page.drawText(al, { x: x+7, y: ty, size: 6.8, font: f.reg, color: c3(SL700) });
-    ty -= 8.5;
+    page.drawText(al, { x: x+7, y: ty, size: 7, font: f.reg, color: c3(SL700) });
+    ty -= 9;
   }
 }
 
