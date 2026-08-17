@@ -1,5 +1,6 @@
 import React from "react";
 import * as Custom from "./apiTechIcons";
+import * as ML from "./mlTechIcons";
 import {
   siPostman, siGraphql, siReact, siNodedotjs, siPython, siDocker, siKubernetes,
   siPostgresql, siMysql, siMongodb, siRedis, siGit, siGithub, siGitlab,
@@ -68,6 +69,29 @@ const CUSTOM_MAP: Record<string, React.FC<{ size: number }>> = {
   "api caching":           Custom.ApiCachingIcon,
   "microservices mesh":    Custom.MicroservicesMeshIcon,
   "api mocking":           Custom.ApiMockingIcon,
+
+  // AI Agents
+  "autogpt":               ML.AutoGptIcon,
+  "babyagi":               ML.BabyAgiIcon,
+  "langchain agents":      ML.LangChainAgentsIcon,
+  "crewai":                ML.CrewAiIcon,
+  "autogen":               ML.AutoGenIcon,
+  "metagpt":               ML.MetaGptIcon,
+  "semantic kernel":       ML.SemanticKernelIcon,
+  "chatdev":               ML.ChatDevIcon,
+  "agentgpt":              ML.AgentGptIcon,
+
+  // AI / ML frameworks
+  "tensorflow":            ML.TensorFlowIcon,
+  "pytorch":               ML.PyTorchIcon,
+  "scikit-learn":          ML.ScikitLearnIcon,
+  "keras":                 ML.KerasIcon,
+  "xgboost":               ML.XGBoostIcon,
+  "hugging face":          ML.HuggingFaceIcon,
+  "opencv":                ML.OpenCvIcon,
+  "jax":                   ML.JaxIcon,
+  "fastai":                ML.FastAiIcon,
+  "onnx":                  ML.OnnxIcon,
 };
 
 // ── Simple Icons map: lowercase tech name → SI icon ───────────────────────────
