@@ -1,5 +1,371 @@
-import { PDFDocument, rgb, StandardFonts, PDFPage, PDFFont, degrees } from "pdf-lib";
+import { PDFDocument, PDFPage, PDFFont, StandardFonts, rgb, degrees } from "pdf-lib";
 
+// ── Page geometry (A4 Portrait) ──────────────────────────────────────────────
+const W = 595, H = 842;
+const ML = 30, MR = 30, MT = 28, MB = 25;
+const CW = W - ML - MR;              // 535pt
+const COL_GAP  = 12;
+const COL_W    = (CW - COL_GAP) / 2; // 261.5pt
+
+// Section heights
+const LOGO_SZ   = 42;
+const HDR_H     = 54;
+const HDR_GAP   = 8;
+const STRIP_H   = 24;   // student info strip
+const STRIP_GAP = 8;
+const BNR_H     = 42;   // title banner
+const BNR_GAP   = 8;
+const FTR_H     = 20;
+const FTR_GAP   = 6;
+
+// Page 1 vertical geometry
+const HDR_TOP   = H  - MT;
+const HDR_BOT   = HDR_TOP  - HDR_H;
+const STRIP_TOP = HDR_BOT  - HDR_GAP;
+const STRIP_BOT = STRIP_TOP - STRIP_H;
+const BNR_TOP   = STRIP_BOT - STRIP_GAP;
+const BNR_BOT   = BNR_TOP  - BNR_H;
+const GRID_TOP  = BNR_BOT  - BNR_GAP;
+const FTR_TOP   = MB + FTR_H;
+const GRID_BOT  = FTR_TOP  + FTR_GAP;
+const GRID_H    = GRID_TOP - GRID_BOT;   // available height for 10-row×2-col grid
+const CARD_GAP  = 8;
+const CARD_H    = Math.floor((GRID_H - 9 * CARD_GAP) / 10);   // ~54–55pt
+
+// Page 2: no student strip
+const BNR_TOP2  = HDR_BOT  - HDR_GAP;
+const BNR_BOT2  = BNR_TOP2 - BNR_H;
+const GRID_TOP2 = BNR_BOT2 - BNR_GAP;
+const GRID_H2   = GRID_TOP2 - GRID_BOT;
+const CARD_H2   = Math.floor((GRID_H2 - 9 * CARD_GAP) / 10);  // ~57–58pt
+
+// ── Colour tokens ────────────────────────────────────────────────────────────
+const px = (r: number, g: number, b: number) => rgb(r/255, g/255, b/255);
+
+const NAVY     = px( 30,  58, 138);   // #1e3a8a
+const BLUE     = px( 37,  99, 235);   // #2563eb
+const BLUE_T   = px( 30,  64, 175);   // #1e40af
+const BLUE_B   = px(239, 246, 255);   // #eff6ff  q-number badge bg
+const BLUE_M   = px(219, 234, 254);   // #dbeafe  q-number badge border
+const BLINE_C  = px(191, 219, 254);   // #bfdbfe  banner subtitle tint
+const SL100    = px(241, 245, 249);   // #f1f5f9
+const SL200    = px(226, 232, 240);   // #e2e8f0  card border
+const SL300    = px(203, 213, 225);   // #cbd5e1  dashed underline
+const SL400    = px(148, 163, 184);   // #94a3b8  answer underline
+const SL500    = px(100, 116, 139);   // #64748b  muted text
+const SL700    = px( 51,  65,  81);   // #334155  body text
+const SL900    = px( 15,  23,  42);   // #0f172a  title text
+const SL_BG    = px(248, 250, 252);   // #f8fafc  strip bg
+const EMRLD    = px( 16, 185, 129);   // #10b981  answer-card left accent
+const EMRLD_D  = px(  6,  95,  70);   // #065f46  green banner grad start
+const EMRLD_M  = px(  5, 150, 105);   // #059669  green banner grad end
+const EMRLD_B  = px(236, 253, 245);   // #ecfdf5  answer badge bg
+const EMRLD_L  = px(167, 243, 208);   // #a7f3d0  answer badge border
+const EMRLD_T  = px(  4, 120,  87);   // #047857  answer badge text
+const GRNA_C   = px(167, 243, 208);   // #a7f3d0  green banner subtitle tint
+const AMBER    = px(245, 158,  11);   // #f59e0b
+const WHITE    = rgb(1, 1, 1);
+
+interface Fonts { bold: PDFFont; reg: PDFFont }
+
+function sanitize(t: string): string {
+  return t.replace(/[^\x00-\xFF]/g, "").replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">").trim();
+}
+
+function wrap(text: string, maxW: number, font: PDFFont, sz: number, maxLines = 3): string[] {
+  const s = sanitize(text);
+  if (font.widthOfTextAtSize(s, sz) <= maxW) return [s];
+  const words = s.split(" ");
+  const out: string[] = [];
+  let line = "";
+  for (const w of words) {
+    const t = line ? line + " " + w : w;
+    if (font.widthOfTextAtSize(t, sz) > maxW && line) {
+      out.push(line);
+      if (out.length >= maxLines) { line = w; break; }
+      line = w;
+    } else line = t;
+  }
+  if (line) {
+    if (out.length >= maxLines) {
+      let last = out[maxLines - 1] + " " + line;
+      while (font.widthOfTextAtSize(last + "...", sz) > maxW && last.length > 4) last = last.slice(0, -1);
+      out[maxLines - 1] = last.trimEnd() + "...";
+    } else out.push(line);
+  }
+  return out;
+}
+
+function trunc(text: string, font: PDFFont, sz: number, maxW: number): string {
+  const s = sanitize(text);
+  if (font.widthOfTextAtSize(s, sz) <= maxW) return s;
+  let t = s;
+  while (t.length > 3 && font.widthOfTextAtSize(t + "...", sz) > maxW) t = t.slice(0, -1);
+  return t.trimEnd() + "...";
+}
+
+// ── Gradient helper ──────────────────────────────────────────────────────────
+type RGB3 = [number, number, number];
+function drawGrad(page: PDFPage, x: number, y: number, w: number, h: number, c1: RGB3, c2: RGB3) {
+  const n = 24, sw = w / n;
+  for (let i = 0; i < n; i++) {
+    const t = i / (n - 1);
+    page.drawRectangle({
+      x: x + i * sw, y, width: sw + 0.5, height: h,
+      color: rgb(c1[0]+t*(c2[0]-c1[0]), c1[1]+t*(c2[1]-c1[1]), c1[2]+t*(c2[2]-c1[2])),
+    });
+  }
+}
+
+// ── Logo ─────────────────────────────────────────────────────────────────────
+function drawLogo(page: PDFPage, sx: number, sy: number) {
+  const s = LOGO_SZ / 100;
+  page.drawRectangle({ x: sx, y: sy, width: LOGO_SZ, height: LOGO_SZ, color: px(36, 59, 110) });
+  page.drawRectangle({ x: sx+18*s, y: sy+22*s, width: 52*s, height: 64*s, color: WHITE });
+  for (const [gy, x1, x2] of [[36,28,60],[46,28,56],[56,28,58],[66,28,50]] as RGB3[]) {
+    page.drawLine({ start: { x: sx+x1*s, y: sy+(100-gy)*s }, end: { x: sx+x2*s, y: sy+(100-gy)*s }, thickness: 3.5*s, color: px(148,163,184) });
+  }
+  page.drawLine({ start: { x: sx+38*s, y: sy+32*s }, end: { x: sx+65*s, y: sy+60*s }, thickness: 7*s, color: AMBER });
+  page.drawLine({ start: { x: sx+63*s, y: sy+62*s }, end: { x: sx+70*s, y: sy+69*s }, thickness: 7*s, color: px(251,113,133) });
+  page.drawLine({ start: { x: sx+33*s, y: sy+28*s }, end: { x: sx+38*s, y: sy+32*s }, thickness: 5*s, color: px(55,65,81) });
+}
+
+// ── Watermark ────────────────────────────────────────────────────────────────
+function drawWatermark(page: PDFPage, font: PDFFont) {
+  page.drawText("WORKSHEETDOWNLOAD", { x: 70, y: H/2+30, size: 52, font, color: BLUE, opacity: 0.032, rotate: degrees(-34) });
+}
+
+// ── Header bar ───────────────────────────────────────────────────────────────
+function drawHeader(page: PDFPage, gradeLabel: string, subjectLabel: string, isAnswerKey: boolean, f: Fonts) {
+  const logoY = HDR_BOT + (HDR_H - LOGO_SZ) / 2;
+  drawLogo(page, ML, logoY);
+
+  const bx = ML + LOGO_SZ + 10;
+  const by = logoY + LOGO_SZ - 12;
+  const w1 = f.bold.widthOfTextAtSize("Worksheet", 13);
+  const w2 = f.bold.widthOfTextAtSize("Download", 13);
+  page.drawText("Worksheet", { x: bx,       y: by, size: 13, font: f.bold, color: SL900 });
+  page.drawText("Download",  { x: bx+w1,    y: by, size: 13, font: f.bold, color: BLUE });
+  page.drawText(".com",      { x: bx+w1+w2, y: by, size: 13, font: f.bold, color: SL900 });
+  page.drawText("LEARN \xB7 PRACTICE \xB7 EXCEL", { x: bx, y: by-13, size: 6.5, font: f.bold, color: SL500 });
+
+  // Grade badge
+  const bW = 130, bH = 36, bX = W-MR-bW, bY = HDR_BOT + (HDR_H-bH)/2;
+  const badgeBg = isAnswerKey ? EMRLD_B : BLUE_B;
+  const badgeBd = isAnswerKey ? EMRLD_L : BLUE_M;
+  page.drawRectangle({ x: bX, y: bY, width: bW, height: bH, color: badgeBg, borderColor: badgeBd, borderWidth: 0.75 });
+  const subj = subjectLabel.toUpperCase().substring(0, 22);
+  const subjW = f.bold.widthOfTextAtSize(subj, 6);
+  page.drawText(subj, { x: bX+bW-subjW-8, y: bY+bH-12, size: 6, font: f.bold, color: isAnswerKey ? EMRLD_T : BLUE_T });
+  const grade = sanitize(gradeLabel).substring(0, 16);
+  const gradeW = f.bold.widthOfTextAtSize(grade, 10);
+  page.drawText(grade, { x: bX+bW-gradeW-8, y: bY+8, size: 10, font: f.bold, color: isAnswerKey ? EMRLD_D : NAVY });
+
+  page.drawLine({ start: { x: ML, y: HDR_BOT }, end: { x: W-MR, y: HDR_BOT }, thickness: 1.5, color: SL100 });
+}
+
+// ── Student info strip (page 1 only) ────────────────────────────────────────
+function drawStudentStrip(page: PDFPage, f: Fonts) {
+  page.drawRectangle({ x: ML, y: STRIP_BOT, width: CW, height: STRIP_H, color: SL_BG, borderColor: SL200, borderWidth: 0.75 });
+  const labels = ["Name:", "Class/Sec:", "Roll No:", "Date:"];
+  const ratios  = [0.35, 0.28, 0.18, 0.19];
+  const lPad = 8, rPad = 6, lblGap = 4, fldGap = 10, n = labels.length;
+  const lblWidths = labels.map(l => f.bold.widthOfTextAtSize(l, 7));
+  const totalLblW = lblWidths.reduce((a, b) => a + b, 0);
+  const totalFldW = CW - lPad - rPad - totalLblW - lblGap * n - fldGap * (n - 1);
+  let lx = ML + lPad;
+  const ly = STRIP_BOT + STRIP_H / 2;
+  for (let i = 0; i < n; i++) {
+    page.drawText(labels[i], { x: lx, y: ly, size: 7, font: f.bold, color: SL500 });
+    lx += lblWidths[i] + lblGap;
+    const fw = Math.max(18, totalFldW * ratios[i]);
+    page.drawLine({ start: { x: lx, y: ly-1 }, end: { x: lx+fw, y: ly-1 }, thickness: 1.5, color: SL300, dashArray: [2, 2], dashPhase: 0 });
+    lx += fw + (i < n-1 ? fldGap : 0);
+  }
+}
+
+// ── Title banner ─────────────────────────────────────────────────────────────
+function drawBanner(
+  page: PDFPage, banTop: number,
+  title: string, subtitle: string, isAnswerKey: boolean, totalItems: number,
+  f: Fonts
+) {
+  const banBot = banTop - BNR_H;
+  const g1: RGB3 = isAnswerKey ? [EMRLD_D.red, EMRLD_D.green, EMRLD_D.blue] : [NAVY.red, NAVY.green, NAVY.blue];
+  const g2: RGB3 = isAnswerKey ? [EMRLD_M.red, EMRLD_M.green, EMRLD_M.blue] : [BLUE.red, BLUE.green, BLUE.blue];
+  drawGrad(page, ML, banBot, CW, BNR_H, g1, g2);
+
+  page.drawText(sanitize(title).substring(0, 55), { x: ML+12, y: banBot+BNR_H-17, size: 11, font: f.bold, color: WHITE });
+  const subColor = isAnswerKey ? GRNA_C : BLINE_C;
+  page.drawText(sanitize(subtitle).substring(0, 75), { x: ML+12, y: banBot+BNR_H-30, size: 7, font: f.reg, color: subColor });
+
+  if (!isAnswerKey) {
+    // Score badge: "Score: ___ / 20"
+    const sc1 = "Score:";
+    const sc2 = "/ 20";
+    const sc1W = f.bold.widthOfTextAtSize(sc1, 7);
+    const sc2W = f.bold.widthOfTextAtSize(sc2, 7);
+    const lineW = 26;
+    const pillW = sc1W + 5 + lineW + 5 + sc2W + 16;
+    const pillH = 20, pillX = W-MR-pillW-4, pillY = banBot+(BNR_H-pillH)/2;
+    page.drawRectangle({ x: pillX, y: pillY, width: pillW, height: pillH, color: WHITE, opacity: 0.18 });
+    page.drawRectangle({ x: pillX, y: pillY, width: pillW, height: pillH, color: WHITE, opacity: 0, borderColor: WHITE, borderWidth: 0.75, borderOpacity: 0.3 });
+    const ty = pillY + pillH/2 - 3;
+    let px2 = pillX + 8;
+    page.drawText(sc1, { x: px2, y: ty, size: 7, font: f.bold, color: WHITE });
+    px2 += sc1W + 5;
+    page.drawLine({ start: { x: px2, y: ty-1 }, end: { x: px2+lineW, y: ty-1 }, thickness: 1, color: WHITE, opacity: 0.85 });
+    px2 += lineW + 5;
+    page.drawText(sc2, { x: px2, y: ty, size: 7, font: f.bold, color: WHITE });
+  } else {
+    // "Total: N Items" pill
+    const pillTxt = `Total: ${totalItems} Items`;
+    const pillW = f.bold.widthOfTextAtSize(pillTxt, 6.5) + 18;
+    const pillH = 18, pillX = W-MR-pillW-4, pillY = banBot+(BNR_H-pillH)/2;
+    page.drawRectangle({ x: pillX, y: pillY, width: pillW, height: pillH, color: WHITE, opacity: 0.18 });
+    page.drawRectangle({ x: pillX, y: pillY, width: pillW, height: pillH, color: WHITE, opacity: 0, borderColor: WHITE, borderWidth: 0.75, borderOpacity: 0.3 });
+    page.drawText(pillTxt, { x: pillX+9, y: pillY+5, size: 6.5, font: f.bold, color: WHITE });
+  }
+}
+
+// ── Footer ───────────────────────────────────────────────────────────────────
+function drawFooter(page: PDFPage, pgNum: number, f: Fonts) {
+  page.drawLine({ start: { x: ML, y: FTR_TOP }, end: { x: W-MR, y: FTR_TOP }, thickness: 1, color: SL100 });
+  const fy = MB + 7;
+  page.drawText("\xA9 2026 ", { x: ML, y: fy, size: 7, font: f.reg, color: SL500 });
+  const c1w = f.reg.widthOfTextAtSize("\xA9 2026 ", 7);
+  page.drawText("WorksheetDownload.com", { x: ML+c1w, y: fy, size: 7, font: f.bold, color: BLUE });
+  const c2w = f.bold.widthOfTextAtSize("WorksheetDownload.com", 7);
+  page.drawText(" - Free Printable Educational Resources", { x: ML+c1w+c2w, y: fy, size: 7, font: f.reg, color: SL500 });
+  const url = "https://worksheetdownload.com/";
+  const uw = f.reg.widthOfTextAtSize(url, 7);
+  page.drawText(url, { x: W/2-uw/2, y: fy, size: 7, font: f.reg, color: SL400 });
+  const badge = `Sheet ${pgNum}/2`;
+  const bw = f.bold.widthOfTextAtSize(badge, 7) + 14;
+  page.drawRectangle({ x: W-MR-bw, y: MB+3, width: bw, height: 13, color: SL100, borderColor: SL200, borderWidth: 0.5 });
+  page.drawText(badge, { x: W-MR-bw+7, y: MB+6, size: 7, font: f.bold, color: SL500 });
+}
+
+// ── Q card (page 1) ──────────────────────────────────────────────────────────
+function drawQCard(
+  page: PDFPage, x: number, top: number, w: number, h: number,
+  num: number, question: string, qFontSize: number, f: Fonts
+) {
+  const bot = top - h;
+
+  // Card background + border
+  page.drawRectangle({ x, y: bot, width: w, height: h, color: WHITE, borderColor: SL200, borderWidth: 0.75 });
+
+  // Number badge (20×20, blue tint)
+  const BADGE = 20;
+  const badgeX = x + 6, badgeY = top - 6 - BADGE;
+  page.drawRectangle({ x: badgeX, y: badgeY, width: BADGE, height: BADGE, color: BLUE_B, borderColor: BLUE_M, borderWidth: 1.2 });
+  const ns = `${num}`;
+  const nw = f.bold.widthOfTextAtSize(ns, 7.5);
+  page.drawText(ns, { x: badgeX + (BADGE-nw)/2, y: badgeY + 5.5, size: 7.5, font: f.bold, color: BLUE_T });
+
+  // Question text — starts to the right of badge, vertically centered with badge
+  const qTextX = badgeX + BADGE + 5;
+  const maxQW  = w - (qTextX - x) - 6;
+  const qLines = wrap(question, maxQW, f.bold, qFontSize, 2);
+  const qCenterY = badgeY + BADGE/2;  // badge vertical center
+  // For 1 line: baseline at center. For 2 lines: first line center + half line-height above center
+  const lineH = qFontSize + 2;
+  const totalQH = qLines.length * lineH;
+  let qy = qCenterY + totalQH/2 - lineH/2 + 1;
+  for (const line of qLines) {
+    page.drawText(line, { x: qTextX, y: qy, size: qFontSize, font: f.bold, color: SL900 });
+    qy -= lineH;
+  }
+
+  // "Ans:" label + answer line — pinned near bottom
+  const ansY  = bot + 12;
+  const labelTxt = "Ans:";
+  const labelW   = f.bold.widthOfTextAtSize(labelTxt, 7);
+  page.drawText(labelTxt, { x: x+7, y: ansY, size: 7, font: f.bold, color: SL500 });
+  page.drawLine({
+    start: { x: x+7+labelW+4, y: ansY-1 },
+    end:   { x: x+w-7,        y: ansY-1 },
+    thickness: 1.2, color: SL400,
+  });
+}
+
+// ── A card (page 2) ──────────────────────────────────────────────────────────
+function drawACard(
+  page: PDFPage, x: number, top: number, w: number, h: number,
+  num: number, question: string, answer: string, f: Fonts
+) {
+  const bot = top - h;
+
+  // Card background + border
+  page.drawRectangle({ x, y: bot, width: w, height: h, color: WHITE, borderColor: SL200, borderWidth: 0.75 });
+  // Green left accent (3.5pt)
+  page.drawRectangle({ x, y: bot, width: 3.5, height: h, color: EMRLD });
+
+  // Number badge (20×20, green tint)
+  const BADGE = 20;
+  const badgeX = x + 7, badgeY = top - 6 - BADGE;
+  page.drawRectangle({ x: badgeX, y: badgeY, width: BADGE, height: BADGE, color: EMRLD_B, borderColor: EMRLD_L, borderWidth: 1.2 });
+  const ns = `${num}`;
+  const nw = f.bold.widthOfTextAtSize(ns, 7.5);
+  page.drawText(ns, { x: badgeX + (BADGE-nw)/2, y: badgeY + 5.5, size: 7.5, font: f.bold, color: EMRLD_T });
+
+  // Question text (1 line, truncated, next to badge)
+  const qTextX  = badgeX + BADGE + 5;
+  const maxQW   = w - (qTextX - x) - 6;
+  const qShort  = trunc(question, f.reg, 7.5, maxQW);
+  const qCenterY = badgeY + BADGE/2;
+  page.drawText(qShort, { x: qTextX, y: qCenterY - 3, size: 7.5, font: f.reg, color: SL700 });
+
+  // Thin separator below badge row
+  const sepY = badgeY - 4;
+  page.drawLine({ start: { x: x+4, y: sepY }, end: { x: x+w-4, y: sepY }, thickness: 0.5, color: EMRLD_L });
+
+  // Answer pill — pinned near bottom
+  const pillH = 13;
+  const pillY = bot + 8;
+  const ansText = sanitize(answer).substring(0, 48);
+  const ansW = f.bold.widthOfTextAtSize(ansText, 7.5);
+  const pillW = Math.min(w - 14, ansW + 16);
+  const clippedAns = ansW + 16 > w - 14
+    ? trunc(answer, f.bold, 7.5, w - 30)
+    : ansText;
+  page.drawRectangle({ x: x+7, y: pillY, width: pillW, height: pillH, color: EMRLD_B, borderColor: EMRLD_L, borderWidth: 0.75 });
+  page.drawText(clippedAns, { x: x+15, y: pillY + 3, size: 7.5, font: f.bold, color: EMRLD_T });
+}
+
+// ── Grid helpers ─────────────────────────────────────────────────────────────
+function drawQuestionGrid(
+  page: PDFPage, questions: Question[], gridTop: number, cardH: number, qFontSize: number, f: Fonts
+) {
+  for (let col = 0; col < 2; col++) {
+    const colX = ML + col * (COL_W + COL_GAP);
+    let cardY = gridTop;
+    for (let row = 0; row < 10; row++) {
+      const idx = col * 10 + row;
+      if (idx >= questions.length) break;
+      drawQCard(page, colX, cardY, COL_W, cardH, idx + 1, questions[idx].question, qFontSize, f);
+      cardY -= cardH + CARD_GAP;
+    }
+  }
+}
+
+function drawAnswerGrid(
+  page: PDFPage, questions: Question[], gridTop: number, cardH: number, f: Fonts
+) {
+  for (let col = 0; col < 2; col++) {
+    const colX = ML + col * (COL_W + COL_GAP);
+    let cardY = gridTop;
+    for (let row = 0; row < 10; row++) {
+      const idx = col * 10 + row;
+      if (idx >= questions.length) break;
+      drawACard(page, colX, cardY, COL_W, cardH, idx + 1, questions[idx].question, questions[idx].answer, f);
+      cardY -= cardH + CARD_GAP;
+    }
+  }
+}
+
+// ── Public interface ─────────────────────────────────────────────────────────
 export type WorksheetLayout = "math-grid" | "qa-2col" | "kg-2col" | "letter-practice";
 export interface Question { question: string; answer: string }
 export interface BuildOpts {
@@ -7,453 +373,49 @@ export interface BuildOpts {
   sheetNumber: number; questions: Question[]; layout?: WorksheetLayout;
 }
 
-// ── Color palette ─────────────────────────────────────────────────────────────
-const BLUE     = rgb( 37/255,  99/255, 235/255);   // #2563EB
-const DBLUE    = rgb( 30/255,  64/255, 175/255);   // #1E40AF
-const BLUE_BG  = rgb(239/255, 246/255, 255/255);   // #EFF6FF
-const BLUE_MD  = rgb(219/255, 234/255, 254/255);   // #DBEAFE
-const TEAL     = rgb( 13/255, 148/255, 136/255);   // #0D9488
-const TEAL_BG  = rgb(240/255, 253/255, 250/255);   // #F0FDFA
-const PURPLE   = rgb(124/255,  58/255, 237/255);   // #7C3AED
-const PURP_BG  = rgb(245/255, 243/255, 255/255);   // #F5F3FF
-const ORANGE   = rgb(234/255,  88/255,  12/255);   // #EA580C
-const ORNG_BG  = rgb(255/255, 247/255, 237/255);   // #FFF7ED
-const ROSE     = rgb(225/255,  29/255,  72/255);   // #E11D48
-const ROSE_BG  = rgb(255/255, 241/255, 242/255);   // #FFF1F2
-const AMBER    = rgb(245/255, 158/255,  11/255);   // #F59E0B
-const EMERALD  = rgb(  5/255, 150/255, 105/255);   // #059669
-const EMRLD_BG = rgb(236/255, 253/255, 245/255);   // #ECFDF5
-const EMRLD_MD = rgb(167/255, 243/255, 208/255);   // #A7F3D0
-const GRAY     = rgb(107/255, 114/255, 128/255);   // #6B7280
-const LGRAY    = rgb(229/255, 231/255, 235/255);   // #E5E7EB
-const DGRAY    = rgb( 55/255,  65/255,  81/255);   // #374151
-const WHITE    = rgb(1, 1, 1);
-
-const W = 612, H = 792, M = 36;
-const INNER = W - M * 2; // 540pt
-
-// Layout geometry – computed once
-const HDR_BOT   = H - 60;   // 732: bottom of blue banner
-const BAND_BOT  = H - 80;   // 712: bottom of grade band
-const NAME_BOT  = H - 106;  // 686: bottom of name-row box
-const TITLE_Y   = H - 124;  // 668: title first line
-const INSTR_Y   = H - 154;  // 638: instruction line
-const RULE_Y    = H - 162;  // 630: thin separator
-const GRID_TOP  = H - 166;  // 626
-const GRID_BOT  = 48;
-const GRID_H    = GRID_TOP - GRID_BOT; // 578
-
-// Five cycling badge colors (FG + BG)
-const FG5 = [BLUE, TEAL, PURPLE, ORANGE, ROSE] as const;
-const BG5 = [BLUE_BG, TEAL_BG, PURP_BG, ORNG_BG, ROSE_BG] as const;
-function fg(i: number) { return FG5[i % 5]; }
-function bg(i: number) { return BG5[i % 5]; }
-
-// ── Text helpers ──────────────────────────────────────────────────────────────
-function wrapText(text: string, font: PDFFont, size: number, maxW: number, maxLines = 3): string[] {
-  if (font.widthOfTextAtSize(text, size) <= maxW) return [text];
-  const words = text.split(" ");
-  const lines: string[] = [];
-  let line = "";
-  for (const word of words) {
-    const test = line ? `${line} ${word}` : word;
-    if (font.widthOfTextAtSize(test, size) > maxW && line) {
-      lines.push(line);
-      if (lines.length >= maxLines) { line = word; break; }
-      line = word;
-    } else {
-      line = test;
-    }
-  }
-  if (line) {
-    if (lines.length >= maxLines) {
-      // Fit trailing words into the last allowed line with ellipsis
-      let last = lines[maxLines - 1];
-      last += " " + line;
-      while (font.widthOfTextAtSize(last + "...", size) > maxW && last.length > 4)
-        last = last.slice(0, -1);
-      lines[maxLines - 1] = last.trimEnd() + "...";
-    } else {
-      lines.push(line);
-    }
-  }
-  return lines;
-}
-
-function trunc(text: string, font: PDFFont, size: number, maxW: number): string {
-  if (font.widthOfTextAtSize(text, size) <= maxW) return text;
-  let t = text;
-  while (t.length > 3 && font.widthOfTextAtSize(t + "...", size) > maxW) t = t.slice(0, -1);
-  return t + "...";
-}
-
-// ── Shared structural pieces ──────────────────────────────────────────────────
-function drawWatermark(page: PDFPage, font: PDFFont) {
-  page.drawText("worksheetdownload.com", {
-    x: 72, y: 195, size: 55, font,
-    color: rgb(0.72, 0.86, 1), opacity: 0.10,
-    rotate: degrees(38),
-  });
-}
-
-function drawHeader(
-  page: PDFPage,
-  bold: PDFFont, reg: PDFFont, obl: PDFFont,
-  gradeLabel: string, subjectLabel: string
-) {
-  // Blue banner
-  page.drawRectangle({ x: 0, y: HDR_BOT, width: W, height: 60, color: BLUE });
-
-  // Icon (white-tinted document + pencil)
-  const ix = M, iy = H - 54;
-  page.drawRectangle({ x: ix,    y: iy,    width: 26, height: 34, color: rgb(1,1,1), opacity: 0.18 });
-  page.drawRectangle({ x: ix+3,  y: iy+5,  width: 14, height: 20, color: WHITE });
-  for (let l = 0; l < 3; l++) {
-    page.drawLine({ start: { x: ix+5,  y: iy+20-l*5 }, end: { x: ix+15, y: iy+20-l*5 }, thickness: 0.8, color: LGRAY });
-  }
-  page.drawRectangle({ x: ix+18, y: iy+4,  width: 3,  height: 22, color: AMBER });
-  page.drawRectangle({ x: ix+18, y: iy+1,  width: 3,  height: 4,  color: DGRAY });
-
-  // Brand text
-  const bx = M + 38;
-  page.drawText("WorksheetDownload", { x: bx, y: H - 27, size: 14, font: bold, color: WHITE });
-  const ww = bold.widthOfTextAtSize("WorksheetDownload", 14);
-  page.drawText(".com",               { x: bx + ww, y: H - 27, size: 14, font: bold, color: AMBER });
-  page.drawText("Learn \xB7 Practice \xB7 Excel",
-    { x: bx, y: H - 45, size: 8, font: obl, color: rgb(0.85, 0.9, 1) });
-
-  // Right tagline
-  const tag = "Free Printable Worksheets";
-  const tw  = obl.widthOfTextAtSize(tag, 8);
-  page.drawText(tag, { x: W - M - tw, y: H - 36, size: 8, font: obl, color: rgb(0.85, 0.9, 1) });
-
-  // Grade / Subject band
-  page.drawRectangle({ x: 0, y: BAND_BOT, width: W, height: 20, color: BLUE_MD });
-  page.drawText(`${gradeLabel}  \xB7  ${subjectLabel}`,
-    { x: M, y: BAND_BOT + 5, size: 8, font: bold, color: DBLUE });
-  const site = "worksheetdownload.com";
-  const sw   = reg.widthOfTextAtSize(site, 7.5);
-  page.drawText(site, { x: W - M - sw, y: BAND_BOT + 5, size: 7.5, font: reg, color: DBLUE });
-}
-
-function drawNameRow(page: PDFPage, bold: PDFFont) {
-  const bh = NAME_BOT - BAND_BOT; // 26pt
-  page.drawRectangle({
-    x: M, y: NAME_BOT, width: INNER, height: bh,
-    color: BLUE_BG, borderColor: BLUE_MD, borderWidth: 0.8,
-  });
-  const fields: { label: string; w: number }[] = [
-    { label: "Name:",      w: 198 },
-    { label: "Class/Sec:", w: 118 },
-    { label: "Roll No:",   w: 90  },
-    { label: "Date:",      w: 134 },
-  ];
-  let cx = M;
-  for (let i = 0; i < fields.length; i++) {
-    const f = fields[i];
-    if (i > 0) page.drawLine({
-      start: { x: cx, y: BAND_BOT }, end: { x: cx, y: NAME_BOT + bh },
-      thickness: 0.5, color: BLUE_MD,
-    });
-    page.drawText(f.label, { x: cx + 5, y: NAME_BOT + 8, size: 8, font: bold, color: BLUE });
-    const lw = bold.widthOfTextAtSize(f.label, 8);
-    page.drawLine({
-      start: { x: cx + lw + 6, y: NAME_BOT + 8 },
-      end:   { x: cx + f.w - 5, y: NAME_BOT + 8 },
-      thickness: 0.3, color: LGRAY,
-    });
-    cx += f.w;
-  }
-}
-
-function drawTitle(page: PDFPage, bold: PDFFont, reg: PDFFont, topicLabel: string, sheetNumber: number) {
-  const title = topicLabel.toUpperCase();
-  const lines = wrapText(title, bold, 16, INNER, 2);
-  for (let i = 0; i < lines.length; i++) {
-    const lw = bold.widthOfTextAtSize(lines[i], 16);
-    page.drawText(lines[i], { x: (W - lw) / 2, y: TITLE_Y - i * 20, size: 16, font: bold, color: BLUE });
-  }
-
-  page.drawText("Write your answer on the blank line provided.",
-    { x: M, y: INSTR_Y, size: 8, font: reg, color: GRAY });
-
-  // Score box
-  const sbW = 132, sbX = W - M - sbW;
-  page.drawRectangle({
-    x: sbX, y: INSTR_Y - 3, width: sbW, height: 14,
-    color: BLUE_BG, borderColor: BLUE_MD, borderWidth: 0.5,
-  });
-  page.drawText("Score:", { x: sbX + 4, y: INSTR_Y, size: 8, font: bold, color: GRAY });
-  page.drawLine({
-    start: { x: sbX + 46, y: INSTR_Y }, end: { x: sbX + 82, y: INSTR_Y },
-    thickness: 0.8, color: GRAY,
-  });
-  page.drawText("/ 20", { x: sbX + 84, y: INSTR_Y, size: 8, font: bold, color: GRAY });
-  const sn = `Sheet ${sheetNumber}/4`;
-  const snW = bold.widthOfTextAtSize(sn, 7.5);
-  page.drawText(sn, { x: sbX + sbW - snW - 3, y: INSTR_Y - 11, size: 7.5, font: bold, color: BLUE });
-
-  // Separator rule with dots
-  page.drawLine({
-    start: { x: M, y: RULE_Y }, end: { x: W - M, y: RULE_Y },
-    thickness: 0.5, color: BLUE_MD,
-  });
-}
-
-function drawFooter(page: PDFPage, reg: PDFFont) {
-  page.drawLine({ start: { x: M, y: 44 }, end: { x: W - M, y: 44 }, thickness: 0.5, color: LGRAY });
-  const copy = "\xA9 2025 WorksheetDownload.com  |  Free printable worksheets for K-8";
-  const cw   = reg.widthOfTextAtSize(copy, 6.5);
-  page.drawText(copy, { x: (W - cw) / 2, y: 30, size: 6.5, font: reg, color: GRAY });
-  const url  = "https://worksheetdownload.com/";
-  const uw   = reg.widthOfTextAtSize(url, 6.5);
-  page.drawText(url,  { x: (W - uw) / 2, y: 18, size: 6.5, font: reg, color: BLUE });
-}
-
-// ── Circle badge helper ───────────────────────────────────────────────────────
-function drawBadge(page: PDFPage, bold: PDFFont, cx: number, cy: number, num: number, r: number, color: ReturnType<typeof rgb>) {
-  page.drawEllipse({ x: cx, y: cy, xScale: r, yScale: r, color });
-  const s = `${num}`;
-  const sw = bold.widthOfTextAtSize(s, r * 0.9);
-  page.drawText(s, { x: cx - sw / 2, y: cy - r * 0.38, size: r * 0.9, font: bold, color: WHITE });
-}
-
-// ── Math Grid: 4 cols × 5 rows ───────────────────────────────────────────────
-function drawMathGrid(page: PDFPage, bold: PDFFont, _reg: PDFFont, questions: Question[]) {
-  const COLS = 4, ROWS = 5;
-  const colW = INNER / COLS;           // 135pt
-  const rowH = GRID_H / ROWS;          // 115.6pt
-
-  for (let i = 0; i < Math.min(20, questions.length); i++) {
-    const row = Math.floor(i / COLS), col = i % COLS;
-    const cx = M + col * colW;
-    const cellTop = GRID_TOP - row * rowH;
-
-    // Cell background (alternating)
-    page.drawRectangle({
-      x: cx, y: cellTop - rowH, width: colW, height: rowH,
-      color: i % 2 === 0 ? BLUE_BG : WHITE,
-      borderColor: LGRAY, borderWidth: 0.4,
-    });
-    // Left accent stripe
-    page.drawRectangle({ x: cx, y: cellTop - rowH, width: 3, height: rowH, color: fg(i) });
-
-    // Number badge
-    drawBadge(page, bold, cx + 16, cellTop - 17, i + 1, 11, fg(i));
-
-    // Question text (strip trailing " ?", wrap to 2 lines)
-    let qText = questions[i].question.endsWith(" ?") ? questions[i].question.slice(0, -2) : questions[i].question;
-    const textX = cx + 8, textMaxW = colW - 14;
-    const qLines = wrapText(qText, bold, 13, textMaxW, 2);
-    for (let l = 0; l < qLines.length; l++) {
-      page.drawText(qLines[l], { x: textX, y: cellTop - 40 - l * 16, size: 13, font: bold, color: DGRAY });
-    }
-
-    // Ans: label + underline (pinned 24pt above cell bottom)
-    const ansLabelY = cellTop - rowH + 24;
-    page.drawText("Ans:", { x: cx + 8, y: ansLabelY, size: 8, font: bold, color: fg(i) });
-    page.drawLine({
-      start: { x: cx + 34,        y: ansLabelY - 1 },
-      end:   { x: cx + colW - 8,  y: ansLabelY - 1 },
-      thickness: 0.9, color: LGRAY,
-    });
-  }
-}
-
-// ── QA 2-col Grid: 2 cols × 10 rows ─────────────────────────────────────────
-function drawQaGrid(page: PDFPage, bold: PDFFont, reg: PDFFont, questions: Question[], kgStyle = false) {
-  const COLS = 2, ROWS = 10;
-  const colW = INNER / COLS;           // 270pt
-  const rowH = GRID_H / ROWS;         // 57.8pt
-  const qSize   = kgStyle ? 11 : 9.5;
-  const lineH   = kgStyle ? 14 : 12;
-  const qFont   = kgStyle ? bold : reg;
-
-  for (let i = 0; i < Math.min(20, questions.length); i++) {
-    const row = Math.floor(i / COLS), col = i % COLS;
-    const cx = M + col * colW;
-    const cellTop = GRID_TOP - row * rowH;
-
-    // Cell background
-    page.drawRectangle({
-      x: cx, y: cellTop - rowH, width: colW, height: rowH,
-      color: i % 2 === 0 ? bg(i) : WHITE,
-      borderColor: LGRAY, borderWidth: 0.3,
-    });
-    // Left stripe
-    page.drawRectangle({ x: cx, y: cellTop - rowH, width: 2, height: rowH, color: fg(i) });
-
-    // Square badge
-    page.drawRectangle({ x: cx + 4, y: cellTop - 16, width: 13, height: 13, color: fg(i) });
-    const ns = `${i + 1}`;
-    const nw = bold.widthOfTextAtSize(ns, 7.5);
-    page.drawText(ns, { x: cx + 4 + (13 - nw) / 2, y: cellTop - 13, size: 7.5, font: bold, color: WHITE });
-
-    // Question text (wrapped, max 2 lines)
-    const textX = cx + 21, textMaxW = colW - 25;
-    const qLines = wrapText(questions[i].question, qFont, qSize, textMaxW, 2);
-    for (let l = 0; l < qLines.length; l++) {
-      page.drawText(qLines[l], { x: textX, y: cellTop - 13 - l * lineH, size: qSize, font: qFont, color: DGRAY });
-    }
-
-    // Ans: + underline (pinned 13pt above cell bottom)
-    const ansY = cellTop - rowH + 13;
-    page.drawText("Ans:", { x: cx + 6, y: ansY, size: 7.5, font: bold, color: fg(i) });
-    page.drawLine({
-      start: { x: cx + 30,       y: ansY - 1 },
-      end:   { x: cx + colW - 6, y: ansY - 1 },
-      thickness: 0.7, color: LGRAY,
-    });
-  }
-}
-
-// ── Letter Practice: 2 cols × 10 rows, large font ───────────────────────────
-// (Changed from 4-col to 2-col so long questions like "1st letter of alphabet?" fully visible)
-function drawLetterGrid(page: PDFPage, bold: PDFFont, _reg: PDFFont, questions: Question[]) {
-  const COLS = 2, ROWS = 10;
-  const colW = INNER / COLS;   // 270pt — plenty of room
-  const rowH = GRID_H / ROWS;  // 57.8pt
-
-  for (let i = 0; i < Math.min(20, questions.length); i++) {
-    const row = Math.floor(i / COLS), col = i % COLS;
-    const cx = M + col * colW;
-    const cellTop = GRID_TOP - row * rowH;
-
-    page.drawRectangle({
-      x: cx, y: cellTop - rowH, width: colW, height: rowH,
-      color: i % 2 === 0 ? PURP_BG : WHITE,
-      borderColor: LGRAY, borderWidth: 0.3,
-    });
-    page.drawRectangle({ x: cx, y: cellTop - rowH, width: 2, height: rowH, color: PURPLE });
-
-    // Circle badge (purple)
-    drawBadge(page, bold, cx + 12, cellTop - 14, i + 1, 9, PURPLE);
-
-    // Question text at 13pt bold, up to 2 lines
-    const textMaxW = colW - 28;
-    const qLines = wrapText(questions[i].question, bold, 13, textMaxW, 2);
-    for (let l = 0; l < qLines.length; l++) {
-      page.drawText(qLines[l], { x: cx + 26, y: cellTop - 13 - l * 16, size: 13, font: bold, color: DGRAY });
-    }
-
-    // Write: + underline
-    const ansY = cellTop - rowH + 13;
-    page.drawText("Write:", { x: cx + 6, y: ansY, size: 7.5, font: bold, color: PURPLE });
-    page.drawLine({
-      start: { x: cx + 36,       y: ansY - 1 },
-      end:   { x: cx + colW - 6, y: ansY - 1 },
-      thickness: 0.7, color: LGRAY,
-    });
-  }
-}
-
-// ── Answer Key (Page 2) ───────────────────────────────────────────────────────
-function drawAnswerKey(
-  page: PDFPage,
-  bold: PDFFont, reg: PDFFont, obl: PDFFont,
-  questions: Question[], topicLabel: string
-) {
-  // "ANSWER KEY" banner below header
-  const bannerTop = BAND_BOT;      // 712
-  const bannerH   = 28;
-  const bannerBot = bannerTop - bannerH;  // 684
-
-  page.drawRectangle({ x: 0, y: bannerBot, width: W, height: bannerH, color: EMERALD });
-  const ak = "ANSWER KEY";
-  const akW = bold.widthOfTextAtSize(ak, 14);
-  page.drawText(ak, { x: (W - akW) / 2, y: bannerBot + 8, size: 14, font: bold, color: WHITE });
-
-  // Topic subtitle
-  const sub = topicLabel;
-  const subW = obl.widthOfTextAtSize(sub, 9);
-  page.drawText(sub, { x: (W - subW) / 2, y: bannerBot - 18, size: 9, font: obl, color: EMERALD });
-
-  // Green rule
-  page.drawLine({
-    start: { x: M, y: bannerBot - 26 }, end: { x: W - M, y: bannerBot - 26 },
-    thickness: 0.8, color: EMRLD_MD,
-  });
-
-  // Answer grid: 4 cols × 5 rows
-  const AK_TOP = bannerBot - 32;   // 652
-  const AK_BOT = 48;
-  const AK_H   = AK_TOP - AK_BOT; // 604
-  const COLS = 4, ROWS = 5;
-  const colW = INNER / COLS;       // 135pt
-  const rowH = AK_H / ROWS;        // 120.8pt
-
-  for (let i = 0; i < Math.min(20, questions.length); i++) {
-    const row = Math.floor(i / COLS), col = i % COLS;
-    const cx = M + col * colW;
-    const cellTop = AK_TOP - row * rowH;
-
-    // Cell (green-tinted alternating)
-    page.drawRectangle({
-      x: cx, y: cellTop - rowH, width: colW, height: rowH,
-      color: i % 2 === 0 ? EMRLD_BG : WHITE,
-      borderColor: EMRLD_MD, borderWidth: 0.4,
-    });
-    // Left stripe
-    page.drawRectangle({ x: cx, y: cellTop - rowH, width: 3, height: rowH, color: EMERALD });
-
-    // Circle badge (green)
-    drawBadge(page, bold, cx + 14, cellTop - 16, i + 1, 11, EMERALD);
-
-    // Question text (small, gray, 1 line truncated)
-    let qText = questions[i].question.endsWith(" ?") ? questions[i].question.slice(0, -2) : questions[i].question;
-    qText = trunc(qText, reg, 7.5, colW - 30);
-    page.drawText(qText, { x: cx + 28, y: cellTop - 13, size: 7.5, font: reg, color: GRAY });
-
-    // Divider
-    page.drawLine({
-      start: { x: cx + 6, y: cellTop - 28 }, end: { x: cx + colW - 6, y: cellTop - 28 },
-      thickness: 0.4, color: EMRLD_MD,
-    });
-
-    // "Ans:" label
-    page.drawText("Ans:", { x: cx + 8, y: cellTop - 41, size: 8, font: bold, color: EMERALD });
-
-    // Answer text (bold, emerald, up to 2 lines)
-    const ansLines = wrapText(questions[i].answer, bold, 12, colW - 14, 2);
-    for (let l = 0; l < ansLines.length; l++) {
-      page.drawText(ansLines[l], { x: cx + 8, y: cellTop - 56 - l * 15, size: 12, font: bold, color: EMERALD });
-    }
-  }
-}
-
-// ── Main builder ──────────────────────────────────────────────────────────────
 export async function buildWorksheetPdf(opts: BuildOpts): Promise<Uint8Array> {
   const { topicLabel, gradeLabel, subjectLabel, sheetNumber, questions, layout = "qa-2col" } = opts;
 
   const doc  = await PDFDocument.create();
   const bold = await doc.embedFont(StandardFonts.HelveticaBold);
   const reg  = await doc.embedFont(StandardFonts.Helvetica);
-  const obl  = await doc.embedFont(StandardFonts.HelveticaOblique);
+  const f: Fonts = { bold, reg };
 
-  // ── Page 1: Questions ────────────────────────────────────────────────────
-  const p1 = doc.addPage([W, H]);
-  drawWatermark(p1, obl);
-  drawHeader(p1, bold, reg, obl, gradeLabel, subjectLabel);
-  drawNameRow(p1, bold);
-  drawTitle(p1, bold, reg, topicLabel, sheetNumber);
-  drawFooter(p1, reg);
+  const allQ = questions.slice(0, 20);
+  const topicUp = sanitize(topicLabel).toUpperCase();
+  const isKg = layout === "kg-2col" || layout === "letter-practice";
+  const qFontSize = isKg ? 9.5 : 8;
 
-  if (layout === "math-grid") {
-    drawMathGrid(p1, bold, reg, questions);
-  } else if (layout === "letter-practice") {
-    drawLetterGrid(p1, bold, reg, questions);
-  } else if (layout === "kg-2col") {
-    drawQaGrid(p1, bold, reg, questions, true);
-  } else {
-    drawQaGrid(p1, bold, reg, questions, false);
+  // ── Page 1: Questions ──────────────────────────────────────────────────────
+  {
+    const page = doc.addPage([W, H]);
+    drawWatermark(page, bold);
+    drawHeader(page, gradeLabel, subjectLabel, false, f);
+    drawStudentStrip(page, f);
+    drawBanner(
+      page, BNR_TOP,
+      `${topicUp} WORKSHEET`,
+      "Write your answer on the blank line provided.",
+      false, allQ.length, f
+    );
+    drawFooter(page, 1, f);
+    drawQuestionGrid(page, allQ, GRID_TOP, CARD_H, qFontSize, f);
   }
 
-  // ── Page 2: Answer Key ───────────────────────────────────────────────────
-  const p2 = doc.addPage([W, H]);
-  drawWatermark(p2, obl);
-  drawHeader(p2, bold, reg, obl, gradeLabel, subjectLabel);
-  drawFooter(p2, reg);
-  drawAnswerKey(p2, bold, reg, obl, questions, topicLabel);
+  // ── Page 2: Answer Key ─────────────────────────────────────────────────────
+  {
+    const page = doc.addPage([W, H]);
+    drawWatermark(page, bold);
+    drawHeader(page, gradeLabel, subjectLabel, true, f);
+    drawBanner(
+      page, BNR_TOP2,
+      "ANSWER KEY & SOLUTIONS",
+      "Verified answers for grading and self-assessment.",
+      true, allQ.length, f
+    );
+    drawFooter(page, 2, f);
+    drawAnswerGrid(page, allQ, GRID_TOP2, CARD_H2, f);
+  }
 
   return doc.save();
 }
