@@ -8,9 +8,9 @@ const COL_GAP = 12;
 const COL_W = (CW - COL_GAP) / 2;  // 261.5
 
 const LOGO_SZ = 40;
-const HDR_H   = 54;   // brand header
+const HDR_H   = 54;
 const HDR_GAP = 8;
-const BNR_H   = 44;   // title banner
+const BNR_H   = 44;
 const BNR_GAP = 10;
 const FTR_H   = 20;
 const FTR_GAP = 6;
@@ -22,9 +22,18 @@ const BNR_BOT  = BNR_TOP - BNR_H;
 const GRID_TOP = BNR_BOT - BNR_GAP;
 const FTR_TOP  = MB + FTR_H;
 const GRID_BOT = FTR_TOP + FTR_GAP;
-const GRID_H   = GRID_TOP - GRID_BOT;
-const CARD_GAP = 8;
-const CARD_H   = Math.floor((GRID_H - 2 * CARD_GAP) / 3);
+const GRID_H   = GRID_TOP - GRID_BOT;   // usable grid height per page
+
+// Card sizing constants
+const CARD_HDR_H  = 26;   // header zone: badge row + separator
+const CARD_PAD_T  = 8;    // space from separator to first content line
+const CARD_PAD_B  = 6;    // bottom inner padding
+const PROSE_LH    = 9.5;  // prose line height (pt)
+const CODE_LH     = 8.5;  // code line height (pt)
+const CODE_PAD    = 4;    // code block top/bottom inner padding
+const CODE_BLK_GAP = 5;   // gap below a code block before next seg
+const CARD_GAP    = 12;   // vertical gap between cards
+const CARD_MIN_H  = 72;   // minimum card height
 
 type RGB3 = readonly [number, number, number];
 const NAVY:  RGB3 = [0.118, 0.227, 0.541];
@@ -64,6 +73,7 @@ const SECTION_TAGS = [
 ];
 
 interface Fonts { bold: PDFFont; reg: PDFFont; mono: PDFFont }
+interface Seg { type: "prose" | "code"; lines: string[] }
 
 function c3(c: RGB3) { return rgb(c[0], c[1], c[2]); }
 
@@ -167,39 +177,9 @@ function drawFooter(page: PDFPage, pgNum: number, f: Fonts) {
   page.drawText(badge, { x: W-MR-bw+7, y: MB+6, size: 7, font: f.bold, color: c3(SL500) });
 }
 
-function drawCard(
-  page: PDFPage,
-  x: number, top: number, width: number, height: number,
-  title: string, tag: string, lines: string[],
-  accent: RGB3, f: Fonts
-) {
-  const bot = top - height;
-  page.drawRectangle({ x, y: bot, width, height, color: rgb(1,1,1), borderColor: c3(SL200), borderWidth: 0.75 });
-  page.drawRectangle({ x, y: bot, width: 3, height, color: c3(accent) });
+// ── Segment building ─────────────────────────────────────────────────────────
 
-  // Title row
-  const titleY = top - 14;
-  page.drawText(sanitize(title).substring(0, 52), { x: x+7, y: titleY, size: 7.5, font: f.bold, color: c3(SL900) });
-
-  // Tag pill
-  const tagTxt = sanitize(tag);
-  const tagW = f.bold.widthOfTextAtSize(tagTxt, 6) + 10;
-  const tagX = x + width - tagW - 5;
-  const tagY = titleY - 1;
-  page.drawRectangle({ x: tagX, y: tagY-1, width: tagW, height: 10, color: c3(BPILL), borderColor: c3(BLINE), borderWidth: 0.5 });
-  page.drawText(tagTxt, { x: tagX+5, y: tagY, size: 6, font: f.bold, color: c3(BTEXT) });
-
-  // Separator
-  const sepY = top - 19;
-  page.drawLine({ start: { x: x+3, y: sepY }, end: { x: x+width, y: sepY }, thickness: 0.75, color: c3(SL100) });
-
-  // Content
-  const cx = x + 7;
-  const cw = width - 14;
-  let curY = sepY - 8;
-  const minY = bot + 5;
-
-  type Seg = { type: "prose" | "code"; lines: string[] };
+function buildSegs(lines: string[], f: Fonts, cw: number): Seg[] {
   const segs: Seg[] = [];
   let codeAcc: string[] = [], proseAcc: string[] = [];
   const flushP = () => { if (proseAcc.length) { segs.push({ type: "prose", lines: [...proseAcc] }); proseAcc = []; } };
@@ -209,43 +189,117 @@ function drawCard(
     if (ln.startsWith("§ ")) {
       flushP();
       const codeLine = sanitize(ln.slice(2));
-      if (codeLine) codeAcc.push(codeLine); // skip empty § lines
+      if (codeLine) codeAcc.push(codeLine);
     } else {
       flushC();
       const s = sanitize(ln);
-      if (s) { for (const w of wrap(s, cw - 4, f.reg, 7)) proseAcc.push(w); }
+      if (s) { for (const wl of wrap(s, cw - 10, f.reg, 7)) proseAcc.push(wl); }
     }
   }
   flushC(); flushP();
+  return segs;
+}
+
+function measureCardH(segs: Seg[]): number {
+  let h = CARD_HDR_H + CARD_PAD_T;
+  for (const seg of segs) {
+    if (seg.type === "prose") {
+      h += seg.lines.length * PROSE_LH + 2;
+    } else {
+      h += seg.lines.length * CODE_LH + CODE_PAD * 2 + CODE_BLK_GAP;
+    }
+  }
+  return Math.max(CARD_MIN_H, h + CARD_PAD_B);
+}
+
+// ── Card drawing ─────────────────────────────────────────────────────────────
+
+function drawCard(
+  page: PDFPage,
+  x: number, top: number, width: number, height: number,
+  secNum: number, title: string, tag: string, segs: Seg[],
+  accent: RGB3, f: Fonts
+) {
+  const bot = top - height;
+
+  // Card background + 3pt left accent strip
+  page.drawRectangle({ x, y: bot, width, height, color: rgb(1,1,1), borderColor: c3(SL200), borderWidth: 0.75 });
+  page.drawRectangle({ x, y: bot, width: 3, height, color: c3(accent) });
+
+  // Number badge pill
+  const badgeTxt = String(secNum).padStart(2, "0");
+  const badgeW = f.bold.widthOfTextAtSize(badgeTxt, 6.5) + 10;
+  const badgeH = 13;
+  const badgeX = x + 6;
+  const badgeY = top - 3 - badgeH;   // top of card minus 3pt padding minus badge height
+  page.drawRectangle({ x: badgeX, y: badgeY, width: badgeW, height: badgeH, color: c3(accent) });
+  page.drawText(badgeTxt, { x: badgeX + 5, y: badgeY + 3, size: 6.5, font: f.bold, color: rgb(1,1,1) });
+
+  // Tag pill (drawn first to get tagX for title constraint)
+  const tagTxt = sanitize(tag);
+  const tagW = f.bold.widthOfTextAtSize(tagTxt, 5.8) + 10;
+  const tagX = x + width - tagW - 5;
+  page.drawRectangle({ x: tagX, y: badgeY, width: tagW, height: badgeH, color: c3(BPILL), borderColor: c3(BLINE), borderWidth: 0.5 });
+  page.drawText(tagTxt, { x: tagX + 5, y: badgeY + 3, size: 5.8, font: f.bold, color: c3(BTEXT) });
+
+  // Title — strip any "01. " prefix since badge shows the number
+  const rawTitle = sanitize(title).replace(/^\d+\.\s*/, "");
+  const titleX = badgeX + badgeW + 5;
+  const maxTitleW = Math.max(30, tagX - titleX - 4);
+  const titleLines = wrap(rawTitle, maxTitleW, f.bold, 7.5);
+  page.drawText(titleLines[0] ?? "", { x: titleX, y: badgeY + 3.5, size: 7.5, font: f.bold, color: c3(SL900) });
+
+  // Separator at CARD_HDR_H from top
+  const sepY = top - CARD_HDR_H;
+  page.drawLine({ start: { x: x+3, y: sepY }, end: { x: x+width, y: sepY }, thickness: 0.6, color: c3(SL100) });
+
+  // Content area
+  const cx = x + 7;
+  const cw = width - 14;
+  let curY = sepY - CARD_PAD_T;
+  const minY = bot + CARD_PAD_B;
 
   for (const seg of segs) {
-    if (curY < minY + 10) break;
+    if (curY < minY + 8) break;
+
     if (seg.type === "prose") {
       for (const l of seg.lines) {
         if (curY < minY) break;
-        page.drawText(l, { x: cx, y: curY, size: 7, font: f.reg, color: c3(SL700) });
-        curY -= 9;
+        // Accent-colored bullet
+        page.drawText("•", { x: cx, y: curY, size: 7, font: f.reg, color: c3(accent) });
+        page.drawText(l, { x: cx + 9, y: curY, size: 7, font: f.reg, color: c3(SL700) });
+        curY -= PROSE_LH;
       }
-      curY -= 3;
+      curY -= 2;
     } else {
-      const lh = 8.5, pad = 4;
-      const maxLines = Math.min(seg.lines.length, Math.floor((curY - minY - pad * 2 - 4) / lh));
+      // Code block: size to available space
+      const maxLines = Math.min(seg.lines.length, Math.floor((curY - minY - CODE_PAD * 2 - 4) / CODE_LH));
       if (maxLines < 1) break;
-      const cbH = maxLines * lh + pad * 2;
-      if (cbH < 12) break;
+      const cbH = maxLines * CODE_LH + CODE_PAD * 2;
       const cbY = curY - cbH;
+      if (cbY < minY) break;
+
+      // Dark bg + accent left bar
       page.drawRectangle({ x: cx-2, y: cbY, width: cw+4, height: cbH, color: c3(SL900) });
-      page.drawRectangle({ x: cx-2, y: cbY, width: 2.5, height: cbH, color: rgb(0.231, 0.510, 0.965) });
-      let cy = cbY + cbH - pad; // start from top of rect, padding down
+      page.drawRectangle({ x: cx-2, y: cbY, width: 2.5, height: cbH, color: c3(accent) });
+
+      let cy = cbY + cbH - CODE_PAD;
       for (let li = 0; li < maxLines; li++) {
-        const txt = seg.lines[li].length > 46 ? seg.lines[li].substring(0, 45) + "..." : seg.lines[li];
-        page.drawText(txt, { x: cx+3, y: cy - lh + 2, size: 6, font: f.mono, color: rgb(0.973, 0.980, 0.988) });
-        cy -= lh;
+        const raw = seg.lines[li];
+        const txt = raw.length > 46 ? raw.substring(0, 45) + "..." : raw;
+        const trimmed = raw.trimStart();
+        // Gray for comments, near-white for code
+        const isComment = trimmed.startsWith("#") || trimmed.startsWith("//") || trimmed.startsWith("--");
+        const textColor = isComment ? rgb(0.53, 0.62, 0.75) : rgb(0.973, 0.980, 0.988);
+        page.drawText(txt, { x: cx+4, y: cy - CODE_LH + 2, size: 6, font: f.mono, color: textColor });
+        cy -= CODE_LH;
       }
-      curY = cbY - 5;
+      curY = cbY - CODE_BLK_GAP;
     }
   }
 }
+
+// ── Public interface ─────────────────────────────────────────────────────────
 
 export interface Section { title: string; lines: string[] }
 export interface CheatSheetSpec {
@@ -266,13 +320,19 @@ export async function buildCheatSheetPdf(spec: CheatSheetSpec): Promise<Uint8Arr
   const half = Math.ceil(all.length / 2);
 
   const PAGE_DEFS = [
-    { pill: "Part 1: Setup & Core",   g1: NAVY,  g2: BLUE,  bLabel: subtitle, title: `${name.toUpperCase()} CHEAT SHEET`,         sub: "Core setup, initialization, operations & integration quick reference" },
-    { pill: "Part 2: Ops & Security", g1: GRN1, g2: GRN2,  bLabel: "Operations Guide", title: "SECURITY, MONITORING & OPERATIONS", sub: "Production hardening, observability, performance tuning & CLI reference" },
+    { pill: "Part 1: Setup & Core",   g1: NAVY, g2: BLUE, bLabel: subtitle,          title: `${name.toUpperCase()} CHEAT SHEET`,         sub: "Core setup, initialization, operations & integration quick reference" },
+    { pill: "Part 2: Ops & Security", g1: GRN1, g2: GRN2, bLabel: "Operations Guide", title: "SECURITY, MONITORING & OPERATIONS", sub: "Production hardening, observability, performance tuning & CLI reference" },
   ];
+
+  // Pre-build segments for all sections once (fonts are needed for text measurement)
+  const segsAll = all.map(s => buildSegs(s.lines, f, COL_W - 14));
 
   for (let pi = 0; pi < 2; pi++) {
     const page = doc.addPage([W, H]);
-    const secs = (pi === 0 ? all.slice(0, half) : all.slice(half));
+    const pageStart = pi === 0 ? 0 : half;
+    const pageEnd   = pi === 0 ? half : all.length;
+    const pageSecs  = all.slice(pageStart, pageEnd);
+    const pageSegs  = segsAll.slice(pageStart, pageEnd);
     const def = PAGE_DEFS[pi];
 
     drawWatermark(page, fontBold);
@@ -283,16 +343,29 @@ export async function buildCheatSheetPdf(spec: CheatSheetSpec): Promise<Uint8Arr
     for (let col = 0; col < 2; col++) {
       const colX = ML + col * (COL_W + COL_GAP);
       let cardY = GRID_TOP;
+
       for (let row = 0; row < 3; row++) {
         const si = col * 3 + row;
-        if (si >= secs.length) break;
-        const sec = secs[si];
-        const globalIdx = pi * 6 + si;
-        const accentIdx = globalIdx % CARD_ACCENTS.length;
-        const num = String(globalIdx + 1).padStart(2, "0");
+        if (si >= pageSecs.length) break;
+
+        const available = cardY - GRID_BOT;
+        if (available < CARD_MIN_H) break;
+
+        const segs = pageSegs[si];
+        const prefH = measureCardH(segs);
+
+        // Reserve space for remaining rows in this column
+        const remainingRows = 2 - row;
+        const reservedH = remainingRows > 0 ? remainingRows * (CARD_MIN_H + CARD_GAP) : 0;
+        const maxH  = Math.max(CARD_MIN_H, available - reservedH - (row < 2 ? CARD_GAP : 0));
+        const cardH = Math.min(prefH, maxH);
+
+        const globalIdx = pageStart + si;
         const tag = SECTION_TAGS[globalIdx] ?? "Reference";
-        drawCard(page, colX, cardY, COL_W, CARD_H, `${num}. ${sec.title}`, tag, sec.lines, CARD_ACCENTS[accentIdx], f);
-        cardY -= CARD_H + CARD_GAP;
+        const accentIdx = globalIdx % CARD_ACCENTS.length;
+
+        drawCard(page, colX, cardY, COL_W, cardH, globalIdx + 1, pageSecs[si].title, tag, segs, CARD_ACCENTS[accentIdx], f);
+        cardY -= cardH + CARD_GAP;
       }
     }
   }
