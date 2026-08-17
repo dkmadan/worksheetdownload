@@ -72,30 +72,94 @@ export default function TechResourceTile({
       {/* Tile */}
       <div className="flex flex-col bg-gray-800/60 border border-gray-700/60 rounded-2xl overflow-hidden hover:border-gray-500/70 transition-all duration-150 hover:-translate-y-0.5 hover:shadow-2xl hover:shadow-black/30">
 
-        {/* ── PDF Thumbnail ── */}
-        <div
-          className="relative overflow-hidden bg-gray-900 flex-shrink-0"
-          style={{ height: "320px" }}
-        >
-          {/* Scaled-down iframe shows the actual PDF first page */}
-          <iframe
-            src={`${pdfUrl}#toolbar=0&navpanes=0&scrollbar=0&view=FitH`}
-            title={`${techName} ${label} preview`}
-            style={{
-              position: "absolute",
-              top: 0,
-              left: 0,
-              width: "200%",
-              height: "200%",
-              transform: "scale(0.5)",
-              transformOrigin: "0 0",
-              border: "none",
-              pointerEvents: "none",
-              background: "#fff",
-            }}
-          />
-          {/* Transparent overlay — keeps tile clickable without interacting with iframe */}
-          <div className="absolute inset-0" />
+        {/* ── PDF Thumbnail illustration (works on all devices) ── */}
+        <div className="relative overflow-hidden flex-shrink-0" style={{ height: "320px" }}>
+
+          {type === "cheatsheet" ? (
+            /* Cheatsheet — dark code-editor look matching actual PDF style */
+            <div className="absolute inset-0 bg-slate-950 p-4 flex flex-col gap-2">
+              <div className="flex items-center justify-between">
+                <span className="text-[8px] font-bold text-blue-400 tracking-wide">WorksheetDownload.com</span>
+                <span className="text-[7px] text-slate-500 truncate ml-2 max-w-[40%]">{techName}</span>
+              </div>
+              <div className="h-px bg-blue-600/40" />
+              <p className="text-[9px] font-bold text-white text-center mb-1 truncate">{techName} — Cheatsheet</p>
+              <div className="grid grid-cols-3 gap-1.5 flex-1">
+                {[
+                  { hue: "bg-blue-600/80" },
+                  { hue: "bg-emerald-600/80" },
+                  { hue: "bg-purple-600/80" },
+                  { hue: "bg-orange-600/80" },
+                  { hue: "bg-blue-600/80" },
+                  { hue: "bg-teal-600/80" },
+                  { hue: "bg-rose-600/80" },
+                  { hue: "bg-indigo-600/80" },
+                  { hue: "bg-emerald-600/80" },
+                  { hue: "bg-amber-600/80" },
+                  { hue: "bg-cyan-600/80" },
+                  { hue: "bg-purple-600/80" },
+                ].map((sec, i) => (
+                  <div key={i} className="bg-slate-800/80 rounded overflow-hidden flex flex-col">
+                    <div className={`${sec.hue} px-1.5 py-1 flex-shrink-0`}>
+                      <div className="h-1 bg-white/50 rounded w-3/4" />
+                    </div>
+                    <div className="p-1.5 flex flex-col gap-1 flex-1">
+                      <div className="h-1 bg-slate-600 rounded w-full" />
+                      <div className="h-1 bg-slate-600 rounded w-4/5" />
+                      <div className="h-1 bg-slate-700 rounded w-3/5" />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+          ) : type === "interview" ? (
+            /* Interview sheet — Q&A format */
+            <div className="absolute inset-0 bg-gray-50 p-4 flex flex-col gap-1.5">
+              <span className="text-[7px] font-bold text-blue-700 tracking-wide">WorksheetDownload.com</span>
+              <div className="h-px bg-blue-500" />
+              <p className="text-[9px] font-bold text-blue-900 text-center truncate">{techName} — Interview Sheet</p>
+              <div className="flex flex-col gap-2.5 mt-2 flex-1 overflow-hidden">
+                {[...Array(7)].map((_, i) => (
+                  <div key={i} className="flex flex-col gap-1">
+                    <div className="flex items-start gap-1.5">
+                      <span className="text-[6px] font-bold bg-orange-500 text-white rounded px-1 py-px flex-shrink-0 leading-none pt-0.5">Q{i + 1}</span>
+                      <div className="h-1.5 bg-gray-200 rounded flex-1 mt-0.5" />
+                    </div>
+                    <div className="ml-5 flex flex-col gap-0.5">
+                      <div className="h-px bg-gray-200" />
+                      <div className="h-px bg-gray-100" />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+          ) : (
+            /* Practice worksheet — exercise format */
+            <div className="absolute inset-0 bg-white p-4 flex flex-col gap-1.5">
+              <span className="text-[7px] font-bold text-blue-700 tracking-wide">WorksheetDownload.com</span>
+              <div className="h-px bg-blue-500" />
+              <p className="text-[9px] font-bold text-blue-900 text-center truncate">{techName} Practice</p>
+              <div className="flex text-[5.5px] text-gray-400 mt-0.5">
+                <span>Name: _______________</span>
+                <span className="ml-auto">Date: ________</span>
+              </div>
+              <div className="grid grid-cols-2 gap-x-2 gap-y-2 flex-1 mt-1 overflow-hidden">
+                {[...Array(10)].map((_, i) => (
+                  <div key={i} className="flex items-center gap-1.5">
+                    <span className="text-[5.5px] font-bold bg-blue-100 text-blue-600 rounded-full w-3.5 h-3.5 flex items-center justify-center flex-shrink-0 leading-none">{i + 1}</span>
+                    <div className="flex-1 space-y-1">
+                      <div className="h-px bg-gray-200" />
+                      <div className="h-px bg-gray-100" />
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <div className="text-[5.5px] text-gray-400">Score: _______ / 10</div>
+            </div>
+          )}
+
           {/* Type badge */}
           <div className="absolute top-3 left-3 flex items-center gap-1.5 bg-gray-950/75 backdrop-blur-sm text-white text-xs font-bold px-3 py-1.5 rounded-full border border-white/10">
             <span>{icon}</span>
