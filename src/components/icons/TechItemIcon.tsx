@@ -1,6 +1,7 @@
 import React from "react";
 import * as Custom from "./apiTechIcons";
 import * as ML from "./mlTechIcons";
+import * as TechCat from "./techCategoryIcons";
 import {
   siPostman, siGraphql, siReact, siNodedotjs, siPython, siDocker, siKubernetes,
   siPostgresql, siMysql, siMongodb, siRedis, siGit, siGithub, siGitlab,
@@ -80,6 +81,152 @@ const CUSTOM_MAP: Record<string, React.FC<{ size: number }>> = {
   "semantic kernel":       ML.SemanticKernelIcon,
   "chatdev":               ML.ChatDevIcon,
   "agentgpt":              ML.AgentGptIcon,
+
+  // Generative AI
+  "gpt":                        TechCat.GptIcon,
+  "claude":                     TechCat.ClaudeIcon,
+  "gemini":                     TechCat.GeminiIcon,
+  "llama":                      TechCat.LlamaIcon,
+  "mistral":                    TechCat.MistralIcon,
+  "rag":                        TechCat.RagIcon,
+  "pinecone":                   TechCat.VectorDbIcon,
+  "milvus":                     TechCat.VectorDbIcon,
+  "weaviate":                   TechCat.VectorDbIcon,
+  "qdrant":                     TechCat.VectorDbIcon,
+
+  // IoT & Edge
+  "mqtt":                       TechCat.MqttIcon,
+  "raspberry pi":               TechCat.RaspberryPiIcon,
+  "arduino":                    TechCat.ArduinoIcon,
+  "esp32":                      TechCat.Esp32Icon,
+
+  // Kubernetes & Orchestration
+  "kubernetes":                 TechCat.KubernetesIcon,
+  "helm":                       TechCat.HelmIcon,
+  "kustomize":                  TechCat.KustomizeIcon,
+  "istio":                      TechCat.IstioIcon,
+  "openshift":                  TechCat.OpenShiftIcon,
+  "rancher":                    TechCat.RancherIcon,
+
+  // Distributed Systems
+  "zookeeper":                  TechCat.ZooKeeperIcon,
+  "apache zookeeper":           TechCat.ZooKeeperIcon,
+  "etcd":                       TechCat.EtcdIcon,
+  "consul":                     TechCat.ConsulIcon,
+
+  // Emerging Technologies
+  "quantum computing":          TechCat.QuantumComputingIcon,
+  "webassembly":                TechCat.WebAssemblyIcon,
+  "edge ai":                    TechCat.EdgeAIIcon,
+
+  // Enterprise Systems
+  "sap":                        TechCat.SapIcon,
+  "salesforce":                 TechCat.SalesforceIcon,
+  "oracle":                     TechCat.OracleIcon,
+  "oracle erp":                 TechCat.OracleIcon,
+  "servicenow":                 TechCat.ServiceNowIcon,
+  "mulesoft":                   TechCat.MuleSoftIcon,
+
+  // Desktop Technologies
+  "electron":                   TechCat.ElectronIcon,
+  "tauri":                      TechCat.TauriIcon,
+  "javafx":                     TechCat.JavaFxIcon,
+  "qt":                         TechCat.QtIcon,
+
+  // DevOps
+  "docker":                     TechCat.DockerIcon,
+  "terraform":                  TechCat.TerraformIcon,
+  "ansible":                    TechCat.AnsibleIcon,
+  "github actions":             TechCat.GitHubActionsIcon,
+  "gitlab ci/cd":               TechCat.GitLabCiIcon,
+  "jenkins":                    TechCat.JenkinsIcon,
+  "argo cd":                    TechCat.ArgoCdIcon,
+  "circleci":                   TechCat.CircleCiIcon,
+  "pulumi":                     TechCat.PulumiIcon,
+  "prometheus":                 TechCat.PrometheusIcon,
+
+  // Developer Tools
+  "visual studio code":         TechCat.VSCodeIcon,
+  "intellij idea":              TechCat.IntelliJIdeaIcon,
+  "git":                        TechCat.GitIcon,
+
+  // Data Engineering
+  "apache spark":               TechCat.ApacheSparkIcon,
+  "apache airflow":             TechCat.ApacheAirflowIcon,
+  "dbt":                        TechCat.DbtIcon,
+  "apache flink":               TechCat.ApacheFlinkIcon,
+
+  // Data Platforms
+  "snowflake":                  TechCat.SnowflakeIcon,
+  "google bigquery":            TechCat.GoogleBigQueryIcon,
+  "amazon redshift":            TechCat.AmazonRedshiftIcon,
+  "databricks":                 TechCat.DatabricksIcon,
+
+  // Databases
+  "postgresql":                 TechCat.PostgreSqlIcon,
+  "mysql":                      TechCat.MySqlIcon,
+  "mongodb":                    TechCat.MongoDbIcon,
+  "apache cassandra":           TechCat.ApacheCassandraIcon,
+  "cassandra":                  TechCat.ApacheCassandraIcon,
+  "sqlite":                     TechCat.SQLiteIcon,
+  "cockroachdb":                TechCat.CockroachDbIcon,
+  "neo4j":                      TechCat.Neo4jIcon,
+
+  // Caching
+  "redis":                      TechCat.RedisIcon,
+  "memcached":                  TechCat.MemcachedIcon,
+  "varnish":                    TechCat.VarnishIcon,
+  "hazelcast":                  TechCat.HazelcastIcon,
+  "ehcache":                    TechCat.EhcacheIcon,
+
+  // Content Management
+  "wordpress":                  TechCat.WordPressIcon,
+  "drupal":                     TechCat.DrupalIcon,
+  "contentful":                 TechCat.ContentfulIcon,
+  "strapi":                     TechCat.StrapiIcon,
+  "sanity":                     TechCat.SanityIcon,
+
+  // Backend Technologies
+  "node.js":                    TechCat.NodeJsIcon,
+  "express.js":                 TechCat.ExpressJsIcon,
+  "django":                     TechCat.DjangoIcon,
+  "fastapi":                    TechCat.FastApiIcon,
+  "spring boot":                TechCat.SpringBootIcon,
+  "asp.net core":               TechCat.AspNetCoreIcon,
+  "laravel":                    TechCat.LaravelIcon,
+  "nestjs":                     TechCat.NestJsIcon,
+  "fiber":                      TechCat.FiberIcon,
+
+  // Blockchain & Web3
+  "ethereum":                   TechCat.EthereumIcon,
+  "solidity":                   TechCat.SolidityIcon,
+  "solana":                     TechCat.SolanaIcon,
+
+  // Build & Package Management
+  "maven":                      TechCat.MavenIcon,
+  "gradle":                     TechCat.GradleIcon,
+  "npm":                        TechCat.NpmIcon,
+  "yarn":                       TechCat.YarnIcon,
+  "pnpm":                       TechCat.PnpmIcon,
+  "pip":                        TechCat.PipIcon,
+
+  // Software Architecture
+  "microservices":              TechCat.MicroservicesIcon,
+  "event-driven architecture":  TechCat.EventDrivenIcon,
+  "serverless":                 TechCat.ServerlessIcon,
+  "monolithic architecture":    TechCat.MonolithIcon,
+  "domain-driven design":       TechCat.DomainDrivenDesignIcon,
+  "cqrs":                       TechCat.CqrsIcon,
+  "hexagonal architecture":     TechCat.HexagonalArchIcon,
+  "clean architecture":         TechCat.CleanArchitectureIcon,
+
+  // BI & Visualization
+  "power bi":                   TechCat.PowerBiIcon,
+  "tableau":                    TechCat.TableauIcon,
+  "apache superset":            TechCat.ApacheSupersetIcon,
+  "looker":                     TechCat.LookerIcon,
+  "grafana":                    TechCat.GrafanaIcon,
+  "qlik":                       TechCat.QlikIcon,
 
   // AI / ML frameworks
   "tensorflow":            ML.TensorFlowIcon,
