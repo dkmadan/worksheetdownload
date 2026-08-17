@@ -117,17 +117,21 @@ function drawHeader(page: PDFPage, tagline: string, badgeLabel: string, badgeNam
 function drawCandidateStrip(page: PDFPage, f: Fonts) {
   page.drawRectangle({ x: ML, y: STRIP_BOT, width: CW, height: STRIP_H, color: rgb(0.973,0.980,0.988), borderColor: c3(SL200), borderWidth: 0.75 });
   const labels = ["Candidate Name:", "Interviewer:", "Date:", "Score:"];
-  const widths = [0.30, 0.24, 0.18, 0.15];
-  let lx = ML + 8;
+  const ratios  = [0.35, 0.26, 0.21, 0.18]; // proportions of available field space (sum = 1.0)
+  const lPad = 8, rPad = 8, lblGap = 4, fldGap = 8;
+  const n = labels.length;
+  const lblWidths = labels.map(l => f.bold.widthOfTextAtSize(l, 7));
+  const totalLblW = lblWidths.reduce((a, b) => a + b, 0);
+  // Available width for the field underlines after accounting for labels and gaps
+  const totalFldW = CW - lPad - rPad - totalLblW - lblGap * n - fldGap * (n - 1);
+  let lx = ML + lPad;
   const ly = STRIP_BOT + STRIP_H / 2 + 2;
-  for (let i = 0; i < labels.length; i++) {
-    const lbl = labels[i];
-    const lw2 = f.bold.widthOfTextAtSize(lbl, 7);
-    page.drawText(lbl, { x: lx, y: ly, size: 7, font: f.bold, color: c3(SL500) });
-    lx += lw2 + 4;
-    const fieldW = CW * widths[i] - 4;
+  for (let i = 0; i < n; i++) {
+    page.drawText(labels[i], { x: lx, y: ly, size: 7, font: f.bold, color: c3(SL500) });
+    lx += lblWidths[i] + lblGap;
+    const fieldW = Math.max(20, totalFldW * ratios[i]);
     page.drawLine({ start: { x: lx, y: ly-1 }, end: { x: lx+fieldW, y: ly-1 }, thickness: 1.2, color: c3(SL300), dashArray: [2,2], dashPhase: 0 });
-    lx += fieldW + 10;
+    lx += fieldW + (i < n - 1 ? fldGap : 0);
   }
 }
 
@@ -185,20 +189,25 @@ function drawQuestionCard(
   // Question text (wrapping)
   const qLines = wrap(sanitize(question), width - numW - tagW - 30, f.bold, 8);
   let qy = top - 17;
-  for (const ql of qLines.slice(0, 3)) {
-    page.drawText(ql, { x: x+7+numW+6, y: qy, size: 8, font: f.bold, color: c3(SL900) });
+  const maxQLines = Math.min(qLines.length, 3);
+  for (let i = 0; i < maxQLines; i++) {
+    page.drawText(qLines[i], { x: x+7+numW+6, y: qy, size: 8, font: f.bold, color: c3(SL900) });
     qy -= 10;
   }
 
-  // Answer lines (3 lines)
-  const ansY = bot + height - 44;
-  page.drawText("Answer:", { x: x+42, y: ansY, size: 7, font: f.reg, color: c3(SL500) });
-  const lineX = x + 42;
-  const lineW = width - 52;
-  for (let l = 0; l < 3; l++) {
-    const ly = ansY - 3 - l * 15;
-    if (ly < bot + 6) break;
-    page.drawLine({ start: { x: lineX, y: ly }, end: { x: lineX+lineW, y: ly }, thickness: 1.2, color: c3(SL300) });
+  // Answer lines — position below question text with a fixed 12pt gap
+  const ansStartY = qy - 2; // 12pt below last question line baseline
+  const ansMinY = bot + 8;
+  if (ansStartY > ansMinY + 50) { // only if there's space for at least one line
+    page.drawText("Answer:", { x: x+10, y: ansStartY, size: 6.5, font: f.reg, color: c3(SL500) });
+    const lineX = x + 10;
+    const lineW = width - 18;
+    const lineSpacing = Math.min(16, (ansStartY - ansMinY - 12) / 3);
+    for (let l = 0; l < 3; l++) {
+      const ly = ansStartY - 12 - l * lineSpacing;
+      if (ly < ansMinY) break;
+      page.drawLine({ start: { x: lineX, y: ly }, end: { x: lineX+lineW, y: ly }, thickness: 1.2, color: c3(SL300) });
+    }
   }
 }
 

@@ -130,17 +130,20 @@ function drawHeader(page: PDFPage, tagline: string, badgeLabel: string, badgeNam
 function drawStudentStrip(page: PDFPage, f: Fonts) {
   page.drawRectangle({ x: ML, y: STRIP_BOT, width: CW, height: STRIP_H, color: rgb(0.973,0.980,0.988), borderColor: c3(SL200), borderWidth: 0.75 });
   const labels = ["Name:", "Cohort/Batch:", "Date:", "Score:"];
-  const widths = [0.32, 0.26, 0.20, 0.15];
-  let lx = ML + 8;
+  const ratios  = [0.35, 0.28, 0.22, 0.15]; // proportions of available field space (sum = 1.0)
+  const lPad = 8, rPad = 8, lblGap = 4, fldGap = 8;
+  const n = labels.length;
+  const lblWidths = labels.map(l => f.bold.widthOfTextAtSize(l, 7));
+  const totalLblW = lblWidths.reduce((a, b) => a + b, 0);
+  const totalFldW = CW - lPad - rPad - totalLblW - lblGap * n - fldGap * (n - 1);
+  let lx = ML + lPad;
   const ly = STRIP_BOT + STRIP_H / 2 + 1;
-  for (let i = 0; i < labels.length; i++) {
-    const lbl = labels[i];
-    const lw2 = f.bold.widthOfTextAtSize(lbl, 7);
-    page.drawText(lbl, { x: lx, y: ly, size: 7, font: f.bold, color: c3(SL500) });
-    lx += lw2 + 4;
-    const fieldW = CW * widths[i] - 8;
+  for (let i = 0; i < n; i++) {
+    page.drawText(labels[i], { x: lx, y: ly, size: 7, font: f.bold, color: c3(SL500) });
+    lx += lblWidths[i] + lblGap;
+    const fieldW = Math.max(20, totalFldW * ratios[i]);
     page.drawLine({ start: { x: lx, y: ly-1 }, end: { x: lx+fieldW, y: ly-1 }, thickness: 1.2, color: c3(SL300), dashArray: [2,2], dashPhase: 0 });
-    lx += fieldW + 8;
+    lx += fieldW + (i < n - 1 ? fldGap : 0);
   }
 }
 
@@ -195,17 +198,19 @@ function drawQCard(page: PDFPage, x: number, top: number, w: number, h: number, 
   // Question text
   const qLines = wrap(sanitize(q), w - 40, f.bold, 7.4);
   let qy = top - 17;
-  for (const ql of qLines.slice(0, 2)) {
-    page.drawText(ql, { x: x+32, y: qy, size: 7.4, font: f.bold, color: c3(SL900) });
+  const maxQLines = Math.min(qLines.length, 2);
+  for (let i = 0; i < maxQLines; i++) {
+    page.drawText(qLines[i], { x: x+32, y: qy, size: 7.4, font: f.bold, color: c3(SL900) });
     qy -= 9;
   }
 
-  // 2 answer lines
+  // 2 answer lines — positioned below question text with spacing
   const lineX = x + 7, lineW = w - 14;
-  const line1Y = top - h + (h < 80 ? 20 : 28);
+  const ansMinY = bot + 6;
+  const ansStartY = qy - 8; // 8pt gap below last question line
   for (let l = 0; l < 2; l++) {
-    const ly = line1Y + l * 12;
-    if (ly > top - 30 || ly < bot + 5) continue;
+    const ly = ansStartY - l * 14;
+    if (ly < ansMinY) break;
     page.drawLine({ start: { x: lineX, y: ly }, end: { x: lineX+lineW, y: ly }, thickness: 1.2, color: c3(SL300) });
   }
 }

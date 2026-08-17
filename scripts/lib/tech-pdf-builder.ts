@@ -208,7 +208,8 @@ function drawCard(
   for (const ln of lines) {
     if (ln.startsWith("§ ")) {
       flushP();
-      codeAcc.push(sanitize(ln.slice(2)));
+      const codeLine = sanitize(ln.slice(2));
+      if (codeLine) codeAcc.push(codeLine); // skip empty § lines
     } else {
       flushC();
       const s = sanitize(ln);
@@ -218,29 +219,30 @@ function drawCard(
   flushC(); flushP();
 
   for (const seg of segs) {
-    if (curY < minY) break;
+    if (curY < minY + 10) break;
     if (seg.type === "prose") {
       for (const l of seg.lines) {
         if (curY < minY) break;
         page.drawText(l, { x: cx, y: curY, size: 7, font: f.reg, color: c3(SL700) });
         curY -= 9;
       }
-      curY -= 2;
+      curY -= 3;
     } else {
-      const lh = 8.5, pad = 5;
-      const cbH = Math.min(seg.lines.length * lh + pad * 2, curY - minY - 4);
-      if (cbH < 14) break;
+      const lh = 8.5, pad = 4;
+      const maxLines = Math.min(seg.lines.length, Math.floor((curY - minY - pad * 2 - 4) / lh));
+      if (maxLines < 1) break;
+      const cbH = maxLines * lh + pad * 2;
+      if (cbH < 12) break;
       const cbY = curY - cbH;
       page.drawRectangle({ x: cx-2, y: cbY, width: cw+4, height: cbH, color: c3(SL900) });
       page.drawRectangle({ x: cx-2, y: cbY, width: 2.5, height: cbH, color: rgb(0.231, 0.510, 0.965) });
-      let cy = curY - pad;
-      for (const cl of seg.lines) {
-        if (cy - 7 < cbY) break;
-        const txt = cl.length > 46 ? cl.substring(0, 45) + "..." : cl;
-        page.drawText(txt, { x: cx+3, y: cy-7, size: 6, font: f.mono, color: rgb(0.973, 0.980, 0.988) });
+      let cy = cbY + cbH - pad; // start from top of rect, padding down
+      for (let li = 0; li < maxLines; li++) {
+        const txt = seg.lines[li].length > 46 ? seg.lines[li].substring(0, 45) + "..." : seg.lines[li];
+        page.drawText(txt, { x: cx+3, y: cy - lh + 2, size: 6, font: f.mono, color: rgb(0.973, 0.980, 0.988) });
         cy -= lh;
       }
-      curY = cbY - 4;
+      curY = cbY - 5;
     }
   }
 }
