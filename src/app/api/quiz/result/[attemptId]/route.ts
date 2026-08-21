@@ -1,6 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
 import { getAttemptById } from "@/lib/quizAttempts";
 import { SAMPLE_QUESTIONS } from "@/lib/quiz";
 
@@ -8,18 +6,11 @@ export async function GET(
   _req: NextRequest,
   { params }: { params: Promise<{ attemptId: string }> }
 ) {
-  const session = await getServerSession(authOptions);
-  if (!session?.user) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
-
-  const userId =
-    (session.user as { id?: string }).id ?? session.user.email ?? "unknown";
-
   const { attemptId } = await params;
   const attempt = await getAttemptById(attemptId);
 
-  if (!attempt || attempt.userId !== userId) {
+  // attemptId acts as the access token — no ownership check needed
+  if (!attempt) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
   if (attempt.status !== "completed") {

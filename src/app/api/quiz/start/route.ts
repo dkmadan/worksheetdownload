@@ -10,12 +10,10 @@ import {
 
 export async function POST(req: NextRequest) {
   const session = await getServerSession(authOptions);
-  if (!session?.user) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
-
   const userId =
-    (session.user as { id?: string }).id ?? session.user.email ?? "unknown";
+    (session?.user as { id?: string } | undefined)?.id ??
+    session?.user?.email ??
+    "guest";
 
   const body = await req.json().catch(() => ({}));
 

@@ -1,9 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import AuthModal from "@/components/auth/AuthModal";
 
 interface GradeOption { id: string; label: string; emoji: string; }
 interface SubjectOption { id: string; label: string; emoji: string; }
@@ -20,14 +18,12 @@ type Tab = "grade-subject" | "technology";
 
 export default function QuizConfig({ gradeOptions, subjectsPerGrade, techCategories }: Props) {
   const router = useRouter();
-  const { data: session, status } = useSession();
 
   const [tab, setTab] = useState<Tab>("grade-subject");
   const [grade, setGrade] = useState("");
   const [subject, setSubject] = useState("");
   const [techCat, setTechCat] = useState("");
   const [techItem, setTechItem] = useState("");
-  const [showAuth, setShowAuth] = useState(false);
 
   const subjects = grade ? (subjectsPerGrade[grade] ?? []) : [];
   const techItems = techCat ? (techCategories.find(c => c.slug === techCat)?.items ?? []) : [];
@@ -59,15 +55,6 @@ export default function QuizConfig({ gradeOptions, subjectsPerGrade, techCategor
 
   function handleStart() {
     if (!canStart) return;
-    if (status === "unauthenticated") {
-      setShowAuth(true);
-      return;
-    }
-    router.push(`/quiz/start?${buildParams().toString()}`);
-  }
-
-  function handleAuthSuccess() {
-    setShowAuth(false);
     router.push(`/quiz/start?${buildParams().toString()}`);
   }
 
@@ -169,25 +156,11 @@ export default function QuizConfig({ gradeOptions, subjectsPerGrade, techCategor
       {/* Start button */}
       <button
         onClick={handleStart}
-        disabled={!canStart || status === "loading"}
+        disabled={!canStart}
         className="w-full mt-6 bg-pink-400 hover:bg-pink-500 disabled:bg-gray-100 disabled:text-gray-400 text-white font-bold py-3.5 rounded-xl transition-colors text-base shadow-sm disabled:cursor-not-allowed"
       >
-        {status === "loading" ? "Loading…" : "Start Quiz →"}
+        Start Quiz →
       </button>
-
-      {!session && status === "unauthenticated" && (
-        <p className="text-center text-xs text-gray-400 mt-3">
-          You&apos;ll be asked to sign in before the quiz starts.
-        </p>
-      )}
-
-      {showAuth && (
-        <AuthModal
-          onClose={() => setShowAuth(false)}
-          onSuccess={handleAuthSuccess}
-          message="Sign in to start the quiz and save your results."
-        />
-      )}
     </>
   );
 }

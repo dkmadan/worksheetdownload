@@ -2,19 +2,16 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-import { useSession } from "next-auth/react";
 import Link from "next/link";
-import AuthModal from "@/components/auth/AuthModal";
 import type { QuizQuestionPublic } from "@/lib/quiz";
 
-type Phase = "loading" | "auth-required" | "starting" | "active" | "confirm-submit" | "submitting" | "error";
+type Phase = "loading" | "starting" | "active" | "confirm-submit" | "submitting" | "error";
 
 const LETTERS = ["A", "B", "C", "D"];
 
 export default function QuizEngine() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const { data: session, status } = useSession();
 
   const [phase, setPhase] = useState<Phase>("loading");
   const [questions, setQuestions] = useState<QuizQuestionPublic[]>([]);
@@ -54,10 +51,8 @@ export default function QuizEngine() {
   }, [type, grade, subject, tech, item, label]);
 
   useEffect(() => {
-    if (status === "loading") return;
-    if (status === "unauthenticated") { setPhase("auth-required"); return; }
-    if (status === "authenticated") startQuiz();
-  }, [status, startQuiz]);
+    startQuiz();
+  }, [startQuiz]);
 
   function goToQuestion(index: number) {
     setCurrentIndex(index);
@@ -96,22 +91,6 @@ export default function QuizEngine() {
   const unansweredCount = questions.length - answeredCount;
   const allVisited = visited.length > 0 && visited.every(Boolean);
   const canSubmit = answeredCount > 0;
-
-  // ── Auth gate ──
-  if (phase === "auth-required") {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 flex items-center justify-center p-4">
-        <AuthModal
-          onClose={() => router.push("/quiz")}
-          onSuccess={() => {
-            setPhase("loading");
-            startQuiz();
-          }}
-          message="Sign in to start your quiz and save results."
-        />
-      </div>
-    );
-  }
 
   // ── Loading / Starting ──
   if (phase === "loading" || phase === "starting") {

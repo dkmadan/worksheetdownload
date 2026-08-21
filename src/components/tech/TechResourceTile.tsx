@@ -1,11 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
-import { useSession } from "next-auth/react";
-import AuthModal from "@/components/auth/AuthModal";
-
-const STORAGE_KEY = "wsd_dl_count";
-const FREE_LIMIT  = 1;
+import { useState } from "react";
 
 interface Props {
   type: string;
@@ -26,45 +21,17 @@ export default function TechResourceTile({
   techName,
   filename,
 }: Props) {
-  const { data: session } = useSession();
-  const [viewOpen,  setViewOpen]  = useState(false);
-  const [showAuth,  setShowAuth]  = useState(false);
-  const pendingFn = useRef<(() => void) | null>(null);
-
-  function gate(action: () => void) {
-    if (session) { action(); return; }
-    const count = parseInt(sessionStorage.getItem(STORAGE_KEY) ?? "0", 10);
-    if (count >= FREE_LIMIT) {
-      pendingFn.current = action;
-      setShowAuth(true);
-      return;
-    }
-    sessionStorage.setItem(STORAGE_KEY, String(count + 1));
-    action();
-  }
-
-  function onAuthSuccess() {
-    setShowAuth(false);
-    const fn = pendingFn.current;
-    pendingFn.current = null;
-    fn?.();
-  }
-
-  function handleView() {
-    gate(() => setViewOpen(true));
-  }
+  const [viewOpen, setViewOpen] = useState(false);
 
   function handleDownload() {
-    gate(() => {
-      const a = document.createElement("a");
-      a.href     = pdfUrl;
-      a.download = filename;
-      a.target   = "_blank";
-      a.rel      = "noopener noreferrer";
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-    });
+    const a = document.createElement("a");
+    a.href     = pdfUrl;
+    a.download = filename;
+    a.target   = "_blank";
+    a.rel      = "noopener noreferrer";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
   }
 
   return (
@@ -179,7 +146,7 @@ export default function TechResourceTile({
           {/* ── Actions ── */}
           <div className="flex gap-3 mt-auto">
             <button
-              onClick={handleView}
+              onClick={() => setViewOpen(true)}
               className="flex-1 flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-500 text-white font-semibold py-2.5 rounded-xl transition-colors text-sm"
             >
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -200,15 +167,6 @@ export default function TechResourceTile({
           </div>
         </div>
       </div>
-
-      {/* ── Auth gate modal ── */}
-      {showAuth && (
-        <AuthModal
-          onClose={() => setShowAuth(false)}
-          onSuccess={onAuthSuccess}
-          message="Sign in for unlimited free resource downloads."
-        />
-      )}
 
       {/* ── PDF View Modal ── */}
       {viewOpen && (
