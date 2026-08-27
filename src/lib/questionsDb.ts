@@ -1,5 +1,5 @@
 import clientPromise from "./mongodb";
-import { SAMPLE_QUESTIONS, type QuizQuestion } from "./quiz";
+import { SAMPLE_QUESTIONS, type QuizCategory, type QuizQuestion } from "./quiz";
 
 export interface DBQuestion {
   id: string;
@@ -7,6 +7,8 @@ export interface DBQuestion {
   gradeId?: string;
   subjectId?: string;
   techCategorySlug?: string;
+  /** Difficulty band — set on technology questions (Beginner | Intermediate | Advanced). */
+  category?: QuizCategory;
   text: string;
   options: string[];
   correctIndex: number;
@@ -30,13 +32,13 @@ export async function getGradeSubjectQuestions(
 }
 
 export async function getTechCategoryQuestions(
-  techCategorySlug: string
+  techCategorySlug: string,
+  category?: QuizCategory
 ): Promise<DBQuestion[]> {
   const col = await getCollection();
-  return col
-    .find({ type: "technology", techCategorySlug })
-    .limit(10)
-    .toArray();
+  const filter: Record<string, unknown> = { type: "technology", techCategorySlug };
+  if (category) filter.category = category;
+  return col.find(filter).limit(10).toArray();
 }
 
 export async function getQuestionsByIds(ids: string[]): Promise<DBQuestion[]> {
@@ -49,7 +51,7 @@ export async function ensureIndexes(): Promise<void> {
   const col = await getCollection();
   await Promise.all([
     col.createIndex({ type: 1, gradeId: 1, subjectId: 1 }),
-    col.createIndex({ type: 1, techCategorySlug: 1 }),
+    col.createIndex({ type: 1, techCategorySlug: 1, category: 1 }),
     col.createIndex({ id: 1 }, { unique: true }),
   ]);
 }

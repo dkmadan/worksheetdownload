@@ -26,6 +26,7 @@ export default function QuizEngine() {
   const subject = searchParams.get("subject") ?? undefined;
   const tech = searchParams.get("tech") ?? undefined;
   const item = searchParams.get("item") ?? undefined;
+  const category = searchParams.get("category") ?? undefined;
   const label = searchParams.get("label") ?? "Quiz";
 
   const startQuiz = useCallback(async () => {
@@ -34,7 +35,7 @@ export default function QuizEngine() {
       const res = await fetch("/api/quiz/start", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ type, gradeId: grade, subjectId: subject, techSlug: tech, itemSlug: item, label }),
+        body: JSON.stringify({ type, gradeId: grade, subjectId: subject, techSlug: tech, itemSlug: item, category, label }),
       });
       if (!res.ok) throw new Error(await res.text());
       const data = await res.json();
@@ -48,7 +49,7 @@ export default function QuizEngine() {
       setErrorMsg("Could not start quiz. Please check your connection and try again.");
       setPhase("error");
     }
-  }, [type, grade, subject, tech, item, label]);
+  }, [type, grade, subject, tech, item, category, label]);
 
   useEffect(() => {
     startQuiz();
@@ -243,8 +244,17 @@ export default function QuizEngine() {
       <div className="flex-1 flex items-start sm:items-center justify-center px-4 py-4 overflow-y-auto">
         <div className="w-full max-w-2xl">
           <div className="flex items-center justify-between mb-5">
-            <span className="text-xs font-semibold text-blue-300/80 bg-blue-500/20 px-3 py-1 rounded-full border border-blue-400/20">
-              {question.subject}
+            <span className="flex items-center gap-2">
+              {question.subject && (
+                <span className="text-xs font-semibold text-blue-300/80 bg-blue-500/20 px-3 py-1 rounded-full border border-blue-400/20">
+                  {question.subject}
+                </span>
+              )}
+              {question.category && (
+                <span className="text-xs font-semibold text-purple-200/90 bg-purple-500/20 px-3 py-1 rounded-full border border-purple-400/20">
+                  {question.category}
+                </span>
+              )}
             </span>
             <span className="text-white/35 text-xs font-medium">
               {currentIndex + 1} / {questions.length}

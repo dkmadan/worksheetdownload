@@ -20,9 +20,14 @@ try {
 }
 
 import { MongoClient } from "mongodb";
+import { TECH_QUIZ_QUESTIONS } from "./lib/tech-quiz-questions";
+import { TECH_DATA } from "../src/lib/technologies";
 
 // [text, optA, optB, optC, optD, correctIdx(0-3), explanation]
 type Q = [string, string, string, string, string, number, string];
+
+type QuizCategory = "Beginner" | "Intermediate" | "Advanced";
+const QUIZ_CATEGORIES: QuizCategory[] = ["Beginner", "Intermediate", "Advanced"];
 
 interface SeedQuestion {
   id: string;
@@ -30,6 +35,7 @@ interface SeedQuestion {
   gradeId?: string;
   subjectId?: string;
   techCategorySlug?: string;
+  category?: QuizCategory;
   text: string;
   options: string[];
   correctIndex: number;
@@ -653,491 +659,6 @@ const GRADE_SUBJECT_QUESTIONS: Record<string, Q[]> = {
 
 };
 
-// ── Technology question banks ──────────────────────────────────────────────
-const TECH_QUESTIONS: Record<string, Q[]> = {
-
-  "ai-agents": [
-    ["What is an AI agent?","A chatbot","An AI system that perceives its environment and takes actions","A database","A search engine",1,"An AI agent senses its environment and acts to achieve goals."],
-    ["What does the ReAct pattern stand for?","Reasoning and Action","React and Action","Reasoning and Automation","Retrieval and Action",0,"ReAct combines Reasoning traces and Actions in LLM agents."],
-    ["Which framework is commonly used to build LLM-powered agents?","TensorFlow","LangChain","PyTorch","Scikit-learn",1,"LangChain provides tools to build chains and agents using LLMs."],
-    ["What is a 'tool' in the context of AI agents?","A hardware device","A function the agent can call to interact with external systems","A type of model","A data source",1,"Tools are functions or APIs that agents can invoke to take actions."],
-    ["What is a multi-agent system?","One agent solving all problems","Multiple agents collaborating to solve complex tasks","A team of humans","A type of database",1,"Multi-agent systems coordinate multiple specialised agents working together."],
-    ["What is 'memory' in an AI agent?","RAM on the computer","The agent's ability to store and retrieve information across interactions","Storage capacity of the model","Cache size",1,"Agent memory allows persistence of context and past actions."],
-    ["What is an 'orchestrator' in a multi-agent system?","A database","A component that coordinates and directs other agents","A user interface","A training loop",1,"An orchestrator manages task delegation and coordination between agents."],
-    ["What is 'tool use' in LLMs?","Fine-tuning the model","Allowing the LLM to call external functions or APIs","Using developer tools","Prompt engineering",1,"Tool use lets LLMs call functions like web search or calculators."],
-    ["AutoGPT is an example of a ___","Vector database","Autonomous AI agent","Supervised ML model","Cloud platform",1,"AutoGPT is an early autonomous AI agent that chains GPT-4 calls."],
-    ["What problem does 'agent memory' solve?","Slow inference","The context window limitation of LLMs","Poor accuracy","High cost",1,"External memory stores information beyond what fits in the LLM's context window."],
-  ],
-
-  "ai-ml": [
-    ["What type of learning uses labelled data?","Unsupervised","Reinforcement","Supervised","Semi-supervised",2,"Supervised learning trains on input-output pairs with labelled data."],
-    ["What is overfitting?","Model performs poorly on training data","Model performs well on training but poorly on new data","Model trains too slowly","Model uses too little data",1,"Overfitting means the model memorises training data and fails to generalise."],
-    ["Which algorithm is used for classification?","Linear regression","K-means","Random Forest","PCA",2,"Random Forest is a classification (and regression) algorithm."],
-    ["What is a neural network?","A computer network","A system of interconnected artificial neurons inspired by the brain","A type of database","A search algorithm",1,"Neural networks consist of layers of artificial neurons that learn patterns."],
-    ["What does 'training' a model mean?","Running the model","Adjusting model weights using data to minimise error","Deploying the model","Testing the model",1,"Training adjusts parameters to reduce the model's prediction error."],
-    ["What is gradient descent?","A type of neural network","An optimisation algorithm that minimises loss","A data preprocessing step","A regularisation technique",1,"Gradient descent iteratively moves parameters in the direction of steepest loss reduction."],
-    ["What is a 'feature' in machine learning?","A model type","An input variable used for prediction","A training label","A loss function",1,"Features are the individual measurable properties used as model inputs."],
-    ["What does CNN stand for?","Computer Neural Node","Convolutional Neural Network","Connected Node Network","Core Neural Node",1,"CNN = Convolutional Neural Network, widely used for image recognition."],
-    ["What is the purpose of a validation set?","To train the model","To tune hyperparameters and prevent overfitting","To test final performance","To clean data",1,"The validation set helps tune hyperparameters without touching the test set."],
-    ["What is 'transfer learning'?","Learning from mistakes","Using a pre-trained model on a new, related task","Transferring data between servers","Training from scratch",1,"Transfer learning reuses learned features from a pre-trained model."],
-  ],
-
-  "api-technologies": [
-    ["What does REST stand for?","Remote Execution Standard Transfer","Representational State Transfer","Resource Entity State Transfer","Remote Service Technology",1,"REST = Representational State Transfer — an architectural style for APIs."],
-    ["Which HTTP method is used to create a resource?","GET","POST","PUT","DELETE",1,"POST is used to create new resources on the server."],
-    ["What is GraphQL?","A database query language","A query language for APIs that returns exactly the data requested","A type of REST API","A networking protocol",1,"GraphQL allows clients to request exactly the data they need."],
-    ["What is an API key?","A password for a database","A secret token used to authenticate API requests","A URL parameter","A type of cookie",1,"API keys authenticate and identify the application making an API request."],
-    ["What does gRPC use for data serialisation?","JSON","XML","Protocol Buffers","CSV",2,"gRPC uses Protocol Buffers (protobuf) for efficient binary serialisation."],
-    ["What is a webhook?","A type of API endpoint","An HTTP callback triggered when an event occurs","A caching strategy","A GraphQL feature",1,"Webhooks send HTTP requests to a URL when a specified event occurs."],
-    ["What is rate limiting in APIs?","Restricting data size","Limiting the number of requests a client can make in a period","Controlling API versions","Filtering responses",1,"Rate limiting prevents abuse by capping requests per time window."],
-    ["What status code means 'Not Found'?","200","301","400","404",3,"HTTP 404 indicates the requested resource was not found."],
-    ["What is OpenAPI (Swagger)?","A programming language","A specification for describing RESTful APIs","A database standard","A cloud service",1,"OpenAPI is a standard for documenting and describing REST APIs."],
-    ["What is idempotency in REST APIs?","Every call changes data","Calling the same endpoint multiple times gives the same result","The API never fails","All endpoints return JSON",1,"An idempotent operation produces the same result regardless of how many times it is called."],
-  ],
-
-  "architecture": [
-    ["What is the CAP theorem?","A caching strategy","A distributed system can guarantee only 2 of: Consistency, Availability, Partition tolerance","A design pattern","A network protocol",1,"CAP theorem states distributed systems must trade off between C, A, and P."],
-    ["What is CQRS?","A database type","Separating read (Query) and write (Command) operations","A caching strategy","A network pattern",1,"CQRS separates the model for reading data from the model for writing data."],
-    ["What is event sourcing?","Logging events to a file","Storing state as a sequence of events rather than current state","A type of API","A testing strategy",1,"Event sourcing records all changes as a series of events."],
-    ["What is a monolith in software architecture?","A single large stone","An application built as a single deployable unit","A type of database","A microservice",1,"A monolithic application contains all functionality in one deployable unit."],
-    ["What design pattern ensures only one instance of a class?","Factory","Observer","Singleton","Strategy",2,"The Singleton pattern restricts instantiation to a single object."],
-    ["What is the 'strangler fig' pattern?","Killing old code","Gradually replacing a monolith by routing traffic to new services","A testing pattern","A deployment strategy",1,"The strangler fig incrementally replaces a legacy system with new services."],
-    ["What is a circuit breaker in distributed systems?","An electrical component","A pattern that stops calls to a failing service","A firewall rule","A load balancer type",1,"A circuit breaker prevents cascading failures by short-circuiting calls to unhealthy services."],
-    ["What does 'eventual consistency' mean?","Data is always consistent","All nodes will eventually have the same data, but not necessarily immediately","Consistency is never achieved","Only one node has data",1,"Eventual consistency means nodes converge to the same state over time."],
-    ["What is the Repository pattern?","A code hosting pattern","An abstraction layer between domain logic and data source","A deployment strategy","A testing pattern",1,"The Repository pattern decouples business logic from data access code."],
-    ["What is 'loose coupling'?","Tight integration between services","Services interact through interfaces with minimal dependencies","All services share a database","Services share code",1,"Loosely coupled services change independently with minimal impact on each other."],
-  ],
-
-  "bi-visualization": [
-    ["What does BI stand for?","Binary Information","Business Intelligence","Big Insights","Balanced Integration",1,"BI = Business Intelligence — using data to support business decisions."],
-    ["Which tool is owned by Microsoft for BI?","Tableau","Looker","Power BI","Qlik Sense",2,"Power BI is Microsoft's business intelligence and visualisation tool."],
-    ["What is a KPI?","Key Process Indicator","Key Performance Index","Key Performance Indicator","Knowledge Performance Index",2,"KPI = Key Performance Indicator — a measurable value showing progress toward a goal."],
-    ["What is a data dashboard?","A database interface","A visual display of key metrics and KPIs","A report generator","A data pipeline",1,"A dashboard visually aggregates and displays key metrics in one view."],
-    ["What chart type is best for showing a trend over time?","Pie chart","Bar chart","Line chart","Scatter plot",2,"Line charts clearly show how values change over time."],
-    ["What does OLAP stand for?","Online Lightweight Analytical Processing","Online Analytical Processing","Offline Large Application Processing","Online Application Protocol",1,"OLAP = Online Analytical Processing — for multi-dimensional data analysis."],
-    ["Which chart best compares parts of a whole?","Line chart","Bar chart","Pie chart","Scatter plot",2,"Pie charts show how parts contribute to a total."],
-    ["What is Tableau primarily used for?","Machine learning","Data visualisation and business intelligence","Database management","Cloud hosting",1,"Tableau is a leading data visualisation and BI platform."],
-    ["What is a heat map?","A map showing temperatures","A visualisation using colour intensity to show data density","A type of pie chart","A geographic map",1,"Heat maps use colour gradients to represent magnitude across a 2D space."],
-    ["What does 'drill-down' mean in BI?","Deleting data","Navigating from summary data to granular detail","Aggregating data","Filtering by date",1,"Drill-down lets users click on data to explore more detailed levels."],
-  ],
-
-  "backend-technologies": [
-    ["Which language is primarily used with Django?","JavaScript","Ruby","Python","Go",2,"Django is a Python web framework."],
-    ["What is Node.js?","A front-end framework","A JavaScript runtime built on Chrome's V8 engine","A database","A cloud service",1,"Node.js runs JavaScript on the server using the V8 engine."],
-    ["What is Express.js?","A database ORM","A minimal web framework for Node.js","A front-end library","A testing tool",1,"Express.js is a fast, minimal Node.js web application framework."],
-    ["What is Spring Boot?","A Python framework","A Java framework for building stand-alone applications","A JavaScript runtime","A database tool",1,"Spring Boot simplifies building production-ready Java applications."],
-    ["What is FastAPI?","A JavaScript framework","A modern Python web framework for building APIs","A database","A cloud service",1,"FastAPI is a high-performance Python framework for building APIs."],
-    ["What does ORM stand for?","Object Runtime Module","Object-Relational Mapping","Object Resource Manager","Only Read Mode",1,"ORM maps database tables to programming objects."],
-    ["What is middleware in web frameworks?","A database layer","Code that runs between the request and response","A front-end component","A deployment tool",1,"Middleware processes requests before they reach route handlers."],
-    ["Which HTTP status code means 'Created'?","200","201","204","400",1,"201 Created is returned when a resource is successfully created."],
-    ["What is dependency injection?","A type of bug","Providing dependencies to a class from outside rather than creating them internally","A testing strategy","A caching pattern",1,"Dependency injection decouples classes by supplying their dependencies externally."],
-    ["What is an API gateway?","A firewall","A single entry point that routes requests to backend services","A database proxy","A CDN",1,"An API gateway routes, authenticates, and manages traffic to microservices."],
-  ],
-
-  "blockchain-web3": [
-    ["What is a blockchain?","A type of database stored on one server","A distributed, immutable ledger of transactions","A programming language","A cloud service",1,"A blockchain is a decentralised, tamper-resistant chain of transaction records."],
-    ["What is a smart contract?","A legal document","Self-executing code stored on a blockchain","A type of cryptocurrency","A wallet",1,"Smart contracts automatically execute when predefined conditions are met."],
-    ["What consensus mechanism does Bitcoin use?","Proof of Stake","Proof of Work","Delegated Proof of Stake","Proof of Authority",1,"Bitcoin uses Proof of Work (PoW) where miners solve computational puzzles."],
-    ["What is Ethereum primarily used for?","Payments only","Smart contracts and decentralised applications","Cloud computing","File storage",1,"Ethereum is a blockchain platform for smart contracts and dApps."],
-    ["What is an NFT?","A new framework technology","A non-fungible token representing unique digital ownership","A type of cryptocurrency","A smart contract language",1,"NFT = Non-Fungible Token — a unique digital asset on a blockchain."],
-    ["What is DeFi?","Decentralised Filing","Decentralised Finance — financial services on blockchain","A type of consensus","A wallet type",1,"DeFi provides financial services without traditional intermediaries using blockchains."],
-    ["What is a crypto wallet?","A place to store coins physically","Software that stores private/public keys and manages crypto assets","A mining tool","A smart contract",1,"A crypto wallet stores cryptographic keys used to access blockchain assets."],
-    ["What is 'gas' on Ethereum?","Fuel for miners","The fee paid to execute transactions and smart contracts","A type of token","Mining reward",1,"Gas is the fee users pay to compensate for computing energy on Ethereum."],
-    ["What does 'immutable' mean in blockchain?","Data can be changed easily","Once written, data cannot be altered","Data expires automatically","Data is encrypted",1,"Blockchain records are immutable — they cannot be changed after being recorded."],
-    ["What is Solidity?","A database query language","A programming language for writing Ethereum smart contracts","A consensus algorithm","A wallet protocol",1,"Solidity is the primary language for writing smart contracts on Ethereum."],
-  ],
-
-  "build-package-management": [
-    ["What is npm?","A JavaScript framework","Node Package Manager — manages JavaScript packages","A build tool","A testing framework",1,"npm is the default package manager for Node.js."],
-    ["What file does npm use to track dependencies?","Makefile","Dockerfile","package.json","requirements.txt",2,"package.json lists a Node.js project's dependencies and scripts."],
-    ["What is pip used for?","Java dependencies","Python package installation and management","Ruby gems","Go modules",1,"pip is the package installer for Python."],
-    ["What is Maven used with?","Python","JavaScript","Java","Ruby",2,"Apache Maven is a build and dependency management tool for Java projects."],
-    ["What is webpack?","A testing tool","A module bundler for JavaScript applications","A CSS framework","A database tool",2,"Webpack bundles JavaScript modules and assets for web applications."],
-    ["What does 'semantic versioning' (semver) mean?","Random versioning","Version format MAJOR.MINOR.PATCH with specific rules","A type of git tag","A release strategy",1,"Semver uses MAJOR.MINOR.PATCH: major for breaking changes, minor for features, patch for fixes."],
-    ["What is a lock file (package-lock.json)?","A file that prevents editing","A file recording exact versions of every installed dependency","A configuration file","A security file",1,"Lock files ensure reproducible installs by pinning exact dependency versions."],
-    ["What is Gradle?","A Python tool","A build automation tool used primarily with Android and Java","A JavaScript bundler","A cloud tool",1,"Gradle is a flexible build tool widely used in Android and JVM projects."],
-    ["What does 'yarn' do?","A Python package manager","An alternative JavaScript package manager to npm","A Java build tool","A CSS preprocessor",1,"Yarn is a fast, reliable alternative package manager for JavaScript."],
-    ["What is Vite?","A testing framework","A fast frontend build tool and dev server","A package manager","A CI/CD tool",1,"Vite is a next-generation frontend build tool with fast HMR."],
-  ],
-
-  "caching": [
-    ["What is caching?","Deleting unused data","Storing frequently accessed data in fast storage for quick retrieval","Compressing data","Encrypting data",1,"Caching stores data in a fast layer so future requests are served quickly."],
-    ["What is Redis?","A relational database","An in-memory data structure store used as cache and message broker","A graph database","A file system",1,"Redis is a fast in-memory store used for caching, sessions, and pub/sub."],
-    ["What is a cache hit?","A cache error","When the requested data is found in the cache","When data is written to cache","When the cache is full",1,"A cache hit occurs when the requested data is already in the cache."],
-    ["What is TTL in caching?","Total Transfer Limit","Time To Live — how long a cached item is valid","Transaction Time Limit","Time To Load",1,"TTL defines how long a cached entry remains valid before expiring."],
-    ["What is cache invalidation?","Adding new items to cache","The process of removing stale data from the cache","Encrypting cached data","Compressing cached data",1,"Cache invalidation removes or updates cached data when the source changes."],
-    ["What is a CDN?","A type of database","A Content Delivery Network that caches content close to users","A cloud platform","A load balancer",1,"A CDN caches static assets at edge locations close to users for faster delivery."],
-    ["Which cache eviction policy removes the least recently used item?","FIFO","LRU","MRU","Random",1,"LRU (Least Recently Used) evicts items that haven't been accessed recently."],
-    ["What is Memcached?","A relational database","A distributed in-memory caching system","A graph cache","A file cache",1,"Memcached is a simple, high-performance distributed memory caching system."],
-    ["What is a 'write-through' cache strategy?","Only write to cache","Write to both cache and storage simultaneously","Write to cache first, then storage asynchronously","Never write to cache",1,"Write-through writes to both the cache and the backing store at the same time."],
-    ["What is 'cache stampede'?","A cache eviction policy","Many requests hitting the database simultaneously when a cache entry expires","A type of CDN","A security attack",1,"Cache stampede occurs when many threads simultaneously try to regenerate the same expired cache entry."],
-  ],
-
-  "cloud": [
-    ["What does IaaS stand for?","Internet as a Service","Infrastructure as a Service","Integration as a Service","Information as a Service",1,"IaaS provides virtualised computing infrastructure over the internet (e.g., EC2)."],
-    ["What is Amazon S3 used for?","Virtual machines","Object storage for files and data","Database service","Email service",1,"Amazon S3 is an object storage service for storing and retrieving data."],
-    ["What is serverless computing?","Computing without servers","Running code without managing server infrastructure","A type of database","A CDN service",1,"Serverless lets developers run functions without managing server infrastructure."],
-    ["Which cloud provider offers Azure?","Amazon","Google","Microsoft","IBM",2,"Microsoft Azure is Microsoft's cloud computing platform."],
-    ["What is EC2?","A database service","Amazon's Elastic Compute Cloud — virtual machines","A storage service","A CDN",1,"EC2 provides resizable virtual machines in the AWS cloud."],
-    ["What is auto-scaling?","Manual capacity management","Automatically adjusting compute resources based on demand","A type of load balancer","A database feature",1,"Auto-scaling adds or removes resources automatically based on traffic."],
-    ["What is a VPC?","Virtual Private Cloud — isolated network section in the cloud","A type of server","A storage bucket","A monitoring tool",0,"A VPC is a logically isolated section of the cloud where you launch resources."],
-    ["What does GCP stand for?","Global Cloud Platform","Google Cloud Platform","General Cloud Protocol","Google Compute Platform",1,"GCP = Google Cloud Platform — Google's cloud computing services."],
-    ["What is a cloud region?","A type of database","A geographic area containing cloud data centres","A virtual network","A storage class",1,"A cloud region is a physical location with multiple data centres."],
-    ["What is 'lift and shift' migration?","Rewriting apps for the cloud","Moving existing applications to the cloud with minimal changes","Deleting on-prem servers","A cloud security strategy",1,"Lift and shift moves applications to the cloud without redesigning them."],
-  ],
-
-  "content-management": [
-    ["What is a CMS?","Cloud Management System","Content Management System — software for creating and managing digital content","A database type","A coding framework",1,"A CMS lets users create, edit, and publish content without coding."],
-    ["What is WordPress?","A hosting service","The world's most popular open-source CMS, powering ~40% of websites","A programming language","A design tool",1,"WordPress is an open-source CMS used to build websites and blogs."],
-    ["What is a headless CMS?","A CMS without a front end UI","A CMS that provides content via API without a built-in presentation layer","A CMS without admin panel","A CMS without plugins",1,"A headless CMS delivers content via API, allowing any front end to consume it."],
-    ["What is Contentful?","A database","A cloud-based headless CMS","A static site generator","A hosting platform",1,"Contentful is a cloud-first headless CMS used by developers and content teams."],
-    ["What is Strapi?","A cloud database","An open-source headless CMS built with Node.js","A design tool","A testing framework",1,"Strapi is a popular open-source headless CMS with customisable APIs."],
-    ["What is a 'slug' in CMS?","A type of bug","A URL-friendly version of a page title","A content category","A user role",1,"A slug is the URL-safe version of a title, e.g., 'my-blog-post'."],
-    ["What does WYSIWYG mean?","What You See Is What You Get — a visual editor","What You Send Is What You Get","Web Years Since In Web Generation","None of the above",0,"WYSIWYG editors let users see the content formatted as it will appear when published."],
-    ["What is Sanity.io?","A cloud hosting platform","A structured content platform (headless CMS)","A testing tool","A design system",1,"Sanity is a headless CMS platform with a customisable studio and real-time collaboration."],
-    ["What is a 'content model' in a CMS?","A type of plugin","The structure defining content types and their fields","A design template","A user permission",1,"A content model defines the schema — what types of content exist and their fields."],
-    ["What is Gatsby.js primarily used with?","Databases","Headless CMSs and static site generation","Server-side rendering only","Mobile apps",1,"Gatsby generates static sites by pulling data from headless CMSs and other sources."],
-  ],
-
-  "data-engineering": [
-    ["What does ETL stand for?","Extract, Transform, Load","Edit, Transfer, Load","Extract, Transfer, Log","Edit, Transform, Launch",0,"ETL = Extract, Transform, Load — the process of moving data from source to destination."],
-    ["What is Apache Spark?","A database","A unified engine for large-scale data processing","A BI tool","A cloud service",1,"Apache Spark is a fast, general-purpose distributed data processing engine."],
-    ["What is a data pipeline?","A physical pipe","An automated workflow that moves and transforms data from source to destination","A database schema","A storage system",1,"A data pipeline automates the flow and transformation of data across systems."],
-    ["What is a data lake?","A small database","A large repository storing raw data in its native format","A type of cloud storage","A data visualisation tool",1,"A data lake stores vast amounts of raw structured and unstructured data."],
-    ["What is the difference between batch and stream processing?","No difference","Batch processes data in large chunks periodically; stream processes data continuously","Batch is real-time; stream is delayed","Batch uses Python; stream uses Java",1,"Batch processes chunks of data at intervals; streaming processes data in real time."],
-    ["What is Apache Kafka used for?","Storing relational data","Distributed event streaming and messaging","Machine learning","File storage",1,"Kafka is a distributed event streaming platform for real-time data pipelines."],
-    ["What is data lineage?","A data type","Tracking the origin, movement, and transformation of data","A storage format","A caching strategy",1,"Data lineage documents where data came from and how it was transformed."],
-    ["What is dbt (data build tool)?","A database","A tool for transforming data in the warehouse using SQL","A streaming tool","A BI platform",1,"dbt transforms data inside the data warehouse using version-controlled SQL."],
-    ["What is a schema in a data warehouse?","A programming language","The logical structure of database tables and their relationships","A type of index","A query language",1,"A schema defines how data is organised — tables, columns, and relationships."],
-    ["What is Apache Airflow?","A machine learning library","A workflow orchestration platform for scheduling and monitoring data pipelines","A stream processor","A database engine",1,"Airflow orchestrates complex data workflows using directed acyclic graphs (DAGs)."],
-  ],
-
-  "data-platforms": [
-    ["What is Snowflake?","A cloud storage service","A cloud-based data warehouse platform","A BI tool","A streaming platform",1,"Snowflake is a cloud-native data warehousing platform."],
-    ["What is Google BigQuery?","A search engine","Google's serverless cloud data warehouse","A BI dashboard","A streaming service",1,"BigQuery is Google Cloud's fully managed, serverless data warehouse."],
-    ["What is Databricks?","A database","A unified analytics platform built on Apache Spark","A cloud provider","A BI tool",1,"Databricks provides a collaborative platform for data engineering and ML on Spark."],
-    ["What is a data warehouse?","A physical warehouse","A central repository for structured, integrated data used for reporting and analysis","A raw data store","A streaming platform",1,"A data warehouse stores clean, integrated data optimised for analytics and reporting."],
-    ["What is Delta Lake?","A physical lake","An open-source storage layer that brings ACID transactions to big data","A database type","A cloud platform",1,"Delta Lake adds reliability and ACID transactions to data lake storage."],
-    ["What is the medallion architecture?","A cloud architecture","A data design pattern with bronze, silver, and gold data quality layers","A security pattern","A microservices pattern",1,"Medallion architecture organises data in progressive quality layers: raw → refined → business-level."],
-    ["What is Amazon Redshift?","An object storage service","Amazon's cloud data warehouse","A streaming service","A compute service",1,"Amazon Redshift is AWS's managed cloud data warehouse service."],
-    ["What is a 'lakehouse'?","A physical location","A combination of data lake and data warehouse capabilities","A type of database","A BI tool",1,"A lakehouse combines the flexibility of a data lake with the structure of a data warehouse."],
-    ["What is Looker?","A machine learning platform","A BI and data exploration tool (acquired by Google)","A data pipeline tool","A streaming platform",1,"Looker is a BI platform that lets users explore and visualise data."],
-    ["What is 'data cataloguing'?","Deleting old data","An inventory of data assets with metadata to make data discoverable","A backup strategy","A query optimisation",1,"A data catalogue documents available datasets with metadata for discoverability."],
-  ],
-
-  "databases": [
-    ["What does ACID stand for in databases?","Atomicity, Consistency, Isolation, Durability","Automatic, Consistent, Isolated, Data","Atomic, Consistent, Independent, Durable","Atomicity, Consistency, Integration, Durability",0,"ACID properties ensure reliable database transactions."],
-    ["What is an index in a database?","A book table of contents","A data structure that speeds up query retrieval","A type of constraint","A backup method",1,"An index improves query performance by creating a fast lookup structure."],
-    ["What is the difference between SQL and NoSQL?","SQL is newer","SQL uses structured tables; NoSQL uses flexible document, key-value, graph, or column stores","NoSQL is always faster","SQL doesn't support transactions",1,"SQL databases use structured schemas; NoSQL allows flexible data models."],
-    ["What is a primary key?","Any column in a table","A unique identifier for each row in a table","A foreign key reference","An index",1,"A primary key uniquely identifies each record in a database table."],
-    ["What is a JOIN in SQL?","Merging two databases","Combining rows from two or more tables based on a related column","Deleting rows","Creating a new table",1,"A JOIN retrieves related data from multiple tables using a matching column."],
-    ["What is MongoDB?","A relational database","A document-oriented NoSQL database","A graph database","A time-series database",1,"MongoDB stores data as flexible JSON-like documents."],
-    ["What is normalisation in databases?","Making data bigger","Organising data to reduce redundancy and improve integrity","A query optimisation","A backup strategy",1,"Normalisation structures a database to minimise redundancy and dependency."],
-    ["What is a transaction in a database?","A financial payment","A unit of work that is executed as a whole or not at all","A type of query","A backup operation",1,"A database transaction is an atomic unit — all operations succeed or all are rolled back."],
-    ["What is PostgreSQL?","A NoSQL database","A powerful open-source relational database","A cloud database","A graph database",1,"PostgreSQL is an advanced, open-source relational database system."],
-    ["What is sharding?","A backup strategy","Splitting a database into smaller, distributed pieces for scalability","An indexing strategy","A query type",1,"Sharding horizontally partitions data across multiple database instances."],
-  ],
-
-  "desktop": [
-    ["What is Electron?","A Java framework","A framework to build cross-platform desktop apps using web technologies","A Linux desktop environment","A database tool",1,"Electron packages web apps (HTML/CSS/JS) into native desktop applications."],
-    ["Which popular desktop app is built with Electron?","Photoshop","VS Code","IntelliJ","LibreOffice",1,"VS Code is one of the most popular applications built with Electron."],
-    ["What is Qt?","A Python library","A cross-platform C++ framework for building desktop and embedded apps","A database","A web framework",1,"Qt is used to build cross-platform applications with native look and feel."],
-    ["What is WPF?","A web framework","Windows Presentation Foundation — a .NET framework for Windows desktop apps","A testing tool","A cloud service",1,"WPF is Microsoft's framework for building rich Windows desktop applications."],
-    ["What is Tauri?","A database","A framework for building lightweight desktop apps using web front ends and Rust back ends","A Linux distro","A cloud tool",1,"Tauri is a modern alternative to Electron with smaller bundles using Rust."],
-    ["What is the main advantage of native desktop apps over web apps?","Easier to build","Better performance and OS integration","Automatic updates","Cross-platform by default",1,"Native apps have direct OS access, better performance, and deeper system integration."],
-    ["Which language is Flutter primarily written in?","JavaScript","Kotlin","Dart","Swift",2,"Flutter uses the Dart programming language."],
-    ["What is MAUI in .NET?","A testing framework","Multi-platform App UI — a .NET framework for cross-platform native apps","A database ORM","A cloud service",1,".NET MAUI builds native mobile and desktop apps from a single codebase."],
-    ["What is a sandbox in desktop apps?","A testing environment","An isolated execution environment that restricts app access to system resources","A type of file system","A design pattern",1,"Sandboxing restricts what a desktop application can access on the system."],
-    ["What tool is commonly used to package and distribute Electron apps?","npm only","Electron Forge or electron-builder","Docker","CMake",1,"Electron Forge and electron-builder package Electron apps for distribution."],
-  ],
-
-  "devops": [
-    ["What does CI/CD stand for?","Continuous Integration / Continuous Deployment","Code Integration / Code Deployment","Continuous Infrastructure / Continuous Delivery","Coded Input / Coded Delivery",0,"CI/CD = Continuous Integration / Continuous Deployment — automating build, test, and deploy."],
-    ["What is Docker used for?","Database management","Containerising applications for consistent environments","Load balancing","Monitoring",1,"Docker packages applications and their dependencies into containers."],
-    ["What is Infrastructure as Code (IaC)?","Writing code on servers","Managing infrastructure through machine-readable configuration files","A type of database","A monitoring tool",1,"IaC provisions infrastructure using code (e.g., Terraform, CloudFormation)."],
-    ["What is Jenkins?","A programming language","An open-source automation server for CI/CD pipelines","A cloud service","A container tool",1,"Jenkins automates building, testing, and deploying applications."],
-    ["What is Terraform?","A database tool","An IaC tool for provisioning cloud resources","A container runtime","A monitoring platform",1,"Terraform lets you define cloud infrastructure in declarative configuration files."],
-    ["What is a Dockerfile?","A deployment script","A text file containing instructions to build a Docker image","A CI/CD config","A shell script",1,"A Dockerfile specifies the steps to create a Docker container image."],
-    ["What is GitHub Actions?","A project management tool","A CI/CD platform built into GitHub","A code review tool","A cloud provider",1,"GitHub Actions automates workflows (build, test, deploy) directly in GitHub."],
-    ["What is Ansible?","A cloud platform","An agentless automation tool for configuration management","A container orchestrator","A monitoring tool",1,"Ansible automates software provisioning and configuration management."],
-    ["What is a deployment pipeline?","A physical pipe","An automated sequence of stages from code commit to production","A type of container","A monitoring strategy",1,"A deployment pipeline automates the steps from code change to production release."],
-    ["What is blue-green deployment?","Colour-coded environments","Running two identical environments and switching traffic to the new one","A testing strategy","A branching strategy",1,"Blue-green deployment reduces downtime by switching traffic between two identical environments."],
-  ],
-
-  "developer-tools": [
-    ["What is VS Code?","A programming language","A lightweight, extensible source code editor by Microsoft","A cloud service","A database tool",1,"VS Code is a popular free, open-source code editor."],
-    ["What is a debugger used for?","Writing code faster","Finding and fixing bugs by stepping through code execution","Compiling code","Formatting code",1,"A debugger lets you pause execution, inspect variables, and step through code."],
-    ["What is ESLint?","A testing framework","A tool for finding and fixing JavaScript code style and quality issues","A bundler","A package manager",1,"ESLint analyses JavaScript code for potential errors and style violations."],
-    ["What is Prettier?","A testing tool","An opinionated code formatter","A linting tool","A bundler",1,"Prettier automatically formats code to a consistent style."],
-    ["What is a package manager?","A delivery service","A tool that automates installing, updating, and managing software dependencies","A code editor","A build tool",1,"Package managers (npm, pip, Maven) handle software dependency management."],
-    ["What does 'refactoring' mean?","Deleting code","Restructuring existing code without changing its external behaviour","Adding new features","Writing tests",1,"Refactoring improves code structure and readability without altering functionality."],
-    ["What is Postman used for?","Writing code","Testing and documenting APIs","Database management","Version control",1,"Postman is a tool for building, testing, and documenting APIs."],
-    ["What is a terminal/CLI?","A graphical interface","A text-based interface for interacting with the operating system","A code editor","A browser",1,"A CLI (Command Line Interface) lets users type commands to control the system."],
-    ["What is 'linting'?","Formatting code","Statically analysing code for errors and style issues","Running tests","Compiling code",1,"Linting automatically checks code for syntax errors and style violations."],
-    ["What is a profiler in development?","A user profile manager","A tool that measures where an application spends time and memory","A code formatter","A test runner",1,"A profiler identifies performance bottlenecks by measuring execution time."],
-  ],
-
-  "distributed-systems": [
-    ["What is the Raft consensus algorithm used for?","Sorting distributed data","Achieving consensus in a distributed system through leader election","Load balancing","Data encryption",1,"Raft is a consensus algorithm ensuring all nodes agree on state."],
-    ["What is distributed tracing?","Tracing network cables","Tracking a request as it flows through multiple services","A debugging tool","A log aggregation tool",1,"Distributed tracing follows a request across microservices to diagnose latency and errors."],
-    ["What is a 'split-brain' scenario?","A decision paralysis problem","When a distributed system is partitioned and nodes disagree on state","A network error","A database corruption",1,"Split-brain occurs when network partition causes nodes to act as independent systems."],
-    ["What is the two-phase commit protocol?","A code review process","A protocol ensuring all nodes either commit or rollback a transaction","A deployment strategy","A load balancing method",1,"2PC ensures atomicity across distributed nodes — all commit or all abort."],
-    ["What is a distributed lock?","A physical lock","A mechanism ensuring only one process accesses a resource across a distributed system","A database index","A network protocol",1,"Distributed locks coordinate access to shared resources across multiple nodes."],
-    ["What is consistent hashing?","A hash function","A technique for distributing data with minimal reshuffling when nodes are added/removed","A security algorithm","A consensus protocol",1,"Consistent hashing maps data to nodes minimising data movement when the cluster changes."],
-    ["What is the leader-follower replication pattern?","One server does everything","One primary node accepts writes; followers replicate data for reads","All nodes accept writes equally","A load balancing strategy",1,"Leader-follower replication has one leader for writes and followers for read scaling."],
-    ["What does 'partition tolerance' mean in CAP theorem?","A database partition","The system continues operating even when network partitions occur","Handling large files","Distributing load",1,"Partition tolerance means the system works despite network message loss or failure."],
-    ["What is a service mesh?","A networking cable","Infrastructure layer handling service-to-service communication, security, and observability","A database cluster","A load balancer",1,"A service mesh (e.g., Istio) manages inter-service communication in microservices."],
-    ["What is vector clock used for?","Timekeeping","Tracking causality and ordering of events in distributed systems","A data structure","A consensus algorithm",1,"Vector clocks help determine the order of events across distributed nodes."],
-  ],
-
-  "emerging-technologies": [
-    ["What is quantum computing?","Faster classical computing","Computing that uses quantum mechanical phenomena like superposition and entanglement","A type of AI","A cloud service",1,"Quantum computers use qubits that can be in multiple states simultaneously."],
-    ["What is augmented reality (AR)?","Fully virtual environments","Overlaying digital information on the real world","A type of AI","A display technology",1,"AR enhances the real world with digital content (e.g., Pokemon Go)."],
-    ["What is a digital twin?","A backup system","A virtual replica of a physical asset, process, or system","A type of AI model","A copy of a database",1,"A digital twin mirrors a physical object in real time for simulation and monitoring."],
-    ["What is edge AI?","AI in the cloud","Running AI models on edge devices close to data sources","A type of sensor","A cloud AI service",1,"Edge AI processes data on local devices (IoT, phones) rather than sending it to the cloud."],
-    ["What is Web3?","The third version of a website","A decentralised internet built on blockchain technology","A web framework","A CSS version",1,"Web3 refers to a decentralised web using blockchains, tokens, and smart contracts."],
-    ["What is a brain-computer interface (BCI)?","A headset","A direct communication pathway between the brain and external devices","A type of neural network","A virtual reality device",1,"BCIs translate brain signals into commands for computers or prosthetics."],
-    ["What is 6G technology?","A type of WiFi","The sixth generation of mobile network technology","A satellite system","A database standard",1,"6G is the next-generation mobile network beyond 5G, promising ultra-low latency."],
-    ["What is synthetic biology?","Artificial life sciences","Engineering biological systems to perform new functions","A type of AI","Gene therapy",1,"Synthetic biology redesigns organisms for useful purposes using engineering principles."],
-    ["What is ambient computing?","Background music computing","Technology seamlessly embedded in the environment, always available","A type of mobile app","A cloud service",1,"Ambient computing makes technology invisible yet omnipresent in everyday environments."],
-    ["What is a 'killer app' for an emerging technology?","A dangerous application","The compelling application that drives adoption of a new technology","A gaming app","A productivity tool",1,"A killer app is the application so useful it justifies adopting a new platform."],
-  ],
-
-  "enterprise": [
-    ["What is ERP?","Electronic Resource Planning","Enterprise Resource Planning — integrated software managing core business processes","External Resource Protocol","Electronic Reporting Platform",1,"ERP systems integrate finance, HR, supply chain, and other business functions."],
-    ["What is SAP?","A programming language","A leading enterprise software company and its ERP platform","A cloud provider","A database",1,"SAP is the world's leading ERP software used by large enterprises."],
-    ["What is Salesforce?","A sales training company","A leading CRM and enterprise cloud platform","A database","A BI tool",1,"Salesforce is the world's leading Customer Relationship Management (CRM) platform."],
-    ["What is CRM?","Customer Resource Management","Customer Relationship Management — managing customer data and interactions","Content Resource Manager","Commercial Revenue Model",1,"CRM systems help businesses manage customer relationships and sales pipelines."],
-    ["What is ESB in enterprise architecture?","Enterprise Security Base","Enterprise Service Bus — middleware connecting disparate enterprise systems","Employee Service Board","Event Streaming Bus",1,"An ESB routes messages between enterprise applications and services."],
-    ["What is Single Sign-On (SSO)?","A type of password","Logging into multiple systems with one set of credentials","A security vulnerability","A VPN",1,"SSO lets users authenticate once and access multiple connected applications."],
-    ["What is middleware in enterprise context?","A layer between applications and operating system","Software that connects different enterprise applications","A database","A front-end framework",1,"Enterprise middleware enables communication and data management between applications."],
-    ["What does 'scalability' mean for enterprise software?","The ability to decrease performance","The ability to handle increased load by adding resources","A security feature","A pricing model",1,"Scalability is the system's ability to grow to handle more users or data."],
-    ["What is an enterprise data warehouse?","A physical storage room","A large central repository of integrated data for enterprise reporting","A type of CRM","A cloud storage bucket",1,"An enterprise data warehouse consolidates data from all business systems for analysis."],
-    ["What is ITIL?","A programming framework","A set of practices for IT service management","A type of ERP","A cloud standard",1,"ITIL (IT Infrastructure Library) is a framework for managing IT services."],
-  ],
-
-  "generative-ai": [
-    ["What is a Large Language Model (LLM)?","A small AI model","An AI model trained on vast text data to generate and understand language","A machine learning algorithm","A database",1,"LLMs like GPT-4 generate human-like text by learning from massive text corpora."],
-    ["What is prompt engineering?","Writing software prompts","Crafting inputs to guide LLMs to produce desired outputs","A type of fine-tuning","A hardware optimisation",1,"Prompt engineering designs effective prompts to elicit accurate LLM responses."],
-    ["What is RAG (Retrieval-Augmented Generation)?","A type of GAN","Combining LLMs with external document retrieval for up-to-date, grounded answers","A fine-tuning method","A training technique",1,"RAG retrieves relevant documents and provides them as context to the LLM."],
-    ["What is fine-tuning an LLM?","Randomly adjusting weights","Training a pre-trained model further on task-specific data","A type of prompting","Data preprocessing",1,"Fine-tuning adapts a pre-trained model to a specific domain or task."],
-    ["What is a diffusion model?","A type of RNN","A generative model that learns to denoise data (used for image generation)","A reinforcement learning model","A type of transformer",1,"Diffusion models like Stable Diffusion generate images by reversing a noise process."],
-    ["What is hallucination in LLMs?","A visual glitch","When an LLM generates confident but factually incorrect information","A type of bias","An error in training",1,"LLM hallucination refers to generating plausible-sounding but false information."],
-    ["What is a token in LLM context?","A cryptocurrency","A unit of text (word or subword) that LLMs process","A type of API key","A parameter",1,"LLMs process text as tokens — chunks of text corresponding to words or subwords."],
-    ["What is 'context window' in LLMs?","A UI window","The maximum amount of text an LLM can process at once","A type of memory","A parameter limit",1,"The context window is the token limit of text an LLM can consider in one interaction."],
-    ["What is RLHF?","Reinforcement Learning from Human Feedback — aligning LLMs with human preferences","Random Learning from Human Features","Reinforced Large Human Feedback","None of the above",0,"RLHF trains LLMs using human preference ratings to align outputs with human values."],
-    ["What is a GPT?","General Processing Technology","Generative Pre-trained Transformer — a type of LLM","A type of database","A graphics card",1,"GPT models are transformer-based LLMs pre-trained on large text corpora."],
-  ],
-
-  "iot-edge": [
-    ["What does IoT stand for?","Internet of Things","Internet of Technology","Integration of Things","Internet of Transfer",0,"IoT = Internet of Things — physical devices connected to the internet."],
-    ["What is MQTT?","A database protocol","A lightweight messaging protocol for IoT devices","A network standard","A security protocol",1,"MQTT is a pub/sub protocol designed for low-bandwidth, high-latency IoT networks."],
-    ["What is edge computing?","Cloud computing at the edge of the screen","Processing data near where it is generated rather than in a central cloud","A type of IoT device","A network protocol",1,"Edge computing reduces latency by processing data locally on or near devices."],
-    ["What is a sensor in IoT?","A software component","A device that detects and measures physical properties","A cloud service","A gateway",1,"IoT sensors detect temperature, humidity, motion, and other physical data."],
-    ["What is an IoT gateway?","A type of router","A device that connects IoT devices to the cloud or network","A sensor","A cloud service",1,"An IoT gateway bridges local IoT devices with the internet or enterprise network."],
-    ["What protocol is commonly used for IoT device firmware updates?","HTTP","MQTT","CoAP","FTP",1,"MQTT is widely used for IoT messaging including OTA firmware updates."],
-    ["What is a digital twin in IoT?","A backup device","A virtual representation of a physical IoT device or system","A type of sensor","A cloud AI model",1,"A digital twin mirrors an IoT device's state for simulation and monitoring."],
-    ["What is OTA update?","Old Technology Application","Over-the-Air update — delivering software updates wirelessly to devices","Offline Transfer Algorithm","Open Transfer Agreement",1,"OTA updates deliver firmware/software to IoT devices without physical access."],
-    ["What is LoRaWAN?","A WiFi standard","A long-range, low-power wireless protocol for IoT networks","A Bluetooth version","A cellular standard",1,"LoRaWAN enables long-range IoT communication with minimal power consumption."],
-    ["What is embedded systems programming?","Web development","Writing software for dedicated hardware with limited resources","Cloud programming","Mobile app development",1,"Embedded programming targets microcontrollers and specific-purpose hardware."],
-  ],
-
-  "kubernetes": [
-    ["What is Kubernetes?","A programming language","An open-source container orchestration system","A cloud provider","A database",1,"Kubernetes (K8s) automates deploying, scaling, and managing containerised applications."],
-    ["What is a Pod in Kubernetes?","A storage unit","The smallest deployable unit containing one or more containers","A type of service","A configuration file",1,"A Pod is the basic execution unit in Kubernetes, wrapping one or more containers."],
-    ["What is a Kubernetes Deployment?","A physical deployment","A declarative way to manage a set of identical Pods","A storage object","A network policy",1,"A Deployment manages rolling updates and rollbacks for a set of Pods."],
-    ["What is a Kubernetes Service?","A type of Pod","An abstraction that exposes a set of Pods with a stable network endpoint","A configuration file","A storage class",1,"A Service provides a stable IP and DNS name to a set of Pods."],
-    ["What is Helm in Kubernetes?","A cloud tool","A package manager for Kubernetes that manages application deployments","A monitoring tool","A type of container",1,"Helm manages Kubernetes applications using reusable 'charts'."],
-    ["What is a Kubernetes Namespace?","A programming concept","A logical partition within a cluster for organising resources","A type of Pod","A storage volume",1,"Namespaces divide a Kubernetes cluster into virtual sub-clusters."],
-    ["What does kubectl do?","It builds containers","A command-line tool to interact with Kubernetes clusters","It monitors containers","It stores configuration",1,"kubectl is the CLI tool for running commands against Kubernetes clusters."],
-    ["What is a ConfigMap in Kubernetes?","A type of Pod","An object storing non-sensitive configuration data as key-value pairs","A network policy","A storage class",1,"ConfigMaps decouple configuration from container images."],
-    ["What is a Kubernetes Ingress?","A type of egress","A resource managing external HTTP/HTTPS access to services","A Pod type","A storage object",1,"Ingress manages external access to services in a cluster, typically via HTTP."],
-    ["What is a Horizontal Pod Autoscaler?","A load balancer","A Kubernetes feature that automatically scales Pods based on CPU/memory usage","A type of service","A monitoring tool",1,"HPA scales the number of Pods up or down based on observed metrics."],
-  ],
-
-  "mlops-llmops": [
-    ["What is MLOps?","A programming language","Practices and tools for deploying and maintaining machine learning models in production","A type of ML model","A cloud service",1,"MLOps combines ML, DevOps, and data engineering to reliably deploy ML systems."],
-    ["What is MLflow used for?","Training models","Tracking ML experiments, managing models, and deploying ML projects","Database management","Data preprocessing",1,"MLflow tracks experiments, packages models, and manages the ML lifecycle."],
-    ["What is a feature store?","A retail store","A centralised repository for storing and sharing ML features","A type of database","A model registry",1,"A feature store provides reusable, consistent features for training and inference."],
-    ["What is model drift?","A hardware failure","When a deployed model's performance degrades due to changes in data distribution","A training error","A deployment issue",1,"Model drift occurs when real-world data changes, reducing the model's accuracy."],
-    ["What is model monitoring?","Training models","Continuously tracking deployed model performance and data quality","A type of logging","A CI/CD pipeline",1,"Model monitoring detects performance degradation and data drift in production."],
-    ["What is LLMOps?","A large language model","MLOps practices applied to Large Language Models","A logging framework","A cloud service",1,"LLMOps extends MLOps to address the unique challenges of deploying and managing LLMs."],
-    ["What is A/B testing in ML?","Alphabetical sorting","Comparing two model versions with real traffic to evaluate which performs better","A type of cross-validation","A training technique",1,"A/B testing splits traffic between model versions to compare their real-world performance."],
-    ["What is a model registry?","A list of ML algorithms","A centralised store for versioned, production-ready ML models","A type of database","A deployment tool",1,"A model registry tracks model versions, metadata, and deployment status."],
-    ["What is shadow deployment?","A secret deployment","Running a new model in parallel with the production model without affecting users","A type of blue-green deployment","A testing strategy",1,"Shadow deployment routes requests to both models but only serves results from the current one."],
-    ["What is prompt caching in LLMOps?","Storing API keys","Reusing computed KV cache for repeated prompt prefixes to reduce cost and latency","A data storage strategy","A type of fine-tuning",1,"Prompt caching saves the KV cache for reused prompt prefixes, speeding up inference."],
-  ],
-
-  "messaging-streaming": [
-    ["What is Apache Kafka?","A database","A distributed event streaming platform for high-throughput, fault-tolerant messaging","A search engine","A cloud service",1,"Kafka is used for real-time data pipelines and streaming applications."],
-    ["What is RabbitMQ?","A caching system","An open-source message broker using AMQP protocol","A database","A cloud queue",1,"RabbitMQ is a widely used open-source message broker."],
-    ["What is the pub/sub messaging pattern?","Request-response","Publishers send messages to topics; subscribers receive relevant messages","Point-to-point messaging","A type of queue",1,"Pub/sub decouples producers from consumers via topic-based subscriptions."],
-    ["What is a message queue?","A database queue","A temporary storage that holds messages between sender and receiver","A type of cache","A network buffer",1,"Message queues allow asynchronous communication between services."],
-    ["What is a Kafka topic?","A message type","A named feed to which messages are published and from which consumers read","A consumer group","A broker type",1,"A Kafka topic is a category to which records are written and from which they are read."],
-    ["What is a consumer group in Kafka?","A group of topics","Multiple consumers sharing the work of reading from a topic","A cluster of brokers","A type of partition",1,"Consumer groups allow parallel processing of topic messages."],
-    ["What is event streaming?","Sending files","Continuously capturing, processing, and reacting to data events in real time","A batch process","A type of API",1,"Event streaming processes data as it arrives, enabling real-time analytics and reactions."],
-    ["What is AMQP?","A database protocol","Advanced Message Queuing Protocol — an open standard for message-oriented middleware","A network protocol","A streaming standard",1,"AMQP is an open standard protocol used by RabbitMQ and other message brokers."],
-    ["What is a dead letter queue?","A queue for spam","A queue where messages go after failing to be processed","A backup queue","A priority queue",1,"A dead letter queue stores messages that could not be processed successfully."],
-    ["What is backpressure in streaming systems?","Water pressure","A mechanism where consumers signal producers to slow down when overwhelmed","A type of error","A caching strategy",1,"Backpressure prevents consumers from being overwhelmed by slowing the producer."],
-  ],
-
-  "microservices": [
-    ["What is a microservice?","A small computer","A small, independently deployable service focused on a single business capability","A type of database","A network protocol",1,"Microservices break applications into small, autonomous services with a single responsibility."],
-    ["What is a service mesh?","A network cable","Infrastructure layer handling service-to-service communication, security, and observability","A database cluster","A message queue",1,"A service mesh (e.g., Istio) manages inter-service traffic, security, and monitoring."],
-    ["What is an API gateway in microservices?","A firewall","A single entry point routing requests to appropriate microservices","A database proxy","A load balancer",1,"An API gateway handles routing, auth, rate limiting, and aggregation for microservices."],
-    ["What is service discovery?","A documentation tool","The mechanism by which services find each other in a dynamic environment","A deployment tool","A monitoring system",1,"Service discovery lets services dynamically locate each other's network addresses."],
-    ["What is the Saga pattern?","A type of story","A pattern for managing distributed transactions through a sequence of local transactions","A deployment strategy","A caching pattern",1,"The Saga pattern handles distributed transactions without locking resources across services."],
-    ["What is the Strangler Fig pattern?","Destroying old code","Gradually migrating a monolith to microservices by replacing functionality incrementally","A deployment strategy","A testing pattern",1,"The Strangler Fig migrates a monolith to microservices piece by piece."],
-    ["What does 'bounded context' mean in microservices?","A networking term","A logical boundary within which a domain model is defined and applicable","A container boundary","A database boundary",1,"Bounded contexts define the scope within which a specific domain model is consistent."],
-    ["What is the sidecar pattern?","A motorcycle attachment","Deploying a helper container alongside a service container to extend functionality","A deployment strategy","A data pattern",1,"A sidecar container runs alongside the main service container, adding features like logging."],
-    ["What is an event-driven microservice?","A service triggered by time","A service that communicates through events rather than synchronous API calls","A database service","A type of API",1,"Event-driven microservices react to events published on a message bus."],
-    ["What is the 12-factor app methodology?","A coding standard","A set of 12 principles for building scalable, maintainable cloud-native applications","A deployment checklist","A testing framework",1,"The 12-factor app defines best practices for building portable, scalable services."],
-  ],
-
-  "mobile": [
-    ["What is React Native?","A web framework","A JavaScript framework for building native iOS and Android apps","A CSS library","A testing tool",1,"React Native uses JavaScript and React to build native mobile applications."],
-    ["What is Flutter?","A web framework","Google's UI toolkit for building natively compiled apps from one codebase","A JavaScript library","A cloud service",1,"Flutter uses Dart to build apps for iOS, Android, web, and desktop."],
-    ["What is APK?","An Apple format","Android Package — the file format for distributing Android apps","A testing tool","A programming language",1,"An APK file is the installation package format for Android applications."],
-    ["What is the App Store?","Amazon's store","Apple's marketplace for distributing iOS and macOS apps","Google's app store","A web store",1,"The App Store is Apple's platform for distributing iOS apps."],
-    ["What is push notification?","A pull request","A message sent by an app to a user's device even when the app is closed","An email notification","A type of alert in the app",1,"Push notifications are delivered to devices by server-side services like FCM or APNs."],
-    ["What is React Navigation?","A web router","A routing library for React Native apps","A native module","A state manager",1,"React Navigation is the standard navigation library for React Native apps."],
-    ["What is mobile-first design?","Designing only for mobile","Designing UI starting with mobile constraints before scaling to larger screens","A type of app","A testing strategy",1,"Mobile-first design prioritises the mobile experience before desktop."],
-    ["What is FCM?","File Content Manager","Firebase Cloud Messaging — Google's service for sending push notifications","A database","A mobile testing tool",1,"FCM delivers push notifications to Android, iOS, and web apps."],
-    ["What is deep linking in mobile apps?","Hyperlinking on mobile","URLs that open specific content inside a mobile app","A type of push notification","A mobile API",1,"Deep links route users directly to a specific screen within a mobile app."],
-    ["What is Expo in React Native?","A cloud service","A platform and set of tools simplifying React Native development","A testing library","A state manager",1,"Expo provides tools, libraries, and services to build React Native apps more easily."],
-  ],
-
-  "networking": [
-    ["What does TCP/IP stand for?","Transfer Control Protocol / Internet Protocol","Transmission Control Protocol / Internet Protocol","Transfer Communication Protocol / Internet Protocol","Transmission Control Protocol / Intranet Protocol",1,"TCP/IP is the foundational protocol suite for internet communication."],
-    ["What is DNS?","Domain Name Server","Domain Name System — translates domain names to IP addresses","Data Network System","Digital Name Service",1,"DNS resolves human-readable domain names to numeric IP addresses."],
-    ["What is a firewall?","A physical barrier","A security system that monitors and controls incoming/outgoing network traffic","A type of router","A VPN",1,"A firewall enforces network security policies by filtering traffic."],
-    ["What is HTTP?","A programming language","HyperText Transfer Protocol — the protocol for web communication","A type of database","An email protocol",1,"HTTP is the protocol used by browsers and servers to exchange web content."],
-    ["What is a load balancer?","A battery backup","A device that distributes incoming traffic across multiple servers","A type of firewall","A DNS server",1,"Load balancers distribute requests across servers for reliability and performance."],
-    ["What is VPN?","A type of router","Virtual Private Network — a secure encrypted connection over a public network","A firewall","A DNS server",1,"VPNs create encrypted tunnels for private communication over public networks."],
-    ["What is an IP address?","A website address","A unique numerical label assigned to each device on a network","A domain name","A MAC address",1,"An IP address identifies a device's location on a network."],
-    ["What is HTTPS?","A faster HTTP","HTTP with TLS encryption for secure communication","A type of database","An email protocol",1,"HTTPS = HTTP + TLS, providing encrypted communication between browser and server."],
-    ["What is a CDN?","A cloud database","A Content Delivery Network that distributes content from servers close to users","A type of firewall","A VPN service",1,"CDNs cache and serve content from edge locations near users for faster delivery."],
-    ["What is latency?","Network speed","The time delay between sending and receiving data","Network bandwidth","Packet size",1,"Latency is the delay between a request being sent and a response being received."],
-  ],
-
-  "observability": [
-    ["What are the three pillars of observability?","Logs, metrics, traces","Speed, accuracy, reliability","CPU, memory, disk","Inputs, outputs, processes",0,"The three pillars of observability are logs, metrics, and distributed traces."],
-    ["What is Prometheus?","A Greek god","An open-source monitoring and alerting toolkit for time-series metrics","A log aggregator","A tracing tool",1,"Prometheus collects and stores metrics as time-series data for monitoring."],
-    ["What is Grafana?","A database","An open-source platform for visualising metrics and logs from various sources","A monitoring agent","An alerting tool",1,"Grafana creates dashboards visualising data from Prometheus, Loki, and other sources."],
-    ["What is OpenTelemetry?","A browser API","A vendor-neutral framework for collecting telemetry data (logs, metrics, traces)","A monitoring platform","A cloud service",1,"OpenTelemetry provides standardised APIs and SDKs for instrumentation."],
-    ["What is a span in distributed tracing?","A time period","A single unit of work representing one operation in a distributed trace","A type of metric","A log entry",1,"A span represents a timed operation and is the building block of a trace."],
-    ["What is structured logging?","Writing logs to files","Logging in a machine-readable format (e.g., JSON) with consistent fields","Plain text logging","Compressed logging",1,"Structured logs are formatted consistently, enabling efficient querying and analysis."],
-    ["What is an SLO?","Service Level Object","Service Level Objective — a target value for a service reliability metric","Service Level Operation","System Log Output",1,"An SLO defines the target level of reliability for a service (e.g., 99.9% uptime)."],
-    ["What is alerting in observability?","Logging warnings","Automatically notifying teams when metrics cross defined thresholds","A dashboard feature","A trace analysis",1,"Alerting fires notifications when observed metrics breach acceptable thresholds."],
-    ["What is the USE method?","A testing methodology","A performance analysis method: Utilisation, Saturation, Errors per resource","A tracing standard","A logging format",1,"The USE method analyses system performance through utilisation, saturation, and error metrics."],
-    ["What does MTTR stand for?","Maximum Time To Recover","Mean Time To Recovery — average time to restore a system after failure","Minimum Transfer Time Rate","Mean Trace To Root",1,"MTTR measures how quickly a team can restore service after an incident."],
-  ],
-
-  "operating-systems": [
-    ["What is a process in an operating system?","A running application","A program in execution with its own memory space","A file on disk","A user account",1,"A process is an instance of a running program with allocated resources."],
-    ["What is a thread?","A CPU core","A lightweight unit of execution within a process","A type of process","A network connection",1,"Threads are the smallest units of execution sharing the process's memory space."],
-    ["What is virtual memory?","Fake RAM","An extension of physical RAM using disk storage to give processes more addressable memory","A type of cache","A file system",1,"Virtual memory allows processes to use more memory than physically available."],
-    ["What is a deadlock?","A system crash","A situation where two or more processes wait for each other's resources indefinitely","A memory overflow","A type of error",1,"Deadlock occurs when processes are stuck waiting for resources held by each other."],
-    ["What does a scheduler do?","Runs programs","Determines which process gets CPU time and in what order","Manages memory","Controls I/O",1,"The CPU scheduler decides the order and time allocation for process execution."],
-    ["What is a file system?","A cabinet of files","A method for organising and storing files on storage media","A type of database","A network share",1,"A file system organises how data is stored and retrieved on storage devices."],
-    ["What is the kernel?","The core of a nut","The core of an OS managing hardware resources and system calls","A user application","A file manager",1,"The kernel is the OS core that directly manages CPU, memory, and I/O."],
-    ["What is context switching?","Changing themes","Saving and restoring CPU state when switching between processes","Memory allocation","Thread creation",1,"Context switching saves the current process's state and loads another process's state."],
-    ["What is a system call?","A phone call","A request from a user process for an OS kernel service","A function call","A network request",1,"System calls provide the interface between user programs and the operating system."],
-    ["What is paging in memory management?","Storing web pages","Dividing physical and virtual memory into fixed-size blocks (pages)","A type of cache","A file system operation",1,"Paging maps virtual memory pages to physical memory frames, enabling virtual memory."],
-  ],
-
-  "programming-languages": [
-    ["What programming paradigm does Python primarily support?","Object-oriented only","Multi-paradigm: procedural, OOP, and functional","Functional only","Declarative only",1,"Python supports multiple paradigms: procedural, OOP, and functional programming."],
-    ["What is TypeScript?","A new programming language","A strongly typed superset of JavaScript that compiles to JavaScript","A JavaScript framework","A testing tool",1,"TypeScript adds static typing to JavaScript, catching errors at compile time."],
-    ["What makes Rust unique?","Garbage collection","Memory safety without garbage collection through ownership and borrowing","Dynamic typing","Interpreted execution",1,"Rust ensures memory safety through its ownership system, eliminating null/dangling pointers."],
-    ["What is Go (Golang) known for?","Complex syntax","Simplicity, fast compilation, built-in concurrency primitives (goroutines)","Object-oriented inheritance","Dynamic typing",1,"Go is known for its simplicity, fast builds, and goroutines for concurrency."],
-    ["What is the JVM?","Java Virtual Machine — a runtime that executes Java bytecode","JavaScript Virtual Machine","A type of database","A cloud service",0,"The JVM runs Java bytecode on any platform, enabling 'write once, run anywhere'."],
-    ["What is functional programming?","Programming with functions only","A paradigm treating computation as evaluation of mathematical functions, avoiding state changes","Object-oriented programming","A type of scripting",1,"Functional programming emphasises pure functions and immutability."],
-    ["What is garbage collection?","Deleting files","Automatic memory management that reclaims unused memory","A type of algorithm","A testing strategy",1,"Garbage collection automatically frees memory no longer referenced by the program."],
-    ["What does 'statically typed' mean?","Types checked only at runtime","Variable types are checked at compile time","A type of script","A dynamic language",1,"Statically typed languages (Java, C++, TypeScript) check types before running the program."],
-    ["What is Python's GIL?","Global Input Lock","Global Interpreter Lock — prevents multiple threads from executing Python bytecode simultaneously","Global Interface Layer","Global Iteration Loop",1,"The GIL limits Python to running one thread at a time, affecting CPU-bound concurrency."],
-    ["What is Kotlin primarily used for?","Web development","Android development and JVM applications","System programming","Data science",1,"Kotlin is Google's preferred language for Android development."],
-  ],
-
-  "robotics": [
-    ["What is ROS?","A computer operating system","Robot Operating System — a framework for robot software development","A robotics company","A type of motor",1,"ROS provides tools, libraries, and conventions for building robot software."],
-    ["What is a servo motor?","A type of sensor","A motor that precisely controls angular position using feedback","A power supply","A type of battery",1,"Servo motors use feedback control to accurately control position or speed."],
-    ["What is PID control?","A programming interface","A feedback control algorithm using Proportional, Integral, and Derivative terms","A type of sensor","A motor controller",1,"PID controllers adjust output to minimise error between desired and actual values."],
-    ["What is forward kinematics?","Moving forward","Calculating end-effector position from joint angles","Calculating joint angles from position","A type of motor",1,"Forward kinematics computes the position of a robot's end-effector given joint configurations."],
-    ["What is computer vision in robotics?","A camera type","Enabling robots to interpret and understand visual information","A programming language","A type of sensor",1,"Computer vision allows robots to perceive their environment through cameras."],
-    ["What is LIDAR?","A type of radar","Light Detection And Ranging — a sensor using laser pulses to map surroundings","A camera type","A GPS system",1,"LIDAR emits laser pulses and measures reflections to create 3D maps."],
-    ["What is an actuator in robotics?","A sensor","A device that produces motion or force in a robot","A type of controller","A battery",1,"Actuators convert electrical energy into mechanical motion."],
-    ["What is inverse kinematics?","Moving backwards","Calculating joint angles needed to achieve a desired end-effector position","A type of path planning","A sensor algorithm",1,"Inverse kinematics finds joint configurations that achieve a desired pose."],
-    ["What is path planning in robotics?","Drawing a path","Computing a collision-free path from start to goal","A type of sensor","A motor control",1,"Path planning algorithms find routes for a robot to navigate from A to B."],
-    ["What is SLAM?","A type of attack","Simultaneous Localisation And Mapping — building a map while tracking location","A sensor type","A control algorithm",1,"SLAM allows a robot to build a map of an unknown environment while tracking its position."],
-  ],
-
-  "search": [
-    ["What is Elasticsearch?","A SQL database","A distributed search and analytics engine based on Apache Lucene","A BI tool","A file search system",1,"Elasticsearch provides full-text search and analytics on structured and unstructured data."],
-    ["What is an inverted index?","A reverse database","A data structure mapping terms to the documents containing them","A type of B-tree","A cache structure",1,"An inverted index is the core data structure behind full-text search engines."],
-    ["What is relevance ranking in search?","Sorting by date","Ordering results by how well they match the query intent","Alphabetical sorting","Random ordering",1,"Relevance ranking orders search results by match quality (e.g., TF-IDF, BM25)."],
-    ["What is TF-IDF?","A file format","Term Frequency-Inverse Document Frequency — a measure of word importance in documents","A machine learning model","A compression algorithm",1,"TF-IDF weighs terms by how often they appear in a doc relative to the whole corpus."],
-    ["What is a search index?","A database table","A data structure enabling fast document retrieval from a corpus","A type of cache","A query optimizer",1,"A search index stores pre-processed data for rapid query matching."],
-    ["What is fuzzy search?","An unclear search","Search that finds results matching approximately, tolerating typos","A semantic search","An exact match search",1,"Fuzzy search returns results even when query terms have slight misspellings."],
-    ["What is semantic search?","Keyword matching","Search understanding the meaning and intent behind a query","Fuzzy search","A Boolean search",1,"Semantic search uses AI to understand query meaning, not just keywords."],
-    ["What is Apache Solr?","A cloud database","An open-source enterprise search platform built on Lucene","A BI tool","A NoSQL database",1,"Solr provides full-text search, faceted search, and hit highlighting."],
-    ["What is faceted search?","A gem-based search","Filtering search results by multiple attributes simultaneously","A type of fuzzy search","A ranking algorithm",1,"Faceted search allows users to filter results by category, price, rating, etc."],
-    ["What is vector search?","Searching in circles","Finding similar items by comparing high-dimensional vector embeddings","A type of exact match","A keyword search",1,"Vector search uses embedding similarities to find semantically related documents."],
-  ],
-
-  "security": [
-    ["What is SQL injection?","A type of database","An attack inserting malicious SQL code into a query via user input","A type of authentication","A network attack",1,"SQL injection manipulates database queries by injecting malicious SQL statements."],
-    ["What is XSS?","An XML standard","Cross-Site Scripting — injecting malicious scripts into web pages","A type of encryption","A network protocol",1,"XSS attacks inject client-side scripts into pages viewed by other users."],
-    ["What is HTTPS?","A faster HTTP","HTTP with TLS encryption ensuring secure communication","A type of firewall","An email protocol",1,"HTTPS encrypts data in transit using TLS to prevent eavesdropping."],
-    ["What is two-factor authentication?","Two passwords","Requiring two forms of verification to authenticate a user","A type of encryption","A firewall rule",1,"2FA adds a second verification step (e.g., OTP) beyond a password."],
-    ["What is a JWT?","Java Web Token","JSON Web Token — a compact, signed token for authentication and information exchange","A type of cookie","A session ID",1,"JWTs encode claims as JSON and are signed to verify authenticity."],
-    ["What is OWASP?","A web framework","Open Web Application Security Project — a nonprofit producing security standards and resources","A security company","A compliance standard",1,"OWASP publishes the Top 10 most critical web application security risks."],
-    ["What is CSRF?","A type of SQL attack","Cross-Site Request Forgery — tricking users into performing unintended actions","A network protocol","A type of encryption",1,"CSRF exploits trusted user sessions to make unauthorised requests on their behalf."],
-    ["What is encryption?","Deleting data","Converting data into an unreadable format that can only be decoded with a key","Compressing data","Backing up data",1,"Encryption protects data confidentiality by making it unreadable without the key."],
-    ["What is a penetration test?","An injection test","An authorised simulated attack to find security vulnerabilities","A type of unit test","A load test",1,"Penetration testing proactively identifies security weaknesses before attackers do."],
-    ["What does 'zero-trust' security mean?","Trust all internal users","Never trust, always verify — every request must be authenticated regardless of origin","Trust only known devices","A type of firewall",1,"Zero-trust assumes no implicit trust and verifies every access request."],
-  ],
-
-  "testing": [
-    ["What is unit testing?","Testing the whole application","Testing individual functions or components in isolation","Testing the UI","Testing APIs",1,"Unit tests verify individual units of code (functions, methods) work correctly."],
-    ["What is TDD?","Test Driven Development — writing tests before writing the production code","Testing Done Differently","Technical Design Document","Type Driven Development",0,"TDD requires writing a failing test first, then writing code to make it pass."],
-    ["What is integration testing?","Testing individual units","Testing how multiple components work together","Testing the UI","Load testing",1,"Integration tests verify that different modules or services interact correctly."],
-    ["What is mocking in tests?","Making fun of code","Replacing real dependencies with fake objects that simulate behaviour","A type of assertion","A test runner",1,"Mocks simulate dependencies (databases, APIs) so tests run in isolation."],
-    ["What is Jest?","A Java testing tool","A JavaScript testing framework from Meta","A Python testing library","A load testing tool",1,"Jest is a popular JavaScript testing framework with built-in mocking and coverage."],
-    ["What is test coverage?","A test report","The percentage of code lines/branches executed by tests","A type of test","A CI metric",1,"Test coverage measures how much of your code is exercised by the test suite."],
-    ["What is E2E testing?","Error testing","End-to-End testing — testing the complete user flow through the application","Unit testing","Performance testing",1,"E2E tests simulate real user scenarios across the full application stack."],
-    ["What is pytest?","A JavaScript testing tool","A popular Python testing framework","A Java testing library","A Ruby testing tool",1,"pytest is a full-featured Python testing framework with a simple syntax."],
-    ["What is a test fixture?","A physical device","A fixed state of objects/data used as a baseline for running tests","A type of mock","A test runner",1,"A fixture sets up a known state for tests to run against consistently."],
-    ["What is continuous testing?","Running one test manually","Automatically running tests as part of the CI/CD pipeline on every code change","A type of E2E test","A testing standard",1,"Continuous testing integrates automated tests into CI pipelines for rapid feedback."],
-  ],
-
-  "version-control": [
-    ["What is Git?","A programming language","A distributed version control system for tracking code changes","A cloud service","A code editor",1,"Git tracks code history and enables collaboration through branching and merging."],
-    ["What is a Git branch?","A copy of the entire repository","A lightweight pointer to a specific commit enabling parallel development","A type of commit","A merge strategy",1,"Branches let developers work on features in isolation without affecting the main code."],
-    ["What is a pull request (PR)?","Pulling code from remote","A proposal to merge changes from one branch into another","A type of branch","A git command",1,"PRs let developers request code review before merging changes."],
-    ["What is git merge?","Deleting a branch","Combining changes from one branch into another","A type of commit","A conflict resolution",1,"Git merge integrates changes from one branch into the current branch."],
-    ["What is git rebase?","Deleting commit history","Moving or combining commits onto a different base commit","A type of merge","A branching strategy",1,"Rebase replays commits onto a new base, creating a linear history."],
-    ["What is Git flow?","A water-based metaphor","A branching model using feature, develop, release, and main branches","A type of merge","A git command",1,"Git flow defines a strict branching model for managing features and releases."],
-    ["What is a git commit?","A branch","A snapshot of changes saved to the repository history","A remote update","A merge request",1,"A commit records a set of changes with a message describing what was done."],
-    ["What does 'git clone' do?","Creates a new branch","Copies a remote repository to your local machine","Commits changes","Merges branches",1,"git clone creates a local copy of a remote repository."],
-    ["What is a merge conflict?","A type of error","When two branches have competing changes to the same file that Git cannot auto-resolve","A failed push","A branch deletion",1,"Merge conflicts occur when the same lines are modified differently in two branches."],
-    ["What is semantic versioning?","Random version numbers","A versioning scheme: MAJOR.MINOR.PATCH with defined rules for incrementing each part","A git tag format","A branching strategy",1,"Semver defines when to increment MAJOR (breaking), MINOR (features), or PATCH (fixes)."],
-  ],
-
-  "web-technologies": [
-    ["What is the DOM?","Document Object Model — a tree structure representing HTML as objects","Domain Object Management","A CSS property","A JavaScript library",0,"The DOM represents the HTML document as a tree of objects that JavaScript can manipulate."],
-    ["What is React?","A programming language","A JavaScript library for building user interfaces using a component model","A CSS framework","A database",1,"React uses components and virtual DOM to build fast, declarative UIs."],
-    ["What is CSS Flexbox used for?","Font styling","A layout model for distributing space along a single axis (row or column)","Animation","Media queries",1,"Flexbox is a CSS layout mode for aligning and distributing items along one axis."],
-    ["What is responsive design?","A fast website","Design that adapts to different screen sizes using flexible layouts and media queries","A type of animation","A JavaScript pattern",1,"Responsive design ensures websites look good on all screen sizes."],
-    ["What is Next.js?","A CSS framework","A React framework providing SSR, SSG, and routing","A database ORM","A testing tool",1,"Next.js adds server-side rendering, static generation, and file-based routing to React."],
-    ["What is Vue.js?","A CSS tool","A progressive JavaScript framework for building user interfaces","A server-side framework","A database",1,"Vue.js is a progressive framework for building interactive web UIs."],
-    ["What is WebSocket?","A type of HTTP","A protocol providing full-duplex, real-time communication between browser and server","A REST API","A type of cache",1,"WebSockets enable persistent, two-way communication channels between client and server."],
-    ["What is lazy loading?","Loading nothing","Deferring the loading of non-critical resources until they are needed","Eager loading","A caching strategy",1,"Lazy loading improves performance by loading images/components only when needed."],
-    ["What is server-side rendering (SSR)?","Rendering CSS on the server","Generating HTML on the server for each request before sending to the browser","A type of caching","A database pattern",1,"SSR generates fully-formed HTML on the server, improving SEO and initial load."],
-    ["What is a Progressive Web App (PWA)?","A native mobile app","A web app with native-like features: offline support, push notifications, installability","A type of React app","A web standard",1,"PWAs use service workers and manifests to deliver app-like experiences in browsers."],
-  ],
-
-};
 
 function buildGSDoc(gradeId: string, subjectId: string, q: Q, n: number): SeedQuestion {
   return {
@@ -1152,16 +673,77 @@ function buildGSDoc(gradeId: string, subjectId: string, q: Q, n: number): SeedQu
   };
 }
 
-function buildTechDoc(slug: string, q: Q, n: number): SeedQuestion {
+const CATEGORY_ABBR: Record<QuizCategory, string> = {
+  Beginner: "beg",
+  Intermediate: "int",
+  Advanced: "adv",
+};
+
+function buildTechDoc(
+  slug: string,
+  category: QuizCategory,
+  q: Q,
+  n: number
+): SeedQuestion {
   return {
-    id: `tech-${slug}-${n}`,
+    id: `tech-${slug}-${CATEGORY_ABBR[category]}-${n}`,
     type: "technology",
     techCategorySlug: slug,
+    category,
     text: q[0],
     options: [q[1], q[2], q[3], q[4]],
     correctIndex: q[5],
     explanation: q[6],
   };
+}
+
+/** Fail fast on malformed question data before touching MongoDB. */
+function validateTechQuestions(): SeedQuestion[] {
+  const techSlugs = TECH_DATA.map((c) => c.slug);
+  const docs: SeedQuestion[] = [];
+  const errors: string[] = [];
+
+  for (const slug of techSlugs) {
+    const bank = TECH_QUIZ_QUESTIONS[slug];
+    if (!bank) {
+      errors.push(`Missing question bank for technology "${slug}"`);
+      continue;
+    }
+    for (const category of QUIZ_CATEGORIES) {
+      const qs = bank[category];
+      if (!Array.isArray(qs) || qs.length !== 10) {
+        errors.push(`${slug}/${category}: expected 10 questions, got ${qs?.length ?? 0}`);
+        continue;
+      }
+      const seenText = new Set<string>();
+      qs.forEach((q, i) => {
+        const where = `${slug}/${category}#${i + 1}`;
+        if (q.length !== 7) errors.push(`${where}: tuple has ${q.length} fields, expected 7`);
+        const [text, a, b, c, d, correctIndex, explanation] = q;
+        for (const [label, val] of [["text", text], ["optA", a], ["optB", b], ["optC", c], ["optD", d], ["explanation", explanation]] as const) {
+          if (typeof val !== "string" || val.trim() === "") errors.push(`${where}: ${label} is empty`);
+        }
+        if (typeof correctIndex !== "number" || correctIndex < 0 || correctIndex > 3) {
+          errors.push(`${where}: correctIndex ${correctIndex} out of range 0-3`);
+        }
+        if (seenText.has(text)) errors.push(`${where}: duplicate question text within ${slug}/${category}`);
+        seenText.add(text);
+        docs.push(buildTechDoc(slug, category, q, i + 1));
+      });
+    }
+  }
+
+  // Warn about extra banks not backed by a real technology slug
+  for (const slug of Object.keys(TECH_QUIZ_QUESTIONS)) {
+    if (!techSlugs.includes(slug)) errors.push(`Question bank "${slug}" does not match any technology slug`);
+  }
+
+  if (errors.length) {
+    console.error(`❌  ${errors.length} question-data error(s):`);
+    for (const e of errors) console.error(`   - ${e}`);
+    process.exit(1);
+  }
+  return docs;
 }
 
 async function main() {
@@ -1176,9 +758,12 @@ async function main() {
 
   await Promise.all([
     col.createIndex({ type: 1, gradeId: 1, subjectId: 1 }),
-    col.createIndex({ type: 1, techCategorySlug: 1 }),
+    col.createIndex({ type: 1, techCategorySlug: 1, category: 1 }),
     col.createIndex({ id: 1 }, { unique: true }),
   ]);
+
+  // Validate the technology question bank before writing anything.
+  const techDocs = validateTechQuestions();
 
   const docs: SeedQuestion[] = [];
 
@@ -1196,21 +781,35 @@ async function main() {
     qs.forEach((q, i) => docs.push(buildGSDoc(matchedGrade, matchedSubject, q, i + 1)));
   }
 
-  for (const [slug, qs] of Object.entries(TECH_QUESTIONS)) {
-    qs.forEach((q, i) => docs.push(buildTechDoc(slug, q, i + 1)));
+  docs.push(...techDocs);
+
+  // Replace the technology question set: the bank is now the source of truth
+  // (30 categorised questions per technology, replacing the old flat 10).
+  const validTechIds = new Set(techDocs.map((d) => d.id));
+  const removed = await col.deleteMany({
+    type: "technology",
+    id: { $nin: [...validTechIds] },
+  });
+  if (removed.deletedCount) {
+    console.log(`Removed ${removed.deletedCount} obsolete technology question(s).`);
   }
 
   let upserted = 0;
-  let skipped = 0;
+  let modified = 0;
+  let unchanged = 0;
   for (const doc of docs) {
     const result = await col.updateOne({ id: doc.id }, { $set: doc }, { upsert: true });
     if (result.upsertedCount) upserted++;
-    else skipped++;
-    if ((upserted + skipped) % 50 === 0) {
-      process.stdout.write(`\r  ${upserted} new, ${skipped} existing | ${docs.length} total`);
+    else if (result.modifiedCount) modified++;
+    else unchanged++;
+    if ((upserted + modified + unchanged) % 50 === 0) {
+      process.stdout.write(`\r  ${upserted} new, ${modified} updated, ${unchanged} unchanged | ${docs.length} total`);
     }
   }
-  console.log(`\nDone. ${upserted} new, ${skipped} already existed. Total: ${docs.length}.`);
+  console.log(
+    `\nDone. ${upserted} new, ${modified} updated, ${unchanged} unchanged. Total: ${docs.length} ` +
+      `(${techDocs.length} technology, ${docs.length - techDocs.length} grade-subject).`
+  );
   process.exit(0);
 }
 

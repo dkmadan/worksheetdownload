@@ -1,3 +1,12 @@
+/** Difficulty band for technology quiz questions. */
+export type QuizCategory = "Beginner" | "Intermediate" | "Advanced";
+
+export const QUIZ_CATEGORIES: QuizCategory[] = [
+  "Beginner",
+  "Intermediate",
+  "Advanced",
+];
+
 export interface QuizQuestion {
   id: string;
   text: string;
@@ -5,6 +14,7 @@ export interface QuizQuestion {
   correctIndex: number;
   explanation: string;
   subject: string;
+  category?: QuizCategory;
 }
 
 export interface QuizQuestionPublic {
@@ -12,6 +22,7 @@ export interface QuizQuestionPublic {
   text: string;
   options: string[];
   subject: string;
+  category?: QuizCategory;
 }
 
 export interface QuizConfig {
@@ -20,6 +31,7 @@ export interface QuizConfig {
   subjectId?: string;
   techSlug?: string;
   itemSlug?: string;
+  category?: QuizCategory;
   label: string;
 }
 
@@ -107,10 +119,11 @@ export const SAMPLE_QUESTIONS: QuizQuestion[] = [
 ];
 
 export function getPublicQuestions(): QuizQuestionPublic[] {
-  return SAMPLE_QUESTIONS.map(({ id, text, options, subject }) => ({
+  return SAMPLE_QUESTIONS.map(({ id, text, options, subject, category }) => ({
     id,
     text,
     options,
     subject,
+    category,
   }));
 }

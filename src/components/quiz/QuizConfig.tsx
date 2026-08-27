@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { QUIZ_CATEGORIES } from "@/lib/quiz";
 
 interface GradeOption { id: string; label: string; emoji: string; }
 interface SubjectOption { id: string; label: string; emoji: string; }
@@ -24,13 +25,14 @@ export default function QuizConfig({ gradeOptions, subjectsPerGrade, techCategor
   const [subject, setSubject] = useState("");
   const [techCat, setTechCat] = useState("");
   const [techItem, setTechItem] = useState("");
+  const [level, setLevel] = useState("");
 
   const subjects = grade ? (subjectsPerGrade[grade] ?? []) : [];
   const techItems = techCat ? (techCategories.find(c => c.slug === techCat)?.items ?? []) : [];
 
   const canStart =
     (tab === "grade-subject" && grade && subject) ||
-    (tab === "technology" && techCat && techItem);
+    (tab === "technology" && techCat && techItem && level);
 
   function buildParams() {
     const p = new URLSearchParams();
@@ -48,7 +50,8 @@ export default function QuizConfig({ gradeOptions, subjectsPerGrade, techCategor
       p.set("type", "technology");
       p.set("tech", techCat);
       p.set("item", techItem);
-      p.set("label", item?.name ?? techItem);
+      p.set("category", level);
+      p.set("label", `${item?.name ?? techItem} · ${level}`);
     }
     return p;
   }
@@ -147,6 +150,23 @@ export default function QuizConfig({ gradeOptions, subjectsPerGrade, techCategor
               <option value="">— Choose a Technology —</option>
               {techItems.map(item => (
                 <option key={item.slug} value={item.slug}>{item.name}</option>
+              ))}
+            </select>
+          </div>
+
+          <div>
+            <label className="block text-sm font-semibold text-gray-700 mb-1.5">
+              Select Difficulty
+            </label>
+            <select
+              value={level}
+              onChange={e => setLevel(e.target.value)}
+              disabled={!techCat}
+              className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition appearance-none cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+            >
+              <option value="">— Choose a Difficulty —</option>
+              {QUIZ_CATEGORIES.map(c => (
+                <option key={c} value={c}>{c}</option>
               ))}
             </select>
           </div>
