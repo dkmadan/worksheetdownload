@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { TECH_DATA } from "@/lib/technologies";
 import { CURRICULUM, slugifyTopic } from "@/lib/curriculum";
 import { SUBJECTS, GRADES } from "@/lib/data";
+import { KNOWLEDGE_ARTICLES } from "@/lib/knowledge";
 
 const BASE = "https://worksheetdownload.com";
 const NOW = new Date();
@@ -28,7 +29,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     url("/privacy-policy", 0.3, "yearly"),
     url("/quiz",           0.4, "monthly"),
     url("/quiz/start",     0.4, "monthly"),
+    url("/knowledge",      0.7, "monthly"),
   );
+
+  // ── Knowledge articles ───────────────────────────────────────────────────
+  for (const article of KNOWLEDGE_ARTICLES) {
+    urls.push(url(`/knowledge/${article.slug}`, 0.7));
+  }
 
   // ── Technology pages ──────────────────────────────────────────────────────
   // Category landing pages
