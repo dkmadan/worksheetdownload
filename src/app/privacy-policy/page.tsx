@@ -56,10 +56,10 @@ export default function PrivacyPolicyPage() {
         <p>
           If you have any questions about this Privacy Policy, you can reach us at{" "}
           <a
-            href="mailto:dkmadannew@gmail.com"
+            href="mailto:support@toytobook.com"
             className="text-cyan-600 hover:text-cyan-700"
           >
-            dkmadannew@gmail.com
+            support@toytobook.com
           </a>
           .
         </p>
