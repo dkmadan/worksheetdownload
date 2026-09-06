@@ -1,6 +1,8 @@
+import React from "react";
+
 /**
- * Hand-drawn-style SVG scene for each knowledge article. Rendered large in the
- * article hero and scaled down inside the index tiles. Pure SVG, no assets.
+ * Hand-drawn-style SVG scenes for knowledge articles. Rendered large in the
+ * article hero and scaled down inside the index tiles. Pure SVG with rich gradients and vector shapes.
  */
 interface Props {
   slug: string;
@@ -11,279 +13,359 @@ const VB = "0 0 440 260";
 
 function Frame({ children, label }: { children: React.ReactNode; label: string }) {
   return (
-    <svg viewBox={VB} className="w-full h-full" role="img" aria-label={label} preserveAspectRatio="xMidYMid slice">
+    <svg
+      viewBox={VB}
+      className="w-full h-full object-cover"
+      role="img"
+      aria-label={label}
+      preserveAspectRatio="xMidYMid slice"
+    >
       {children}
     </svg>
   );
 }
 
-function WaterScene() {
-  return (
-    <Frame label="Illustration of the water cycle: sun, clouds, rain, mountains and the sea">
-      <defs>
-        <linearGradient id="wtr-sky" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#7dd3fc" />
-          <stop offset="100%" stopColor="#2563eb" />
-        </linearGradient>
-        <linearGradient id="wtr-sea" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#38bdf8" />
-          <stop offset="100%" stopColor="#0369a1" />
-        </linearGradient>
-      </defs>
-      <rect width="440" height="260" fill="url(#wtr-sky)" />
-      {/* sun */}
-      <circle cx="372" cy="60" r="30" fill="#fde68a" />
-      <circle cx="372" cy="60" r="30" fill="#fbbf24" opacity="0.4" />
-      {[...Array(8)].map((_, i) => {
-        const a = (i * Math.PI) / 4;
-        return (
-          <line
-            key={i}
-            x1={372 + 38 * Math.cos(a)}
-            y1={60 + 38 * Math.sin(a)}
-            x2={372 + 50 * Math.cos(a)}
-            y2={60 + 50 * Math.sin(a)}
-            stroke="#fde68a"
-            strokeWidth="4"
-            strokeLinecap="round"
-          />
-        );
-      })}
-      {/* mountains */}
-      <path d="M0 200 L90 96 L165 200 Z" fill="#1e3a8a" opacity="0.55" />
-      <path d="M110 200 L190 120 L270 200 Z" fill="#1e40af" opacity="0.5" />
-      <path d="M78 128 L90 96 L104 122 L96 128 L100 138 L88 132 L80 138 Z" fill="#fff" opacity="0.85" />
-      {/* sea */}
-      <path d="M0 196 Q60 182 120 196 T240 196 T360 196 T480 196 V260 H0 Z" fill="url(#wtr-sea)" />
-      <path d="M0 214 Q70 202 140 214 T280 214 T440 214 V260 H0 Z" fill="#0c4a6e" opacity="0.45" />
-      {/* cloud */}
-      <g>
-        <ellipse cx="150" cy="72" rx="46" ry="26" fill="#fff" />
-        <ellipse cx="192" cy="80" rx="34" ry="22" fill="#fff" />
-        <ellipse cx="118" cy="84" rx="30" ry="20" fill="#fff" />
-        <rect x="112" y="80" width="110" height="20" fill="#fff" />
-      </g>
-      {[0, 1, 2, 3].map((i) => (
-        <line
-          key={i}
-          x1={128 + i * 24}
-          y1={104}
-          x2={122 + i * 24}
-          y2={126}
-          stroke="#e0f2fe"
-          strokeWidth="4"
-          strokeLinecap="round"
-        />
-      ))}
-      {/* evaporation arrow */}
-      <path d="M300 188 C300 150 250 140 236 108" fill="none" stroke="#fff" strokeWidth="5" strokeLinecap="round" strokeDasharray="3 10" opacity="0.9" />
-      <path d="M236 108 l-9 10 l14 2 Z" fill="#fff" />
-      {/* return arrow */}
-      <path d="M96 130 C70 160 70 176 96 190" fill="none" stroke="#bae6fd" strokeWidth="5" strokeLinecap="round" strokeDasharray="3 10" />
-      <path d="M96 190 l4 -13 l-13 4 Z" fill="#bae6fd" />
-    </Frame>
-  );
-}
+// ─────────────────────────────────────────────────────────────────────────────
+// Category Specialized Illustrations
+// ─────────────────────────────────────────────────────────────────────────────
 
-function ButterflyScene() {
+function RockCycleScene() {
   return (
-    <Frame label="Illustration of a butterfly life cycle: egg, caterpillar, chrysalis and adult butterfly on a leafy branch">
+    <Frame label="The Rock Cycle: Volcano, Magma, Metamorphic and Sedimentary Layers">
       <defs>
-        <linearGradient id="bf-bg" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stopColor="#fdba74" />
-          <stop offset="55%" stopColor="#ec4899" />
-          <stop offset="100%" stopColor="#c026d3" />
-        </linearGradient>
-      </defs>
-      <rect width="440" height="260" fill="url(#bf-bg)" />
-      {/* soft blobs */}
-      <circle cx="60" cy="50" r="60" fill="#fff" opacity="0.12" />
-      <circle cx="400" cy="220" r="80" fill="#fff" opacity="0.1" />
-      {/* branch */}
-      <path d="M20 210 C120 180 300 210 430 150" fill="none" stroke="#7c2d12" strokeWidth="8" strokeLinecap="round" />
-      {/* leaves */}
-      <path d="M120 196 q-24 -30 -50 -22 q10 30 50 22 Z" fill="#4d7c0f" />
-      <path d="M250 196 q26 -30 52 -20 q-12 30 -52 20 Z" fill="#65a30d" />
-      {/* stage 1 egg */}
-      <ellipse cx="70" cy="180" rx="7" ry="9" fill="#fef9c3" stroke="#eab308" strokeWidth="2" />
-      {/* stage 2 caterpillar */}
-      <g>
-        {[0, 1, 2, 3, 4].map((i) => (
-          <circle key={i} cx={150 + i * 15} cy={190 - (i === 2 ? 3 : 0)} r="10" fill="#84cc16" stroke="#4d7c0f" strokeWidth="2" />
-        ))}
-        <circle cx="146" cy="188" r="2" fill="#1a2e05" />
-      </g>
-      {/* stage 3 chrysalis */}
-      <path d="M290 168 q14 -6 16 14 q2 26 -10 40 q-14 -10 -12 -36 q1 -14 6 -18 Z" fill="#16a34a" stroke="#14532d" strokeWidth="2" />
-      <line x1="298" y1="160" x2="300" y2="150" stroke="#14532d" strokeWidth="2" />
-      {/* stage 4 butterfly */}
-      <g transform="translate(380 96)">
-        <ellipse cx="0" cy="0" rx="4" ry="16" fill="#1f2937" />
-        <path d="M0 -6 C-34 -40 -46 -6 -20 6 C-40 22 -14 34 0 10 Z" fill="#fb923c" stroke="#7c2d12" strokeWidth="2" />
-        <path d="M0 -6 C34 -40 46 -6 20 6 C40 22 14 34 0 10 Z" fill="#f472b6" stroke="#7c2d12" strokeWidth="2" />
-        <circle cx="-16" cy="-8" r="4" fill="#fde68a" />
-        <circle cx="16" cy="-8" r="4" fill="#fde68a" />
-        <path d="M0 -14 q-6 -12 -12 -14 M0 -14 q6 -12 12 -14" stroke="#1f2937" strokeWidth="2" fill="none" strokeLinecap="round" />
-      </g>
-      {/* flow arrows */}
-      {[[95, 175, 135, 178], [185, 182, 275, 176], [315, 168, 360, 120]].map(([x1, y1, x2, y2], i) => (
-        <g key={i}>
-          <path d={`M${x1} ${y1} Q ${(x1 + x2) / 2} ${Math.min(y1, y2) - 26} ${x2} ${y2}`} fill="none" stroke="#fff" strokeWidth="3.5" strokeDasharray="2 8" strokeLinecap="round" opacity="0.9" />
-        </g>
-      ))}
-    </Frame>
-  );
-}
-
-function SeedScene() {
-  return (
-    <Frame label="Illustration of a seed growing: seed and roots underground, a sprout, a young plant and a flowering plant, with the sun above">
-      <defs>
-        <linearGradient id="sd-sky" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#bef264" />
-          <stop offset="100%" stopColor="#16a34a" />
-        </linearGradient>
-      </defs>
-      <rect width="440" height="260" fill="url(#sd-sky)" />
-      {/* sun */}
-      <circle cx="70" cy="56" r="26" fill="#fde68a" />
-      {[...Array(8)].map((_, i) => {
-        const a = (i * Math.PI) / 4;
-        return (
-          <line key={i} x1={70 + 32 * Math.cos(a)} y1={56 + 32 * Math.sin(a)} x2={70 + 44 * Math.cos(a)} y2={56 + 44 * Math.sin(a)} stroke="#fde68a" strokeWidth="4" strokeLinecap="round" />
-        );
-      })}
-      {/* soil */}
-      <rect x="0" y="176" width="440" height="84" fill="#7c4a1e" />
-      <rect x="0" y="176" width="440" height="12" fill="#a16207" />
-      <path d="M0 176 Q110 168 220 176 T440 176 V186 H0 Z" fill="#4d7c0f" />
-      {/* seed + root */}
-      <ellipse cx="80" cy="206" rx="10" ry="7" fill="#fde68a" stroke="#a16207" strokeWidth="2" transform="rotate(-18 80 206)" />
-      <path d="M80 210 C80 226 68 232 64 246 M80 210 C82 228 94 234 98 248" stroke="#fef3c7" strokeWidth="2.5" fill="none" strokeLinecap="round" />
-      {/* sprout */}
-      <path d="M175 176 C175 158 175 150 175 140" stroke="#15803d" strokeWidth="4" fill="none" strokeLinecap="round" />
-      <path d="M175 150 q-16 -6 -20 -20 q18 0 20 20 M175 156 q16 -6 20 -20 q-18 0 -20 20" fill="#22c55e" />
-      {/* young plant */}
-      <path d="M270 176 C270 140 270 128 270 108" stroke="#15803d" strokeWidth="5" fill="none" strokeLinecap="round" />
-      <path d="M270 140 q-26 -6 -34 -30 q30 0 34 30 M270 128 q26 -6 34 -30 q-30 0 -34 30 M270 116 q-22 -4 -28 -24 q26 0 28 24" fill="#16a34a" />
-      {/* flowering plant */}
-      <path d="M375 176 C375 128 375 110 375 84" stroke="#166534" strokeWidth="6" fill="none" strokeLinecap="round" />
-      <path d="M375 140 q-30 -6 -40 -34 q34 0 40 34 M375 124 q30 -6 40 -34 q-34 0 -40 34" fill="#15803d" />
-      <g transform="translate(375 74)">
-        {[...Array(6)].map((_, i) => {
-          const a = (i * Math.PI) / 3;
-          return <ellipse key={i} cx={14 * Math.cos(a)} cy={14 * Math.sin(a)} rx="9" ry="6" fill="#f9a8d4" transform={`rotate(${(a * 180) / Math.PI} ${14 * Math.cos(a)} ${14 * Math.sin(a)})`} />;
-        })}
-        <circle cx="0" cy="0" r="8" fill="#fbbf24" />
-      </g>
-      {/* growth arrow */}
-      <path d="M96 150 C160 96 300 70 372 60" fill="none" stroke="#fff" strokeWidth="4" strokeDasharray="2 9" strokeLinecap="round" opacity="0.85" />
-      <path d="M372 60 l-13 1 l7 11 Z" fill="#fff" />
-    </Frame>
-  );
-}
-
-function SoilScene() {
-  return (
-    <Frame label="Illustration of decomposers in soil: fallen leaves, mushrooms, an earthworm, soil layers and plant roots">
-      <defs>
-        <linearGradient id="so-bg" x1="0" y1="0" x2="0" y2="1">
+        <linearGradient id="rc-sky" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0%" stopColor="#f59e0b" />
-          <stop offset="55%" stopColor="#b45309" />
+          <stop offset="50%" stopColor="#d97706" />
+          <stop offset="100%" stopColor="#78350f" />
+        </linearGradient>
+        <linearGradient id="rc-magma" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stopColor="#ef4444" />
+          <stop offset="50%" stopColor="#f97316" />
+          <stop offset="100%" stopColor="#eab308" />
+        </linearGradient>
+      </defs>
+      <rect width="440" height="260" fill="url(#rc-sky)" />
+      {/* Mountain / Volcano */}
+      <path d="M40 260 L140 90 L240 260 Z" fill="#451a03" />
+      <path d="M125 90 L140 120 L155 90 L140 60 Z" fill="url(#rc-magma)" />
+      <circle cx="140" cy="50" r="16" fill="#fbbf24" opacity="0.8" />
+      <line x1="140" y1="60" x2="110" y2="150" stroke="#f97316" strokeWidth="4" strokeLinecap="round" />
+      <line x1="140" y1="60" x2="170" y2="160" stroke="#ef4444" strokeWidth="3" strokeLinecap="round" />
+      {/* Sedimentary strata */}
+      <rect x="220" y="140" width="220" height="30" fill="#ca8a04" opacity="0.85" />
+      <rect x="220" y="170" width="220" height="35" fill="#a16207" opacity="0.9" />
+      <rect x="220" y="205" width="220" height="55" fill="#713f12" />
+      {/* Wave / Water erosion */}
+      <path d="M220 140 Q280 125 340 140 T440 140 V260 H220 Z" fill="#0284c7" opacity="0.6" />
+      {/* Magma chamber under */}
+      <path d="M0 220 Q120 200 240 230 T440 220 V260 H0 Z" fill="url(#rc-magma)" opacity="0.7" />
+      {/* Cycle arrows */}
+      <path d="M140 180 C180 150 260 110 320 120" fill="none" stroke="#fef08a" strokeWidth="4" strokeDasharray="3 7" />
+      <text x="320" y="110" fill="#ffffff" fontSize="13" fontWeight="bold">Erosion</text>
+      <text x="70" y="245" fill="#ffffff" fontSize="13" fontWeight="bold">Igneous</text>
+      <text x="310" y="195" fill="#ffffff" fontSize="13" fontWeight="bold">Sedimentary</text>
+    </Frame>
+  );
+}
+
+function FoodChainWebScene() {
+  return (
+    <Frame label="Food Chain and Food Web: Sun, Plant, Grasshopper, Frog, Hawk">
+      <defs>
+        <linearGradient id="fc-bg" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stopColor="#10b981" />
+          <stop offset="50%" stopColor="#059669" />
+          <stop offset="100%" stopColor="#064e3b" />
+        </linearGradient>
+      </defs>
+      <rect width="440" height="260" fill="url(#fc-bg)" />
+      {/* Glowing sun */}
+      <circle cx="50" cy="50" r="28" fill="#fde047" />
+      <circle cx="50" cy="50" r="36" fill="#fef08a" opacity="0.3" />
+      {/* Plant */}
+      <g transform="translate(60, 180)">
+        <path d="M0 40 Q20 10 30 -30 Q0 -10 -20 0 Z" fill="#86efac" />
+        <path d="M0 40 Q-20 10 -30 -20 Q0 -5 10 0 Z" fill="#4ade80" />
+        <text x="-15" y="60" fill="#ffffff" fontSize="12" fontWeight="bold">Producer</text>
+      </g>
+      {/* Primary Consumer (Insect) */}
+      <g transform="translate(160, 140)">
+        <ellipse cx="0" cy="0" rx="18" ry="10" fill="#a3e635" />
+        <circle cx="14" cy="-3" r="6" fill="#65a30d" />
+        <path d="M-10 10 L-18 24 M0 10 L0 26 M10 10 L18 24" stroke="#4d7c0f" strokeWidth="2.5" />
+        <text x="-25" y="45" fill="#ffffff" fontSize="12" fontWeight="bold">Herbivore</text>
+      </g>
+      {/* Secondary Consumer (Frog) */}
+      <g transform="translate(270, 120)">
+        <ellipse cx="0" cy="0" rx="22" ry="15" fill="#22c55e" />
+        <circle cx="-10" cy="-10" r="6" fill="#15803d" />
+        <circle cx="10" cy="-10" r="6" fill="#15803d" />
+        <text x="-25" y="45" fill="#ffffff" fontSize="12" fontWeight="bold">Carnivore</text>
+      </g>
+      {/* Apex Predator (Eagle/Hawk) */}
+      <g transform="translate(380, 70)">
+        <path d="M-30 0 Q0 -25 30 0 Q10 15 0 20 Q-10 15 -30 0 Z" fill="#f59e0b" />
+        <circle cx="0" cy="-5" r="8" fill="#d97706" />
+        <text x="-20" y="40" fill="#ffffff" fontSize="12" fontWeight="bold">Apex Predator</text>
+      </g>
+      {/* Energy Flow Arrows */}
+      <path d="M80 70 Q120 100 140 130" stroke="#fef08a" strokeWidth="3" strokeDasharray="3 5" fill="none" />
+      <path d="M185 130 Q220 110 245 120" stroke="#fef08a" strokeWidth="3" strokeDasharray="3 5" fill="none" />
+      <path d="M295 110 Q330 80 355 75" stroke="#fef08a" strokeWidth="3" strokeDasharray="3 5" fill="none" />
+    </Frame>
+  );
+}
+
+function WeatherCloudsRainScene() {
+  return (
+    <Frame label="Weather: Clouds, Thunderstorm, Rain and Rainbow">
+      <defs>
+        <linearGradient id="wr-sky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#38bdf8" />
+          <stop offset="60%" stopColor="#0284c7" />
+          <stop offset="100%" stopColor="#0f172a" />
+        </linearGradient>
+      </defs>
+      <rect width="440" height="260" fill="url(#wr-sky)" />
+      {/* Sun peeking */}
+      <circle cx="80" cy="70" r="35" fill="#fde047" />
+      {/* White Cloud */}
+      <g transform="translate(130, 70)">
+        <ellipse cx="0" cy="0" rx="45" ry="25" fill="#ffffff" />
+        <ellipse cx="35" cy="5" rx="30" ry="20" fill="#ffffff" />
+        <ellipse cx="-30" cy="10" rx="25" ry="18" fill="#ffffff" />
+      </g>
+      {/* Dark Storm Cloud */}
+      <g transform="translate(310, 85)">
+        <ellipse cx="0" cy="0" rx="55" ry="30" fill="#475569" />
+        <ellipse cx="40" cy="5" rx="38" ry="24" fill="#334155" />
+        <ellipse cx="-35" cy="10" rx="32" ry="22" fill="#334155" />
+        {/* Lightning */}
+        <path d="M-10 25 L-25 60 L-10 60 L-20 95" stroke="#fef08a" strokeWidth="4" fill="none" strokeLinecap="round" />
+      </g>
+      {/* Rain streaks */}
+      {[270, 295, 320, 345, 370].map((x, i) => (
+        <line key={i} x1={x} y1="130" x2={x - 15} y2="200" stroke="#93c5fd" strokeWidth="3" strokeLinecap="round" strokeDasharray="6 12" />
+      ))}
+      {/* Green ground */}
+      <path d="M0 220 Q110 200 220 215 T440 210 V260 H0 Z" fill="#16a34a" />
+    </Frame>
+  );
+}
+
+function SpaceCosmicScene() {
+  return (
+    <Frame label="Space: Sun, Earth Orbit, Moon Phases and Distant Stars">
+      <defs>
+        <radialGradient id="sun-glow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor="#fef08a" />
+          <stop offset="60%" stopColor="#f59e0b" />
+          <stop offset="100%" stopColor="#dc2626" />
+        </radialGradient>
+        <linearGradient id="space-bg" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stopColor="#090d16" />
+          <stop offset="50%" stopColor="#1e1b4b" />
+          <stop offset="100%" stopColor="#311042" />
+        </linearGradient>
+      </defs>
+      <rect width="440" height="260" fill="url(#space-bg)" />
+      {/* Stars */}
+      {[...Array(35)].map((_, i) => (
+        <circle key={i} cx={(i * 37) % 440} cy={(i * 23) % 260} r={(i % 3) * 0.8 + 0.8} fill="#ffffff" opacity={0.6 + (i % 4) * 0.1} />
+      ))}
+      {/* Glowing Sun */}
+      <circle cx="80" cy="130" r="50" fill="url(#sun-glow)" />
+      <circle cx="80" cy="130" r="65" fill="#f59e0b" opacity="0.25" />
+      {/* Orbit ellipse */}
+      <ellipse cx="230" cy="130" rx="160" ry="60" fill="none" stroke="#6366f1" strokeWidth="2" strokeDasharray="4 8" opacity="0.6" />
+      {/* Earth */}
+      <g transform="translate(340, 130)">
+        <circle cx="0" cy="0" r="24" fill="#0284c7" />
+        <path d="M-10 -10 Q0 -5 10 -15 Q15 5 5 15 Q-5 10 -10 -10 Z" fill="#22c55e" />
+        <circle cx="0" cy="0" r="24" fill="#000000" opacity="0.3" mask="url(#shadow)" />
+        {/* Orbiting Moon */}
+        <circle cx="34" cy="-18" r="7" fill="#e2e8f0" />
+      </g>
+      {/* Saturn / Ring planet in background */}
+      <g transform="translate(230, 50) scale(0.6)">
+        <circle cx="0" cy="0" r="20" fill="#fbbf24" />
+        <ellipse cx="0" cy="0" rx="38" ry="8" fill="none" stroke="#fef08a" strokeWidth="4" transform="rotate(-15)" />
+      </g>
+      {/* Rocket */}
+      <g transform="translate(200, 190) rotate(-45)">
+        <path d="M0 -15 L8 10 L-8 10 Z" fill="#ffffff" />
+        <path d="M-8 6 L-14 14 L-8 12 Z" fill="#ef4444" />
+        <path d="M8 6 L14 14 L8 12 Z" fill="#ef4444" />
+        <path d="M-4 10 L0 22 L4 10 Z" fill="#f97316" />
+      </g>
+    </Frame>
+  );
+}
+
+function HumanBodyAnatomyScene() {
+  return (
+    <Frame label="Human Body: Brain, Heart, Lungs and Circulation">
+      <defs>
+        <linearGradient id="hb-bg" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stopColor="#f43f5e" />
+          <stop offset="50%" stopColor="#be123c" />
+          <stop offset="100%" stopColor="#4c0519" />
+        </linearGradient>
+      </defs>
+      <rect width="440" height="260" fill="url(#hb-bg)" />
+      {/* Brain illustration */}
+      <g transform="translate(90, 80)">
+        <path d="M-25 0 C-30 -20 0 -35 15 -20 C30 -20 35 0 25 15 C15 30 -10 25 -25 0 Z" fill="#fda4af" stroke="#ffffff" strokeWidth="2.5" />
+        <path d="M-15 -5 Q0 -20 10 -5 Q20 10 5 15" fill="none" stroke="#be123c" strokeWidth="2" />
+        <text x="-20" y="45" fill="#ffffff" fontSize="12" fontWeight="bold">Brain</text>
+      </g>
+      {/* Heart */}
+      <g transform="translate(220, 120)">
+        <path d="M0 25 C-30 0 -30 -30 0 -20 C30 -30 30 0 0 25 Z" fill="#ef4444" stroke="#ffffff" strokeWidth="3" />
+        <line x1="-15" y1="-25" x2="-10" y2="-40" stroke="#3b82f6" strokeWidth="5" strokeLinecap="round" />
+        <line x1="10" y1="-25" x2="15" y2="-45" stroke="#ef4444" strokeWidth="6" strokeLinecap="round" />
+        <text x="-15" y="45" fill="#ffffff" fontSize="12" fontWeight="bold">Heart</text>
+      </g>
+      {/* Lungs */}
+      <g transform="translate(340, 100)">
+        <path d="M-5 -25 C-25 -20 -35 15 -10 30 L-5 -25 Z" fill="#fca5a5" stroke="#ffffff" strokeWidth="2" />
+        <path d="M5 -25 C25 -20 35 15 10 30 L5 -25 Z" fill="#fca5a5" stroke="#ffffff" strokeWidth="2" />
+        <line x1="0" y1="-40" x2="0" y2="-20" stroke="#ffffff" strokeWidth="4" />
+        <text x="-18" y="55" fill="#ffffff" fontSize="12" fontWeight="bold">Lungs</text>
+      </g>
+      {/* Arteries & Veins loops */}
+      <path d="M125 90 Q170 110 200 115" stroke="#38bdf8" strokeWidth="3.5" strokeDasharray="3 6" fill="none" />
+      <path d="M245 125 Q285 110 320 105" stroke="#f87171" strokeWidth="3.5" strokeDasharray="3 6" fill="none" />
+    </Frame>
+  );
+}
+
+function EverydayPhysicsScene() {
+  return (
+    <Frame label="Everyday Science: Electricity, Magnetism, Gears and Light">
+      <defs>
+        <linearGradient id="ep-bg" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stopColor="#f59e0b" />
+          <stop offset="50%" stopColor="#d97706" />
           <stop offset="100%" stopColor="#451a03" />
         </linearGradient>
       </defs>
-      <rect width="440" height="260" fill="url(#so-bg)" />
-      {/* leaf litter */}
-      <rect x="0" y="86" width="440" height="26" fill="#78350f" opacity="0.5" />
-      {[30, 90, 150, 210, 280, 350, 410].map((x, i) => (
-        <path key={i} d={`M${x} 96 q10 -12 22 -4 q-6 14 -22 4 Z`} fill={i % 2 ? "#ca8a04" : "#d97706"} transform={`rotate(${(i * 37) % 40 - 20} ${x} 96)`} />
-      ))}
-      {/* soil layers */}
-      <rect x="0" y="112" width="440" height="52" fill="#5c3317" />
-      <rect x="0" y="164" width="440" height="46" fill="#3f2410" />
-      <rect x="0" y="210" width="440" height="50" fill="#2a1809" />
-      {/* speckles */}
-      {[...Array(26)].map((_, i) => (
-        <circle key={i} cx={(i * 53) % 440} cy={126 + ((i * 31) % 120)} r={1.5 + (i % 3)} fill="#fbbf24" opacity="0.35" />
-      ))}
-      {/* roots */}
-      <path d="M150 112 C150 140 130 150 132 186 M150 130 C150 150 172 158 176 196 M150 150 C150 172 140 186 138 214" stroke="#e7c9a0" strokeWidth="3" fill="none" strokeLinecap="round" opacity="0.85" />
-      {/* worm */}
-      <path d="M250 150 q18 -14 34 2 q16 16 34 2 q16 -14 30 0" fill="none" stroke="#f9a8d4" strokeWidth="9" strokeLinecap="round" />
-      <circle cx="250" cy="150" r="4.5" fill="#db2777" />
-      {/* mushrooms */}
-      <g transform="translate(70 96)">
-        <rect x="-4" y="-2" width="8" height="16" rx="3" fill="#fef3c7" />
-        <path d="M-16 0 q16 -22 32 0 Z" fill="#dc2626" />
-        <circle cx="-6" cy="-6" r="2.2" fill="#fff" />
-        <circle cx="6" cy="-3" r="2" fill="#fff" />
+      <rect width="440" height="260" fill="url(#ep-bg)" />
+      {/* Glowing Lightbulb */}
+      <g transform="translate(90, 110)">
+        <circle cx="0" cy="0" r="30" fill="#fef08a" />
+        <path d="M-15 20 L-10 38 L10 38 L15 20 Z" fill="#94a3b8" />
+        <path d="M-10 -5 Q0 -20 10 -5 Q0 10 -10 -5" fill="none" stroke="#ea580c" strokeWidth="2.5" />
+        <circle cx="0" cy="0" r="42" fill="#fef08a" opacity="0.3" />
+        <text x="-25" y="60" fill="#ffffff" fontSize="12" fontWeight="bold">Electricity</text>
       </g>
-      <g transform="translate(96 98) scale(0.7)">
-        <rect x="-4" y="-2" width="8" height="16" rx="3" fill="#fef3c7" />
-        <path d="M-16 0 q16 -22 32 0 Z" fill="#ea580c" />
+      {/* Horseshoe Magnet */}
+      <g transform="translate(220, 100)">
+        <path d="M-25 35 V0 C-25 -25 25 -25 25 0 V35" fill="none" stroke="#ef4444" strokeWidth="18" strokeLinecap="square" />
+        <rect x="-34" y="20" width="18" height="15" fill="#3b82f6" />
+        <rect x="16" y="20" width="18" height="15" fill="#ef4444" />
+        <text x="-25" y="70" fill="#ffffff" fontSize="12" fontWeight="bold">Magnetism</text>
       </g>
-      {/* recycle arrow */}
-      <path d="M370 60 a40 40 0 1 1 -20 -34" fill="none" stroke="#fde68a" strokeWidth="5" strokeLinecap="round" />
-      <path d="M350 26 l-12 -4 l4 13 Z" fill="#fde68a" />
+      {/* Interlocking Gears */}
+      <g transform="translate(340, 110)">
+        <circle cx="0" cy="0" r="26" fill="#64748b" />
+        <circle cx="0" cy="0" r="10" fill="#1e293b" />
+        {[0, 45, 90, 135, 180, 225, 270, 315].map((a, i) => (
+          <rect
+            key={i}
+            x="-4"
+            y="-32"
+            width="8"
+            height="10"
+            fill="#64748b"
+            transform={`rotate(${a})`}
+          />
+        ))}
+        <text x="-20" y="55" fill="#ffffff" fontSize="12" fontWeight="bold">Machines</text>
+      </g>
     </Frame>
   );
 }
 
-function BreathScene() {
-  return (
-    <Frame label="Illustration of the oxygen and carbon dioxide swap between a person and a tree, with the sun">
-      <defs>
-        <linearGradient id="br-bg" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stopColor="#5eead4" />
-          <stop offset="55%" stopColor="#06b6d4" />
-          <stop offset="100%" stopColor="#7c3aed" />
-        </linearGradient>
-      </defs>
-      <rect width="440" height="260" fill="url(#br-bg)" />
-      <circle cx="220" cy="48" r="24" fill="#fde68a" opacity="0.9" />
-      {/* ground */}
-      <path d="M0 214 Q220 196 440 214 V260 H0 Z" fill="#065f46" opacity="0.5" />
-      {/* person */}
-      <g transform="translate(96 150)">
-        <circle cx="0" cy="0" r="22" fill="#fcd9b6" />
-        <path d="M-26 64 q26 -34 52 0 Z" fill="#1e3a8a" />
-        <circle cx="-7" cy="-2" r="2.4" fill="#1f2937" />
-        <circle cx="7" cy="-2" r="2.4" fill="#1f2937" />
-        <path d="M-6 10 q6 6 12 0" stroke="#1f2937" strokeWidth="2" fill="none" strokeLinecap="round" />
-      </g>
-      {/* tree */}
-      <g transform="translate(348 150)">
-        <rect x="-8" y="10" width="16" height="60" rx="4" fill="#7c2d12" />
-        <circle cx="0" cy="-6" r="36" fill="#15803d" />
-        <circle cx="-26" cy="10" r="24" fill="#16a34a" />
-        <circle cx="26" cy="10" r="24" fill="#16a34a" />
-      </g>
-      {/* O2 arrow: tree -> person */}
-      <path d="M300 120 C240 96 190 96 140 122" fill="none" stroke="#ecfeff" strokeWidth="5" strokeDasharray="2 9" strokeLinecap="round" />
-      <path d="M140 122 l14 -3 l-6 -12 Z" fill="#ecfeff" />
-      <text x="220" y="92" textAnchor="middle" fontSize="17" fontWeight="700" fill="#ffffff">O₂</text>
-      {/* CO2 arrow: person -> tree */}
-      <path d="M132 176 C200 210 270 210 320 180" fill="none" stroke="#c7d2fe" strokeWidth="5" strokeDasharray="2 9" strokeLinecap="round" />
-      <path d="M320 180 l-14 2 l6 12 Z" fill="#c7d2fe" />
-      <text x="220" y="214" textAnchor="middle" fontSize="17" fontWeight="700" fill="#ffffff">CO₂</text>
-    </Frame>
-  );
-}
-
-const SCENES: Record<string, () => React.ReactElement> = {
-  "water-life-cycle": WaterScene,
-  "butterfly-life-cycle": ButterflyScene,
-  "seed-to-plant-cycle": SeedScene,
-  "decomposer-soil-cycle": SoilScene,
-  "oxygen-carbon-dioxide-breath-swap": BreathScene,
-};
+// ─────────────────────────────────────────────────────────────────────────────
+// Themed Dispatcher
+// ─────────────────────────────────────────────────────────────────────────────
 
 export default function KnowledgeArt({ slug, className }: Props) {
-  const Scene = SCENES[slug];
-  return (
-    <div className={className}>
-      {Scene ? <Scene /> : <div className="w-full h-full bg-slate-200" />}
-    </div>
-  );
+  // 1. Nature & Earth
+  if (slug === "the-rock-cycle" || slug === "how-rivers-are-formed" || slug === "how-soil-is-made") {
+    return <div className={className}><RockCycleScene /></div>;
+  }
+  if (slug === "the-food-chain" || slug === "the-food-web" || slug === "the-carbon-cycle" || slug === "the-nitrogen-cycle" || slug === "how-ecosystems-work") {
+    return <div className={className}><FoodChainWebScene /></div>;
+  }
+
+  // 2. Weather & Climate
+  if (
+    slug === "how-clouds-are-made" ||
+    slug === "the-journey-of-the-wind" ||
+    slug === "how-rain-happens" ||
+    slug === "how-thunderstorms-form" ||
+    slug === "why-do-we-have-seasons" ||
+    slug === "how-snow-is-formed" ||
+    slug === "the-life-cycle-of-a-hurricane" ||
+    slug === "how-weather-forecasting-works" ||
+    slug === "the-journey-of-sunlight" ||
+    slug === "weather-vs-climate" ||
+    slug === "the-journey-of-a-raindrop" ||
+    slug === "the-water-pollution-journey"
+  ) {
+    return <div className={className}><WeatherCloudsRainScene /></div>;
+  }
+
+  // 3. Space
+  if (
+    slug === "journey-of-earth-around-sun" ||
+    slug === "why-do-we-have-day-and-night" ||
+    slug === "the-phases-of-the-moon" ||
+    slug === "the-life-cycle-of-a-star" ||
+    slug === "how-a-solar-eclipse-happens" ||
+    slug === "how-a-lunar-eclipse-happens" ||
+    slug === "journey-through-our-solar-system" ||
+    slug === "how-rockets-reach-space" ||
+    slug === "how-astronauts-live-in-space" ||
+    slug === "what-causes-the-northern-lights"
+  ) {
+    return <div className={className}><SpaceCosmicScene /></div>;
+  }
+
+  // 4. Animal & Plant Life
+  if (
+    slug === "the-life-cycle-of-a-frog" ||
+    slug === "the-life-cycle-of-a-bee" ||
+    slug === "the-life-cycle-of-a-chicken" ||
+    slug === "the-life-cycle-of-a-ladybug" ||
+    slug === "how-birds-build-nests" ||
+    slug === "how-bees-make-honey" ||
+    slug === "how-plants-make-their-food" ||
+    slug === "how-animals-adapt-to-their-environment" ||
+    slug === "the-journey-of-food-through-an-animal" ||
+    slug === "the-life-of-a-tree"
+  ) {
+    return <div className={className}><FoodChainWebScene /></div>;
+  }
+
+  // 5. Human Body
+  if (
+    slug === "journey-of-food-through-your-body" ||
+    slug === "how-we-breathe" ||
+    slug === "how-the-heart-pumps-blood" ||
+    slug === "how-bones-help-us-move" ||
+    slug === "how-muscles-work" ||
+    slug === "how-our-brain-sends-messages" ||
+    slug === "how-our-five-senses-work" ||
+    slug === "how-the-immune-system-protects-us" ||
+    slug === "how-we-grow" ||
+    slug === "why-do-we-sleep"
+  ) {
+    return <div className={className}><HumanBodyAnatomyScene /></div>;
+  }
+
+  // 6. Everyday Science
+  return <div className={className}><EverydayPhysicsScene /></div>;
 }

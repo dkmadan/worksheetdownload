@@ -32,12 +32,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     url("/contact",        0.5, "monthly"),
     url("/quiz",           0.4, "monthly"),
     url("/quiz/start",     0.4, "monthly"),
-    url("/knowledge",      0.7, "monthly"),
+    url("/knowledge",      0.8, "weekly"),
   );
 
   // ── Knowledge articles ───────────────────────────────────────────────────
   for (const article of KNOWLEDGE_ARTICLES) {
-    urls.push(url(`/knowledge/${article.slug}`, 0.7));
+    urls.push(url(`/knowledge/${article.slug}`, 0.8, "weekly"));
   }
 
   // ── Technology pages ──────────────────────────────────────────────────────
