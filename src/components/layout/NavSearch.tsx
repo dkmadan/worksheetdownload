@@ -381,14 +381,11 @@ export default function NavSearch({ inline = false, large = false }: NavSearchPr
             placeholder="Search 2,000+ topics, tech cheatsheets, guides, worksheets…"
             className="flex-1 px-3 text-xs md:text-sm font-medium text-slate-900 bg-transparent outline-none placeholder:text-slate-400"
           />
-          <div className="flex items-center pr-1.5 gap-1.5">
-            <kbd className="hidden md:inline-flex items-center justify-center text-[10px] font-semibold text-slate-400 bg-slate-100 border border-slate-200 rounded px-1.5 py-0.5 shadow-2xs tracking-tight">
-              ⌘K
-            </kbd>
+          <div className="flex items-center pr-1.5">
             <button
               type="button"
               onClick={() => { if (results[0]) router.push(results[0].href); }}
-              className="hidden sm:flex items-center gap-1 px-4 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold rounded-full transition-all shadow-xs cursor-pointer"
+              className="flex items-center gap-1.5 px-5 py-2 bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-500 hover:to-indigo-600 text-white text-xs font-bold rounded-full transition-all shadow-xs hover:shadow-indigo-500/20 cursor-pointer"
             >
               <span>Search</span>
             </button>
@@ -458,7 +455,7 @@ export default function NavSearch({ inline = false, large = false }: NavSearchPr
       {!open ? (
         <button
           onClick={() => setOpen(true)}
-          className="group flex items-center gap-2.5 h-9 pl-3 pr-2.5 bg-slate-100/80 hover:bg-slate-100 border border-slate-200/70 hover:border-slate-300/80 rounded-full text-slate-500 hover:text-slate-800 text-xs font-medium transition-all duration-150 shadow-sm"
+          className="group flex items-center gap-2.5 h-9 px-3 bg-slate-100/80 hover:bg-slate-100 border border-slate-200/70 hover:border-slate-300/80 rounded-full text-slate-500 hover:text-slate-800 text-xs font-medium transition-all duration-150 shadow-sm"
           aria-label="Search"
         >
           <svg className="w-3.5 h-3.5 text-slate-400 group-hover:text-slate-600 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -467,10 +464,8 @@ export default function NavSearch({ inline = false, large = false }: NavSearchPr
           </svg>
           <span className="hidden lg:inline text-slate-500 group-hover:text-slate-700">Search 2,000+ topics…</span>
           <span className="lg:hidden text-slate-500">Search…</span>
-          <kbd className="hidden sm:inline-flex items-center justify-center text-[10px] font-semibold text-slate-400 bg-white border border-slate-200 rounded px-1.5 py-0.5 shadow-xs tracking-tight">
-            ⌘K
-          </kbd>
         </button>
+
       ) : (
         <div className="relative flex items-center animate-in fade-in zoom-in-95 duration-150">
           <div className="relative">

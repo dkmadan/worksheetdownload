@@ -58,6 +58,9 @@ export default function TechnologiesMenu({ dark = false }: { dark?: boolean }) {
               : "text-slate-600 hover:text-slate-900 hover:bg-slate-100/70"
         }`}
       >
+        <svg className="w-3.5 h-3.5 opacity-70 group-hover:opacity-100 transition-opacity" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+        </svg>
         <span>Technologies</span>
         <ChevronDown open={open} />
       </button>
