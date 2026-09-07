@@ -13,11 +13,11 @@ export default function Navbar() {
 
       {/* ── Row 1: Logo · Prominent Search · Sign In Button (Light Glass) ─── */}
       <div className="bg-white/95 backdrop-blur-xl border-b border-slate-200/80">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-2.5 flex items-center justify-between gap-4 sm:gap-6">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-2.5 flex items-center justify-between gap-2 sm:gap-6">
 
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 flex-shrink-0 group transition-transform hover:scale-[1.01]">
-            <Logo size={36} showText={true} textSize="text-xl" />
+            <Logo size={36} showText={true} textSize="text-lg sm:text-xl" />
           </Link>
 
           {/* Large prominent search bar (desktop) */}
@@ -30,9 +30,8 @@ export default function Navbar() {
             <NavAuthButton />
           </div>
 
-          {/* Mobile: auth button + hamburger */}
-          <div className="sm:hidden ml-auto flex items-center gap-2">
-            <NavAuthButton />
+          {/* Mobile: hamburger only (auth lives inside the menu) */}
+          <div className="sm:hidden flex-shrink-0 flex items-center">
             <MobileMenu />
           </div>
 

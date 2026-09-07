@@ -55,7 +55,7 @@ export default function Logo({ size = 32, showText = true, textSize = "text-lg" 
       </svg>
 
       {showText && (
-        <span className={`font-bold ${textSize} tracking-tight`}>
+        <span className={`font-bold ${textSize} tracking-tight whitespace-nowrap`}>
           <span className="text-slate-900">Worksheet</span>
           <span style={{ color: "#243b6e" }}>Download</span>
         </span>
