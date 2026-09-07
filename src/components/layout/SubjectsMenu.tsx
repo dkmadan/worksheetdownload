@@ -8,7 +8,7 @@ import type { SubjectDef } from "@/lib/curriculum";
 function ChevronDown({ open }: { open: boolean }) {
   return (
     <svg
-      className={`w-3.5 h-3.5 transition-transform duration-150 ${open ? "rotate-180" : ""}`}
+      className={`w-3.5 h-3.5 transition-transform duration-200 ${open ? "rotate-180 text-indigo-600" : "text-slate-400 group-hover:text-slate-600"}`}
       fill="none" viewBox="0 0 24 24" stroke="currentColor"
     >
       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
@@ -16,21 +16,25 @@ function ChevronDown({ open }: { open: boolean }) {
   );
 }
 
-const SUBJECT_GROUPS: { header: string; ids: string[] }[] = [
+const SUBJECT_GROUPS: { header: string; icon: string; ids: string[] }[] = [
   {
     header: "Core Academics",
+    icon: "📐",
     ids: ["mathematics", "english", "english-language"],
   },
   {
-    header: "Sciences",
+    header: "Sciences & Nature",
+    icon: "🔬",
     ids: ["science", "evs", "general-awareness"],
   },
   {
     header: "Social & Knowledge",
+    icon: "🌐",
     ids: ["social-studies", "gk", "reasoning"],
   },
   {
-    header: "Creative & Special",
+    header: "Creative & Thinking",
+    icon: "🎨",
     ids: ["shapes-visual", "coloring-creative", "logic-thinking", "social-emotional"],
   },
 ];
@@ -60,72 +64,78 @@ export default function SubjectsMenu({ dark = false }: { dark?: boolean }) {
         onClick={() => setOpen((v) => !v)}
         aria-haspopup="true"
         aria-expanded={open}
-        className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-150 ${
-          dark
-            ? open ? "text-white bg-white/10" : "text-slate-300 hover:text-white hover:bg-white/10"
-            : open ? "text-slate-900 bg-slate-100" : "text-slate-600 hover:text-slate-900 hover:bg-slate-100"
+        className={`group flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold tracking-tight transition-all duration-150 ${
+          open
+            ? "text-indigo-600 bg-indigo-50/80 shadow-xs"
+            : "text-slate-600 hover:text-slate-900 hover:bg-slate-100/70"
         }`}
       >
-        Subjects
+        <span>Subjects</span>
         <ChevronDown open={open} />
       </button>
 
       {open && (
         <div
-          className="fixed z-[200] rounded-2xl overflow-hidden"
+          className="fixed z-[200] rounded-3xl overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200"
           style={{
-            top: "106px",
+            top: "68px",
             left: "50%",
             transform: "translateX(-50%)",
-            width: "min(960px, calc(100vw - 32px))",
-            background: "#181818",
-            border: "1px solid rgba(255,255,255,0.08)",
-            boxShadow: "0 24px 64px rgba(0,0,0,0.55)",
+            width: "min(980px, calc(100vw - 32px))",
+            background: "rgba(15, 23, 42, 0.96)",
+            backdropFilter: "blur(24px)",
+            WebkitBackdropFilter: "blur(24px)",
+            border: "1px solid rgba(255, 255, 255, 0.09)",
+            boxShadow: "0 30px 70px -15px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(255,255,255,0.05)",
           }}
         >
+          {/* Header Banner */}
+          <div className="flex items-center justify-between px-6 py-3 border-b border-white/10 bg-white/[0.02]">
+            <div className="flex items-center gap-2">
+              <span className="text-base">📚</span>
+              <span className="text-xs font-bold text-white tracking-wide uppercase">Subjects by Domain</span>
+            </div>
+            <span className="text-[11px] text-slate-400 font-medium">13 Academic & Skill Disciplines</span>
+          </div>
+
           {/* 4-column subject group grid */}
           <div
-            className="grid grid-cols-4"
+            className="grid grid-cols-4 divide-x divide-white/[0.07]"
             style={{
-              padding: "24px 24px 22px",
-              borderBottom: "1px solid rgba(255,255,255,0.06)",
+              padding: "22px 20px 22px",
             }}
           >
-            {SUBJECT_GROUPS.map((group, i) => {
+            {SUBJECT_GROUPS.map((group) => {
               const subjects: SubjectDef[] = group.ids
                 .map((id) => SUBJECTS_META[id])
                 .filter(Boolean);
               return (
                 <div
                   key={group.header}
-                  className="flex flex-col"
-                  style={{
-                    paddingLeft: i > 0 ? "24px" : "0",
-                    paddingRight: i < 3 ? "24px" : "0",
-                    borderRight: i < 3 ? "1px solid rgba(255,255,255,0.06)" : "none",
-                  }}
+                  className="flex flex-col px-4 first:pl-2 last:pr-2"
                 >
                   {/* Group header */}
-                  <p
-                    className="text-[9px] font-bold uppercase tracking-[0.18em] mb-4"
-                    style={{ color: "rgba(255,255,255,0.35)" }}
-                  >
-                    {group.header}
-                  </p>
+                  <div className="flex items-center gap-1.5 mb-3.5 pb-1.5 border-b border-white/[0.06]">
+                    <span className="text-xs leading-none">{group.icon}</span>
+                    <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-slate-400">
+                      {group.header}
+                    </p>
+                  </div>
 
                   {/* Subject items */}
-                  <div className="flex flex-col gap-4">
+                  <div className="flex flex-col gap-3">
                     {subjects.map((sub) => (
                       <Link
                         key={sub.id}
                         href={`/subjects/${sub.id}`}
                         onClick={() => setOpen(false)}
-                        className="group flex flex-col gap-0.5 no-underline"
+                        className="group flex flex-col gap-0.5 p-2 rounded-xl hover:bg-white/[0.06] transition-all no-underline"
                       >
-                        <span className="text-[13px] font-semibold text-white/75 group-hover:text-white transition-colors">
-                          {sub.emoji} {sub.label}
+                        <span className="text-[12.5px] font-semibold text-slate-200 group-hover:text-white transition-colors flex items-center gap-1.5">
+                          <span>{sub.emoji}</span>
+                          <span>{sub.label}</span>
                         </span>
-                        <span className="text-[11px] leading-[1.4] text-white/30">
+                        <span className="text-[11px] leading-[1.35] text-slate-400 line-clamp-2 pl-5">
                           {sub.description}
                         </span>
                       </Link>
@@ -138,18 +148,18 @@ export default function SubjectsMenu({ dark = false }: { dark?: boolean }) {
 
           {/* Footer */}
           <div
-            className="flex items-center justify-between px-6 py-3"
-            style={{ background: "#141414" }}
+            className="flex items-center justify-between px-6 py-3 border-t border-white/10 bg-slate-950/70"
           >
             <Link
               href="/subjects"
               onClick={() => setOpen(false)}
-              className="text-xs font-semibold text-pink-400 hover:text-pink-300 transition-colors no-underline"
+              className="inline-flex items-center gap-1.5 text-xs font-bold text-pink-400 hover:text-pink-300 transition-colors no-underline group"
             >
-              Browse all subjects →
+              <span>Browse all curriculum subjects</span>
+              <span className="group-hover:translate-x-1 transition-transform">→</span>
             </Link>
-            <span className="text-[11px] text-white/20">
-              13 subjects · Kindergarten to Grade 8
+            <span className="text-[11px] text-slate-400">
+              Kindergarten to Grade 8 · Activity & Practice Worksheets
             </span>
           </div>
         </div>
@@ -157,3 +167,5 @@ export default function SubjectsMenu({ dark = false }: { dark?: boolean }) {
     </div>
   );
 }
+
+

@@ -3,14 +3,14 @@
 import { useState, useRef, useEffect, useMemo, useCallback } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { STAR_BUTTON_BG } from "@/lib/starButtonBg";
 import { TECH_DATA } from "@/lib/technologies";
 import { CURRICULUM, GRADES_CURRICULUM, SUBJECTS_META, slugifyTopic } from "@/lib/curriculum";
 import { WORKSHEETS } from "@/lib/data";
+import { KNOWLEDGE_ARTICLES } from "@/lib/knowledge";
 
 // ── Types ────────────────────────────────────────────────────────────────────
 
-type ResultType = "technology" | "topic" | "worksheet";
+type ResultType = "technology" | "topic" | "knowledge" | "worksheet";
 
 interface SearchResult {
   type: ResultType;
@@ -18,6 +18,7 @@ interface SearchResult {
   subtitle: string;
   href: string;
   emoji: string;
+  tag?: string;
 }
 
 // ── Synonym map — common shorthands → canonical terms ────────────────────────
@@ -41,6 +42,10 @@ const SYNONYMS: Record<string, string> = {
   kinder:    "kindergarten",
   reasoning: "reasoning",
   evs:       "evs",
+  nature:    "nature & earth",
+  space:     "space",
+  weather:   "weather & climate",
+  body:      "human body",
 };
 
 // ── Static search index (built once) ─────────────────────────────────────────
@@ -48,7 +53,19 @@ const SYNONYMS: Record<string, string> = {
 function buildIndex(): SearchResult[] {
   const out: SearchResult[] = [];
 
-  // Technology resource pages
+  // 1. Knowledge Articles (60 illustrated guides)
+  for (const art of KNOWLEDGE_ARTICLES) {
+    out.push({
+      type: "knowledge",
+      label: art.title,
+      subtitle: `${art.category} · ${art.readingMinutes} min guide`,
+      href: `/knowledge/${art.slug}`,
+      emoji: art.emoji,
+      tag: "Knowledge",
+    });
+  }
+
+  // 2. Technology resource pages
   const seen = new Set<string>();
   for (const cat of TECH_DATA) {
     for (const sub of cat.subcategories) {
@@ -58,9 +75,10 @@ function buildIndex(): SearchResult[] {
         out.push({
           type: "technology",
           label: item.name,
-          subtitle: `${cat.label} · Cheat Sheet & Interview Prep`,
+          subtitle: `${cat.label} · Cheatsheet & Resources`,
           href: `/technologies/${cat.slug}/${item.slug}/resources`,
           emoji: cat.icon,
+          tag: "Tech",
         });
       }
     }
@@ -68,18 +86,19 @@ function buildIndex(): SearchResult[] {
 
   const gradeMap = Object.fromEntries(GRADES_CURRICULUM.map((g) => [g.id, g]));
 
-  // Grade-level pages (e.g. searching "grade 5" or "kindergarten")
+  // 3. Grade-level pages (e.g. searching "grade 5" or "kindergarten")
   for (const grade of GRADES_CURRICULUM) {
     out.push({
       type: "topic",
       label: grade.label,
-      subtitle: `${grade.ageRange} · All subjects`,
+      subtitle: `${grade.ageRange} · Complete Curriculum`,
       href: `/grades/${grade.id}`,
       emoji: grade.emoji,
+      tag: "Curriculum",
     });
   }
 
-  // Grade + subject pages (e.g. searching "mathematics" or "evs grade 3")
+  // 4. Grade + subject pages (e.g. searching "mathematics" or "evs grade 3")
   for (const [gradeId, subjects] of Object.entries(CURRICULUM)) {
     const grade = gradeMap[gradeId];
     for (const [subjectId, topics] of Object.entries(subjects)) {
@@ -90,11 +109,12 @@ function buildIndex(): SearchResult[] {
         subtitle: `${grade?.label ?? gradeId} · ${topics.length} topics`,
         href: `/grades/${gradeId}/${subjectId}`,
         emoji: subject?.emoji ?? "📚",
+        tag: "Subject",
       });
     }
   }
 
-  // Individual curriculum topic pages
+  // 5. Individual curriculum topic pages
   for (const [gradeId, subjects] of Object.entries(CURRICULUM)) {
     const grade = gradeMap[gradeId];
     for (const [subjectId, topics] of Object.entries(subjects)) {
@@ -106,12 +126,13 @@ function buildIndex(): SearchResult[] {
           subtitle: `${grade?.label ?? gradeId} · ${subject?.label ?? subjectId}`,
           href: `/grades/${gradeId}/${subjectId}/${slugifyTopic(topic)}`,
           emoji: subject?.emoji ?? "📚",
+          tag: "Topic",
         });
       }
     }
   }
 
-  // Legacy worksheets
+  // 6. Worksheets
   for (const ws of WORKSHEETS) {
     out.push({
       type: "worksheet",
@@ -119,6 +140,7 @@ function buildIndex(): SearchResult[] {
       subtitle: `${ws.grade} · ${ws.subject}`,
       href: `/worksheets/${ws.subject}`,
       emoji: ws.thumbnailEmoji ?? "📄",
+      tag: "Worksheet",
     });
   }
 
@@ -133,8 +155,6 @@ function runSearch(query: string): SearchResult[] {
   const raw = query.toLowerCase().trim();
   if (raw.length < 2) return [];
 
-  // Expand shorthand synonyms to canonical term; keep both so "maths" also
-  // matches tech items that literally contain "maths".
   const canonical = SYNONYMS[raw];
   const terms = canonical ? [canonical, raw] : [raw];
 
@@ -144,7 +164,6 @@ function runSearch(query: string): SearchResult[] {
 
   for (const r of INDEX) {
     const label = r.label.toLowerCase();
-    // Search the full "label subtitle" string so subject/grade names are matched
     const searchable = label + " " + r.subtitle.toLowerCase();
 
     if (terms.some((t) => label === t)) {
@@ -156,21 +175,21 @@ function runSearch(query: string): SearchResult[] {
     }
   }
 
-  // Cap: tech results + topic/curriculum results + legacy worksheets
   const pick = (arr: SearchResult[], type: ResultType, max: number) =>
     arr.filter((r) => r.type === type).slice(0, max);
 
   const merged = [
     ...exact,
-    ...pick(starts, "technology", 4),
-    ...pick(starts, "topic", 6),
+    ...pick(starts, "knowledge", 3),
+    ...pick(starts, "technology", 3),
+    ...pick(starts, "topic", 5),
     ...pick(starts, "worksheet", 2),
-    ...pick(contains, "technology", 3),
-    ...pick(contains, "topic", 5),
+    ...pick(contains, "knowledge", 3),
+    ...pick(contains, "technology", 2),
+    ...pick(contains, "topic", 4),
     ...pick(contains, "worksheet", 1),
   ];
 
-  // Deduplicate by href
   const seen = new Set<string>();
   return merged.filter((r) => {
     if (seen.has(r.href)) return false;
@@ -182,39 +201,62 @@ function runSearch(query: string): SearchResult[] {
 // ── Badge colours ─────────────────────────────────────────────────────────────
 
 const TYPE_LABEL: Record<ResultType, string> = {
+  knowledge: "Knowledge",
   technology: "Tech",
   topic: "Curriculum",
   worksheet: "Worksheet",
 };
 
 const TYPE_CLASS: Record<ResultType, string> = {
-  technology: "bg-blue-50 text-blue-600",
-  topic: "bg-emerald-50 text-emerald-700",
-  worksheet: "bg-pink-50 text-pink-600",
+  knowledge: "bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20",
+  technology: "bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20",
+  topic: "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20",
+  worksheet: "bg-pink-500/10 text-pink-600 dark:text-pink-400 border border-pink-500/20",
 };
 
 // ── Component ─────────────────────────────────────────────────────────────────
 
 interface NavSearchProps {
-  /** When true, renders as an inline bar (mobile menu) instead of icon+expand */
+  /** When true, renders as an inline bar (mobile menu) */
   inline?: boolean;
-  /** When true, renders as a full-width prominent search bar (top row) */
+  /** When true, renders as full width */
   large?: boolean;
 }
 
 export default function NavSearch({ inline = false, large = false }: NavSearchProps) {
   const [open, setOpen] = useState(inline);
   const [query, setQuery] = useState("");
+  const [selectedIndex, setSelectedIndex] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
   const results = useMemo(() => runSearch(query), [query]);
 
-  // Auto-focus when expanded
+  // Reset selection on new results
   useEffect(() => {
-    if (open && !inline) inputRef.current?.focus();
+    setSelectedIndex(0);
+  }, [results]);
+
+  // Auto-focus when opened
+  useEffect(() => {
+    if (open && !inline) {
+      inputRef.current?.focus();
+    }
   }, [open, inline]);
+
+  // Global keyboard shortcut: Cmd+K / Ctrl+K to trigger search
+  useEffect(() => {
+    function onGlobalKeyDown(e: KeyboardEvent) {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        setOpen(true);
+        setTimeout(() => inputRef.current?.focus(), 50);
+      }
+    }
+    window.addEventListener("keydown", onGlobalKeyDown);
+    return () => window.removeEventListener("keydown", onGlobalKeyDown);
+  }, []);
 
   // Close on outside click
   useEffect(() => {
@@ -229,20 +271,31 @@ export default function NavSearch({ inline = false, large = false }: NavSearchPr
     return () => document.removeEventListener("mousedown", onMouseDown);
   }, [inline]);
 
-  // Close / navigate on keyboard
+  // Keyboard navigation inside search
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLInputElement>) => {
       if (e.key === "Escape") {
         setOpen(false);
         setQuery("");
-      }
-      if (e.key === "Enter" && results.length > 0) {
-        router.push(results[0].href);
-        setOpen(false);
-        setQuery("");
+      } else if (e.key === "ArrowDown") {
+        e.preventDefault();
+        setSelectedIndex((prev) => (results.length > 0 ? (prev + 1) % results.length : 0));
+      } else if (e.key === "ArrowUp") {
+        e.preventDefault();
+        setSelectedIndex((prev) =>
+          results.length > 0 ? (prev - 1 + results.length) % results.length : 0
+        );
+      } else if (e.key === "Enter" && results.length > 0) {
+        e.preventDefault();
+        const target = results[selectedIndex] || results[0];
+        if (target) {
+          router.push(target.href);
+          setOpen(false);
+          setQuery("");
+        }
       }
     },
-    [results, router]
+    [results, selectedIndex, router]
   );
 
   function close() {
@@ -250,92 +303,13 @@ export default function NavSearch({ inline = false, large = false }: NavSearchPr
     setQuery("");
   }
 
-  // ── Large mode (top-row full-width search bar) ────────────────────────────
-  if (large) {
-    return (
-      <div ref={containerRef} className="relative w-full">
-        {/* Explicit h-11 so the button fills the full height flush with the border */}
-        <div className="flex h-11 border border-slate-200 rounded-xl overflow-hidden bg-white focus-within:border-indigo-400 focus-within:ring-2 focus-within:ring-indigo-100 transition-all">
-          <div className="flex items-center pl-3.5 flex-shrink-0">
-            <svg className="w-5 h-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-            </svg>
-          </div>
-          <input
-            ref={inputRef}
-            type="search"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            onKeyDown={handleKeyDown}
-            placeholder="Search topics, technologies, worksheets…"
-            className="flex-1 px-3 text-sm text-slate-900 bg-transparent outline-none placeholder:text-slate-400"
-          />
-          <button
-            type="button"
-            onClick={() => { if (results[0]) router.push(results[0].href); }}
-            className="flex items-center gap-1.5 px-5 text-white text-sm font-semibold flex-shrink-0 transition-opacity hover:opacity-90"
-            style={{ backgroundImage: STAR_BUTTON_BG, backgroundSize: "cover", backgroundPosition: "center" }}
-            aria-label="Search"
-          >
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5}
-                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-            </svg>
-            Search
-          </button>
-        </div>
-
-        {query && (
-          <div className="absolute left-0 right-0 top-[calc(100%+6px)] bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden z-[300]">
-            {results.length === 0 ? (
-              <p className="px-5 py-6 text-sm text-gray-400 text-center">
-                No results for &ldquo;{query}&rdquo;
-              </p>
-            ) : (
-              <>
-                <div className="max-h-[420px] overflow-y-auto divide-y divide-gray-50">
-                  {results.map((r, i) => (
-                    <Link
-                      key={i}
-                      href={r.href}
-                      onClick={close}
-                      className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 transition-colors group"
-                    >
-                      <span className="text-xl flex-shrink-0 w-8 text-center leading-none">{r.emoji}</span>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium text-gray-900 truncate group-hover:text-indigo-600 transition-colors">
-                          {r.label}
-                        </p>
-                        <p className="text-xs text-gray-400 truncate">{r.subtitle}</p>
-                      </div>
-                      <span className={`flex-shrink-0 text-[10px] font-semibold px-2 py-0.5 rounded-full ${TYPE_CLASS[r.type]}`}>
-                        {TYPE_LABEL[r.type]}
-                      </span>
-                    </Link>
-                  ))}
-                </div>
-                <div className="px-4 py-2.5 bg-gray-50 border-t border-gray-100 flex items-center justify-between">
-                  <p className="text-[11px] text-gray-400">
-                    {results.length} result{results.length !== 1 ? "s" : ""}
-                  </p>
-                  <p className="text-[11px] text-gray-400">↵ to open first · Esc to close</p>
-                </div>
-              </>
-            )}
-          </div>
-        )}
-      </div>
-    );
-  }
-
-  // ── Inline mode (mobile menu bar) ──────────────────────────────────────────
+  // ── Inline mode (mobile menu) ──────────────────────────────────────────────
   if (inline) {
     return (
-      <div className="relative px-4 py-3 border-b border-gray-100">
+      <div className="relative px-4 py-3">
         <div className="relative">
           <svg
-            className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none"
+            className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none"
             fill="none" viewBox="0 0 24 24" stroke="currentColor"
           >
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
@@ -347,32 +321,34 @@ export default function NavSearch({ inline = false, large = false }: NavSearchPr
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder="Search topics, tech, worksheets…"
-            className="w-full pl-9 pr-3 py-2.5 text-sm bg-gray-50 border border-gray-200 rounded-xl outline-none focus:border-pink-300 focus:ring-2 focus:ring-pink-100 transition-all"
+            placeholder="Search 2,000+ topics, tech, guides…"
+            className="w-full pl-10 pr-4 py-2.5 text-sm bg-slate-100/90 border border-slate-200/80 rounded-2xl outline-none focus:bg-white focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 text-slate-800 placeholder:text-slate-400 transition-all"
           />
         </div>
 
         {query && (
-          <div className="absolute left-4 right-4 top-full mt-1 bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden z-[200]">
+          <div className="absolute left-4 right-4 top-full mt-1.5 bg-white/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-slate-100 overflow-hidden z-[200]">
             {results.length === 0 ? (
-              <p className="px-4 py-4 text-sm text-gray-400 text-center">
+              <p className="px-4 py-6 text-sm text-slate-400 text-center">
                 No results for &ldquo;{query}&rdquo;
               </p>
             ) : (
-              <div className="max-h-72 overflow-y-auto divide-y divide-gray-50">
+              <div className="max-h-80 overflow-y-auto divide-y divide-slate-50">
                 {results.map((r, i) => (
                   <Link
                     key={i}
                     href={r.href}
                     onClick={close}
-                    className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 active:bg-gray-100 transition-colors"
+                    className={`flex items-center gap-3 px-4 py-3 transition-colors ${
+                      i === selectedIndex ? "bg-indigo-50/70" : "hover:bg-slate-50"
+                    }`}
                   >
                     <span className="text-lg flex-shrink-0 w-7 text-center leading-none">{r.emoji}</span>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-gray-900 truncate">{r.label}</p>
-                      <p className="text-xs text-gray-400 truncate">{r.subtitle}</p>
+                      <p className="text-sm font-semibold text-slate-800 truncate">{r.label}</p>
+                      <p className="text-xs text-slate-400 truncate">{r.subtitle}</p>
                     </div>
-                    <span className={`flex-shrink-0 text-[10px] font-semibold px-2 py-0.5 rounded-full ${TYPE_CLASS[r.type]}`}>
+                    <span className={`flex-shrink-0 text-[10px] font-bold px-2 py-0.5 rounded-md ${TYPE_CLASS[r.type]}`}>
                       {TYPE_LABEL[r.type]}
                     </span>
                   </Link>
@@ -385,28 +361,33 @@ export default function NavSearch({ inline = false, large = false }: NavSearchPr
     );
   }
 
-  // ── Desktop mode (icon → expand) ───────────────────────────────────────────
+  // ── Desktop / Header Mode ──────────────────────────────────────────────────
   return (
     <div ref={containerRef} className="relative flex items-center">
       {!open ? (
         <button
           onClick={() => setOpen(true)}
-          className="flex items-center justify-center w-9 h-9 rounded-lg hover:bg-gray-100 transition-colors"
+          className="group flex items-center gap-2.5 h-9 pl-3 pr-2.5 bg-slate-100/80 hover:bg-slate-100 border border-slate-200/70 hover:border-slate-300/80 rounded-full text-slate-500 hover:text-slate-800 text-xs font-medium transition-all duration-150 shadow-sm"
           aria-label="Search"
         >
-          <svg className="w-5 h-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+          <svg className="w-3.5 h-3.5 text-slate-400 group-hover:text-slate-600 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.2}
               d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
           </svg>
+          <span className="hidden lg:inline text-slate-500 group-hover:text-slate-700">Search 2,000+ topics…</span>
+          <span className="lg:hidden text-slate-500">Search…</span>
+          <kbd className="hidden sm:inline-flex items-center justify-center text-[10px] font-semibold text-slate-400 bg-white border border-slate-200 rounded px-1.5 py-0.5 shadow-xs tracking-tight">
+            ⌘K
+          </kbd>
         </button>
       ) : (
-        <div className="flex items-center gap-2">
+        <div className="relative flex items-center animate-in fade-in zoom-in-95 duration-150">
           <div className="relative">
             <svg
-              className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none"
+              className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-indigo-500 pointer-events-none"
               fill="none" viewBox="0 0 24 24" stroke="currentColor"
             >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.2}
                 d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
             <input
@@ -415,56 +396,77 @@ export default function NavSearch({ inline = false, large = false }: NavSearchPr
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               onKeyDown={handleKeyDown}
-              placeholder="Search topics, tech, worksheets…"
-              className="w-64 pl-9 pr-3 py-2 text-sm bg-gray-50 border border-gray-200 rounded-xl outline-none focus:border-pink-300 focus:ring-2 focus:ring-pink-100 transition-all"
+              placeholder="Type topic, subject, tech, or guide…"
+              className="w-72 md:w-80 pl-9.5 pr-8 py-2 text-xs font-medium bg-white border-2 border-indigo-500/80 rounded-full outline-none shadow-lg shadow-indigo-500/10 text-slate-900 placeholder:text-slate-400 transition-all"
             />
+            {query && (
+              <button
+                onClick={() => setQuery("")}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 p-0.5 rounded-full"
+              >
+                <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            )}
           </div>
           <button
             onClick={() => { setOpen(false); setQuery(""); }}
-            className="text-xs text-gray-400 hover:text-gray-600 whitespace-nowrap transition-colors"
+            className="ml-2 text-xs font-semibold text-slate-400 hover:text-slate-700 whitespace-nowrap px-2 py-1 transition-colors"
           >
-            Cancel
+            Esc
           </button>
         </div>
       )}
 
-      {/* Dropdown */}
+      {/* Instant Dropdown Preview */}
       {open && query && (
-        <div className="absolute right-0 top-[calc(100%+8px)] w-[400px] bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden z-[200]">
+        <div className="absolute right-0 top-[calc(100%+10px)] w-[420px] max-w-[calc(100vw-32px)] bg-white/95 backdrop-blur-2xl rounded-2xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.18)] border border-slate-100 overflow-hidden z-[300] animate-in fade-in slide-in-from-top-2 duration-150">
           {results.length === 0 ? (
-            <p className="px-5 py-6 text-sm text-gray-400 text-center">
-              No results for &ldquo;{query}&rdquo;
-            </p>
+            <div className="px-6 py-8 text-center">
+              <div className="text-3xl mb-2">🔍</div>
+              <p className="text-sm font-semibold text-slate-800">No matching results</p>
+              <p className="text-xs text-slate-400 mt-1">Try searching for &quot;Maths&quot;, &quot;Rock Cycle&quot;, &quot;Python&quot;, or &quot;Grade 3&quot;</p>
+            </div>
           ) : (
             <>
-              <div className="max-h-[420px] overflow-y-auto divide-y divide-gray-50">
+              <div className="px-4 py-2 bg-slate-50/80 border-b border-slate-100 flex items-center justify-between">
+                <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider">
+                  Top Results ({results.length})
+                </span>
+                <span className="text-[10px] text-slate-400 font-medium">Use ↑↓ to navigate · ↵ to select</span>
+              </div>
+              <div className="max-h-[380px] overflow-y-auto divide-y divide-slate-50 p-1">
                 {results.map((r, i) => (
                   <Link
                     key={i}
                     href={r.href}
                     onClick={close}
-                    className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 transition-colors group"
+                    onMouseEnter={() => setSelectedIndex(i)}
+                    className={`flex items-center gap-3 px-3.5 py-2.5 rounded-xl transition-all duration-100 group ${
+                      i === selectedIndex ? "bg-indigo-50/80 text-indigo-950" : "hover:bg-slate-50"
+                    }`}
                   >
-                    <span className="text-xl flex-shrink-0 w-8 text-center leading-none">{r.emoji}</span>
+                    <span className="text-xl flex-shrink-0 w-8 text-center leading-none drop-shadow-xs">
+                      {r.emoji}
+                    </span>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-gray-900 truncate group-hover:text-pink-600 transition-colors">
+                      <p className={`text-xs font-semibold truncate ${
+                        i === selectedIndex ? "text-indigo-600" : "text-slate-800 group-hover:text-indigo-600"
+                      } transition-colors`}>
                         {r.label}
                       </p>
-                      <p className="text-xs text-gray-400 truncate">{r.subtitle}</p>
+                      <p className="text-[11px] text-slate-400 truncate mt-0.5">{r.subtitle}</p>
                     </div>
-                    <span className={`flex-shrink-0 text-[10px] font-semibold px-2 py-0.5 rounded-full ${TYPE_CLASS[r.type]}`}>
+                    <span className={`flex-shrink-0 text-[10px] font-bold px-2 py-0.5 rounded-md ${TYPE_CLASS[r.type]}`}>
                       {TYPE_LABEL[r.type]}
                     </span>
                   </Link>
                 ))}
               </div>
-              <div className="px-4 py-2.5 bg-gray-50 border-t border-gray-100 flex items-center justify-between">
-                <p className="text-[11px] text-gray-400">
-                  {results.length} result{results.length !== 1 ? "s" : ""}
-                </p>
-                <p className="text-[11px] text-gray-400">
-                  ↵ to open first &nbsp;·&nbsp; Esc to close
-                </p>
+              <div className="px-4 py-2 bg-slate-50/90 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-400">
+                <span>WorksheetDownload Catalog</span>
+                <span>Press <kbd className="font-mono bg-white px-1 py-0.5 rounded border border-slate-200">Esc</kbd> to exit</span>
               </div>
             </>
           )}
@@ -473,3 +475,4 @@ export default function NavSearch({ inline = false, large = false }: NavSearchPr
     </div>
   );
 }
+

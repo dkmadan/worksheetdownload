@@ -12,7 +12,7 @@ export default function NavAuthButton() {
 
   // Still loading
   if (status === "loading") {
-    return <div className="w-20 h-8 bg-gray-100 rounded-full animate-pulse" />;
+    return <div className="w-16 h-8 bg-slate-100 rounded-full animate-pulse" />;
   }
 
   if (session?.user) {
@@ -30,24 +30,24 @@ export default function NavAuthButton() {
             alt={name}
             width={28}
             height={28}
-            className="rounded-full border border-gray-200"
+            className="rounded-full border border-slate-200"
           />
         ) : (
-          <div className="w-7 h-7 rounded-full flex items-center justify-center text-white text-xs font-bold select-none"
+          <div className="w-7 h-7 rounded-full flex items-center justify-center text-white text-xs font-bold select-none shadow-2xs"
             style={{ backgroundColor: STAR_NAVY }}>
             {initial}
           </div>
         )}
 
         {/* Name (hidden on mobile) */}
-        <span className="hidden sm:block text-sm font-medium text-gray-700 max-w-[100px] truncate">
+        <span className="hidden lg:block text-xs font-semibold text-slate-700 max-w-[90px] truncate">
           {name || email}
         </span>
 
         {/* Sign out */}
         <button
           onClick={() => signOut()}
-          className="text-sm font-semibold text-white px-5 py-2 rounded-full transition-opacity hover:opacity-90 shadow-sm"
+          className="text-xs font-bold text-white px-3.5 py-1.5 rounded-full transition-all hover:opacity-95 shadow-2xs cursor-pointer"
           style={{ backgroundImage: STAR_BUTTON_BG, backgroundSize: "cover", backgroundPosition: "center" }}
         >
           Sign out
@@ -60,10 +60,10 @@ export default function NavAuthButton() {
     <>
       <button
         onClick={() => setShowModal(true)}
-        className="text-white text-sm font-semibold px-5 py-2 rounded-full shadow-sm transition-opacity hover:opacity-90"
+        className="text-white text-xs font-bold px-4 py-1.5 rounded-full shadow-2xs transition-all hover:opacity-95 hover:scale-[1.02] cursor-pointer"
         style={{ backgroundImage: STAR_BUTTON_BG, backgroundSize: "cover", backgroundPosition: "center" }}
       >
-        Login
+        Sign in
       </button>
 
       {showModal && (
@@ -75,3 +75,4 @@ export default function NavAuthButton() {
     </>
   );
 }
+
