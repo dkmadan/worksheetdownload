@@ -64,10 +64,14 @@ export default function SubjectsMenu({ dark = false }: { dark?: boolean }) {
         onClick={() => setOpen((v) => !v)}
         aria-haspopup="true"
         aria-expanded={open}
-        className={`group flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold tracking-tight transition-all duration-150 ${
-          open
-            ? "text-indigo-600 bg-indigo-50/80 shadow-xs"
-            : "text-slate-600 hover:text-slate-900 hover:bg-slate-100/70"
+        className={`group flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold tracking-tight transition-all duration-150 cursor-pointer ${
+          dark
+            ? open
+              ? "text-white bg-white/15 shadow-2xs"
+              : "text-slate-300 hover:text-white hover:bg-white/10"
+            : open
+              ? "text-indigo-600 bg-indigo-50/80 shadow-xs"
+              : "text-slate-600 hover:text-slate-900 hover:bg-slate-100/70"
         }`}
       >
         <span>Subjects</span>
@@ -78,7 +82,7 @@ export default function SubjectsMenu({ dark = false }: { dark?: boolean }) {
         <div
           className="fixed z-[200] rounded-3xl overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200"
           style={{
-            top: "68px",
+            top: "106px",
             left: "50%",
             transform: "translateX(-50%)",
             width: "min(980px, calc(100vw - 32px))",

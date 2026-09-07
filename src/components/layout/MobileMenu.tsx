@@ -49,7 +49,7 @@ export default function MobileMenu() {
 
       {/* Mobile nav overlay */}
       {open && (
-        <div className="fixed inset-x-0 top-16 bottom-0 z-[150] bg-white/95 backdrop-blur-2xl overflow-y-auto border-t border-slate-200/60 animate-in fade-in slide-in-from-top-4 duration-200">
+        <div className="fixed inset-x-0 top-[57px] bottom-0 z-[150] bg-white/95 backdrop-blur-2xl overflow-y-auto border-t border-slate-200/60 animate-in fade-in slide-in-from-top-4 duration-200">
           <nav className="flex flex-col divide-y divide-slate-100 pb-12">
 
             {/* Quick CTA pills */}
