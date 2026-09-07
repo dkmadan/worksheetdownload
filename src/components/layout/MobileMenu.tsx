@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
 import { GRADES_CURRICULUM, SUBJECTS_META } from "@/lib/curriculum";
@@ -26,6 +27,14 @@ export default function MobileMenu() {
   const [showAuth, setShowAuth] = useState(false);
   const { data: session } = useSession();
 
+  // Lock background scroll while the menu is open.
+  useEffect(() => {
+    if (!open) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => { document.body.style.overflow = prev; };
+  }, [open]);
+
   const close = () => setOpen(false);
 
   return (
@@ -47,9 +56,11 @@ export default function MobileMenu() {
         )}
       </button>
 
-      {/* Mobile nav overlay */}
-      {open && (
-        <div className="fixed inset-x-0 top-[57px] bottom-0 z-[150] bg-white/95 backdrop-blur-2xl overflow-y-auto border-t border-slate-200/60 animate-in fade-in slide-in-from-top-4 duration-200">
+      {/* Mobile nav overlay — portalled to <body> so it isn't trapped by the
+          header's backdrop-blur containing block. Only renders after a click,
+          so there is no SSR/hydration branch. */}
+      {open && typeof document !== "undefined" && createPortal(
+        <div className="sm:hidden fixed inset-x-0 top-[57px] bottom-0 z-[150] bg-white/95 backdrop-blur-2xl overflow-y-auto border-t border-slate-200/60 animate-in fade-in slide-in-from-top-4 duration-200">
           <nav className="flex flex-col divide-y divide-slate-100 pb-12">
 
             {/* Quick CTA pills */}
@@ -245,7 +256,8 @@ export default function MobileMenu() {
             </div>
 
           </nav>
-        </div>
+        </div>,
+        document.body
       )}
 
       {showAuth && (

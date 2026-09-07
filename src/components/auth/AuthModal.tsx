@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { signIn } from "next-auth/react";
 
 type Tab = "login" | "register";
@@ -89,7 +90,12 @@ export default function AuthModal({ onClose, onSuccess, message }: AuthModalProp
 
   const googleEnabled = true; // hidden if provider not configured — handled server-side
 
-  return (
+  // Portal to <body> so the fixed overlay escapes any `backdrop-filter` /
+  // `transform` ancestor that would otherwise clamp its size. The modal only
+  // mounts on a client interaction, so there is no SSR/hydration branch.
+  if (typeof document === "undefined") return null;
+
+  return createPortal(
     <div
       className="fixed inset-0 z-[200] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4"
       onClick={onClose}
@@ -257,6 +263,7 @@ export default function AuthModal({ onClose, onSuccess, message }: AuthModalProp
           </p>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }

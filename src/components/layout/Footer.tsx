@@ -9,7 +9,7 @@ export default function Footer() {
           <Logo size={24} showText={true} textSize="text-sm" />
           <span>— Free printable worksheets for K–8</span>
         </div>
-        <div className="flex items-center gap-4">
+        <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
           <Link href="/worksheets/math" className="hover:text-gray-700 transition-colors">Math</Link>
           <Link href="/worksheets/reading" className="hover:text-gray-700 transition-colors">Reading</Link>
           <Link href="/worksheets/science" className="hover:text-gray-700 transition-colors">Science</Link>
