@@ -1,0 +1,1178 @@
+import { defineMap } from "../helpers";
+import type { MapWorksheet } from "../types";
+
+export const CORE_MAPS: MapWorksheet[] = [
+  defineMap({
+    slug: "world-map",
+    title: "World Map",
+    h1: "World Map Labeling Worksheet",
+    category: "core",
+    emoji: "🌐",
+    gradeBand: "Grades 2–8",
+    keywords: [
+      "world map worksheet",
+      "blank world map to label",
+      "label the continents and oceans",
+      "printable world map pdf",
+      "world map labeling worksheet",
+      "continents and oceans worksheet",
+    ],
+    intro:
+      "Label all seven continents and five oceans on a blank world map. This printable worksheet is the classic starting point for geography — students identify each landmass and body of water, then check their work against the answer key.",
+    labelPrompt:
+      "Write the name of each numbered continent and ocean on your world map.",
+    groups: [
+      {
+        heading: "The 7 Continents",
+        items: [
+          "Asia",
+          "Africa",
+          "North America",
+          "South America",
+          "Antarctica",
+          "Europe",
+          "Australia",
+        ],
+      },
+      {
+        heading: "The 5 Oceans",
+        items: ["Pacific Ocean", "Atlantic Ocean", "Indian Ocean", "Southern Ocean", "Arctic Ocean"],
+      },
+    ],
+    clues: [
+      { clue: "The largest continent by both area and population", answer: "Asia" },
+      { clue: "The only continent with no permanent human population", answer: "Antarctica" },
+      { clue: "The smallest continent", answer: "Australia" },
+      { clue: "The largest and deepest ocean", answer: "Pacific Ocean" },
+      { clue: "The ocean that surrounds the North Pole", answer: "Arctic Ocean" },
+      { clue: "The ocean between Africa, Asia and Australia", answer: "Indian Ocean" },
+      { clue: "The continent crossed by the Prime Meridian and the Equator", answer: "Africa" },
+    ],
+    facts: [
+      "There are 7 continents and 5 oceans.",
+      "Asia covers about 30% of Earth's land area and holds ~60% of its people.",
+      "The Pacific Ocean is larger than all of Earth's land combined.",
+      "The Equator passes through South America, Africa and Asia.",
+      "Antarctica is the coldest, driest and windiest continent.",
+      "The Southern Ocean was officially recognised as the 5th ocean in 2000.",
+    ],
+    faqs: [
+      {
+        q: "How many continents and oceans are there?",
+        a: "Most English-speaking countries teach 7 continents (Asia, Africa, North America, South America, Antarctica, Europe, Australia) and 5 oceans (Pacific, Atlantic, Indian, Southern, Arctic).",
+      },
+      {
+        q: "What is the difference between the Southern Ocean and Antarctica?",
+        a: "Antarctica is the continent (land) around the South Pole; the Southern Ocean is the ring of water that surrounds that continent.",
+      },
+      {
+        q: "Which grade is a world map worksheet for?",
+        a: "Continents and oceans are usually introduced in Grades 2–4 and reviewed through middle school, so this sheet works well for ages 7–13.",
+      },
+    ],
+    related: ["continents-map", "oceans-map", "continents-and-oceans-map", "equator-map"],
+  }),
+
+  defineMap({
+    slug: "continents-map",
+    title: "Continents Map",
+    h1: "Continents Map Labeling Worksheet",
+    category: "core",
+    emoji: "🗺️",
+    gradeBand: "Grades 1–6",
+    keywords: [
+      "continents map worksheet",
+      "label the 7 continents",
+      "7 continents worksheet pdf",
+      "blank continents map",
+      "continents worksheet for kids",
+    ],
+    intro:
+      "Identify and label the seven continents. Students place each continent name in the correct spot, rank the continents by size and population, and confirm their answers with the key.",
+    labelPrompt: "Write the name of each numbered continent.",
+    groups: [
+      {
+        heading: "The 7 Continents (largest to smallest by area)",
+        items: [
+          "Asia",
+          "Africa",
+          "North America",
+          "South America",
+          "Antarctica",
+          "Europe",
+          "Australia",
+        ],
+      },
+    ],
+    clues: [
+      { clue: "Largest continent by area", answer: "Asia" },
+      { clue: "Second-largest continent; the Sahara Desert is here", answer: "Africa" },
+      { clue: "Smallest continent by area", answer: "Australia" },
+      { clue: "Second-smallest continent; contains most of the world's countries per square mile", answer: "Europe" },
+      { clue: "Continent that is almost entirely covered by an ice sheet", answer: "Antarctica" },
+      { clue: "Continent that contains the Amazon Rainforest", answer: "South America" },
+      { clue: "Continent that contains Canada, the USA and Mexico", answer: "North America" },
+    ],
+    facts: [
+      "By area: Asia > Africa > North America > South America > Antarctica > Europe > Australia.",
+      "By population: Asia > Africa > Europe > North America > South America > Oceania > Antarctica.",
+      "Europe and Asia sit on one landmass sometimes called Eurasia.",
+      "Africa is the only continent in all four hemispheres.",
+      "Australia is both a country and a continent.",
+    ],
+    faqs: [
+      {
+        q: "Why do some maps show 6 continents?",
+        a: "Some countries combine Europe and Asia into 'Eurasia', or North and South America into 'the Americas', giving a 6-continent model. The 7-continent model is the most common in the US, UK, India and Australia.",
+      },
+      {
+        q: "Is Australia a continent or a country?",
+        a: "Both. The country of Australia sits on the smallest continent, which is also called Oceania when nearby island nations are included.",
+      },
+    ],
+    related: ["world-map", "oceans-map", "asia-map", "africa-map"],
+  }),
+
+  defineMap({
+    slug: "oceans-map",
+    title: "Oceans Map",
+    h1: "Oceans & Seas Labeling Worksheet",
+    category: "core",
+    emoji: "🌊",
+    gradeBand: "Grades 3–8",
+    keywords: [
+      "oceans map worksheet",
+      "label the 5 oceans",
+      "oceans and seas worksheet pdf",
+      "world seas map",
+      "blank ocean map",
+    ],
+    intro:
+      "Label the five oceans and the major seas of the world. This worksheet builds on continents-and-oceans practice by adding the seas, gulfs and bays students meet in later geography units.",
+    labelPrompt: "Write the name of each numbered ocean and sea.",
+    groups: [
+      {
+        heading: "The 5 Oceans",
+        items: ["Pacific Ocean", "Atlantic Ocean", "Indian Ocean", "Southern Ocean", "Arctic Ocean"],
+      },
+      {
+        heading: "Major Seas",
+        items: [
+          "Mediterranean Sea",
+          "Caribbean Sea",
+          "South China Sea",
+          "Arabian Sea",
+          "Bay of Bengal",
+          "Red Sea",
+          "Black Sea",
+          "North Sea",
+          "Baltic Sea",
+          "Caspian Sea",
+        ],
+      },
+    ],
+    clues: [
+      { clue: "Largest and deepest ocean, holding the Mariana Trench", answer: "Pacific Ocean" },
+      { clue: "Second-largest ocean; separates the Americas from Europe and Africa", answer: "Atlantic Ocean" },
+      { clue: "Smallest and shallowest ocean, mostly covered by sea ice", answer: "Arctic Ocean" },
+      { clue: "Sea between Europe and Africa, linked to the Atlantic at Gibraltar", answer: "Mediterranean Sea" },
+      { clue: "World's largest inland body of water (a salt lake often called a sea)", answer: "Caspian Sea" },
+      { clue: "Arm of the Indian Ocean east of India", answer: "Bay of Bengal" },
+    ],
+    facts: [
+      "Oceans cover about 71% of Earth's surface.",
+      "The Pacific Ocean holds more than half of the world's free water.",
+      "A 'sea' is usually smaller than an ocean and partly enclosed by land.",
+      "The Caspian Sea is technically the world's largest lake.",
+      "The Southern Ocean is defined by a current (the Antarctic Circumpolar Current) rather than by land.",
+    ],
+    faqs: [
+      {
+        q: "What is the difference between a sea and an ocean?",
+        a: "Oceans are the huge, continuous bodies of salt water between continents. Seas are smaller, shallower, and usually partly surrounded by land — for example the Mediterranean or Caribbean.",
+      },
+      {
+        q: "How many oceans are there?",
+        a: "Five: the Pacific, Atlantic, Indian, Southern and Arctic Oceans.",
+      },
+    ],
+    related: ["world-map", "seas-and-gulfs-map", "continents-and-oceans-map"],
+  }),
+
+  defineMap({
+    slug: "continents-and-oceans-map",
+    title: "Continents & Oceans",
+    h1: "Continents and Oceans Labeling Worksheet",
+    category: "core",
+    emoji: "🌍",
+    gradeBand: "Grades 2–6",
+    keywords: [
+      "continents and oceans worksheet",
+      "label continents and oceans pdf",
+      "continents and oceans map quiz",
+      "blank map continents oceans",
+    ],
+    intro:
+      "One combined worksheet covering all seven continents and five oceans. Students label the map, use the word bank, and self-check with the answer key — ideal for a unit review or a quick assessment.",
+    labelPrompt: "Label all 7 continents and all 5 oceans on the map.",
+    groups: [
+      {
+        heading: "Continents",
+        items: [
+          "North America",
+          "South America",
+          "Europe",
+          "Africa",
+          "Asia",
+          "Australia",
+          "Antarctica",
+        ],
+      },
+      {
+        heading: "Oceans",
+        items: ["Arctic Ocean", "Atlantic Ocean", "Pacific Ocean", "Indian Ocean", "Southern Ocean"],
+      },
+    ],
+    facts: [
+      "7 continents + 5 oceans = the 12 labels every geography student learns first.",
+      "The Pacific Ocean touches Asia, Australia, and both Americas.",
+      "The Atlantic Ocean is shaped like a stretched letter S.",
+      "Antarctica is surrounded entirely by the Southern Ocean.",
+      "Only the Pacific and Atlantic Oceans touch all the way from the Arctic to the Southern Ocean.",
+    ],
+    faqs: [
+      {
+        q: "What order should students learn them in?",
+        a: "Most teachers start with the oceans (5 shapes are easy to spot), then add continents largest to smallest.",
+      },
+      {
+        q: "Is there a song for continents and oceans?",
+        a: "Yes — many classrooms use the 'Continents Song' set to a familiar tune. This worksheet pairs well with that as written practice.",
+      },
+    ],
+    related: ["world-map", "continents-map", "oceans-map"],
+  }),
+
+  defineMap({
+    slug: "country-identification-map",
+    title: "Country Identification Map",
+    h1: "Country Identification Worksheet",
+    category: "core",
+    emoji: "🏳️",
+    gradeBand: "Grades 5–10",
+    keywords: [
+      "country identification worksheet",
+      "identify the country map",
+      "world countries map worksheet",
+      "name the country practice",
+      "major countries of the world worksheet",
+    ],
+    intro:
+      "Identify major countries on each continent. This worksheet groups the world's most-studied countries by region so students can build a mental map before moving on to capitals.",
+    labelPrompt: "Write the name of each numbered country.",
+    groups: [
+      { heading: "North America", items: ["Canada", "United States", "Mexico", "Cuba", "Guatemala"] },
+      {
+        heading: "South America",
+        items: ["Brazil", "Argentina", "Chile", "Peru", "Colombia", "Venezuela"],
+      },
+      {
+        heading: "Europe",
+        items: ["United Kingdom", "France", "Germany", "Italy", "Spain", "Poland", "Ukraine"],
+      },
+      {
+        heading: "Africa",
+        items: ["Egypt", "Nigeria", "South Africa", "Kenya", "Ethiopia", "Morocco"],
+      },
+      {
+        heading: "Asia",
+        items: ["China", "India", "Japan", "Indonesia", "Saudi Arabia", "Iran", "Pakistan"],
+      },
+      { heading: "Oceania", items: ["Australia", "New Zealand"] },
+    ],
+    facts: [
+      "There are 195 countries recognised by the United Nations (193 members + 2 observers).",
+      "Russia is the largest country by area; Canada is second.",
+      "China and India are the two most populous countries.",
+      "Vatican City is the smallest country in the world.",
+      "Africa has 54 countries — more than any other continent.",
+    ],
+    faqs: [
+      {
+        q: "How many countries are there in the world?",
+        a: "195 are widely recognised: 193 UN member states plus the Holy See (Vatican City) and the State of Palestine as observer states.",
+      },
+      {
+        q: "What is a good way to memorise countries?",
+        a: "Learn them one continent at a time, starting with the largest and most familiar, and always tie each country to a neighbour you already know.",
+      },
+    ],
+    related: ["world-map", "countries-and-capitals-map", "europe-map", "asia-map", "africa-map"],
+  }),
+
+  defineMap({
+    slug: "united-states-map",
+    title: "United States Map",
+    h1: "United States Map Labeling Worksheet",
+    category: "core",
+    emoji: "🇺🇸",
+    gradeBand: "Grades 3–8",
+    keywords: [
+      "united states map worksheet",
+      "us map labeling worksheet",
+      "label the united states regions",
+      "blank us map pdf",
+      "usa map worksheet for kids",
+    ],
+    intro:
+      "Label the regions, neighbouring countries, bordering waters and major landforms of the United States. A strong overview sheet before students tackle all 50 states and capitals.",
+    labelPrompt: "Label each numbered region, border and landform of the United States.",
+    groups: [
+      {
+        heading: "The Four Census Regions",
+        items: ["Northeast", "Midwest", "South", "West"],
+      },
+      {
+        heading: "Neighbours & Bordering Waters",
+        items: ["Canada", "Mexico", "Atlantic Ocean", "Pacific Ocean", "Gulf of Mexico"],
+      },
+      {
+        heading: "Major Landforms",
+        items: [
+          "Rocky Mountains",
+          "Appalachian Mountains",
+          "Mississippi River",
+          "Great Lakes",
+          "Great Plains",
+        ],
+      },
+    ],
+    clues: [
+      { clue: "Country that borders the USA to the north", answer: "Canada" },
+      { clue: "Mountain range running down the western USA", answer: "Rocky Mountains" },
+      { clue: "Older, lower mountain range in the eastern USA", answer: "Appalachian Mountains" },
+      { clue: "The longest river system in the USA", answer: "Mississippi River" },
+      { clue: "Five large freshwater lakes on the US–Canada border", answer: "Great Lakes" },
+      { clue: "Region that includes California, Nevada, Oregon and Washington", answer: "West" },
+    ],
+    facts: [
+      "The USA has 50 states and one federal district (Washington, D.C.).",
+      "Alaska is the largest state; Rhode Island is the smallest.",
+      "The Mississippi–Missouri is the 4th-longest river system in the world.",
+      "The contiguous 48 states are sometimes called the 'lower 48'.",
+      "The USA borders two oceans, one gulf and two countries.",
+    ],
+    faqs: [
+      {
+        q: "What are the regions of the United States?",
+        a: "The US Census Bureau uses four regions — Northeast, Midwest, South and West — each divided into divisions. Textbooks sometimes use five regions by splitting off the Southwest.",
+      },
+      {
+        q: "How many states border Canada?",
+        a: "Thirteen US states share a land border with Canada, from Maine in the east to Alaska in the northwest.",
+      },
+    ],
+    related: ["us-states-and-capitals-map", "us-regions-map", "north-america-map", "great-lakes-map"],
+  }),
+
+  defineMap({
+    slug: "us-states-and-capitals-map",
+    title: "US States & Capitals",
+    h1: "US States and Capitals Worksheet",
+    category: "core",
+    emoji: "🏛️",
+    gradeBand: "Grades 4–9",
+    keywords: [
+      "us states and capitals worksheet",
+      "50 states and capitals map",
+      "states and capitals quiz pdf",
+      "label the 50 states",
+      "state capitals worksheet",
+    ],
+    intro:
+      "Match every US state to its capital city. This worksheet lists all 50 states by region with a full answer key — the standard tool for the states-and-capitals unit.",
+    labelPrompt: "Write the capital city next to each numbered state.",
+    groups: [
+      {
+        heading: "Northeast",
+        items: [
+          "Maine — Augusta",
+          "New Hampshire — Concord",
+          "Vermont — Montpelier",
+          "Massachusetts — Boston",
+          "Rhode Island — Providence",
+          "Connecticut — Hartford",
+          "New York — Albany",
+          "New Jersey — Trenton",
+          "Pennsylvania — Harrisburg",
+        ],
+      },
+      {
+        heading: "Midwest",
+        items: [
+          "Ohio — Columbus",
+          "Indiana — Indianapolis",
+          "Illinois — Springfield",
+          "Michigan — Lansing",
+          "Wisconsin — Madison",
+          "Minnesota — Saint Paul",
+          "Iowa — Des Moines",
+          "Missouri — Jefferson City",
+          "North Dakota — Bismarck",
+          "South Dakota — Pierre",
+          "Nebraska — Lincoln",
+          "Kansas — Topeka",
+        ],
+      },
+      {
+        heading: "South",
+        items: [
+          "Delaware — Dover",
+          "Maryland — Annapolis",
+          "Virginia — Richmond",
+          "West Virginia — Charleston",
+          "North Carolina — Raleigh",
+          "South Carolina — Columbia",
+          "Georgia — Atlanta",
+          "Florida — Tallahassee",
+          "Kentucky — Frankfort",
+          "Tennessee — Nashville",
+          "Alabama — Montgomery",
+          "Mississippi — Jackson",
+          "Arkansas — Little Rock",
+          "Louisiana — Baton Rouge",
+          "Oklahoma — Oklahoma City",
+          "Texas — Austin",
+        ],
+      },
+      {
+        heading: "West",
+        items: [
+          "Montana — Helena",
+          "Idaho — Boise",
+          "Wyoming — Cheyenne",
+          "Colorado — Denver",
+          "New Mexico — Santa Fe",
+          "Arizona — Phoenix",
+          "Utah — Salt Lake City",
+          "Nevada — Carson City",
+          "California — Sacramento",
+          "Oregon — Salem",
+          "Washington — Olympia",
+          "Alaska — Juneau",
+          "Hawaii — Honolulu",
+        ],
+      },
+    ],
+    facts: [
+      "There are 50 state capitals.",
+      "Phoenix, Arizona is the most populous state capital; Montpelier, Vermont is the least.",
+      "Only 17 state capitals are also their state's largest city.",
+      "Four state capitals are named after US presidents: Jackson, Lincoln, Madison and Jefferson City.",
+      "Dover, Delaware belongs to the first state to ratify the Constitution (1787).",
+    ],
+    faqs: [
+      {
+        q: "Which state capitals are the largest cities in their state?",
+        a: "Examples include Phoenix (AZ), Denver (CO), Boston (MA), Atlanta (GA), Indianapolis (IN), Columbus (OH) and Nashville (TN). Most state capitals, though, are smaller than another city in the state.",
+      },
+      {
+        q: "How can students memorise all 50 capitals?",
+        a: "Group them by region (as on this sheet), learn 10 at a time, and use the answer key to quiz backwards — capital to state — once the forward direction is solid.",
+      },
+    ],
+    related: ["united-states-map", "us-regions-map", "states-and-capitals-map"],
+  }),
+
+  defineMap({
+    slug: "india-map",
+    title: "India Map",
+    h1: "India Map Labeling Worksheet",
+    category: "core",
+    emoji: "🇮🇳",
+    gradeBand: "Grades 3–9",
+    keywords: [
+      "india map worksheet",
+      "label the map of india",
+      "blank india map pdf",
+      "india neighbouring countries worksheet",
+      "map of india for kids",
+    ],
+    intro:
+      "Label India's neighbouring countries, surrounding waters and geographic extremes. A first-look worksheet before students move on to states, rivers and physical features.",
+    labelPrompt: "Label each numbered neighbour, water body and extreme point of India.",
+    groups: [
+      {
+        heading: "Neighbouring Countries",
+        items: [
+          "Pakistan",
+          "Afghanistan",
+          "China",
+          "Nepal",
+          "Bhutan",
+          "Bangladesh",
+          "Myanmar",
+          "Sri Lanka",
+        ],
+      },
+      {
+        heading: "Surrounding Waters",
+        items: ["Arabian Sea", "Bay of Bengal", "Indian Ocean"],
+      },
+      {
+        heading: "Extremes & Key Lines",
+        items: ["Himalayas (north)", "Kanyakumari (southern tip)", "Tropic of Cancer", "Indira Point"],
+      },
+    ],
+    clues: [
+      { clue: "India's neighbour to the west, across the Thar Desert", answer: "Pakistan" },
+      { clue: "Large island country off India's south-east coast", answer: "Sri Lanka" },
+      { clue: "Sea to the west of India", answer: "Arabian Sea" },
+      { clue: "Bay to the east of India", answer: "Bay of Bengal" },
+      { clue: "The mountain wall along India's northern border", answer: "Himalayas (north)" },
+      { clue: "Line of latitude (23.5°N) that cuts across central India", answer: "Tropic of Cancer" },
+    ],
+    facts: [
+      "India shares land borders with 7 countries and a maritime border with Sri Lanka and Maldives.",
+      "India is the 7th-largest country by area and the most populous country in the world.",
+      "The Tropic of Cancer passes through 8 Indian states.",
+      "India's mainland stretches from about 8°N to 37°N latitude.",
+      "The southernmost point of Indian territory is Indira Point in the Andaman & Nicobar Islands.",
+    ],
+    faqs: [
+      {
+        q: "How many countries border India?",
+        a: "Seven share a land border — Pakistan, Afghanistan, China, Nepal, Bhutan, Bangladesh and Myanmar. Sri Lanka and the Maldives are maritime neighbours.",
+      },
+      {
+        q: "Which water bodies surround India?",
+        a: "The Arabian Sea to the west, the Bay of Bengal to the east and the Indian Ocean to the south.",
+      },
+    ],
+    related: [
+      "states-of-india-map",
+      "india-political-map",
+      "india-physical-map",
+      "india-neighbouring-countries-map",
+    ],
+  }),
+
+  defineMap({
+    slug: "states-of-india-map",
+    title: "States of India Map",
+    h1: "States of India Labeling Worksheet",
+    category: "core",
+    emoji: "🏙️",
+    gradeBand: "Grades 4–10",
+    keywords: [
+      "states of india map worksheet",
+      "label indian states",
+      "28 states of india worksheet",
+      "indian states and union territories map",
+      "blank india states map pdf",
+    ],
+    intro:
+      "Identify all 28 states and 8 union territories of India. The worksheet lists them by region with a complete answer key — the go-to sheet for the Indian polity and geography syllabus.",
+    labelPrompt: "Write the name of each numbered state and union territory.",
+    groups: [
+      {
+        heading: "28 States",
+        items: [
+          "Andhra Pradesh",
+          "Arunachal Pradesh",
+          "Assam",
+          "Bihar",
+          "Chhattisgarh",
+          "Goa",
+          "Gujarat",
+          "Haryana",
+          "Himachal Pradesh",
+          "Jharkhand",
+          "Karnataka",
+          "Kerala",
+          "Madhya Pradesh",
+          "Maharashtra",
+          "Manipur",
+          "Meghalaya",
+          "Mizoram",
+          "Nagaland",
+          "Odisha",
+          "Punjab",
+          "Rajasthan",
+          "Sikkim",
+          "Tamil Nadu",
+          "Telangana",
+          "Tripura",
+          "Uttar Pradesh",
+          "Uttarakhand",
+          "West Bengal",
+        ],
+      },
+      {
+        heading: "8 Union Territories",
+        items: [
+          "Andaman and Nicobar Islands",
+          "Chandigarh",
+          "Dadra and Nagar Haveli and Daman and Diu",
+          "Delhi (NCT)",
+          "Jammu and Kashmir",
+          "Ladakh",
+          "Lakshadweep",
+          "Puducherry",
+        ],
+      },
+    ],
+    facts: [
+      "India has 28 states and 8 union territories (as of 2020, after Ladakh and Jammu & Kashmir were reorganised in 2019 and Dadra & Nagar Haveli and Daman & Diu merged in 2020).",
+      "Rajasthan is the largest state by area; Goa is the smallest.",
+      "Uttar Pradesh is the most populous state.",
+      "Sikkim is the least populous state.",
+      "Delhi is the largest union territory by population; Lakshadweep is the smallest.",
+    ],
+    faqs: [
+      {
+        q: "How many states and union territories does India have?",
+        a: "28 states and 8 union territories. The count last changed in 2019–2020 with the reorganisation of Jammu & Kashmir and the merger of Dadra & Nagar Haveli with Daman & Diu.",
+      },
+      {
+        q: "What is the difference between a state and a union territory?",
+        a: "States have their own elected governments with significant autonomy. Union territories are governed more directly by the central government, though some (Delhi, Puducherry, Jammu & Kashmir) have their own legislatures.",
+      },
+    ],
+    related: [
+      "india-map",
+      "states-and-capitals-of-india-map",
+      "union-territories-map",
+      "indian-states-by-region-map",
+    ],
+  }),
+
+  defineMap({
+    slug: "europe-map",
+    title: "Europe Map",
+    h1: "Europe Map Labeling Worksheet",
+    category: "core",
+    emoji: "🇪🇺",
+    gradeBand: "Grades 5–10",
+    keywords: [
+      "europe map worksheet",
+      "label the countries of europe",
+      "blank europe map pdf",
+      "europe physical map worksheet",
+      "european countries map quiz",
+    ],
+    intro:
+      "Label the major countries, seas and physical features of Europe. Groups the most-studied Western, Northern, Southern and Eastern European countries plus the continent's key mountains and rivers.",
+    labelPrompt: "Label each numbered country, sea and physical feature of Europe.",
+    groups: [
+      {
+        heading: "Major Countries",
+        items: [
+          "United Kingdom",
+          "Ireland",
+          "France",
+          "Spain",
+          "Portugal",
+          "Germany",
+          "Italy",
+          "Poland",
+          "Ukraine",
+          "Greece",
+          "Norway",
+          "Sweden",
+        ],
+      },
+      {
+        heading: "Seas Around Europe",
+        items: ["North Sea", "Baltic Sea", "Mediterranean Sea", "Black Sea", "Atlantic Ocean"],
+      },
+      {
+        heading: "Physical Features",
+        items: ["Alps", "Pyrenees", "Ural Mountains", "Danube River", "Rhine River", "Iberian Peninsula"],
+      },
+    ],
+    clues: [
+      { clue: "Mountain range separating France and Spain", answer: "Pyrenees" },
+      { clue: "Mountain range that forms part of the Europe–Asia boundary", answer: "Ural Mountains" },
+      { clue: "Europe's second-longest river, flowing to the Black Sea", answer: "Danube River" },
+      { clue: "Island country west of Great Britain", answer: "Ireland" },
+      { clue: "Boot-shaped country in southern Europe", answer: "Italy" },
+      { clue: "Sea between Europe and Africa", answer: "Mediterranean Sea" },
+    ],
+    facts: [
+      "Europe has about 44 countries depending on how borders are counted.",
+      "Russia is the largest country in Europe (and the world); Vatican City is the smallest.",
+      "The Volga is Europe's longest river; the Danube passes through the most countries (10).",
+      "The Ural Mountains are the traditional boundary between Europe and Asia.",
+      "Europe is the second-smallest continent but has the second-largest population after Asia and Africa.",
+    ],
+    faqs: [
+      {
+        q: "Where does Europe end and Asia begin?",
+        a: "The usual boundary runs along the Ural Mountains and Ural River, the Caspian Sea, the Caucasus Mountains and the Black Sea straits.",
+      },
+      {
+        q: "How many countries are in Europe?",
+        a: "Around 44–46, depending on whether transcontinental countries (Russia, Turkey, Kazakhstan) and micro-states are included.",
+      },
+    ],
+    related: ["world-map", "scandinavia-map", "country-identification-map", "mountain-ranges-map"],
+  }),
+
+  defineMap({
+    slug: "asia-map",
+    title: "Asia Map",
+    h1: "Asia Map Labeling Worksheet",
+    category: "core",
+    emoji: "⛩️",
+    gradeBand: "Grades 5–10",
+    keywords: [
+      "asia map worksheet",
+      "label the countries of asia",
+      "blank asia map pdf",
+      "asia physical map worksheet",
+      "regions of asia map",
+    ],
+    intro:
+      "Label the regions, major countries and physical features of Asia — the world's largest and most populous continent. Groups countries by sub-region and adds the great mountains, deserts and rivers.",
+    labelPrompt: "Label each numbered region, country and feature of Asia.",
+    groups: [
+      {
+        heading: "Regions of Asia",
+        items: ["East Asia", "Southeast Asia", "South Asia", "Central Asia", "Western Asia (Middle East)", "North Asia"],
+      },
+      {
+        heading: "Major Countries",
+        items: [
+          "China",
+          "India",
+          "Japan",
+          "South Korea",
+          "Indonesia",
+          "Thailand",
+          "Vietnam",
+          "Saudi Arabia",
+          "Iran",
+          "Kazakhstan",
+        ],
+      },
+      {
+        heading: "Physical Features",
+        items: ["Himalayas", "Gobi Desert", "Yangtze River", "Ganges River", "Arabian Peninsula", "Caspian Sea"],
+      },
+    ],
+    clues: [
+      { clue: "Highest mountain range on Earth, home to Mount Everest", answer: "Himalayas" },
+      { clue: "Large desert spanning northern China and southern Mongolia", answer: "Gobi Desert" },
+      { clue: "Longest river in Asia", answer: "Yangtze River" },
+      { clue: "Island country east of the Korean Peninsula", answer: "Japan" },
+      { clue: "Sub-region that includes Thailand, Vietnam and Indonesia", answer: "Southeast Asia" },
+      { clue: "World's largest peninsula, largely desert", answer: "Arabian Peninsula" },
+    ],
+    facts: [
+      "Asia has 48 countries and covers about 30% of Earth's land.",
+      "Mount Everest (8,849 m) on the Nepal–China border is the world's highest point.",
+      "The Dead Sea shore (Jordan/Israel/Palestine) is Earth's lowest land point.",
+      "Asia contains the world's two most populous countries, India and China.",
+      "The Yangtze and Yellow Rivers are the cradle of Chinese civilisation.",
+    ],
+    faqs: [
+      {
+        q: "What are the regions of Asia?",
+        a: "Commonly six: East, Southeast, South, Central, Western (the Middle East) and North Asia (Siberian Russia).",
+      },
+      {
+        q: "Is the Middle East part of Asia?",
+        a: "Yes. 'Western Asia' and 'the Middle East' overlap heavily; the term Middle East also includes Egypt, which is in Africa.",
+      },
+    ],
+    related: ["world-map", "southeast-asia-map", "middle-east-map", "himalayas-map", "deserts-map"],
+  }),
+
+  defineMap({
+    slug: "africa-map",
+    title: "Africa Map",
+    h1: "Africa Map Labeling Worksheet",
+    category: "core",
+    emoji: "🦁",
+    gradeBand: "Grades 5–10",
+    keywords: [
+      "africa map worksheet",
+      "label the countries of africa",
+      "blank africa map pdf",
+      "africa physical map worksheet",
+      "regions of africa map",
+    ],
+    intro:
+      "Label the five regions, major countries and physical features of Africa. Includes the Sahara, the Nile, the Great Rift Valley lakes and the continent's key mountain areas.",
+    labelPrompt: "Label each numbered region, country and feature of Africa.",
+    groups: [
+      {
+        heading: "Regions of Africa",
+        items: ["North Africa", "West Africa", "East Africa", "Central Africa", "Southern Africa"],
+      },
+      {
+        heading: "Major Countries",
+        items: [
+          "Egypt",
+          "Nigeria",
+          "Ethiopia",
+          "Kenya",
+          "South Africa",
+          "Democratic Republic of the Congo",
+          "Morocco",
+          "Algeria",
+          "Ghana",
+          "Tanzania",
+        ],
+      },
+      {
+        heading: "Physical Features",
+        items: [
+          "Sahara Desert",
+          "Nile River",
+          "Congo River",
+          "Kalahari Desert",
+          "Mount Kilimanjaro",
+          "Atlas Mountains",
+          "Lake Victoria",
+        ],
+      },
+    ],
+    clues: [
+      { clue: "The world's largest hot desert, across northern Africa", answer: "Sahara Desert" },
+      { clue: "The longest river in Africa (and rival for longest in the world)", answer: "Nile River" },
+      { clue: "Africa's highest mountain, in Tanzania", answer: "Mount Kilimanjaro" },
+      { clue: "Africa's largest lake, shared by Kenya, Uganda and Tanzania", answer: "Lake Victoria" },
+      { clue: "Mountain range in the north-west, near Morocco", answer: "Atlas Mountains" },
+      { clue: "Most populous country in Africa", answer: "Nigeria" },
+    ],
+    facts: [
+      "Africa has 54 fully recognised countries — the most of any continent.",
+      "The Equator, the Tropic of Cancer and the Tropic of Capricorn all cross Africa.",
+      "The Sahara is almost as large as the United States.",
+      "The Nile flows north for about 6,650 km before reaching the Mediterranean.",
+      "The Great Rift Valley runs through East Africa and holds many deep lakes.",
+    ],
+    faqs: [
+      {
+        q: "How many countries are in Africa?",
+        a: "54 recognised by the United Nations, plus a few territories and disputed areas such as Western Sahara.",
+      },
+      {
+        q: "What is the largest country in Africa?",
+        a: "Algeria by area; Nigeria by population.",
+      },
+    ],
+    related: ["world-map", "sahara-desert-map", "nile-river-map", "deserts-map"],
+  }),
+
+  defineMap({
+    slug: "north-america-map",
+    title: "North America Map",
+    h1: "North America Map Labeling Worksheet",
+    category: "core",
+    emoji: "🍁",
+    gradeBand: "Grades 4–9",
+    keywords: [
+      "north america map worksheet",
+      "label north america countries",
+      "blank north america map pdf",
+      "north america physical map worksheet",
+    ],
+    intro:
+      "Label the countries, bordering waters and physical features of North America — from the Arctic islands of Canada down through Central America and the Caribbean.",
+    labelPrompt: "Label each numbered country, water body and landform of North America.",
+    groups: [
+      {
+        heading: "Countries",
+        items: ["Canada", "United States", "Mexico", "Guatemala", "Cuba", "Panama", "Costa Rica"],
+      },
+      {
+        heading: "Waters",
+        items: ["Pacific Ocean", "Atlantic Ocean", "Arctic Ocean", "Gulf of Mexico", "Caribbean Sea", "Hudson Bay"],
+      },
+      {
+        heading: "Physical Features",
+        items: ["Rocky Mountains", "Appalachian Mountains", "Mississippi River", "Great Lakes", "Great Plains"],
+      },
+    ],
+    facts: [
+      "North America has 23 countries and about 3 dozen dependent territories.",
+      "It is the third-largest continent by area and fourth by population.",
+      "Denali (Mount McKinley) in Alaska is the highest point at 6,190 m.",
+      "Death Valley, California is the lowest and hottest place in North America.",
+      "The continent narrows to just ~50 km at the Isthmus of Panama.",
+    ],
+    faqs: [
+      {
+        q: "Is Central America a separate continent?",
+        a: "No. Central America (Guatemala to Panama) is the southern part of the North American continent.",
+      },
+      {
+        q: "Which three countries make up most of North America?",
+        a: "Canada, the United States and Mexico together cover about 85% of the continent's land area.",
+      },
+    ],
+    related: ["united-states-map", "great-lakes-map", "world-map", "caribbean-map", "central-america-map"],
+  }),
+
+  defineMap({
+    slug: "south-america-map",
+    title: "South America Map",
+    h1: "South America Map Labeling Worksheet",
+    category: "core",
+    emoji: "🦜",
+    gradeBand: "Grades 4–9",
+    keywords: [
+      "south america map worksheet",
+      "label south america countries",
+      "blank south america map pdf",
+      "south america physical map worksheet",
+      "13 countries of south america",
+    ],
+    intro:
+      "Label all of South America's countries and its major physical features — the Andes, the Amazon River and rainforest, the Atacama Desert and Lake Titicaca.",
+    labelPrompt: "Label each numbered country and physical feature of South America.",
+    groups: [
+      {
+        heading: "Countries",
+        items: [
+          "Brazil",
+          "Argentina",
+          "Chile",
+          "Peru",
+          "Bolivia",
+          "Colombia",
+          "Venezuela",
+          "Ecuador",
+          "Paraguay",
+          "Uruguay",
+          "Guyana",
+          "Suriname",
+        ],
+      },
+      {
+        heading: "Physical Features",
+        items: [
+          "Andes Mountains",
+          "Amazon River",
+          "Amazon Rainforest",
+          "Atacama Desert",
+          "Lake Titicaca",
+          "Pampas",
+          "Brazilian Highlands",
+        ],
+      },
+    ],
+    clues: [
+      { clue: "Longest mountain range in the world, along the west coast", answer: "Andes Mountains" },
+      { clue: "River carrying more water than any other on Earth", answer: "Amazon River" },
+      { clue: "The driest non-polar desert in the world", answer: "Atacama Desert" },
+      { clue: "Largest country in South America", answer: "Brazil" },
+      { clue: "Highest navigable lake in the world, on the Peru–Bolivia border", answer: "Lake Titicaca" },
+      { clue: "Landlocked country besides Bolivia", answer: "Paraguay" },
+    ],
+    facts: [
+      "South America has 12 independent countries plus the French territory of French Guiana.",
+      "Brazil covers almost half the continent and borders every country except Chile and Ecuador.",
+      "The Andes are the longest continental mountain range on Earth (~7,000 km).",
+      "Angel Falls in Venezuela is the world's tallest waterfall.",
+      "Bolivia and Paraguay are the continent's only landlocked countries.",
+    ],
+    faqs: [
+      {
+        q: "How many countries are in South America?",
+        a: "Twelve sovereign countries. French Guiana is an overseas region of France, not an independent country.",
+      },
+      {
+        q: "Which South American countries does Brazil border?",
+        a: "All of them except Chile and Ecuador — that's 10 shared borders.",
+      },
+    ],
+    related: ["world-map", "amazon-rainforest-map", "andes-mountains-map", "deserts-map"],
+  }),
+
+  defineMap({
+    slug: "australia-map",
+    title: "Australia Map",
+    h1: "Australia Map Labeling Worksheet",
+    category: "core",
+    emoji: "🦘",
+    gradeBand: "Grades 3–8",
+    keywords: [
+      "australia map worksheet",
+      "label australian states and territories",
+      "blank australia map pdf",
+      "australia physical map worksheet",
+      "states of australia worksheet",
+    ],
+    intro:
+      "Label the six states and two territories of Australia along with its major physical features — the Great Dividing Range, the Great Barrier Reef, Uluru and the Murray River.",
+    labelPrompt: "Label each numbered state, territory and feature of Australia.",
+    groups: [
+      {
+        heading: "States",
+        items: [
+          "Western Australia",
+          "South Australia",
+          "Queensland",
+          "New South Wales",
+          "Victoria",
+          "Tasmania",
+        ],
+      },
+      { heading: "Territories", items: ["Northern Territory", "Australian Capital Territory"] },
+      {
+        heading: "Physical Features",
+        items: [
+          "Great Dividing Range",
+          "Great Barrier Reef",
+          "Great Victoria Desert",
+          "Uluru (Ayers Rock)",
+          "Murray River",
+          "Lake Eyre",
+        ],
+      },
+    ],
+    clues: [
+      { clue: "Largest state by area", answer: "Western Australia" },
+      { clue: "Island state to the south", answer: "Tasmania" },
+      { clue: "World's largest coral reef system, off the north-east coast", answer: "Great Barrier Reef" },
+      { clue: "Huge sandstone rock in the centre of the country", answer: "Uluru (Ayers Rock)" },
+      { clue: "Territory containing the capital city, Canberra", answer: "Australian Capital Territory" },
+      { clue: "Australia's longest river", answer: "Murray River" },
+    ],
+    facts: [
+      "Australia has 6 states and 2 mainland territories.",
+      "It is the only country that is also a whole continent.",
+      "About 70% of Australia is arid or semi-arid 'outback'.",
+      "The Great Barrier Reef is over 2,300 km long and visible from space.",
+      "Canberra was purpose-built as the capital because Sydney and Melbourne could not agree.",
+    ],
+    faqs: [
+      {
+        q: "What are the states and territories of Australia?",
+        a: "Six states — New South Wales, Victoria, Queensland, South Australia, Western Australia and Tasmania — plus the Australian Capital Territory and the Northern Territory.",
+      },
+      {
+        q: "What is the capital of Australia?",
+        a: "Canberra, located in the Australian Capital Territory — not Sydney, which is the largest city.",
+      },
+    ],
+    related: ["world-map", "oceania-map", "deserts-map"],
+  }),
+
+  defineMap({
+    slug: "antarctica-map",
+    title: "Antarctica Map",
+    h1: "Antarctica Map Labeling Worksheet",
+    category: "core",
+    emoji: "🐧",
+    gradeBand: "Grades 4–9",
+    keywords: [
+      "antarctica map worksheet",
+      "label antarctica features",
+      "blank antarctica map pdf",
+      "antarctica physical map worksheet",
+      "south pole map",
+    ],
+    intro:
+      "Label the key features of Antarctica — the South Pole, the Antarctic Peninsula, the great ice shelves, the Transantarctic Mountains and the seas that ring the continent.",
+    labelPrompt: "Label each numbered feature of Antarctica.",
+    groups: [
+      {
+        heading: "Land Features",
+        items: [
+          "South Pole",
+          "Antarctic Peninsula",
+          "Transantarctic Mountains",
+          "Ross Ice Shelf",
+          "Ronne Ice Shelf",
+          "Mount Erebus",
+          "Vinson Massif",
+        ],
+      },
+      {
+        heading: "Surrounding Waters",
+        items: ["Southern Ocean", "Ross Sea", "Weddell Sea", "Amundsen Sea"],
+      },
+    ],
+    clues: [
+      { clue: "The finger of land reaching towards South America", answer: "Antarctic Peninsula" },
+      { clue: "The southernmost point on Earth", answer: "South Pole" },
+      { clue: "Antarctica's highest peak", answer: "Vinson Massif" },
+      { clue: "The most active volcano in Antarctica", answer: "Mount Erebus" },
+      { clue: "The largest ice shelf, roughly the size of France", answer: "Ross Ice Shelf" },
+      { clue: "The ocean that completely surrounds Antarctica", answer: "Southern Ocean" },
+    ],
+    facts: [
+      "Antarctica holds about 90% of the world's ice and 70% of its fresh water.",
+      "The lowest natural temperature on Earth, −89.2 °C, was recorded at Vostok Station.",
+      "No country owns Antarctica; the Antarctic Treaty (1959) reserves it for peaceful science.",
+      "Technically it is the largest desert on Earth because so little precipitation falls.",
+      "The ice sheet averages about 1.9 km thick.",
+    ],
+    faqs: [
+      {
+        q: "Does anyone live in Antarctica?",
+        a: "There is no permanent population, but 1,000–5,000 scientists and support staff live at research stations through the year.",
+      },
+      {
+        q: "Why is Antarctica called a desert?",
+        a: "A desert is defined by low precipitation, not heat. The interior of Antarctica receives less than 50 mm of snow a year.",
+      },
+    ],
+    related: ["world-map", "polar-circles-map", "oceans-map"],
+  }),
+
+  defineMap({
+    slug: "blank-world-map",
+    title: "Blank World Map",
+    h1: "Blank World Map (Print & Label)",
+    category: "core",
+    emoji: "📄",
+    gradeBand: "Grades 2–12",
+    keywords: [
+      "blank world map",
+      "printable blank world map pdf",
+      "world map to fill in",
+      "unlabeled world map worksheet",
+      "world map outline",
+    ],
+    intro:
+      "A clean sheet for open-ended world mapping. Use the word bank and numbered blanks to label continents, oceans, countries, the Equator and the Prime Meridian — or set your own labelling task.",
+    labelPrompt: "Label the continents, oceans and key reference lines of the world.",
+    groups: [
+      {
+        heading: "Continents",
+        items: ["Asia", "Africa", "North America", "South America", "Antarctica", "Europe", "Australia"],
+      },
+      {
+        heading: "Oceans",
+        items: ["Pacific Ocean", "Atlantic Ocean", "Indian Ocean", "Southern Ocean", "Arctic Ocean"],
+      },
+      {
+        heading: "Reference Lines",
+        items: ["Equator", "Prime Meridian", "Tropic of Cancer", "Tropic of Capricorn", "Arctic Circle", "Antarctic Circle"],
+      },
+    ],
+    facts: [
+      "The Equator (0° latitude) and Prime Meridian (0° longitude) cross in the Atlantic Ocean off West Africa.",
+      "The four hemispheres are Northern, Southern, Eastern and Western.",
+      "Most world maps use a projection — a way of flattening the round Earth — which distorts size or shape.",
+      "The Mercator projection makes areas near the poles look far larger than they are.",
+    ],
+    faqs: [
+      {
+        q: "What can I use a blank world map for?",
+        a: "Labelling continents and oceans, plotting countries in a current-events lesson, tracing latitude and longitude, mapping explorers' routes, or colour-coding climate and population.",
+      },
+      {
+        q: "Why do different world maps look so different?",
+        a: "Every flat map is a projection of a sphere, and each projection keeps some things accurate (shape, area, distance or direction) while distorting others.",
+      },
+    ],
+    related: ["world-map", "latitude-and-longitude-map", "equator-map", "prime-meridian-map"],
+  }),
+];

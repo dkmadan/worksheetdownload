@@ -112,6 +112,16 @@ export default function MobileMenu() {
                   New
                 </span>
               </Link>
+              <Link
+                href="/maps"
+                onClick={close}
+                className="flex items-center justify-between px-4 py-2.5 text-sm font-semibold text-slate-700 hover:text-slate-950 hover:bg-slate-50 rounded-xl transition-colors"
+              >
+                <span>Map Worksheets</span>
+                <span className="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 border border-emerald-500/20">
+                  New
+                </span>
+              </Link>
 
               {/* Grades accordion */}
               <div>

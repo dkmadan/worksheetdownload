@@ -4,6 +4,7 @@ import { CURRICULUM, slugifyTopic } from "@/lib/curriculum";
 import { SUBJECTS, GRADES } from "@/lib/data";
 import { KNOWLEDGE_ARTICLES } from "@/lib/knowledge";
 import { TOOLS } from "@/lib/tools/registry";
+import { MAP_WORKSHEETS } from "@/lib/maps";
 
 const BASE = "https://worksheetdownload.com";
 const NOW = new Date();
@@ -40,6 +41,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
   // ── Interactive generator tools ──────────────────────────────────────────
   for (const tool of TOOLS) {
     urls.push(url(`/tools/${tool.slug}`, 0.7, "monthly"));
+  }
+
+  // ── Map worksheets ──────────────────────────────────────────────────────
+  urls.push(url("/maps", 0.8, "monthly"));
+  for (const m of MAP_WORKSHEETS) {
+    urls.push(url(`/maps/${m.slug}`, 0.7, "monthly"));
   }
 
   // ── Knowledge articles ───────────────────────────────────────────────────

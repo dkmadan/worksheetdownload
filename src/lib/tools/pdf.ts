@@ -26,7 +26,7 @@ const MB = 34;
 const CONTENT_W = PW - ML - MR;
 
 // ── colour ──────────────────────────────────────────────────────────────────
-const c = (r: number, g: number, b: number) => rgb(r / 255, g / 255, b / 255);
+export const c = (r: number, g: number, b: number) => rgb(r / 255, g / 255, b / 255);
 const NAVY = c(30, 58, 138);
 const BLUE = c(37, 99, 235);
 const INK = c(15, 23, 42);
@@ -40,13 +40,18 @@ const GREEN_BG = c(236, 253, 245);
 const GREEN_BD = c(167, 243, 208);
 const WHITE = rgb(1, 1, 1);
 
+/** colour tokens for other builders in this folder */
+export const TOK = {
+  NAVY, BLUE, INK, BODY, MUTED, LINE, FAINT, FAINT2, GREEN, GREEN_BG, GREEN_BD, WHITE,
+};
+
 export interface Fonts {
   bold: PDFFont;
   reg: PDFFont;
 }
 
 // Helvetica standard font is WinAnsi-encoded — swap glyphs it can't encode.
-function enc(s: string): string {
+export function enc(s: string): string {
   return s
     .replace(/−|–|—/g, "-") // minus / en-dash / em-dash → hyphen
     .replace(/\s/g, " ") // normalise every whitespace char to a plain space
@@ -54,14 +59,14 @@ function enc(s: string): string {
 }
 
 
-function text(
+export function text(
   page: PDFPage,
   s: string,
   x: number,
   y: number,
   size: number,
   font: PDFFont,
-  color = INK,
+  color: ReturnType<typeof rgb> = INK,
   opts: { align?: "left" | "center" | "right"; maxW?: number } = {},
 ) {
   let str = enc(s);
@@ -119,7 +124,7 @@ export interface ChromeOpts {
   pageCount: number;
 }
 
-interface Box {
+export interface Box {
   left: number;
   right: number;
   top: number;
@@ -127,7 +132,9 @@ interface Box {
   width: number;
 }
 
-function drawChrome(page: PDFPage, F: Fonts, o: ChromeOpts): Box {
+export const PAGE = { PW, PH, ML, MR, MT, MB, CONTENT_W };
+
+export function drawChrome(page: PDFPage, F: Fonts, o: ChromeOpts): Box {
   // watermark
   page.drawText("WORKSHEETDOWNLOAD", {
     x: 64,
@@ -250,7 +257,7 @@ function drawChrome(page: PDFPage, F: Fonts, o: ChromeOpts): Box {
   return { left: ML, right: PW - MR, top: y, bottom: MB + 24, width: CONTENT_W };
 }
 
-async function newDoc(): Promise<{ doc: PDFDocument; F: Fonts }> {
+export async function newDoc(): Promise<{ doc: PDFDocument; F: Fonts }> {
   const doc = await PDFDocument.create();
   doc.setTitle("WorksheetDownload — Generated Worksheet");
   doc.setProducer("WorksheetDownload.com");
@@ -272,7 +279,7 @@ export interface MathPdfOpts {
   includeAnswerKey: boolean;
 }
 
-function paginate<T>(items: T[], perPage: number): T[][] {
+export function paginate<T>(items: T[], perPage: number): T[][] {
   const pages: T[][] = [];
   for (let i = 0; i < items.length; i += perPage) pages.push(items.slice(i, i + perPage));
   return pages.length ? pages : [[]];

@@ -14,6 +14,7 @@ export default function Footer() {
           <Link href="/worksheets/reading" className="hover:text-gray-700 transition-colors">Reading</Link>
           <Link href="/worksheets/science" className="hover:text-gray-700 transition-colors">Science</Link>
           <Link href="/tools" className="hover:text-gray-700 transition-colors">Generators</Link>
+          <Link href="/maps" className="hover:text-gray-700 transition-colors">Maps</Link>
           <Link href="/knowledge" className="hover:text-gray-700 transition-colors">Knowledge</Link>
           <Link href="/about" className="hover:text-gray-700 transition-colors">About</Link>
           <Link href="/disclaimer" className="hover:text-gray-700 transition-colors">Disclaimer</Link>
