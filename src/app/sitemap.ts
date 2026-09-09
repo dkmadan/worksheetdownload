@@ -3,6 +3,7 @@ import { TECH_DATA } from "@/lib/technologies";
 import { CURRICULUM, slugifyTopic } from "@/lib/curriculum";
 import { SUBJECTS, GRADES } from "@/lib/data";
 import { KNOWLEDGE_ARTICLES } from "@/lib/knowledge";
+import { TOOLS } from "@/lib/tools/registry";
 
 const BASE = "https://worksheetdownload.com";
 const NOW = new Date();
@@ -33,7 +34,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     url("/quiz",           0.4, "monthly"),
     url("/quiz/start",     0.4, "monthly"),
     url("/knowledge",      0.8, "weekly"),
+    url("/tools",          0.8, "monthly"),
   );
+
+  // ── Interactive generator tools ──────────────────────────────────────────
+  for (const tool of TOOLS) {
+    urls.push(url(`/tools/${tool.slug}`, 0.7, "monthly"));
+  }
 
   // ── Knowledge articles ───────────────────────────────────────────────────
   for (const article of KNOWLEDGE_ARTICLES) {

@@ -3,6 +3,7 @@ import HeroSection from "@/components/home/HeroSection";
 import TechSection from "@/components/home/TechSection";
 import SubjectSection from "@/components/home/SubjectSection";
 import GradeSection from "@/components/home/GradeSection";
+import ToolsSection from "@/components/home/ToolsSection";
 import CtaSection from "@/components/home/CtaSection";
 import { GRADES_CURRICULUM, SUBJECTS_META } from "@/lib/curriculum";
 
@@ -50,6 +51,7 @@ export default function HomePage() {
       <HeroSection />
       <GradeSection grades={GRADES_CURRICULUM} />
       <SubjectSection subjects={subjects} />
+      <ToolsSection />
       <TechSection />
       <CtaSection />
     </>
