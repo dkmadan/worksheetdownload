@@ -6,6 +6,10 @@ import MathGenerator from "@/components/tools/MathGenerator";
 import HandwritingGenerator from "@/components/tools/HandwritingGenerator";
 import NumberLineGenerator from "@/components/tools/NumberLineGenerator";
 import GridPaperGenerator from "@/components/tools/GridPaperGenerator";
+import SpellingGenerator from "@/components/tools/SpellingGenerator";
+import TimesTableGenerator from "@/components/tools/TimesTableGenerator";
+import WordSearchGenerator from "@/components/tools/WordSearchGenerator";
+import ClockGenerator from "@/components/tools/ClockGenerator";
 
 export function generateStaticParams() {
   return TOOLS.map((t) => ({ slug: t.slug }));
@@ -43,6 +47,14 @@ function renderTool(slug: string) {
       return <NumberLineGenerator />;
     case "graph-paper-generator":
       return <GridPaperGenerator />;
+    case "spelling-worksheet-generator":
+      return <SpellingGenerator />;
+    case "multiplication-table-generator":
+      return <TimesTableGenerator />;
+    case "word-search-generator":
+      return <WordSearchGenerator />;
+    case "telling-time-worksheet-generator":
+      return <ClockGenerator />;
     default:
       return null;
   }

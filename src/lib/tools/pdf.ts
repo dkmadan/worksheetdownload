@@ -15,6 +15,12 @@ import {
   degrees,
 } from "pdf-lib";
 import type { MathProblem } from "./math";
+import type { SpellingActivity } from "./spelling";
+import { abcSort, scramble, withMissingLetters, pyramidRows, SPELLING_ACTIVITIES } from "./spelling";
+import type { TableFact } from "./times-table";
+import type { WordSearch } from "./wordsearch";
+import type { ClockTime } from "./clock";
+import { handAngles, handPoint, fmtDigital } from "./clock";
 
 // ── geometry ────────────────────────────────────────────────────────────────
 const PW = 595.28;
@@ -699,6 +705,432 @@ export async function buildGridPaperPdf(o: GridPaperPdfOpts): Promise<Uint8Array
     }
   }
 
+  return doc.save();
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  SPELLING PRACTICE SHEET
+// ═══════════════════════════════════════════════════════════════════════════
+
+type SpRow =
+  | { k: "head"; text: string; note: string }
+  | { k: "line"; left: string; faint?: boolean; tall?: boolean }
+  | { k: "test"; n: number };
+
+const spRowH = (r: SpRow) => (r.k === "head" ? 26 : r.k === "test" ? 22 : r.tall ? 30 : 22);
+
+export interface SpellingPdfOpts {
+  title: string;
+  words: string[];
+  activities: SpellingActivity[];
+  seed: number;
+  includeAnswerKey: boolean;
+}
+
+export async function buildSpellingPdf(o: SpellingPdfOpts): Promise<Uint8Array> {
+  const { doc, F } = await newDoc();
+  const words = o.words.slice(0, 30);
+  const label = (id: SpellingActivity) => SPELLING_ACTIVITIES.find((a) => a.id === id)!;
+
+  const rows: SpRow[] = [];
+  const keyRows: SpRow[] = [];
+  for (const act of o.activities) {
+    const meta = label(act);
+    rows.push({ k: "head", text: meta.label, note: meta.blurb });
+    if (act === "trace-write") {
+      for (const w of words) rows.push({ k: "line", left: w, faint: true });
+    } else if (act === "abc-order") {
+      const scrambled = scramble(words, o.seed);
+      rows.push({ k: "line", left: `Given:  ${scrambled.join(",  ")}`, tall: false });
+      words.forEach((_, i) => rows.push({ k: "test", n: i + 1 }));
+      keyRows.push({ k: "head", text: "ABC Order", note: "" });
+      abcSort(words).forEach((w, i) => keyRows.push({ k: "line", left: `${i + 1}.  ${w}` }));
+    } else if (act === "missing-letters") {
+      for (const w of words) rows.push({ k: "line", left: withMissingLetters(w) });
+      keyRows.push({ k: "head", text: "Missing Letters", note: "" });
+      words.forEach((w) => keyRows.push({ k: "line", left: `${withMissingLetters(w)}   →   ${w}` }));
+    } else if (act === "write-sentence") {
+      for (const w of words) rows.push({ k: "line", left: w, tall: true });
+    } else if (act === "spelling-test") {
+      words.forEach((_, i) => rows.push({ k: "test", n: i + 1 }));
+      keyRows.push({ k: "head", text: "Spelling Test", note: "" });
+      words.forEach((w, i) => keyRows.push({ k: "line", left: `${i + 1}.  ${w}` }));
+    } else if (act === "pyramid") {
+      for (const w of words)
+        rows.push({ k: "line", left: pyramidRows(w).join("  ·  "), faint: true, tall: true });
+    }
+  }
+
+  const renderRows = (list: SpRow[]) => {
+    // paginate
+    const probe = doc.addPage([PW, PH]);
+    const pb = drawChrome(probe, F, { title: o.title, badge: "Spelling", studentStrip: true, pageNum: 1, pageCount: 1 });
+    doc.removePage(doc.getPageCount() - 1);
+    const usable = pb.top - pb.bottom;
+    const pages: SpRow[][] = [];
+    let cur: SpRow[] = [];
+    let h = 0;
+    for (const r of list) {
+      const rh = spRowH(r);
+      if (h + rh > usable && cur.length) {
+        pages.push(cur);
+        cur = [];
+        h = 0;
+      }
+      cur.push(r);
+      h += rh;
+    }
+    if (cur.length) pages.push(cur);
+    return pages;
+  };
+
+  const wsPages = renderRows(rows);
+  const keyPages = o.includeAnswerKey && keyRows.length ? renderRows(keyRows) : [];
+  const total = wsPages.length + keyPages.length;
+  let pn = 0;
+
+  const paint = (pages: SpRow[][], answers: boolean) => {
+    pages.forEach((chunk, i) => {
+      pn++;
+      const page = doc.addPage([PW, PH]);
+      const b = drawChrome(page, F, {
+        title: answers ? "Answer Key" : o.title,
+        subtitle: answers ? o.title : `Word list: ${words.join(", ")}`,
+        badge: answers ? "Answer Key" : "Spelling",
+        isAnswerKey: answers,
+        studentStrip: !answers && i === 0,
+        pageNum: pn,
+        pageCount: total,
+      });
+      let y = b.top;
+      for (const r of chunk) {
+        if (r.k === "head") {
+          y -= 4;
+          text(page, r.text, b.left, y - 11, 10, F.bold, answers ? GREEN : NAVY);
+          if (r.note) text(page, r.note, b.left + F.bold.widthOfTextAtSize(enc(r.text), 10) + 10, y - 11, 7.5, F.reg, MUTED);
+          y -= 22;
+        } else if (r.k === "test") {
+          text(page, `${r.n}.`, b.left + 4, y - 11, 9, F.bold, MUTED);
+          page.drawLine({ start: { x: b.left + 26, y: y - 13 }, end: { x: b.right - 6, y: y - 13 }, thickness: 0.9, color: LINE });
+          y -= 22;
+        } else {
+          text(page, r.left, b.left + 4, y - 11, 9.5, r.faint ? F.reg : F.bold, r.faint ? FAINT : answers ? GREEN : BODY);
+          if (!answers) {
+            const lx = b.left + 4 + F.bold.widthOfTextAtSize(enc(r.left), 9.5) + 14;
+            page.drawLine({ start: { x: Math.min(lx, b.left + 220), y: y - 13 }, end: { x: b.right - 6, y: y - 13 }, thickness: 0.9, color: LINE });
+            if (r.tall) page.drawLine({ start: { x: b.left + 4, y: y - 26 }, end: { x: b.right - 6, y: y - 26 }, thickness: 0.9, color: FAINT });
+          }
+          y -= r.tall ? 30 : 22;
+        }
+      }
+    });
+  };
+
+  paint(wsPages, false);
+  paint(keyPages, true);
+
+  return doc.save();
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  MULTIPLICATION / TIMES TABLE
+// ═══════════════════════════════════════════════════════════════════════════
+
+export interface TimesTablePdfOpts {
+  title: string;
+  mode: "single" | "drill" | "grid" | "missing-factor";
+  facts: TableFact[];
+  columns: number;
+  includeAnswerKey: boolean;
+  grid?: { axisRow: number[]; axisCol: number[] };
+}
+
+export async function buildTimesTablePdf(o: TimesTablePdfOpts): Promise<Uint8Array> {
+  const { doc, F } = await newDoc();
+
+  if (o.mode === "grid" && o.grid) {
+    const draw = (answers: boolean, pn: number, total: number) => {
+      const page = doc.addPage([PW, PH]);
+      const b = drawChrome(page, F, {
+        title: answers ? "Answer Key" : o.title,
+        subtitle: "Multiply the row by the column.",
+        badge: answers ? "Answer Key" : "Times Table",
+        isAnswerKey: answers,
+        studentStrip: !answers,
+        pageNum: pn,
+        pageCount: total,
+      });
+      const n = o.grid!.axisRow.length;
+      const cell = Math.min((b.width) / (n + 1), (b.top - b.bottom) / (n + 1), 40);
+      const gx = b.left + (b.width - cell * (n + 1)) / 2;
+      const gy = b.top - 10;
+      for (let i = 0; i <= n + 1; i++) {
+        page.drawLine({ start: { x: gx, y: gy - i * cell }, end: { x: gx + cell * (n + 1), y: gy - i * cell }, thickness: i === 1 ? 1.4 : 0.6, color: i <= 1 ? BODY : FAINT });
+        page.drawLine({ start: { x: gx + i * cell, y: gy }, end: { x: gx + i * cell, y: gy - cell * (n + 1) }, thickness: i === 1 ? 1.4 : 0.6, color: i <= 1 ? BODY : FAINT });
+      }
+      text(page, "×", gx + cell / 2, gy - cell / 2 - 4, 12, F.bold, NAVY, { align: "center" });
+      o.grid!.axisRow.forEach((v, i) => text(page, `${v}`, gx + (i + 1.5) * cell, gy - cell / 2 - 4, 10, F.bold, NAVY, { align: "center" }));
+      o.grid!.axisCol.forEach((v, j) => text(page, `${v}`, gx + cell / 2, gy - (j + 1.5) * cell - 4, 10, F.bold, NAVY, { align: "center" }));
+      if (answers) {
+        o.grid!.axisCol.forEach((rv, j) =>
+          o.grid!.axisRow.forEach((cv, i) =>
+            text(page, `${rv * cv}`, gx + (i + 1.5) * cell, gy - (j + 1.5) * cell - 4, 9, F.reg, GREEN, { align: "center" }),
+          ),
+        );
+      }
+    };
+    const total = o.includeAnswerKey ? 2 : 1;
+    draw(false, 1, total);
+    if (o.includeAnswerKey) draw(true, 2, total);
+    return doc.save();
+  }
+
+  // list modes
+  const cols = Math.max(1, Math.min(o.columns, 4));
+  const rowH = 30;
+  const probe = doc.addPage([PW, PH]);
+  const pb = drawChrome(probe, F, { title: o.title, badge: "Times Table", studentStrip: true, pageNum: 1, pageCount: 1 });
+  doc.removePage(doc.getPageCount() - 1);
+  const usable = pb.top - pb.bottom;
+  const perPage = Math.max(1, Math.floor(usable / rowH)) * cols;
+  const pages = paginate(o.facts, perPage);
+  const keyPages = o.includeAnswerKey ? paginate(o.facts, 60) : [];
+  const total = pages.length + keyPages.length;
+  let pn = 0;
+
+  pages.forEach((chunk, pi) => {
+    pn++;
+    const page = doc.addPage([PW, PH]);
+    const b = drawChrome(page, F, {
+      title: o.title,
+      subtitle: "Fill in each product.",
+      badge: pages.length > 1 ? `Worksheet ${pi + 1}/${pages.length}` : "Times Table",
+      studentStrip: pi === 0,
+      pageNum: pn,
+      pageCount: total,
+    });
+    const colW = b.width / cols;
+    const rowsThis = Math.ceil(chunk.length / cols);
+    const spacing = Math.min(rowH * 2.4, Math.max(rowH, (b.top - b.bottom) / rowsThis));
+    chunk.forEach((f, i) => {
+      const x = b.left + (i % cols) * colW;
+      const y = b.top - Math.floor(i / cols) * spacing - 4;
+      text(page, `${pi * perPage + i + 1}.`, x, y - 12, 9, F.bold, MUTED);
+      text(page, o.mode === "missing-factor" ? enc(f.prompt) : `${f.prompt} =`, x + 18, y - 12, 12, F.reg, INK);
+      if (o.mode !== "missing-factor") {
+        const pw = F.reg.widthOfTextAtSize(enc(`${f.prompt} =`), 12);
+        page.drawLine({ start: { x: x + 22 + pw, y: y - 13 }, end: { x: x + colW - 12, y: y - 13 }, thickness: 1, color: LINE });
+      }
+    });
+  });
+
+  keyPages.forEach((chunk, pi) => {
+    pn++;
+    const page = doc.addPage([PW, PH]);
+    const b = drawChrome(page, F, { title: "Answer Key", subtitle: o.title, badge: "Answer Key", isAnswerKey: true, pageNum: pn, pageCount: total });
+    const kc = 4;
+    const cw = b.width / kc;
+    chunk.forEach((f, i) => {
+      const x = b.left + (i % kc) * cw;
+      const y = b.top - Math.floor(i / kc) * 18 - 12;
+      text(page, `${pi * 60 + i + 1}. ${enc(f.prompt)}${o.mode === "missing-factor" ? "" : " = "}`, x, y, 8, F.reg, BODY);
+      const pw = F.reg.widthOfTextAtSize(enc(`${pi * 60 + i + 1}. ${f.prompt}${o.mode === "missing-factor" ? "" : " = "}`), 8);
+      text(page, f.answer, x + pw, y, 8, F.bold, GREEN);
+    });
+  });
+
+  return doc.save();
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  WORD SEARCH
+// ═══════════════════════════════════════════════════════════════════════════
+
+export interface WordSearchPdfOpts {
+  title: string;
+  ws: WordSearch;
+  showWordBank: boolean;
+  includeAnswerKey: boolean;
+}
+
+export async function buildWordSearchPdf(o: WordSearchPdfOpts): Promise<Uint8Array> {
+  const { doc, F } = await newDoc();
+  const total = o.includeAnswerKey ? 2 : 1;
+
+  const drawGrid = (answers: boolean, pn: number) => {
+    const page = doc.addPage([PW, PH]);
+    const b = drawChrome(page, F, {
+      title: answers ? "Answer Key" : o.title,
+      subtitle: answers ? "All words circled." : "Find and circle every word from the list.",
+      badge: answers ? "Answer Key" : "Word Search",
+      isAnswerKey: answers,
+      studentStrip: !answers,
+      pageNum: pn,
+      pageCount: total,
+    });
+
+    let y = b.top;
+    if (o.showWordBank) {
+      const bankWords = [...o.ws.placed.map((p) => p.word), ...o.ws.unplaced];
+      const perRow = 4;
+      const rows = Math.ceil(bankWords.length / perRow);
+      const bh = 16 + rows * 12 + 6;
+      page.drawRectangle({ x: b.left, y: y - bh, width: b.width, height: bh, color: FAINT2, borderColor: FAINT, borderWidth: 0.75 });
+      text(page, "WORD BANK", b.left + 10, y - 12, 7, F.bold, MUTED);
+      bankWords.forEach((w, i) => {
+        const cx = b.left + 12 + (i % perRow) * (b.width / perRow);
+        const cy = y - 26 - Math.floor(i / perRow) * 12;
+        text(page, w, cx, cy, 8.5, F.bold, BODY);
+      });
+      y -= bh + 14;
+    }
+
+    const n = o.ws.size;
+    const cell = Math.min(b.width / n, (y - b.bottom) / n, 26);
+    const gx = b.left + (b.width - cell * n) / 2;
+    const gy = y;
+
+    // answer highlights first (behind letters)
+    if (answers) {
+      for (const pw of o.ws.placed) {
+        const first = pw.cells[0];
+        const last = pw.cells[pw.cells.length - 1];
+        const x1 = gx + (first.c + 0.5) * cell;
+        const y1 = gy - (first.r + 0.5) * cell;
+        const x2 = gx + (last.c + 0.5) * cell;
+        const y2 = gy - (last.r + 0.5) * cell;
+        const steps = Math.max(pw.cells.length * 4, 8);
+        for (let s = 0; s <= steps; s++) {
+          const t = s / steps;
+          page.drawCircle({ x: x1 + (x2 - x1) * t, y: y1 + (y2 - y1) * t, size: cell * 0.42, color: GREEN_BD, opacity: 0.55 });
+        }
+      }
+    }
+
+    // grid lines
+    for (let i = 0; i <= n; i++) {
+      page.drawLine({ start: { x: gx, y: gy - i * cell }, end: { x: gx + n * cell, y: gy - i * cell }, thickness: 0.5, color: FAINT });
+      page.drawLine({ start: { x: gx + i * cell, y: gy }, end: { x: gx + i * cell, y: gy - n * cell }, thickness: 0.5, color: FAINT });
+    }
+    page.drawRectangle({ x: gx, y: gy - n * cell, width: n * cell, height: n * cell, borderColor: BODY, borderWidth: 1 });
+
+    // letters
+    for (let r = 0; r < n; r++) {
+      for (let cc = 0; cc < n; cc++) {
+        text(page, o.ws.grid[r][cc], gx + (cc + 0.5) * cell, gy - (r + 0.5) * cell - cell * 0.28, cell * 0.5, F.bold, answers ? BODY : INK, { align: "center" });
+      }
+    }
+    if (o.ws.unplaced.length) {
+      text(page, `Could not place: ${o.ws.unplaced.join(", ")}`, b.left, gy - n * cell - 14, 7, F.reg, MUTED);
+    }
+  };
+
+  drawGrid(false, 1);
+  if (o.includeAnswerKey) drawGrid(true, 2);
+  return doc.save();
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  TELLING TIME — ANALOG CLOCKS
+// ═══════════════════════════════════════════════════════════════════════════
+
+function drawClockFace(
+  page: PDFPage,
+  F: Fonts,
+  cx: number,
+  cy: number,
+  r: number,
+  opts: { h: number; m: number; hands: boolean; numbers?: boolean },
+) {
+  page.drawCircle({ x: cx, y: cy, size: r, borderColor: BODY, borderWidth: 1.4, color: WHITE });
+  page.drawCircle({ x: cx, y: cy, size: 2, color: BODY });
+  for (let t = 0; t < 60; t++) {
+    const [x1, y1] = handPoint(cx, cy, t * 6, r - (t % 5 === 0 ? 6 : 3), false);
+    const [x2, y2] = handPoint(cx, cy, t * 6, r - 1, false);
+    page.drawLine({ start: { x: x1, y: y1 }, end: { x: x2, y: y2 }, thickness: t % 5 === 0 ? 1.1 : 0.5, color: t % 5 === 0 ? BODY : LINE });
+  }
+  if (opts.numbers !== false) {
+    for (let n = 1; n <= 12; n++) {
+      const [nx, ny] = handPoint(cx, cy, n * 30, r - 16, false);
+      text(page, `${n}`, nx, ny - 4, r * 0.24, F.bold, BODY, { align: "center" });
+    }
+  }
+  if (opts.hands) {
+    const { hour, minute } = handAngles(opts);
+    const [hx, hy] = handPoint(cx, cy, hour, r * 0.5, false);
+    const [mx, my] = handPoint(cx, cy, minute, r * 0.78, false);
+    page.drawLine({ start: { x: cx, y: cy }, end: { x: hx, y: hy }, thickness: 3, color: INK });
+    page.drawLine({ start: { x: cx, y: cy }, end: { x: mx, y: my }, thickness: 2, color: BLUE });
+  }
+}
+
+export interface ClockPdfOpts {
+  title: string;
+  times: ClockTime[];
+  columns: number;
+  includeAnswerKey: boolean;
+}
+
+export async function buildClockPdf(o: ClockPdfOpts): Promise<Uint8Array> {
+  const { doc, F } = await newDoc();
+  const cols = Math.max(2, Math.min(o.columns, 4));
+
+  const probe = doc.addPage([PW, PH]);
+  const pb = drawChrome(probe, F, { title: o.title, badge: "Telling Time", studentStrip: true, pageNum: 1, pageCount: 1 });
+  doc.removePage(doc.getPageCount() - 1);
+  const usable = pb.top - pb.bottom;
+
+  const cellW = CONTENT_W / cols;
+  const r = Math.min(cellW * 0.36, 46);
+  const cellH = r * 2 + 34;
+  const rowsPerPage = Math.max(1, Math.floor(usable / cellH));
+  const perPage = rowsPerPage * cols;
+
+  const pages = paginate(o.times, perPage);
+  const total = pages.length + (o.includeAnswerKey ? pages.length : 0);
+  let pn = 0;
+
+  const paint = (answers: boolean) => {
+    pages.forEach((chunk, pi) => {
+      pn++;
+      const page = doc.addPage([PW, PH]);
+      const b = drawChrome(page, F, {
+        title: answers ? "Answer Key" : o.title,
+        subtitle: answers ? o.title : "Read the clock, or draw the hands to show the time.",
+        badge: answers ? "Answer Key" : "Telling Time",
+        isAnswerKey: answers,
+        studentStrip: !answers && pi === 0,
+        pageNum: pn,
+        pageCount: total,
+      });
+      const rowsThis = Math.ceil(chunk.length / cols);
+      const spacing = Math.min(cellH * 1.5, Math.max(cellH, (b.top - b.bottom) / rowsThis));
+      chunk.forEach((t, i) => {
+        const col = i % cols;
+        const cx = b.left + col * cellW + cellW / 2;
+        const top = b.top - Math.floor(i / cols) * spacing;
+        const clockY = top - r - 6;
+        const showHands = answers || t.task === "read";
+        drawClockFace(page, F, cx, clockY, r, { h: t.h, m: t.m, hands: showHands });
+        text(page, `${pi * perPage + i + 1}`, cx - cellW / 2 + 4, top - 8, 8, F.bold, MUTED);
+        const belowY = clockY - r - 12;
+        if (t.task === "read") {
+          if (answers) {
+            text(page, fmtDigital(t), cx, belowY, 11, F.bold, GREEN, { align: "center" });
+          } else {
+            page.drawLine({ start: { x: cx - 34, y: belowY - 2 }, end: { x: cx - 6, y: belowY - 2 }, thickness: 1, color: LINE });
+            text(page, ":", cx, belowY, 12, F.bold, MUTED, { align: "center" });
+            page.drawLine({ start: { x: cx + 6, y: belowY - 2 }, end: { x: cx + 34, y: belowY - 2 }, thickness: 1, color: LINE });
+          }
+        } else {
+          text(page, fmtDigital(t), cx, belowY, 12, F.bold, answers ? GREEN : INK, { align: "center" });
+        }
+      });
+    });
+  };
+
+  paint(false);
+  if (o.includeAnswerKey) paint(true);
   return doc.save();
 }
 
