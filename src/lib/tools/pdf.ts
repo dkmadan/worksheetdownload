@@ -408,14 +408,39 @@ export async function buildHandwritingPdf(o: HandwritingPdfOpts): Promise<Uint8A
   const rowsPerGroup = Math.max(1, o.traceRows + o.blankRows);
   const groupGap = 14;
 
-  // build the flat list of (label, isTrace) rows
-  type Row = { label: string; trace: boolean; firstOfGroup: boolean };
+  // build the flat list of (label, isTrace) rows — long lines wrap onto
+  // consecutive practice rows so every character the user typed is included
+  const glyphSize = ascender * 0.92;
+  const rowMaxW = CONTENT_W - 12;
+  const wrapLine = (line: string): string[] => {
+    const s = enc(line);
+    if (F.reg.widthOfTextAtSize(s, glyphSize) <= rowMaxW) return [s];
+    const words = s.split(" ");
+    const segs: string[] = [];
+    let cur = "";
+    for (const w of words) {
+      const test = cur ? `${cur} ${w}` : w;
+      if (F.reg.widthOfTextAtSize(test, glyphSize) > rowMaxW && cur) {
+        segs.push(cur);
+        cur = w;
+      } else cur = test;
+    }
+    if (cur) segs.push(cur);
+    return segs.length ? segs : [s];
+  };
+
+  type Row = { label: string; trace: boolean; firstOfGroup: boolean; repeat: boolean };
   const rows: Row[] = [];
   const sourceLines = o.lines.length ? o.lines : ["Aa Bb Cc"];
-  for (const line of sourceLines) {
-    for (let t = 0; t < o.traceRows; t++) rows.push({ label: line, trace: true, firstOfGroup: t === 0 });
-    for (let bnk = 0; bnk < o.blankRows; bnk++)
-      rows.push({ label: line, trace: false, firstOfGroup: o.traceRows === 0 && bnk === 0 });
+  for (const rawLine of sourceLines) {
+    const segs = wrapLine(rawLine);
+    const repeat = segs.length === 1; // fill the row with guide text only when the line isn't wrapped
+    segs.forEach((line, si) => {
+      for (let t = 0; t < o.traceRows; t++)
+        rows.push({ label: line, trace: true, firstOfGroup: si === 0 && t === 0, repeat });
+      for (let bnk = 0; bnk < o.blankRows; bnk++)
+        rows.push({ label: line, trace: false, firstOfGroup: si === 0 && o.traceRows === 0 && bnk === 0, repeat });
+    });
   }
 
   // probe
@@ -476,11 +501,16 @@ export async function buildHandwritingPdf(o: HandwritingPdfOpts): Promise<Uint8A
       if (row.trace) {
         const size = ascender * 0.92;
         const glyphs = enc(row.label);
-        let gx = b.left + 6;
+        const glyphW = F.reg.widthOfTextAtSize(glyphs, size);
         const repeatW = F.reg.widthOfTextAtSize(glyphs + "   ", size);
-        while (gx + F.reg.widthOfTextAtSize(glyphs, size) < b.right - 6 && repeatW > 0) {
+        let gx = b.left + 6;
+        if (!row.repeat || repeatW <= 0) {
           page.drawText(glyphs, { x: gx, y: baseline, size, font: F.reg, color: FAINT });
-          gx += repeatW;
+        } else {
+          while (gx + glyphW < b.right - 6) {
+            page.drawText(glyphs, { x: gx, y: baseline, size, font: F.reg, color: FAINT });
+            gx += repeatW;
+          }
         }
       }
       cursor -= rowUnit + extraPerRow;

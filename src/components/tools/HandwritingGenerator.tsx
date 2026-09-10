@@ -27,21 +27,54 @@ export default function HandwritingGenerator() {
   const [busy, setBusy] = useState(false);
 
   const sizePt = SIZES.find((s) => s.value === size)!.pt;
-  const lines = useMemo(
-    () => raw.split("\n").map((l) => l.trim()).filter(Boolean).slice(0, 40),
-    [raw],
-  );
   const title = "Handwriting Practice";
 
+  // preview scale — map PDF points to preview px
+  const px = sizePt * 1.15;
+  const ascender = px * 1.9;
+  const descender = px * 0.75;
+  const glyphPx = ascender * 0.82;
+
+  const lines = useMemo(
+    () => raw.split("\n").map((l) => l.replace(/\s+$/, "")).filter((l) => l.trim().length).slice(0, 40),
+    [raw],
+  );
+
+  const maxChars = Math.max(6, Math.floor(560 / (glyphPx * 0.55)));
+
+  // wrap long lines onto consecutive rows so all typed text is shown
+  const segments = useMemo(() => {
+    const wrap = (line: string): string[] => {
+      if (line.length <= maxChars) return [line];
+      const words = line.split(" ");
+      const out: string[] = [];
+      let cur = "";
+      for (const w of words) {
+        const test = cur ? `${cur} ${w}` : w;
+        if (test.length > maxChars && cur) {
+          out.push(cur);
+          cur = w;
+        } else cur = test;
+      }
+      if (cur) out.push(cur);
+      return out.length ? out : [line];
+    };
+    return (lines.length ? lines : ["Aa Bb Cc"]).map((l) => ({ raw: l, segs: wrap(l) }));
+  }, [lines, maxChars]);
+
   const rows = useMemo(() => {
-    const out: { label: string; trace: boolean; firstOfGroup: boolean }[] = [];
-    for (const line of lines.length ? lines : ["Aa Bb Cc"]) {
-      for (let t = 0; t < traceRows; t++) out.push({ label: line, trace: true, firstOfGroup: t === 0 });
-      for (let b = 0; b < blankRows; b++)
-        out.push({ label: line, trace: false, firstOfGroup: traceRows === 0 && b === 0 });
+    const out: { label: string; trace: boolean; firstOfGroup: boolean; repeat: boolean }[] = [];
+    for (const { segs } of segments) {
+      const repeat = segs.length === 1; // repeat guide text only for un-wrapped lines
+      segs.forEach((seg, si) => {
+        for (let t = 0; t < traceRows; t++)
+          out.push({ label: seg, trace: true, firstOfGroup: si === 0 && t === 0, repeat });
+        for (let b = 0; b < blankRows; b++)
+          out.push({ label: seg, trace: false, firstOfGroup: si === 0 && traceRows === 0 && b === 0, repeat });
+      });
     }
     return out;
-  }, [lines, traceRows, blankRows]);
+  }, [segments, traceRows, blankRows]);
 
   async function download() {
     setBusy(true);
@@ -59,11 +92,6 @@ export default function HandwritingGenerator() {
       setBusy(false);
     }
   }
-
-  // preview scale — map PDF points to preview px
-  const px = sizePt * 1.15;
-  const ascender = px * 1.9;
-  const descender = px * 0.75;
 
   return (
     <ToolFrame
@@ -132,9 +160,11 @@ export default function HandwritingGenerator() {
                 {row.trace && (
                   <div
                     className="absolute left-1 right-1 overflow-hidden whitespace-nowrap text-slate-200 font-semibold select-none"
-                    style={{ top: 0, lineHeight: `${ascender}px`, fontSize: ascender * 0.82 }}
+                    style={{ top: 0, lineHeight: `${ascender}px`, fontSize: glyphPx }}
                   >
-                    {(row.label + "   ").repeat(6)}
+                    {row.repeat
+                      ? (row.label + "   ").repeat(Math.max(1, Math.ceil(maxChars / (row.label.length + 3))))
+                      : row.label}
                   </div>
                 )}
               </div>
