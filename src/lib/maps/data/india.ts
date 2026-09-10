@@ -4,6 +4,7 @@ import type { MapWorksheet } from "../types";
 export const INDIA_MAPS: MapWorksheet[] = [
   defineMap({
     slug: "india-political-map",
+    referenceImage: "india-political-map.svg",
     title: "India Political Map",
     h1: "India Political Map Labeling Worksheet",
     category: "india",
@@ -74,6 +75,7 @@ export const INDIA_MAPS: MapWorksheet[] = [
 
   defineMap({
     slug: "india-physical-map",
+    referenceImage: "india-physical-map.svg",
     title: "India Physical Map",
     h1: "India Physical Map Labeling Worksheet",
     category: "india",
@@ -139,6 +141,7 @@ export const INDIA_MAPS: MapWorksheet[] = [
 
   defineMap({
     slug: "indian-states-identification-map",
+    referenceImage: "indian-states-identification-map.svg",
     title: "Indian States Identification",
     h1: "Indian States Identification Worksheet",
     category: "india",
@@ -218,6 +221,7 @@ export const INDIA_MAPS: MapWorksheet[] = [
 
   defineMap({
     slug: "union-territories-map",
+    referenceImage: "union-territories-map.svg",
     title: "Union Territories Map",
     h1: "Union Territories of India Worksheet",
     category: "india",
@@ -276,6 +280,7 @@ export const INDIA_MAPS: MapWorksheet[] = [
 
   defineMap({
     slug: "states-and-capitals-of-india-map",
+    referenceImage: "states-and-capitals-of-india-map.svg",
     title: "States & Capitals of India",
     h1: "States and Capitals of India Worksheet",
     category: "india",
@@ -362,6 +367,7 @@ export const INDIA_MAPS: MapWorksheet[] = [
 
   defineMap({
     slug: "major-rivers-of-india-map",
+    referenceImage: "major-rivers-of-india-map.svg",
     title: "Major Rivers of India",
     h1: "Major Rivers of India Worksheet",
     category: "india",
@@ -417,6 +423,7 @@ export const INDIA_MAPS: MapWorksheet[] = [
 
   defineMap({
     slug: "mountain-ranges-of-india-map",
+    referenceImage: "mountain-ranges-of-india-map.svg",
     title: "Mountain Ranges of India",
     h1: "Mountain Ranges of India Worksheet",
     category: "india",
@@ -481,6 +488,7 @@ export const INDIA_MAPS: MapWorksheet[] = [
 
   defineMap({
     slug: "indian-states-by-region-map",
+    referenceImage: "indian-states-by-region-map.svg",
     title: "Indian States by Region",
     h1: "Indian States by Region Worksheet",
     category: "india",
@@ -531,6 +539,7 @@ export const INDIA_MAPS: MapWorksheet[] = [
 
   defineMap({
     slug: "india-neighbouring-countries-map",
+    referenceImage: "india-neighbouring-countries-map.svg",
     title: "India Neighbouring Countries",
     h1: "India and Its Neighbouring Countries Worksheet",
     category: "india",
@@ -581,6 +590,7 @@ export const INDIA_MAPS: MapWorksheet[] = [
 
   defineMap({
     slug: "indian-national-parks-map",
+    referenceImage: "indian-national-parks-map.svg",
     title: "Indian National Parks",
     h1: "National Parks of India Worksheet",
     category: "india",
@@ -641,6 +651,7 @@ export const INDIA_MAPS: MapWorksheet[] = [
 
   defineMap({
     slug: "indian-wildlife-sanctuaries-map",
+    referenceImage: "indian-wildlife-sanctuaries-map.svg",
     title: "Indian Wildlife Sanctuaries",
     h1: "Wildlife Sanctuaries of India Worksheet",
     category: "india",
@@ -698,6 +709,7 @@ export const INDIA_MAPS: MapWorksheet[] = [
 
   defineMap({
     slug: "indian-monsoon-map",
+    referenceImage: "indian-monsoon-map.svg",
     title: "Indian Monsoon Map",
     h1: "The Indian Monsoon Worksheet",
     category: "india",
@@ -756,6 +768,7 @@ export const INDIA_MAPS: MapWorksheet[] = [
 
   defineMap({
     slug: "indian-crops-map",
+    referenceImage: "indian-crops-map.svg",
     title: "Indian Crops Map",
     h1: "Agriculture and Crops of India Worksheet",
     category: "india",
@@ -814,6 +827,7 @@ export const INDIA_MAPS: MapWorksheet[] = [
 
   defineMap({
     slug: "indian-mineral-resources-map",
+    referenceImage: "indian-mineral-resources-map.svg",
     title: "Indian Mineral Resources",
     h1: "Mineral Resources of India Worksheet",
     category: "india",
@@ -872,6 +886,7 @@ export const INDIA_MAPS: MapWorksheet[] = [
 
   defineMap({
     slug: "indian-industries-map",
+    referenceImage: "indian-industries-map.svg",
     title: "Indian Industries Map",
     h1: "Major Industries of India Worksheet",
     category: "india",
@@ -939,6 +954,7 @@ export const INDIA_MAPS: MapWorksheet[] = [
 
   defineMap({
     slug: "indian-climate-zones-map",
+    referenceImage: "indian-climate-zones-map.svg",
     title: "Indian Climate Zones",
     h1: "Climate Zones of India Worksheet",
     category: "india",
@@ -998,6 +1014,7 @@ export const INDIA_MAPS: MapWorksheet[] = [
 
   defineMap({
     slug: "indian-soil-types-map",
+    referenceImage: "indian-soil-types-map.svg",
     title: "Indian Soil Types",
     h1: "Soil Types of India Worksheet",
     category: "india",
@@ -1055,6 +1072,7 @@ export const INDIA_MAPS: MapWorksheet[] = [
 
   defineMap({
     slug: "indian-historical-places-map",
+    referenceImage: "indian-historical-places-map.svg",
     title: "Indian Historical Places",
     h1: "Historical Places of India Worksheet",
     category: "india",

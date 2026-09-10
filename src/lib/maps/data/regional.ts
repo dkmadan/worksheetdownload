@@ -4,6 +4,7 @@ import type { MapWorksheet } from "../types";
 export const REGIONAL_MAPS: MapWorksheet[] = [
   defineMap({
     slug: "us-regions-map",
+    referenceImage: "us-regions-map.svg",
     title: "US Regions Map",
     h1: "Regions of the United States Worksheet",
     category: "regional",
@@ -41,6 +42,7 @@ export const REGIONAL_MAPS: MapWorksheet[] = [
 
   defineMap({
     slug: "us-rivers-map",
+    referenceImage: "us-rivers-map.svg",
     title: "US Rivers Map",
     h1: "Rivers of the United States Worksheet",
     category: "regional",
@@ -75,6 +77,7 @@ export const REGIONAL_MAPS: MapWorksheet[] = [
 
   defineMap({
     slug: "great-lakes-map",
+    referenceImage: "great-lakes-map.svg",
     title: "Great Lakes Map",
     h1: "The Great Lakes Worksheet",
     category: "regional",
@@ -111,6 +114,7 @@ export const REGIONAL_MAPS: MapWorksheet[] = [
 
   defineMap({
     slug: "canada-provinces-map",
+    referenceImage: "canada-provinces-map.svg",
     title: "Canada Provinces Map",
     h1: "Provinces and Territories of Canada Worksheet",
     category: "regional",
@@ -160,6 +164,7 @@ export const REGIONAL_MAPS: MapWorksheet[] = [
 
   defineMap({
     slug: "mexico-states-map",
+    referenceImage: "mexico-states-map.svg",
     title: "Mexico States Map",
     h1: "States of Mexico Worksheet",
     category: "regional",
@@ -195,6 +200,7 @@ export const REGIONAL_MAPS: MapWorksheet[] = [
 
   defineMap({
     slug: "uk-countries-map",
+    referenceImage: "uk-countries-map.svg",
     title: "UK Countries Map",
     h1: "Countries of the United Kingdom Worksheet",
     category: "regional",
@@ -229,6 +235,7 @@ export const REGIONAL_MAPS: MapWorksheet[] = [
 
   defineMap({
     slug: "middle-east-map",
+    referenceImage: "middle-east-map.svg",
     title: "Middle East Map",
     h1: "Middle East Map Labeling Worksheet",
     category: "regional",
@@ -264,6 +271,7 @@ export const REGIONAL_MAPS: MapWorksheet[] = [
 
   defineMap({
     slug: "scandinavia-map",
+    referenceImage: "scandinavia-map.svg",
     title: "Scandinavia Map",
     h1: "Scandinavia and the Nordic Countries Worksheet",
     category: "regional",
@@ -298,6 +306,7 @@ export const REGIONAL_MAPS: MapWorksheet[] = [
 
   defineMap({
     slug: "caribbean-map",
+    referenceImage: "caribbean-map.svg",
     title: "Caribbean Map",
     h1: "Caribbean Islands Worksheet",
     category: "regional",
@@ -333,6 +342,7 @@ export const REGIONAL_MAPS: MapWorksheet[] = [
 
   defineMap({
     slug: "central-america-map",
+    referenceImage: "central-america-map.svg",
     title: "Central America Map",
     h1: "Central America Map Labeling Worksheet",
     category: "regional",
@@ -367,6 +377,7 @@ export const REGIONAL_MAPS: MapWorksheet[] = [
 
   defineMap({
     slug: "southeast-asia-map",
+    referenceImage: "southeast-asia-map.svg",
     title: "Southeast Asia Map",
     h1: "Southeast Asia Map Labeling Worksheet",
     category: "regional",
@@ -403,6 +414,7 @@ export const REGIONAL_MAPS: MapWorksheet[] = [
 
   defineMap({
     slug: "oceania-map",
+    referenceImage: "oceania-map.svg",
     title: "Oceania Map",
     h1: "Oceania Map Labeling Worksheet",
     category: "regional",
@@ -437,6 +449,7 @@ export const REGIONAL_MAPS: MapWorksheet[] = [
 
   defineMap({
     slug: "africa-regions-map",
+    referenceImage: "africa-regions-map.svg",
     title: "Regions of Africa Map",
     h1: "Regions of Africa Worksheet",
     category: "regional",
@@ -469,6 +482,7 @@ export const REGIONAL_MAPS: MapWorksheet[] = [
   // ── Feature deep-dives ────────────────────────────────────────────────────
   defineMap({
     slug: "sahara-desert-map",
+    referenceImage: "sahara-desert-map.svg",
     title: "Sahara Desert Map",
     h1: "The Sahara Desert Worksheet",
     category: "geography",
@@ -503,6 +517,7 @@ export const REGIONAL_MAPS: MapWorksheet[] = [
 
   defineMap({
     slug: "nile-river-map",
+    referenceImage: "nile-river-map.svg",
     title: "Nile River Map",
     h1: "The Nile River Worksheet",
     category: "geography",
@@ -538,6 +553,7 @@ export const REGIONAL_MAPS: MapWorksheet[] = [
 
   defineMap({
     slug: "amazon-rainforest-map",
+    referenceImage: "amazon-rainforest-map.svg",
     title: "Amazon Rainforest Map",
     h1: "The Amazon Rainforest Worksheet",
     category: "geography",
@@ -572,6 +588,7 @@ export const REGIONAL_MAPS: MapWorksheet[] = [
 
   defineMap({
     slug: "himalayas-map",
+    referenceImage: "himalayas-map.svg",
     title: "Himalayas Map",
     h1: "The Himalayas Worksheet",
     category: "geography",
@@ -607,6 +624,7 @@ export const REGIONAL_MAPS: MapWorksheet[] = [
 
   defineMap({
     slug: "andes-mountains-map",
+    referenceImage: "andes-mountains-map.svg",
     title: "Andes Mountains Map",
     h1: "The Andes Mountains Worksheet",
     category: "geography",

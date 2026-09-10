@@ -4,6 +4,7 @@ import type { MapWorksheet } from "../types";
 export const GEOGRAPHY_MAPS: MapWorksheet[] = [
   defineMap({
     slug: "countries-and-capitals-map",
+    referenceImage: "countries-and-capitals-map.svg",
     title: "Countries & Capitals",
     h1: "Countries and Capitals Worksheet",
     category: "geography",
@@ -154,6 +155,7 @@ export const GEOGRAPHY_MAPS: MapWorksheet[] = [
 
   defineMap({
     slug: "major-rivers-map",
+    referenceImage: "major-rivers-map.svg",
     title: "Major Rivers Map",
     h1: "Major Rivers of the World Worksheet",
     category: "geography",
@@ -205,6 +207,7 @@ export const GEOGRAPHY_MAPS: MapWorksheet[] = [
 
   defineMap({
     slug: "major-mountains-map",
+    referenceImage: "major-mountains-map.svg",
     title: "Major Mountains Map",
     h1: "Major Mountains of the World Worksheet",
     category: "geography",
@@ -268,6 +271,7 @@ export const GEOGRAPHY_MAPS: MapWorksheet[] = [
 
   defineMap({
     slug: "mountain-ranges-map",
+    referenceImage: "mountain-ranges-map.svg",
     title: "Mountain Ranges Map",
     h1: "Mountain Ranges of the World Worksheet",
     category: "geography",
@@ -329,6 +333,7 @@ export const GEOGRAPHY_MAPS: MapWorksheet[] = [
 
   defineMap({
     slug: "deserts-map",
+    referenceImage: "deserts-map.svg",
     title: "Deserts Map",
     h1: "Deserts of the World Worksheet",
     category: "geography",
@@ -391,6 +396,7 @@ export const GEOGRAPHY_MAPS: MapWorksheet[] = [
 
   defineMap({
     slug: "lakes-map",
+    referenceImage: "lakes-map.svg",
     title: "Lakes Map",
     h1: "Major Lakes of the World Worksheet",
     category: "geography",
@@ -454,6 +460,7 @@ export const GEOGRAPHY_MAPS: MapWorksheet[] = [
 
   defineMap({
     slug: "islands-map",
+    referenceImage: "islands-map.svg",
     title: "Islands Map",
     h1: "Major Islands of the World Worksheet",
     category: "geography",
@@ -516,6 +523,7 @@ export const GEOGRAPHY_MAPS: MapWorksheet[] = [
 
   defineMap({
     slug: "seas-and-gulfs-map",
+    referenceImage: "seas-and-gulfs-map.svg",
     title: "Seas & Gulfs Map",
     h1: "Seas, Gulfs and Bays Worksheet",
     category: "geography",
@@ -570,6 +578,7 @@ export const GEOGRAPHY_MAPS: MapWorksheet[] = [
 
   defineMap({
     slug: "peninsulas-map",
+    referenceImage: "peninsulas-map.svg",
     title: "Peninsulas Map",
     h1: "Peninsulas of the World Worksheet",
     category: "geography",
@@ -631,6 +640,7 @@ export const GEOGRAPHY_MAPS: MapWorksheet[] = [
 
   defineMap({
     slug: "volcanoes-map",
+    referenceImage: "volcanoes-map.svg",
     title: "Volcanoes Map",
     h1: "Volcanoes and the Ring of Fire Worksheet",
     category: "geography",
@@ -693,6 +703,7 @@ export const GEOGRAPHY_MAPS: MapWorksheet[] = [
 
   defineMap({
     slug: "rainforest-map",
+    referenceImage: "rainforest-map.svg",
     title: "Rainforest Map",
     h1: "Rainforests of the World Worksheet",
     category: "geography",
@@ -748,6 +759,7 @@ export const GEOGRAPHY_MAPS: MapWorksheet[] = [
 
   defineMap({
     slug: "climate-zones-map",
+    referenceImage: "climate-zones-map.svg",
     title: "Climate Zones Map",
     h1: "World Climate Zones Worksheet",
     category: "geography",
@@ -808,6 +820,7 @@ export const GEOGRAPHY_MAPS: MapWorksheet[] = [
 
   defineMap({
     slug: "time-zones-map",
+    referenceImage: "time-zones-map.svg",
     title: "Time Zones Map",
     h1: "World Time Zones Worksheet",
     category: "geography",
@@ -876,6 +889,7 @@ export const GEOGRAPHY_MAPS: MapWorksheet[] = [
 
   defineMap({
     slug: "tropics-map",
+    referenceImage: "tropics-map.svg",
     title: "Tropic of Cancer & Capricorn",
     h1: "Tropic of Cancer and Capricorn Worksheet",
     category: "geography",
@@ -932,6 +946,7 @@ export const GEOGRAPHY_MAPS: MapWorksheet[] = [
 
   defineMap({
     slug: "equator-map",
+    referenceImage: "equator-map.svg",
     title: "Equator Map",
     h1: "The Equator Worksheet",
     category: "geography",
@@ -990,6 +1005,7 @@ export const GEOGRAPHY_MAPS: MapWorksheet[] = [
 
   defineMap({
     slug: "prime-meridian-map",
+    referenceImage: "prime-meridian-map.svg",
     title: "Prime Meridian Map",
     h1: "The Prime Meridian Worksheet",
     category: "geography",
@@ -1044,6 +1060,7 @@ export const GEOGRAPHY_MAPS: MapWorksheet[] = [
 
   defineMap({
     slug: "latitude-and-longitude-map",
+    referenceImage: "latitude-and-longitude-map.svg",
     title: "Latitude & Longitude Map",
     h1: "Latitude and Longitude Worksheet",
     category: "geography",
@@ -1107,6 +1124,7 @@ export const GEOGRAPHY_MAPS: MapWorksheet[] = [
 
   defineMap({
     slug: "hemispheres-map",
+    referenceImage: "hemispheres-map.svg",
     title: "Hemispheres Map",
     h1: "Hemispheres of the Earth Worksheet",
     category: "geography",
@@ -1174,6 +1192,7 @@ export const GEOGRAPHY_MAPS: MapWorksheet[] = [
 
   defineMap({
     slug: "polar-circles-map",
+    referenceImage: "polar-circles-map.svg",
     title: "Arctic & Antarctic Circles",
     h1: "Arctic Circle and Antarctic Circle Worksheet",
     category: "geography",
@@ -1235,6 +1254,7 @@ export const GEOGRAPHY_MAPS: MapWorksheet[] = [
 
   defineMap({
     slug: "longitude-map",
+    referenceImage: "longitude-map.svg",
     title: "Longitude & Latitude of Cities",
     h1: "Longitude and Latitude of World Cities Worksheet",
     category: "geography",
@@ -1293,6 +1313,7 @@ export const GEOGRAPHY_MAPS: MapWorksheet[] = [
 
   defineMap({
     slug: "tectonic-plates-map",
+    referenceImage: "tectonic-plates-map.svg",
     title: "Tectonic Plates Map",
     h1: "Tectonic Plates Worksheet",
     category: "geography",
@@ -1356,6 +1377,7 @@ export const GEOGRAPHY_MAPS: MapWorksheet[] = [
 
   defineMap({
     slug: "biomes-map",
+    referenceImage: "biomes-map.svg",
     title: "Biomes Map",
     h1: "World Biomes Worksheet",
     category: "geography",

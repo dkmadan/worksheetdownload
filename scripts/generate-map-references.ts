@@ -3,7 +3,7 @@
  *   Natural Earth 1:110m (npm world-atlas) + US Census (npm us-atlas).
  * Run:  npm run generate-map-refs
  */
-import { writeFileSync, mkdirSync } from "fs";
+import { writeFileSync, mkdirSync, readdirSync } from "fs";
 import { join } from "path";
 import { createRequire } from "module";
 import * as topojson from "topojson-client";
@@ -16,6 +16,8 @@ import {
 } from "d3-geo";
 import { CONTINENT_OF, CONTINENT_FILL, CONTINENT_LABEL, type Continent } from "./lib/continents";
 import { US_STATE } from "./lib/us-states";
+import * as F from "./lib/map-features";
+import type { LL } from "./lib/map-features";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 const require = createRequire(import.meta.url);
@@ -110,6 +112,75 @@ function continentLabels(): Label[] {
 
 const PASTELS = ["#f6c9a0", "#a7cdc4", "#c4dcb5", "#f4bbaa", "#cbccec", "#f7e3b4", "#a9d5e2", "#e8bcc7"];
 
+// ── overlay helpers (markers / polylines / parallels) ──────────────────────
+type Proj = (ll: LL) => [number, number] | null;
+
+interface Overlay {
+  markers?: Record<string, LL>;
+  lines?: Record<string, LL[]>;
+  markerColor?: string;
+  lineColor?: string;
+  labelSize?: number;
+  labelLines?: boolean; // label the polylines
+}
+
+function overlaySvg(proj: Proj, o: Overlay): { svg: string; labels: Label[] } {
+  const parts: string[] = [];
+  const labels: Label[] = [];
+  const mc = o.markerColor ?? "#dc2626";
+  const lc = o.lineColor ?? "#2563eb";
+  const ls = o.labelSize ?? 6.5;
+  for (const [name, ll] of Object.entries(o.lines ?? {})) {
+    const pts = ll.map((p) => proj(p)).filter((p): p is [number, number] => !!p);
+    if (pts.length < 2) continue;
+    parts.push(`<polyline points="${pts.map((p) => `${r2(p[0])},${r2(p[1])}`).join(" ")}" fill="none" stroke="${lc}" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>`);
+    if (o.labelLines !== false) {
+      const mid = pts[Math.floor(pts.length / 2)];
+      labels.push({ t: name, x: mid[0], y: mid[1] - 3, s: ls });
+    }
+  }
+  for (const [name, ll] of Object.entries(o.markers ?? {})) {
+    const p = proj(ll);
+    if (!p) continue;
+    parts.push(`<circle cx="${r2(p[0])}" cy="${r2(p[1])}" r="1.7" fill="${mc}" stroke="#ffffff" stroke-width="0.5"/>`);
+    labels.push({ t: name, x: p[0], y: p[1] - 4.5, s: ls });
+  }
+  return { svg: parts.join("\n"), labels };
+}
+
+/** curved parallels / meridians for a world projection */
+function graticuleSvg(
+  proj: Proj,
+  parallels: { lat: number; label: string; bold?: boolean }[] = [],
+  meridians: { lon: number; label: string; bold?: boolean }[] = [],
+): { svg: string; labels: Label[] } {
+  const parts: string[] = [];
+  const labels: Label[] = [];
+  for (const p of parallels) {
+    const pts: string[] = [];
+    for (let lon = -180; lon <= 180; lon += 6) {
+      const q = proj([lon, p.lat]);
+      if (q) pts.push(`${r2(q[0])},${r2(q[1])}`);
+    }
+    if (pts.length < 2) continue;
+    parts.push(`<polyline points="${pts.join(" ")}" fill="none" stroke="#1e3a8a" stroke-width="${p.bold ? 1.4 : 0.8}" stroke-dasharray="${p.bold ? "" : "3 2"}"/>`);
+    const end = proj([148, p.lat]);
+    if (end) labels.push({ t: p.label, x: end[0], y: end[1] - 3.5, s: 6.5, b: p.bold });
+  }
+  for (const m of meridians) {
+    const pts: string[] = [];
+    for (let lat = -84; lat <= 84; lat += 6) {
+      const q = proj([m.lon, lat]);
+      if (q) pts.push(`${r2(q[0])},${r2(q[1])}`);
+    }
+    if (pts.length < 2) continue;
+    parts.push(`<polyline points="${pts.join(" ")}" fill="none" stroke="#1e3a8a" stroke-width="${m.bold ? 1.4 : 0.7}" stroke-dasharray="${m.bold ? "" : "3 2"}"/>`);
+    const end = proj([m.lon, 82]);
+    if (end) labels.push({ t: m.label, x: end[0], y: end[1] - 4, s: 6, b: m.bold });
+  }
+  return { svg: parts.join("\n"), labels };
+}
+
 function writeWorld(slug: string, style: "continents" | "countries" | "land" | "blank", labels: Label[]) {
   let inner: string;
   if (style === "continents") {
@@ -185,9 +256,11 @@ function writeCrop(
     projection?: "mercator" | "azimuthal-south";
     highlight?: string[];
     fill?: string;
+    regionColors?: Record<string, string>;
     label?: string[];
     labelSize?: number;
     extraLabels?: Label[];
+    overlay?: Overlay;
     note?: string;
   } = {},
 ) {
@@ -208,19 +281,96 @@ function writeCrop(
     if (!d) return;
     const name = nm(f as never);
     const strong = !hi || hi.has(name);
-    const fill = o.fill ?? (hi ? (strong ? "#8fbf9a" : "#eef1f4") : PASTELS[i % PASTELS.length]);
+    const fill =
+      o.regionColors?.[name] ??
+      o.fill ??
+      (hi ? (strong ? "#8fbf9a" : "#eef1f4") : PASTELS[i % PASTELS.length]);
     paths.push(`<path d="${roundPath(d)}" fill="${fill}" stroke="#5b6b7a" stroke-width="0.45"/>`);
     if (wantLabel.has(name)) {
       const c = path.centroid(f as never) as [number, number];
       if (Number.isFinite(c[0]) && Number.isFinite(c[1])) labels.push({ t: shortName(name), x: c[0], y: c[1], s: o.labelSize ?? 7 });
     }
   });
+  let overlaySvgStr = "";
+  if (o.overlay) {
+    const ov = overlaySvg((ll) => proj(ll as never) as [number, number] | null, o.overlay);
+    overlaySvgStr = ov.svg;
+    labels.push(...ov.labels);
+  }
   if (o.extraLabels) labels.push(...o.extraLabels);
   if (o.note) labels.push({ t: o.note, x: w / 2, y: h - 8, s: 6 });
-  writeFileSync(join(OUT, `${slug}.svg`), svgDoc(w, h, "#dbeafe", paths.join("\n") + "\n" + labelsSvg(labels)));
+  writeFileSync(join(OUT, `${slug}.svg`), svgDoc(w, h, "#dbeafe", paths.join("\n") + "\n" + overlaySvgStr + "\n" + labelsSvg(labels)));
 }
 
 const countriesIn = (c: Continent) => Object.keys(CONTINENT_OF).filter((n) => CONTINENT_OF[n] === c);
+const wProjFn = (ll: LL) => wProj(ll as never) as [number, number] | null;
+const uProjFn = (ll: LL) => uProj(ll as never) as [number, number] | null;
+
+// world base + feature overlay + optional graticule
+function writeWorldMap(
+  slug: string,
+  o: {
+    style?: "land" | "countries" | "continents";
+    overlay?: Overlay;
+    parallels?: { lat: number; label: string; bold?: boolean }[];
+    meridians?: { lon: number; label: string; bold?: boolean }[];
+    extraLabels?: Label[];
+    oceans?: boolean;
+    note?: string;
+  },
+) {
+  const style = o.style ?? "land";
+  let inner: string;
+  if (style === "continents") inner = worldPaths((_n, c) => (c ? CONTINENT_FILL[c] : "#dfe6ec"));
+  else if (style === "countries") {
+    let i = 0;
+    inner = worldPaths(() => PASTELS[i++ % PASTELS.length], 0.4);
+  } else inner = worldPaths(() => "#e7edf2", 0.4);
+
+  const labels: Label[] = [];
+  let extra = "";
+  if (o.parallels || o.meridians) {
+    const g = graticuleSvg(wProjFn, o.parallels, o.meridians);
+    extra += g.svg + "\n";
+    labels.push(...g.labels);
+  }
+  if (o.overlay) {
+    const ov = overlaySvg(wProjFn, o.overlay);
+    extra += ov.svg + "\n";
+    labels.push(...ov.labels);
+  }
+  if (o.oceans) labels.push(...OCEANS());
+  if (o.extraLabels) labels.push(...o.extraLabels);
+  if (o.note) labels.push({ t: o.note, x: WW / 2, y: WH - 6, s: 6 });
+  writeFileSync(join(OUT, `${slug}.svg`), svgDoc(WW, WH, "#dbeafe", inner + "\n" + extra + labelsSvg(labels)));
+}
+
+// US base + overlay (rivers, lakes, region colours)
+function writeUsMap(
+  slug: string,
+  o: { regionColors?: Record<string, string>; overlay?: Overlay; abbr?: boolean; extraLabels?: Label[] },
+) {
+  const paths: string[] = [];
+  const labels: Label[] = [...(o.extraLabels ?? [])];
+  for (const f of usFC.features) {
+    const meta = US_STATE[nm(f as never)];
+    const d = uPath(f as never);
+    if (!meta || !d) continue;
+    const fill = o.regionColors?.[nm(f as never)] ?? "#f4f7fa";
+    paths.push(`<path d="${roundPath(d)}" fill="${fill}" stroke="#475569" stroke-width="0.55"/>`);
+    if (o.abbr !== false) {
+      const c = uPath.centroid(f as never) as [number, number];
+      if (Number.isFinite(c[0])) labels.push({ t: meta.abbr, x: c[0], y: c[1], s: 6, b: true });
+    }
+  }
+  let extra = "";
+  if (o.overlay) {
+    const ov = overlaySvg(uProjFn, o.overlay);
+    extra = ov.svg;
+    labels.push(...ov.labels);
+  }
+  writeFileSync(join(OUT, `${slug}.svg`), svgDoc(UW, UH, "#dbeafe", paths.join("\n") + "\n" + extra + "\n" + labelsSvg(labels)));
+}
 
 // ── build all 17 ──────────────────────────────────────────────────────────
 writeWorld("world-map", "continents", [...continentLabels(), ...OCEANS()]);
@@ -306,6 +456,422 @@ writeCrop("antarctica-map", 520, 470, ["Antarctica"], {
   ],
 });
 
+// ══════════════════════════════════════════════════════════════════════════
+//  GEOGRAPHY — reference-line world maps
+// ══════════════════════════════════════════════════════════════════════════
+writeWorldMap("equator-map", {
+  parallels: [{ lat: 0, label: "Equator 0°", bold: true }],
+  extraLabels: [
+    { t: "NORTHERN HEMISPHERE", x: WW * 0.5, y: WH * 0.24, s: 9, b: true },
+    { t: "SOUTHERN HEMISPHERE", x: WW * 0.5, y: WH * 0.82, s: 9, b: true },
+  ],
+});
+writeWorldMap("tropics-map", {
+  parallels: [
+    { lat: 23.5, label: "Tropic of Cancer 23.5°N", bold: true },
+    { lat: 0, label: "Equator" },
+    { lat: -23.5, label: "Tropic of Capricorn 23.5°S", bold: true },
+  ],
+  extraLabels: [{ t: "TROPICAL ZONE", x: WW * 0.5, y: WH * 0.5, s: 9, b: true }],
+});
+writeWorldMap("prime-meridian-map", {
+  meridians: [
+    { lon: 0, label: "Prime Meridian 0°", bold: true },
+    { lon: 180, label: "180°" },
+    { lon: -90, label: "90°W" },
+    { lon: 90, label: "90°E" },
+  ],
+  extraLabels: [
+    { t: "WESTERN HEMISPHERE", x: WW * 0.24, y: WH * 0.5, s: 8, b: true },
+    { t: "EASTERN HEMISPHERE", x: WW * 0.74, y: WH * 0.5, s: 8, b: true },
+  ],
+});
+writeWorldMap("latitude-and-longitude-map", {
+  parallels: [
+    { lat: 66.5, label: "66.5°N Arctic Circle" },
+    { lat: 23.5, label: "23.5°N Tropic of Cancer" },
+    { lat: 0, label: "0° Equator", bold: true },
+    { lat: -23.5, label: "23.5°S Tropic of Capricorn" },
+    { lat: -66.5, label: "66.5°S Antarctic Circle" },
+  ],
+  meridians: [
+    { lon: -90, label: "90°W" },
+    { lon: 0, label: "0° Prime Meridian", bold: true },
+    { lon: 90, label: "90°E" },
+  ],
+});
+writeWorldMap("polar-circles-map", {
+  parallels: [
+    { lat: 66.5, label: "Arctic Circle 66.5°N", bold: true },
+    { lat: 0, label: "Equator" },
+    { lat: -66.5, label: "Antarctic Circle 66.5°S", bold: true },
+  ],
+  extraLabels: [
+    { t: "ARCTIC REGION", x: WW * 0.52, y: WH * 0.08, s: 8, b: true },
+    { t: "ANTARCTIC REGION", x: WW * 0.5, y: WH * 0.93, s: 8, b: true },
+  ],
+});
+writeWorldMap("climate-zones-map", {
+  parallels: [
+    { lat: 66.5, label: "Arctic Circle" },
+    { lat: 23.5, label: "Tropic of Cancer" },
+    { lat: 0, label: "Equator" },
+    { lat: -23.5, label: "Tropic of Capricorn" },
+    { lat: -66.5, label: "Antarctic Circle" },
+  ],
+  extraLabels: [
+    { t: "POLAR", x: WW * 0.5, y: WH * 0.05, s: 8, b: true },
+    { t: "TEMPERATE", x: WW * 0.5, y: WH * 0.24, s: 8, b: true },
+    { t: "TROPICAL", x: WW * 0.5, y: WH * 0.5, s: 8, b: true },
+    { t: "TEMPERATE", x: WW * 0.5, y: WH * 0.76, s: 8, b: true },
+    { t: "POLAR", x: WW * 0.5, y: WH * 0.96, s: 8, b: true },
+  ],
+});
+writeWorldMap("hemispheres-map", {
+  parallels: [{ lat: 0, label: "Equator", bold: true }],
+  meridians: [{ lon: 0, label: "Prime Meridian", bold: true }],
+  extraLabels: [
+    { t: "NORTHERN", x: WW * 0.5, y: WH * 0.16, s: 9, b: true },
+    { t: "SOUTHERN", x: WW * 0.5, y: WH * 0.88, s: 9, b: true },
+    { t: "WESTERN", x: WW * 0.22, y: WH * 0.5, s: 9, b: true },
+    { t: "EASTERN", x: WW * 0.78, y: WH * 0.5, s: 9, b: true },
+  ],
+});
+writeWorldMap("time-zones-map", {
+  meridians: [
+    ...[-180, -135, -90, -45, 45, 90, 135].map((lon) => ({ lon, label: `${lon > 0 ? "+" : "−"}${Math.abs(lon) / 15}h` })),
+    { lon: 0, label: "0° UTC", bold: true },
+    { lon: 180, label: "Int'l Date Line", bold: true },
+  ],
+});
+writeWorldMap("longitude-map", {
+  overlay: { markers: F.WORLD_CITIES, labelSize: 6.5, markerColor: "#dc2626" },
+  parallels: [{ lat: 0, label: "Equator" }],
+  meridians: [{ lon: 0, label: "Prime Meridian", bold: true }],
+});
+
+// ══════════════════════════════════════════════════════════════════════════
+//  GEOGRAPHY — feature maps
+// ══════════════════════════════════════════════════════════════════════════
+writeWorldMap("major-rivers-map", { overlay: { lines: F.WORLD_RIVERS, labelSize: 6, lineColor: "#1d4ed8" }, oceans: true });
+writeUsMap("us-rivers-map", { abbr: true, overlay: { lines: F.US_RIVERS, labelSize: 6, lineColor: "#1d4ed8" } });
+writeWorldMap("major-mountains-map", { overlay: { markers: F.WORLD_MOUNTAINS, labelSize: 6, markerColor: "#7c2d12" } });
+writeWorldMap("mountain-ranges-map", { overlay: { lines: F.WORLD_RANGES, labelSize: 6, lineColor: "#7c2d12" } });
+writeWorldMap("deserts-map", { overlay: { markers: F.WORLD_DESERTS, labelSize: 6, markerColor: "#b45309" } });
+writeWorldMap("lakes-map", { overlay: { markers: F.WORLD_LAKES, labelSize: 6, markerColor: "#0369a1" } });
+writeWorldMap("islands-map", { overlay: { markers: F.WORLD_ISLANDS, labelSize: 6, markerColor: "#047857" } });
+writeWorldMap("seas-and-gulfs-map", { overlay: { markers: F.WORLD_SEAS, labelSize: 6, markerColor: "#0369a1" }, oceans: true });
+writeWorldMap("peninsulas-map", { overlay: { markers: F.WORLD_PENINSULAS, labelSize: 6, markerColor: "#065f46" } });
+writeWorldMap("volcanoes-map", {
+  overlay: { markers: F.WORLD_VOLCANOES, labelSize: 6, markerColor: "#b91c1c" },
+  note: "Most volcanoes lie along the Pacific 'Ring of Fire'.",
+});
+writeWorldMap("rainforest-map", {
+  overlay: { markers: F.RAINFORESTS, labelSize: 6, markerColor: "#166534" },
+  parallels: [
+    { lat: 23.5, label: "Tropic of Cancer" },
+    { lat: -23.5, label: "Tropic of Capricorn" },
+  ],
+});
+writeWorldMap("biomes-map", { overlay: { markers: F.BIOMES, labelSize: 6, markerColor: "#166534" } });
+writeWorldMap("tectonic-plates-map", { overlay: { markers: F.PLATES, labelSize: 6.5, markerColor: "#111827" } });
+writeWorldMap("countries-and-capitals-map", {
+  style: "countries",
+  overlay: {
+    markers: Object.fromEntries(Object.entries(F.CAPITALS).map(([, [cap, lon, lat]]) => [cap, [lon, lat] as LL])),
+    labelSize: 6,
+    markerColor: "#dc2626",
+  },
+});
+
+// feature deep-dives
+writeCrop("sahara-desert-map", 560, 420, ["Morocco", "Algeria", "Tunisia", "Libya", "Egypt", "Mauritania", "Mali", "Niger", "Chad", "Sudan", "W. Sahara"], {
+  fill: "#f0d9a8",
+  label: ["Morocco", "Algeria", "Libya", "Egypt", "Mali", "Niger", "Chad", "Sudan", "Mauritania"],
+  labelSize: 6.5,
+  extraLabels: [{ t: "SAHARA DESERT", x: 280, y: 190, s: 11, b: true }],
+});
+writeCrop("nile-river-map", 380, 520, ["Egypt", "Sudan", "S. Sudan", "Ethiopia", "Uganda"], {
+  highlight: [],
+  label: ["Egypt", "Sudan", "S. Sudan", "Ethiopia", "Uganda"],
+  labelSize: 6.5,
+  overlay: { lines: { Nile: F.WORLD_RIVERS.Nile }, markers: { Cairo: [31.24, 30.05], Khartoum: [32.53, 15.5], "Lake Victoria": [33, -1] }, labelSize: 6, lineColor: "#1d4ed8" },
+});
+writeCrop("amazon-rainforest-map", 460, 500, countriesIn("south-america"), {
+  regionColors: Object.fromEntries(["Brazil", "Peru", "Colombia", "Bolivia", "Ecuador", "Venezuela", "Guyana", "Suriname"].map((n) => [n, "#8fbf9a"])),
+  label: ["Brazil", "Peru", "Colombia", "Bolivia", "Ecuador"],
+  labelSize: 6.5,
+  overlay: { lines: { "Amazon River": F.WORLD_RIVERS.Amazon }, labelSize: 6, lineColor: "#1d4ed8" },
+  extraLabels: [{ t: "AMAZON RAINFOREST", x: 230, y: 210, s: 9, b: true }],
+});
+writeCrop("himalayas-map", 520, 380, ["India", "Nepal", "Bhutan", "China", "Pakistan", "Bangladesh"], {
+  label: ["India", "Nepal", "Bhutan", "China", "Pakistan"],
+  labelSize: 6.5,
+  overlay: {
+    lines: { Himalayas: F.WORLD_RANGES.Himalayas, Karakoram: F.WORLD_RANGES.Karakoram },
+    markers: { "Mt Everest": [86.93, 27.99], K2: [76.51, 35.88], Kangchenjunga: [88.15, 27.7] },
+    labelSize: 6,
+    lineColor: "#7c2d12",
+  },
+});
+writeCrop("andes-mountains-map", 380, 520, countriesIn("south-america"), {
+  label: ["Colombia", "Ecuador", "Peru", "Bolivia", "Chile", "Argentina", "Venezuela"],
+  labelSize: 6.5,
+  overlay: {
+    lines: { Andes: F.WORLD_RANGES.Andes },
+    markers: { Aconcagua: [-70.01, -32.65], Chimborazo: [-78.82, -1.47] },
+    labelSize: 6,
+    lineColor: "#7c2d12",
+  },
+});
+
+// ══════════════════════════════════════════════════════════════════════════
+//  REGIONAL
+// ══════════════════════════════════════════════════════════════════════════
+const US_REGION: Record<string, string> = {};
+{
+  const REG: Record<string, string[]> = {
+    "#e07a5f": ["Maine", "New Hampshire", "Vermont", "Massachusetts", "Rhode Island", "Connecticut", "New York", "New Jersey", "Pennsylvania"],
+    "#f2cc54": ["Delaware", "Maryland", "Virginia", "West Virginia", "Kentucky", "Tennessee", "North Carolina", "South Carolina", "Georgia", "Florida", "Alabama", "Mississippi", "Louisiana", "Arkansas"],
+    "#7fb98c": ["Ohio", "Michigan", "Indiana", "Illinois", "Wisconsin", "Minnesota", "Iowa", "Missouri", "Kansas", "Nebraska", "South Dakota", "North Dakota"],
+    "#d9b48f": ["Texas", "Oklahoma", "New Mexico", "Arizona"],
+    "#6a8ec9": ["Colorado", "Wyoming", "Montana", "Idaho", "Utah", "Nevada", "California", "Oregon", "Washington", "Alaska", "Hawaii"],
+  };
+  for (const [color, states] of Object.entries(REG)) for (const s of states) US_REGION[s] = color;
+}
+writeUsMap("us-regions-map", {
+  regionColors: US_REGION,
+  abbr: true,
+  extraLabels: [
+    { t: "WEST", x: UW * 0.12, y: UH * 0.35, s: 9, b: true },
+    { t: "SOUTHWEST", x: UW * 0.38, y: UH * 0.68, s: 8, b: true },
+    { t: "MIDWEST", x: UW * 0.55, y: UH * 0.32, s: 9, b: true },
+    { t: "SOUTHEAST", x: UW * 0.72, y: UH * 0.65, s: 8, b: true },
+    { t: "NORTHEAST", x: UW * 0.9, y: UH * 0.28, s: 8, b: true },
+  ],
+});
+writeUsMap("great-lakes-map", {
+  abbr: true,
+  overlay: { markers: F.GREAT_LAKES, labelSize: 6.5, markerColor: "#0369a1" },
+  extraLabels: [{ t: "CANADA", x: UW * 0.55, y: 14, s: 9, b: true }],
+});
+
+writeCrop("canada-provinces-map", 620, 460, ["Canada", "United States of America", "Greenland"], {
+  highlight: ["Canada"],
+  label: ["Canada", "United States of America", "Greenland"],
+  labelSize: 7,
+  note: "Country outline only — the 10 provinces & 3 territories are not drawn.",
+});
+writeCrop("mexico-states-map", 480, 420, ["Mexico", "United States of America", "Guatemala", "Belize"], {
+  highlight: ["Mexico"],
+  label: ["Mexico", "United States of America", "Guatemala"],
+  labelSize: 7,
+  note: "Country outline only — the 31 states are not drawn.",
+});
+writeCrop("uk-countries-map", 380, 460, ["United Kingdom", "Ireland", "France"], {
+  highlight: ["United Kingdom"],
+  label: ["United Kingdom", "Ireland", "France"],
+  labelSize: 7.5,
+  note: "England, Scotland, Wales & N. Ireland boundaries are not drawn.",
+});
+writeCrop("middle-east-map", 560, 460, ["Turkey", "Syria", "Iraq", "Iran", "Israel", "Jordan", "Lebanon", "Saudi Arabia", "Yemen", "Oman", "United Arab Emirates", "Kuwait", "Qatar", "Egypt", "Cyprus"], {
+  label: ["Turkey", "Syria", "Iraq", "Iran", "Israel", "Jordan", "Saudi Arabia", "Yemen", "Oman", "UAE", "Egypt", "Kuwait", "Qatar", "Lebanon"],
+  labelSize: 6.5,
+});
+writeCrop("scandinavia-map", 460, 500, ["Norway", "Sweden", "Denmark", "Finland", "Iceland"], {
+  label: ["Norway", "Sweden", "Denmark", "Finland", "Iceland"],
+  labelSize: 8,
+});
+writeCrop("caribbean-map", 560, 380, ["Cuba", "Haiti", "Dominican Rep.", "Jamaica", "Bahamas", "Trinidad and Tobago", "Puerto Rico"], {
+  label: ["Cuba", "Haiti", "Dom. Rep.", "Jamaica", "Bahamas", "Trinidad and Tobago", "Puerto Rico"],
+  labelSize: 6.5,
+});
+writeCrop("central-america-map", 520, 420, ["Guatemala", "Belize", "Honduras", "El Salvador", "Nicaragua", "Costa Rica", "Panama"], {
+  label: ["Guatemala", "Belize", "Honduras", "El Salvador", "Nicaragua", "Costa Rica", "Panama"],
+  labelSize: 6.5,
+});
+writeCrop("southeast-asia-map", 560, 440, ["Myanmar", "Thailand", "Laos", "Cambodia", "Vietnam", "Malaysia", "Indonesia", "Philippines", "Brunei", "Timor-Leste"], {
+  label: ["Myanmar", "Thailand", "Laos", "Cambodia", "Vietnam", "Malaysia", "Indonesia", "Philippines"],
+  labelSize: 6.5,
+});
+writeCrop("oceania-map", 620, 460, ["Australia", "New Zealand", "Papua New Guinea", "Fiji", "Solomon Is.", "Vanuatu", "New Caledonia"], {
+  label: ["Australia", "New Zealand", "Papua N.G.", "Fiji", "Solomon Is.", "Vanuatu"],
+  labelSize: 6.5,
+});
+{
+  const REG: Record<string, string[]> = {
+    "#e07a5f": ["Morocco", "Algeria", "Tunisia", "Libya", "Egypt", "W. Sahara"],
+    "#f2cc54": ["Mauritania", "Mali", "Niger", "Nigeria", "Senegal", "Guinea", "Ghana", "Côte d'Ivoire", "Burkina Faso", "Benin", "Togo", "Sierra Leone", "Liberia", "Gambia", "Guinea-Bissau"],
+    "#7fb98c": ["Sudan", "S. Sudan", "Ethiopia", "Kenya", "Tanzania", "Uganda", "Somalia", "Rwanda", "Burundi", "Eritrea", "Djibouti", "Somaliland"],
+    "#6a8ec9": ["Chad", "Cameroon", "Central African Rep.", "Dem. Rep. Congo", "Congo", "Gabon", "Eq. Guinea", "Angola"],
+    "#d9b48f": ["South Africa", "Namibia", "Botswana", "Zimbabwe", "Zambia", "Mozambique", "Malawi", "Madagascar", "Lesotho", "eSwatini"],
+  };
+  const rc: Record<string, string> = {};
+  for (const [c, ns] of Object.entries(REG)) for (const n of ns) rc[n] = c;
+  writeCrop("africa-regions-map", 470, 500, countriesIn("africa"), {
+    regionColors: rc,
+    label: [],
+    extraLabels: [
+      { t: "NORTH", x: 235, y: 90, s: 9, b: true },
+      { t: "WEST", x: 120, y: 230, s: 9, b: true },
+      { t: "EAST", x: 350, y: 260, s: 9, b: true },
+      { t: "CENTRAL", x: 235, y: 300, s: 8, b: true },
+      { t: "SOUTHERN", x: 235, y: 420, s: 8, b: true },
+    ],
+  });
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+//  INDIA (India + neighbours crop; internal boundaries not available)
+// ══════════════════════════════════════════════════════════════════════════
+const IN_CROP_WIDE = ["India", "Pakistan", "China", "Nepal", "Bhutan", "Bangladesh", "Myanmar", "Sri Lanka", "Afghanistan"];
+const IN_CROP = ["India", "Pakistan", "Nepal", "Bhutan", "Bangladesh", "Sri Lanka"];
+const IN_NOTE = "Points are approximate. State boundaries are not shown — use an atlas.";
+function indiaRef(slug: string, o: Parameters<typeof writeCrop>[4] = {}) {
+  writeCrop(slug, 470, 540, IN_CROP, {
+    highlight: ["India"],
+    label: ["India"],
+    labelSize: 8,
+    note: IN_NOTE,
+    ...o,
+  });
+}
+indiaRef("india-political-map", { overlay: { markers: F.INDIA_CITIES, labelSize: 5.5, markerColor: "#dc2626" } });
+indiaRef("india-physical-map", {
+  overlay: {
+    markers: F.INDIA_FEATURES,
+    lines: { "": F.WORLD_RANGES.Himalayas, " ": F.WORLD_RANGES["Western Ghats"], "  ": F.WORLD_RANGES["Eastern Ghats"] },
+    labelLines: false,
+    labelSize: 6,
+    markerColor: "#7c2d12",
+    lineColor: "#7c2d12",
+  },
+});
+indiaRef("indian-states-identification-map", {});
+indiaRef("union-territories-map", {
+  overlay: {
+    markers: { Delhi: [77.2, 28.6], Chandigarh: [76.78, 30.73], "Port Blair": [92.75, 11.62], Kavaratti: [72.64, 10.57], Leh: [77.58, 34.15], Puducherry: [79.83, 11.94], Daman: [72.83, 20.4] },
+    labelSize: 6,
+    markerColor: "#dc2626",
+  },
+});
+indiaRef("states-and-capitals-of-india-map", { overlay: { markers: F.INDIA_CITIES, labelSize: 5.5, markerColor: "#dc2626" } });
+indiaRef("major-rivers-of-india-map", { overlay: { lines: F.INDIA_RIVERS, labelSize: 5.5, lineColor: "#1d4ed8" } });
+indiaRef("mountain-ranges-of-india-map", {
+  overlay: {
+    lines: {
+      Himalayas: F.WORLD_RANGES.Himalayas,
+      "Western Ghats": F.WORLD_RANGES["Western Ghats"],
+      "Eastern Ghats": F.WORLD_RANGES["Eastern Ghats"],
+      "Aravalli Range": F.WORLD_RANGES["Aravalli Range"],
+      Vindhya: F.WORLD_RANGES.Vindhya,
+      Satpura: F.WORLD_RANGES.Satpura,
+    },
+    labelSize: 5.5,
+    lineColor: "#7c2d12",
+  },
+});
+indiaRef("indian-states-by-region-map", {
+  extraLabels: [
+    { t: "NORTH", x: 190, y: 130, s: 8, b: true },
+    { t: "WEST", x: 130, y: 270, s: 8, b: true },
+    { t: "CENTRAL", x: 230, y: 250, s: 7, b: true },
+    { t: "EAST", x: 310, y: 220, s: 8, b: true },
+    { t: "SOUTH", x: 230, y: 400, s: 8, b: true },
+    { t: "NORTH-EAST", x: 380, y: 190, s: 6.5, b: true },
+  ],
+});
+writeCrop("india-neighbouring-countries-map", 470, 540, IN_CROP_WIDE, {
+  highlight: ["India"],
+  label: ["India", "Pakistan", "China", "Nepal", "Bhutan", "Bangladesh", "Myanmar", "Sri Lanka", "Afghanistan"],
+  labelSize: 6.5,
+  extraLabels: [
+    { t: "Arabian Sea", x: 95, y: 390, s: 7 },
+    { t: "Bay of Bengal", x: 375, y: 420, s: 7 },
+  ],
+});
+indiaRef("indian-national-parks-map", { overlay: { markers: F.INDIA_PARKS, labelSize: 5.5, markerColor: "#166534" } });
+indiaRef("indian-wildlife-sanctuaries-map", {
+  overlay: {
+    markers: { "Keoladeo (Bharatpur)": [77.52, 27.16], "Chilika": [85.35, 19.72], "Dachigam": [74.9, 34.15], "Mudumalai": [76.55, 11.57], "Bhitarkanika": [86.9, 20.7], "Nal Sarovar": [72.05, 22.8], "Vedanthangal": [79.86, 12.55] },
+    labelSize: 5.5,
+    markerColor: "#166534",
+  },
+});
+indiaRef("indian-monsoon-map", {
+  overlay: { markers: { "Mawsynram (wettest)": [91.58, 25.3], "Thar (driest)": [72, 27], "Chennai": [80.27, 13.08], "Mumbai": [72.88, 19.08] }, labelSize: 5.5, markerColor: "#0369a1" },
+  extraLabels: [
+    { t: "Arabian Sea branch →", x: 120, y: 340, s: 6 },
+    { t: "← Bay of Bengal branch", x: 340, y: 320, s: 6 },
+  ],
+});
+indiaRef("indian-crops-map", {
+  overlay: { markers: { "Rice (E & S)": [85, 22], "Wheat (NW)": [76, 29], "Cotton (Deccan)": [76, 19], "Tea (Assam)": [93, 26.5], "Jute (WB)": [88, 24], "Coffee (S)": [76, 12.5] }, labelSize: 5.5, markerColor: "#166534" },
+});
+indiaRef("indian-mineral-resources-map", {
+  overlay: { markers: { "Coal / Iron (Chota Nagpur)": [85, 23.5], "Bauxite (Odisha)": [83, 20.5], "Mumbai High (oil)": [72, 19.5], "Mica (Rajasthan)": [74.5, 25.5], "Gold (Kolar)": [78.13, 12.96] }, labelSize: 5, markerColor: "#7c2d12" },
+});
+indiaRef("indian-industries-map", {
+  overlay: { markers: { "Jamshedpur (steel)": [86.2, 22.8], "Bhilai (steel)": [81.38, 21.19], "Mumbai (textiles)": [72.88, 19.08], "Ahmedabad (textiles)": [72.57, 23.03], "Bengaluru (IT)": [77.59, 12.97], "Chennai (autos)": [80.27, 13.08], "Coimbatore (textiles)": [76.96, 11.02] }, labelSize: 5, markerColor: "#111827" },
+});
+indiaRef("indian-climate-zones-map", {
+  extraLabels: [
+    { t: "Arid (Thar)", x: 130, y: 200, s: 6 },
+    { t: "Humid subtropical (N plains)", x: 240, y: 160, s: 5.5 },
+    { t: "Tropical wet & dry (Deccan)", x: 230, y: 320, s: 5.5 },
+    { t: "Tropical wet (W coast)", x: 150, y: 360, s: 5.5 },
+    { t: "Alpine (Himalayas)", x: 250, y: 100, s: 6 },
+  ],
+});
+indiaRef("indian-soil-types-map", {
+  overlay: { markers: { "Alluvial (plains)": [82, 27], "Black / Regur (Deccan)": [76, 19], "Red (SE peninsula)": [80, 14], "Laterite (Ghats)": [75, 13], "Desert (Rajasthan)": [72, 27], "Mountain (Himalayas)": [80, 33] }, labelSize: 5, markerColor: "#7c2d12" },
+});
+indiaRef("indian-historical-places-map", { overlay: { markers: F.INDIA_HERITAGE, labelSize: 5, markerColor: "#b45309" } });
+
+// ══════════════════════════════════════════════════════════════════════════
+//  HISTORY
+// ══════════════════════════════════════════════════════════════════════════
+writeUsMap("thirteen-colonies-map", {
+  abbr: false,
+  overlay: { markers: F.COLONY_SITES, labelSize: 6, markerColor: "#7c2d12" },
+  extraLabels: [{ t: "ATLANTIC OCEAN", x: UW - 60, y: UH * 0.55, s: 7 }],
+});
+writeCrop("ancient-egypt-map", 380, 520, ["Egypt", "Sudan", "S. Sudan", "Libya", "Israel", "Jordan", "Saudi Arabia"], {
+  label: ["Egypt", "Sudan", "Libya"],
+  labelSize: 6.5,
+  overlay: { lines: { Nile: F.WORLD_RIVERS.Nile }, markers: F.EGYPT_SITES, labelSize: 5.5, lineColor: "#1d4ed8", markerColor: "#b45309" },
+  note: "Modern borders shown for reference.",
+});
+writeCrop("ancient-greece-map", 520, 440, ["Greece", "Turkey", "Albania", "Macedonia", "Bulgaria", "Italy"], {
+  label: ["Greece", "Turkey", "Italy"],
+  labelSize: 6.5,
+  overlay: { markers: F.GREECE_SITES, labelSize: 5.5, markerColor: "#7c2d12" },
+  extraLabels: [{ t: "AEGEAN SEA", x: 300, y: 230, s: 7 }, { t: "IONIAN SEA", x: 120, y: 300, s: 6.5 }],
+  note: "Modern borders shown for reference.",
+});
+{
+  const romeCountries = [
+    ...["Portugal", "Spain", "France", "Italy", "United Kingdom", "Germany", "Switzerland", "Austria", "Greece", "Bulgaria", "Romania", "Croatia", "Serbia", "Bosnia and Herz.", "Albania", "Macedonia", "Hungary", "Slovenia"],
+    ...["Morocco", "Algeria", "Tunisia", "Libya", "Egypt"],
+    ...["Turkey", "Syria", "Lebanon", "Israel", "Jordan", "Cyprus"],
+  ];
+  writeCrop("roman-empire-map", 640, 440, romeCountries, {
+    regionColors: Object.fromEntries(romeCountries.map((n) => [n, "#e0c9a6"])),
+    label: [],
+    overlay: { markers: F.ROME_SITES, labelSize: 6, markerColor: "#7c2d12" },
+    extraLabels: [{ t: "MEDITERRANEAN SEA", x: 320, y: 300, s: 8, b: true }, { t: "ROMAN EMPIRE (c. 117 CE)", x: 320, y: 24, s: 8, b: true }],
+    note: "Shaded = approx. extent at its height. Modern borders shown.",
+  });
+}
+writeCrop("indus-valley-civilization-map", 440, 500, ["India", "Pakistan", "Afghanistan", "China"], {
+  highlight: ["Pakistan", "India"],
+  label: ["Pakistan", "India", "Afghanistan"],
+  labelSize: 6.5,
+  overlay: { lines: { Indus: F.WORLD_RIVERS.Indus }, markers: F.INDUS_SITES, labelSize: 5.5, lineColor: "#1d4ed8", markerColor: "#b45309" },
+  note: "Modern borders shown for reference.",
+});
+
 const unmapped = worldFC.features.map((f: unknown) => nm(f as never)).filter((n: string) => n && !CONTINENT_OF[n] && n !== "Antarctica" && n !== "Fr. S. Antarctic Lands");
-console.log(`generated 17 reference SVGs → public/maps/reference/`);
-if (unmapped.length) console.log(`  unmapped: ${unmapped.join(", ")}`);
+const total = readdirSync(OUT).filter((f) => f.endsWith(".svg")).length;
+console.log(`generated ${total} reference SVGs → public/maps/reference/`);
+if (unmapped.length) console.log(`  unmapped continents: ${unmapped.join(", ")}`);

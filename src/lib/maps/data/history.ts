@@ -4,6 +4,7 @@ import type { MapWorksheet } from "../types";
 export const HISTORY_MAPS: MapWorksheet[] = [
   defineMap({
     slug: "thirteen-colonies-map",
+    referenceImage: "thirteen-colonies-map.svg",
     title: "Thirteen Colonies Map",
     h1: "The Thirteen Colonies Worksheet",
     category: "history",
@@ -53,6 +54,7 @@ export const HISTORY_MAPS: MapWorksheet[] = [
 
   defineMap({
     slug: "ancient-egypt-map",
+    referenceImage: "ancient-egypt-map.svg",
     title: "Ancient Egypt Map",
     h1: "Ancient Egypt Map Worksheet",
     category: "history",
@@ -108,6 +110,7 @@ export const HISTORY_MAPS: MapWorksheet[] = [
 
   defineMap({
     slug: "ancient-greece-map",
+    referenceImage: "ancient-greece-map.svg",
     title: "Ancient Greece Map",
     h1: "Ancient Greece Map Worksheet",
     category: "history",
@@ -157,6 +160,7 @@ export const HISTORY_MAPS: MapWorksheet[] = [
 
   defineMap({
     slug: "roman-empire-map",
+    referenceImage: "roman-empire-map.svg",
     title: "Roman Empire Map",
     h1: "The Roman Empire Map Worksheet",
     category: "history",
@@ -206,6 +210,7 @@ export const HISTORY_MAPS: MapWorksheet[] = [
 
   defineMap({
     slug: "indus-valley-civilization-map",
+    referenceImage: "indus-valley-civilization-map.svg",
     title: "Indus Valley Civilization Map",
     h1: "Indus Valley Civilization Map Worksheet",
     category: "history",
