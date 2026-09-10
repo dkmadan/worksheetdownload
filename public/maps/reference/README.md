@@ -1,43 +1,36 @@
 # Reference map images
 
-Drop a map image here for each of the 17 "Main Maps" (`core` category) on
-`/maps`. When a file exists it is:
+One SVG per "Main Map" (`core` category on `/maps`). When present, the file is:
 
 - shown on the worksheet page (`/maps/<slug>`) in place of the "map area" box
-- appended as the final **"Reference Map"** page of that worksheet's PDF
+- rasterised client-side and appended as the final **"Reference Map"** page of
+  that worksheet's PDF
 
-If a file is missing, the page/PDF fall back gracefully (no error).
+Missing files degrade gracefully (no error).
 
-## Filenames (exactly these — one per slug)
+## Generated
 
-| File | Worksheet |
-|---|---|
-| `world-map.png` | World Map |
-| `continents-map.png` | Continents Map |
-| `oceans-map.png` | Oceans Map |
-| `continents-and-oceans-map.png` | Continents & Oceans |
-| `country-identification-map.png` | Country Identification Map |
-| `united-states-map.png` | United States Map |
-| `us-states-and-capitals-map.png` | US States & Capitals |
-| `india-map.png` | India Map |
-| `states-of-india-map.png` | States of India Map |
-| `europe-map.png` | Europe Map |
-| `asia-map.png` | Asia Map |
-| `africa-map.png` | Africa Map |
-| `north-america-map.png` | North America Map |
-| `south-america-map.png` | South America Map |
-| `australia-map.png` | Australia Map |
-| `antarctica-map.png` | Antarctica Map |
-| `blank-world-map.png` | Blank World Map |
+The 17 `*.svg` files here are **auto-generated** by:
 
-## Requirements
+```
+npm run generate-map-refs
+```
 
-- **PNG or JPG.** (Header-sniffed; extension in the filename must still be `.png`
-  — or change `referenceImage` in `src/lib/maps/data/core.ts` to `.jpg`.)
-- Landscape, roughly **1600×1000 px** or larger. It is scaled to fit an A4
-  content box, so bigger = crisper print.
-- **Accurate labels.** These go on children's worksheets — country/state/ocean
-  names and shapes must be correct. Do not commit maps with garbled or
-  invented labels.
-- Keep file size reasonable (< ~400 KB each) so client-side PDF generation
-  stays fast.
+Source data (both public domain, no attribution required):
+
+- **Natural Earth 1:110m** country & coastline polygons — via the `world-atlas`
+  npm package
+- **US Census** cartographic state boundaries — via the `us-atlas` npm package
+
+Edit `scripts/generate-map-references.ts` (+ `scripts/lib/continents.ts`,
+`scripts/lib/us-states.ts`) and re-run to change them.
+
+`states-of-india-map.svg` and `australia-map.svg` are **country outline only** —
+Natural Earth 1:110m has no internal (admin-1) boundaries, so the states are not
+drawn. Each carries an on-map note saying so.
+
+## Overriding one by hand
+
+Drop a `PNG` or `JPG` with the same base name (e.g. `world-map.png`) and change
+that map's `referenceImage` in `src/lib/maps/data/core.ts` to the new filename.
+Landscape, ~1600×1000+, correct labels, < ~400 KB.

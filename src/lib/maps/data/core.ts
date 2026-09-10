@@ -4,7 +4,7 @@ import type { MapWorksheet } from "../types";
 export const CORE_MAPS: MapWorksheet[] = [
   defineMap({
     slug: "world-map",
-    referenceImage: "world-map.png",
+    referenceImage: "world-map.svg",
     title: "World Map",
     h1: "World Map Labeling Worksheet",
     category: "core",
@@ -76,7 +76,7 @@ export const CORE_MAPS: MapWorksheet[] = [
 
   defineMap({
     slug: "continents-map",
-    referenceImage: "continents-map.png",
+    referenceImage: "continents-map.svg",
     title: "Continents Map",
     h1: "Continents Map Labeling Worksheet",
     category: "core",
@@ -137,7 +137,7 @@ export const CORE_MAPS: MapWorksheet[] = [
 
   defineMap({
     slug: "oceans-map",
-    referenceImage: "oceans-map.png",
+    referenceImage: "oceans-map.svg",
     title: "Oceans Map",
     h1: "Oceans & Seas Labeling Worksheet",
     category: "core",
@@ -204,7 +204,7 @@ export const CORE_MAPS: MapWorksheet[] = [
 
   defineMap({
     slug: "continents-and-oceans-map",
-    referenceImage: "continents-and-oceans-map.png",
+    referenceImage: "continents-and-oceans-map.svg",
     title: "Continents & Oceans",
     h1: "Continents and Oceans Labeling Worksheet",
     category: "core",
@@ -259,7 +259,7 @@ export const CORE_MAPS: MapWorksheet[] = [
 
   defineMap({
     slug: "country-identification-map",
-    referenceImage: "country-identification-map.png",
+    referenceImage: "country-identification-map.svg",
     title: "Country Identification Map",
     h1: "Country Identification Worksheet",
     category: "core",
@@ -317,7 +317,7 @@ export const CORE_MAPS: MapWorksheet[] = [
 
   defineMap({
     slug: "united-states-map",
-    referenceImage: "united-states-map.png",
+    referenceImage: "united-states-map.svg",
     title: "United States Map",
     h1: "United States Map Labeling Worksheet",
     category: "core",
@@ -383,7 +383,7 @@ export const CORE_MAPS: MapWorksheet[] = [
 
   defineMap({
     slug: "us-states-and-capitals-map",
-    referenceImage: "us-states-and-capitals-map.png",
+    referenceImage: "us-states-and-capitals-map.svg",
     title: "US States & Capitals",
     h1: "US States and Capitals Worksheet",
     category: "core",
@@ -493,7 +493,7 @@ export const CORE_MAPS: MapWorksheet[] = [
 
   defineMap({
     slug: "india-map",
-    referenceImage: "india-map.png",
+    referenceImage: "india-map.svg",
     title: "India Map",
     h1: "India Map Labeling Worksheet",
     category: "core",
@@ -567,7 +567,7 @@ export const CORE_MAPS: MapWorksheet[] = [
 
   defineMap({
     slug: "states-of-india-map",
-    referenceImage: "states-of-india-map.png",
+    referenceImage: "states-of-india-map.svg",
     title: "States of India Map",
     h1: "States of India Labeling Worksheet",
     category: "core",
@@ -658,7 +658,7 @@ export const CORE_MAPS: MapWorksheet[] = [
 
   defineMap({
     slug: "europe-map",
-    referenceImage: "europe-map.png",
+    referenceImage: "europe-map.svg",
     title: "Europe Map",
     h1: "Europe Map Labeling Worksheet",
     category: "core",
@@ -731,7 +731,7 @@ export const CORE_MAPS: MapWorksheet[] = [
 
   defineMap({
     slug: "asia-map",
-    referenceImage: "asia-map.png",
+    referenceImage: "asia-map.svg",
     title: "Asia Map",
     h1: "Asia Map Labeling Worksheet",
     category: "core",
@@ -802,7 +802,7 @@ export const CORE_MAPS: MapWorksheet[] = [
 
   defineMap({
     slug: "africa-map",
-    referenceImage: "africa-map.png",
+    referenceImage: "africa-map.svg",
     title: "Africa Map",
     h1: "Africa Map Labeling Worksheet",
     category: "core",
@@ -881,7 +881,7 @@ export const CORE_MAPS: MapWorksheet[] = [
 
   defineMap({
     slug: "north-america-map",
-    referenceImage: "north-america-map.png",
+    referenceImage: "north-america-map.svg",
     title: "North America Map",
     h1: "North America Map Labeling Worksheet",
     category: "core",
@@ -932,7 +932,7 @@ export const CORE_MAPS: MapWorksheet[] = [
 
   defineMap({
     slug: "south-america-map",
-    referenceImage: "south-america-map.png",
+    referenceImage: "south-america-map.svg",
     title: "South America Map",
     h1: "South America Map Labeling Worksheet",
     category: "core",
@@ -1009,7 +1009,7 @@ export const CORE_MAPS: MapWorksheet[] = [
 
   defineMap({
     slug: "australia-map",
-    referenceImage: "australia-map.png",
+    referenceImage: "australia-map.svg",
     title: "Australia Map",
     h1: "Australia Map Labeling Worksheet",
     category: "core",
@@ -1080,7 +1080,7 @@ export const CORE_MAPS: MapWorksheet[] = [
 
   defineMap({
     slug: "antarctica-map",
-    referenceImage: "antarctica-map.png",
+    referenceImage: "antarctica-map.svg",
     title: "Antarctica Map",
     h1: "Antarctica Map Labeling Worksheet",
     category: "core",
@@ -1144,7 +1144,7 @@ export const CORE_MAPS: MapWorksheet[] = [
 
   defineMap({
     slug: "blank-world-map",
-    referenceImage: "blank-world-map.png",
+    referenceImage: "blank-world-map.svg",
     title: "Blank World Map",
     h1: "Blank World Map (Print & Label)",
     category: "core",

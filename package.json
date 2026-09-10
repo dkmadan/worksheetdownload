@@ -12,7 +12,8 @@
     "seed-questions": "tsx scripts/seed-questions.ts",
     "generate-tech-cheatsheets": "tsx scripts/generate-tech-cheatsheets.ts",
     "generate-tech-interviews": "tsx scripts/generate-tech-interview-sheets.ts",
-    "generate-tech-practice": "tsx scripts/generate-tech-practice-sheets.ts"
+    "generate-tech-practice": "tsx scripts/generate-tech-practice-sheets.ts",
+    "generate-map-refs": "tsx scripts/generate-map-references.ts"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",
@@ -28,13 +29,19 @@
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
     "@types/bcryptjs": "^2.4.6",
+    "@types/d3-geo": "^3.1.1",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/topojson-client": "^3.1.5",
+    "d3-geo": "^3.1.1",
     "eslint": "^9",
     "eslint-config-next": "16.2.9",
     "tailwindcss": "^4",
+    "topojson-client": "^3.1.0",
     "tsx": "^4.23.11",
-    "typescript": "^5"
+    "typescript": "^5",
+    "us-atlas": "^3.0.1",
+    "world-atlas": "^2.0.2"
   }
 }

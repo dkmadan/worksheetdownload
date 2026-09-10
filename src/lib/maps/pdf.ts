@@ -18,11 +18,43 @@ import { allAnswers, splitItem, type DiagramKind, type MapWorksheet } from "./ty
 // ── reference map image ─────────────────────────────────────────────────────
 type RefImage = { bytes: Uint8Array; kind: "png" | "jpg" };
 
+/** rasterise an SVG string to PNG bytes via an offscreen canvas (client-only) */
+async function rasterizeSvg(svgText: string, scale = 3): Promise<RefImage | null> {
+  try {
+    const blob = new Blob([svgText], { type: "image/svg+xml" });
+    const url = URL.createObjectURL(blob);
+    try {
+      const img = new Image();
+      img.decoding = "sync";
+      img.src = url;
+      await img.decode();
+      const w = (img.naturalWidth || 820) * scale;
+      const h = (img.naturalHeight || 500) * scale;
+      const canvas = document.createElement("canvas");
+      canvas.width = w;
+      canvas.height = h;
+      const ctx = canvas.getContext("2d");
+      if (!ctx) return null;
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(0, 0, w, h);
+      ctx.drawImage(img, 0, 0, w, h);
+      const pngBlob: Blob | null = await new Promise((res) => canvas.toBlob(res, "image/png"));
+      if (!pngBlob) return null;
+      return { bytes: new Uint8Array(await pngBlob.arrayBuffer()), kind: "png" };
+    } finally {
+      URL.revokeObjectURL(url);
+    }
+  } catch {
+    return null;
+  }
+}
+
 /** fetch /maps/reference/<file>; returns null (never throws) if missing/bad */
 async function loadReferenceImage(file: string): Promise<RefImage | null> {
   try {
     const res = await fetch(`/maps/reference/${encodeURIComponent(file)}`, { cache: "force-cache" });
     if (!res.ok) return null;
+    if (/\.svg$/i.test(file)) return rasterizeSvg(await res.text());
     const buf = new Uint8Array(await res.arrayBuffer());
     if (buf.length < 8) return null;
     if (buf[0] === 0x89 && buf[1] === 0x50 && buf[2] === 0x4e && buf[3] === 0x47) return { bytes: buf, kind: "png" };
