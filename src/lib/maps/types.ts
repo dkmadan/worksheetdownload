@@ -90,6 +90,12 @@ export interface MapWorksheet {
   keywords: string[];
   intro: string; // 2–4 sentence lead paragraph (page + OG)
   diagram?: DiagramKind;
+  /**
+   * Filename of a reference map image under /public/maps/reference/. When the
+   * file exists it is shown on the page and appended as the final PDF page.
+   * If the file is missing, everything degrades gracefully.
+   */
+  referenceImage?: string;
   /** instruction line printed above the label section */
   labelPrompt: string;
   groups: LabelGroup[];

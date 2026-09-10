@@ -15,6 +15,24 @@ import { diagramSpec } from "./diagram-spec";
 import { seededShuffle } from "./helpers";
 import { allAnswers, splitItem, type DiagramKind, type MapWorksheet } from "./types";
 
+// ── reference map image ─────────────────────────────────────────────────────
+type RefImage = { bytes: Uint8Array; kind: "png" | "jpg" };
+
+/** fetch /maps/reference/<file>; returns null (never throws) if missing/bad */
+async function loadReferenceImage(file: string): Promise<RefImage | null> {
+  try {
+    const res = await fetch(`/maps/reference/${encodeURIComponent(file)}`, { cache: "force-cache" });
+    if (!res.ok) return null;
+    const buf = new Uint8Array(await res.arrayBuffer());
+    if (buf.length < 8) return null;
+    if (buf[0] === 0x89 && buf[1] === 0x50 && buf[2] === 0x4e && buf[3] === 0x47) return { bytes: buf, kind: "png" };
+    if (buf[0] === 0xff && buf[1] === 0xd8 && buf[2] === 0xff) return { bytes: buf, kind: "jpg" };
+    return null;
+  } catch {
+    return null;
+  }
+}
+
 // ── word bank ───────────────────────────────────────────────────────────────
 function drawWordBank(page: PDFPage, F: Fonts, b: Box, top: number, words: string[]): number {
   const pad = 10;
@@ -245,6 +263,7 @@ export async function buildMapWorksheetPdf(m: MapWorksheet): Promise<Uint8Array>
 
   const { label, clue } = sectionRows(m);
   const words = seededShuffle(allAnswers(m), m.slug);
+  const refImage = m.referenceImage ? await loadReferenceImage(m.referenceImage) : null;
 
   // ── plan pages ────────────────────────────────────────────────────────────
   // page 1 gets diagram/map-area + word bank; label rows flow across pages;
@@ -313,7 +332,7 @@ export async function buildMapWorksheetPdf(m: MapWorksheet): Promise<Uint8Array>
     }
   }
 
-  const total = worksheetPages.length + cluePages.length + keyPages.length;
+  const total = worksheetPages.length + cluePages.length + keyPages.length + (refImage ? 1 : 0);
   let pageNum = 0;
 
   // ── worksheet pages ───────────────────────────────────────────────────────
@@ -370,6 +389,35 @@ export async function buildMapWorksheetPdf(m: MapWorksheet): Promise<Uint8Array>
     });
     renderRows(page, F, b, b.top, rows, true);
   });
+
+  // ── reference map (final page) ────────────────────────────────────────────
+  if (refImage) {
+    pageNum++;
+    const page = doc.addPage([595.28, 841.89]);
+    const b = drawChrome(page, F, {
+      title: "Reference Map",
+      subtitle: `A labelled map of ${m.title.replace(/ Map$/, "")} to check your work.`,
+      badge: "Reference",
+      pageNum,
+      pageCount: total,
+    });
+    try {
+      const img = refImage.kind === "png" ? await doc.embedPng(refImage.bytes) : await doc.embedJpg(refImage.bytes);
+      const availW = b.width;
+      const availH = b.top - b.bottom - 6;
+      const s = Math.min(availW / img.width, availH / img.height);
+      const w = img.width * s;
+      const h = img.height * s;
+      page.drawImage(img, {
+        x: b.left + (availW - w) / 2,
+        y: b.top - 6 - h,
+        width: w,
+        height: h,
+      });
+    } catch {
+      text(page, "Reference map image could not be loaded.", b.left, b.top - 20, 9, F.reg, TOK.MUTED);
+    }
+  }
 
   return doc.save();
 }

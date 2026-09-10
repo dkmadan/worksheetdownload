@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { PaperHeader } from "@/components/tools/ToolFrame";
 import MapDiagram from "@/components/maps/MapDiagram";
 import { downloadPdf } from "@/lib/tools/pdf";
@@ -11,6 +11,19 @@ import { seededShuffle } from "@/lib/maps/helpers";
 export default function MapWorksheetView({ map }: { map: MapWorksheet }) {
   const [showAnswers, setShowAnswers] = useState(false);
   const [busy, setBusy] = useState(false);
+  const refSrc = map.referenceImage ? `/maps/reference/${map.referenceImage}` : null;
+  // only show the reference image once it has actually loaded — no broken-image
+  // flash on maps whose file hasn't been added yet
+  const [refOk, setRefOk] = useState(false);
+  useEffect(() => {
+    if (!refSrc) return;
+    const img = new window.Image();
+    img.onload = () => setRefOk(true);
+    img.src = refSrc;
+    return () => {
+      img.onload = null;
+    };
+  }, [refSrc]);
 
   const words = useMemo(() => seededShuffle(allAnswers(map), map.slug), [map]);
 
@@ -60,7 +73,19 @@ export default function MapWorksheetView({ map }: { map: MapWorksheet }) {
             <PaperHeader title={map.h1} subtitle={map.labelPrompt} badge="Map Worksheet" />
 
             <div className="px-6 pt-4">
-              {map.diagram ? (
+              {refSrc && refOk ? (
+                <figure className="my-4">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={refSrc}
+                    alt={`Reference map — ${map.title}`}
+                    className="w-full rounded-lg border border-slate-200"
+                  />
+                  <figcaption className="mt-1.5 text-[11px] text-slate-400 text-center">
+                    Reference map — a labelled copy is also the last page of the PDF.
+                  </figcaption>
+                </figure>
+              ) : map.diagram ? (
                 <MapDiagram kind={map.diagram} />
               ) : (
                 <div className="my-4 border border-slate-300 border-dashed rounded-lg bg-slate-50/60 h-28 flex flex-col items-center justify-center text-center px-4">
