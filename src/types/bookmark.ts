@@ -1,5 +1,6 @@
 export type BookmarkCategory =
   | "Worksheet"
+  | "Coloring Sheet"
   | "Tech Cheat Sheet"
   | "Worksheet Generator"
   | "STEM Knowledge"

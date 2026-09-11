@@ -13,7 +13,8 @@
     "generate-tech-cheatsheets": "tsx scripts/generate-tech-cheatsheets.ts",
     "generate-tech-interviews": "tsx scripts/generate-tech-interview-sheets.ts",
     "generate-tech-practice": "tsx scripts/generate-tech-practice-sheets.ts",
-    "generate-map-refs": "tsx scripts/generate-map-references.ts"
+    "generate-map-refs": "tsx scripts/generate-map-references.ts",
+    "generate-coloring-elephant": "tsx scripts/generate-coloring-elephant.ts"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",

@@ -5,6 +5,7 @@ import { SUBJECTS, GRADES } from "@/lib/data";
 import { KNOWLEDGE_ARTICLES } from "@/lib/knowledge";
 import { TOOLS } from "@/lib/tools/registry";
 import { MAP_WORKSHEETS } from "@/lib/maps";
+import { COLORING_CATEGORIES, COLORING_SHEETS } from "@/lib/coloring";
 
 const BASE = "https://worksheetdownload.com";
 const NOW = new Date();
@@ -46,6 +47,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
   urls.push(url("/maps", 0.8, "monthly"));
   for (const m of MAP_WORKSHEETS) {
     urls.push(url(`/maps/${m.slug}`, 0.7, "monthly"));
+  }
+
+  // ── Coloring sheets (150 sheets across 15 categories) ─────────────────────
+  urls.push(url("/coloring-sheets", 0.9, "weekly"));
+  for (const cat of COLORING_CATEGORIES) {
+    urls.push(url(`/coloring-sheets/${cat.slug}`, 0.8, "weekly"));
+  }
+  for (const sheet of COLORING_SHEETS) {
+    urls.push(url(`/coloring-sheets/${sheet.categoryId}/${sheet.slug}`, 0.7, "monthly"));
   }
 
   // ── Knowledge articles ───────────────────────────────────────────────────

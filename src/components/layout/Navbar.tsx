@@ -67,6 +67,19 @@ export default function Navbar() {
               Worksheets
             </Link>
 
+            <Link
+              href="/coloring-sheets"
+              className="group flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-amber-300 hover:text-amber-200 hover:bg-amber-400/10 transition-all whitespace-nowrap"
+            >
+              <svg className="w-3.5 h-3.5 opacity-80 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21a4 4 0 01-4-4 4 4 0 014-4 4 4 0 014 4 4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
+              </svg>
+              <span className="font-bold">Coloring Sheets</span>
+              <span className="inline-flex items-center px-1.5 py-0.2 text-[9px] font-extrabold uppercase tracking-wide bg-amber-400/20 text-amber-300 border border-amber-400/40 rounded-full group-hover:bg-amber-400/30 transition-colors">
+                150 Sheets
+              </span>
+            </Link>
+
             <GradesMenu dark />
             <SubjectsMenu dark />
             <TechnologiesMenu dark />

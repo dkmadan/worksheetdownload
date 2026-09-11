@@ -54,6 +54,7 @@ export const WORKSHEETS: Worksheet[] = [
   { id: "color-mixing", title: "Color Mixing Chart", subject: "art", grade: "kindergarten", description: "Discover what happens when you mix primary colors together.", pdfUrl: WORKSHEET_TEST_PDF, thumbnailEmoji: "🎨" },
   { id: "symmetry-drawing", title: "Symmetry Drawing", subject: "art", grade: "3rd", description: "Complete the other half of a symmetrical picture.", pdfUrl: WORKSHEET_TEST_PDF, thumbnailEmoji: "🪞" },
   { id: "pattern-making", title: "Pattern Making", subject: "art", grade: "1st", description: "Extend and create repeating shape and colour patterns.", pdfUrl: WORKSHEET_TEST_PDF, thumbnailEmoji: "🔷" },
+  { id: "color-the-elephant", title: "Color the Elephant", subject: "art", grade: "kindergarten", description: "A fun printable coloring page featuring a friendly elephant to bring to life with crayons or markers.", pdfUrl: "/worksheets/pdfs/color-elephant.pdf", thumbnailEmoji: "🐘" },
 ];
 
 export function getAllWorksheets(): Worksheet[] {

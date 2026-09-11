@@ -128,6 +128,19 @@ export default function MobileMenu() {
                 Worksheets
               </Link>
               <Link
+                href="/coloring-sheets"
+                onClick={close}
+                className="flex items-center justify-between px-4 py-2.5 text-sm font-bold text-amber-700 bg-amber-50/70 hover:bg-amber-100/80 rounded-xl transition-colors"
+              >
+                <div className="flex items-center gap-2">
+                  <span>🎨</span>
+                  <span>Coloring Sheets</span>
+                </div>
+                <span className="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-800 border border-amber-500/30">
+                  150 Sheets
+                </span>
+              </Link>
+              <Link
                 href="/tools"
                 onClick={close}
                 className="flex items-center justify-between px-4 py-2.5 text-sm font-semibold text-slate-700 hover:text-slate-950 hover:bg-slate-50 rounded-xl transition-colors"
