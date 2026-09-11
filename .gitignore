@@ -44,4 +44,7 @@ yarn-error.log*
 next-env.d.ts
 
 # PDFs — served from Cloudflare R2, not Vercel
-/public/worksheets/pdfs/
+/public/worksheets/pdfs/*
+!/public/worksheets/pdfs/coloring/
+!/public/worksheets/pdfs/coloring/**
+!/public/worksheets/pdfs/color-elephant.pdf

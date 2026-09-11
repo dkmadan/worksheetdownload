@@ -108,6 +108,7 @@ function drawVectorArt(
   svg: (d: string, opts?: { fill?: boolean; width?: number }) => void
 ) {
   switch (type) {
+    case "elephant":
     case "friendly-elephant":
       // Tail
       svg(`M95 300 C 78 312, 70 330, 80 350 C 68 348, 58 342, 52 332`, { fill: false, width: 2.5 });
