@@ -7,7 +7,7 @@ import { GRADES_CURRICULUM, getSubjectsForGrade } from "@/lib/curriculum";
 function ChevronDown({ open }: { open: boolean }) {
   return (
     <svg
-      className={`w-3.5 h-3.5 transition-transform duration-200 ${open ? "rotate-180 text-pink-400" : "text-slate-400 group-hover:text-slate-200"}`}
+      className={`w-3 h-3 ml-0.5 transition-transform duration-200 ${open ? "rotate-180 text-purple-400" : "text-slate-400 group-hover:text-slate-200"}`}
       fill="none" viewBox="0 0 24 24" stroke="currentColor"
     >
       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
@@ -104,17 +104,17 @@ export default function GradesMenu({ dark = false }: { dark?: boolean }) {
         onClick={() => setOpen((v) => !v)}
         aria-haspopup="true"
         aria-expanded={open}
-        className={`group flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold tracking-tight transition-all duration-150 cursor-pointer ${
+        className={`group flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-semibold tracking-tight transition-all duration-150 cursor-pointer ${
           dark
             ? open
               ? "text-white bg-white/15 shadow-2xs"
-              : "text-slate-300 hover:text-white hover:bg-white/10"
+              : "text-slate-200 hover:text-white hover:bg-white/10"
             : open
               ? "text-indigo-600 bg-indigo-50/80 shadow-xs"
               : "text-slate-600 hover:text-slate-900 hover:bg-slate-100/70"
         }`}
       >
-        <svg className="w-3.5 h-3.5 opacity-70 group-hover:opacity-100 transition-opacity" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <svg className="w-3.5 h-3.5 text-amber-400 group-hover:text-amber-300 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222" />
         </svg>
         <span>Grades</span>

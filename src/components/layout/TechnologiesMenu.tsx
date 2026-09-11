@@ -9,7 +9,7 @@ export { TECHNOLOGIES, slugifyTech } from "@/lib/technologies";
 function ChevronDown({ open }: { open: boolean }) {
   return (
     <svg
-      className={`w-3.5 h-3.5 transition-transform duration-200 ${open ? "rotate-180 text-pink-400" : "text-slate-400 group-hover:text-slate-200"}`}
+      className={`w-3 h-3 ml-0.5 transition-transform duration-200 ${open ? "rotate-180 text-purple-400" : "text-slate-400 group-hover:text-slate-200"}`}
       fill="none" viewBox="0 0 24 24" stroke="currentColor"
     >
       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
@@ -47,18 +47,18 @@ export default function TechnologiesMenu({ dark = false }: { dark?: boolean }) {
         onClick={() => setOpen((v) => !v)}
         aria-haspopup="true"
         aria-expanded={open}
-        className={`group flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold tracking-tight transition-all duration-150 cursor-pointer ${
+        className={`group flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-semibold tracking-tight transition-all duration-150 cursor-pointer ${
           dark
             ? open
               ? "text-white bg-white/15 shadow-2xs"
-              : "text-slate-300 hover:text-white hover:bg-white/10"
+              : "text-slate-200 hover:text-white hover:bg-white/10"
             : open
               ? "text-indigo-600 bg-indigo-50/80 shadow-xs"
               : "text-slate-600 hover:text-slate-900 hover:bg-slate-100/70"
         }`}
       >
-        <svg className="w-3.5 h-3.5 opacity-70 group-hover:opacity-100 transition-opacity" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+        <svg className="w-3.5 h-3.5 text-cyan-400 group-hover:text-cyan-300 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 3v2m6-2v2M9 19v2m6-2v2M3 9h2m-2 6h2m16-6h2m-2 6h2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
         </svg>
         <span>Technologies</span>
         <ChevronDown open={open} />
