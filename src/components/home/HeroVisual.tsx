@@ -1,20 +1,18 @@
 /**
- * Animated hero visual: 8 topic/tech bubbles orbiting a central graduation-cap orb.
- * Four bubbles = K-8 subjects (warm), four = developer topics (cool).
- * Pure CSS + inline SVG — no external dependencies, no client hooks needed.
+ * Animated hero visual: 8 K–8 subject bubbles orbiting a central graduation-cap orb.
+ * All 8 bubbles = core school subjects (Maths, Science, English, EVS, Social Studies, GK, Reasoning, Art & Craft).
+ * Pure CSS + inline SVG — lightweight, crisp on Retina displays, no tech topics.
  */
 
 const ORBIT_ITEMS = [
-  // ── tech topics ──────────────────────────────────────────────────────────
-  { emoji: "🖥️", label: "Backend",  bg: "linear-gradient(135deg,#10b981,#047857)", glow: "#10b98170", deg: 0   },
-  { emoji: "🤖", label: "AI / ML",  bg: "linear-gradient(135deg,#a855f7,#7c3aed)", glow: "#a855f780", deg: 90  },
-  { emoji: "☁️", label: "Cloud",    bg: "linear-gradient(135deg,#38bdf8,#0284c7)", glow: "#38bdf880", deg: 180 },
-  { emoji: "🔗", label: "APIs",     bg: "linear-gradient(135deg,#fb923c,#dc2626)", glow: "#fb923c80", deg: 270 },
-  // ── K-8 subjects ─────────────────────────────────────────────────────────
-  { emoji: "🧮", label: "Maths",    bg: "linear-gradient(135deg,#60a5fa,#3b82f6)", glow: "#60a5fa80", deg: 45  },
-  { emoji: "🧪", label: "Science",  bg: "linear-gradient(135deg,#34d399,#059669)", glow: "#34d39980", deg: 135 },
-  { emoji: "📚", label: "English",  bg: "linear-gradient(135deg,#f472b6,#db2777)", glow: "#f472b680", deg: 225 },
-  { emoji: "🌱", label: "EVS",      bg: "linear-gradient(135deg,#facc15,#f59e0b)", glow: "#facc1580", deg: 315 },
+  { emoji: "🧮", label: "Maths",          bg: "linear-gradient(135deg,#38bdf8,#2563eb)", glow: "#38bdf890", deg: 0   },
+  { emoji: "🧪", label: "Science",        bg: "linear-gradient(135deg,#34d399,#059669)", glow: "#34d39990", deg: 45  },
+  { emoji: "📚", label: "English",        bg: "linear-gradient(135deg,#f472b6,#db2777)", glow: "#f472b690", deg: 90  },
+  { emoji: "🌱", label: "EVS",            bg: "linear-gradient(135deg,#a3e635,#16a34a)", glow: "#a3e63590", deg: 135 },
+  { emoji: "🏛️", label: "Social Studies", bg: "linear-gradient(135deg,#fb923c,#ea580c)", glow: "#fb923c90", deg: 180 },
+  { emoji: "💡", label: "GK",             bg: "linear-gradient(135deg,#fde047,#ca8a04)", glow: "#fde04790", deg: 225 },
+  { emoji: "🧩", label: "Reasoning",      bg: "linear-gradient(135deg,#c084fc,#7c3aed)", glow: "#a855f790", deg: 270 },
+  { emoji: "🎨", label: "Art & Craft",    bg: "linear-gradient(135deg,#fb7185,#e11d48)", glow: "#fb718590", deg: 315 },
 ] as const;
 
 // Staggered float durations so no two bubbles move in sync

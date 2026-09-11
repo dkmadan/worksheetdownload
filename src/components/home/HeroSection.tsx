@@ -1,5 +1,5 @@
 import Link from "next/link";
-import HeroVisual from "@/components/home/HeroVisual";
+import Image from "next/image";
 import HeroDoodleBackground from "@/components/home/HeroDoodleBackground";
 
 export default function HeroSection() {
@@ -61,9 +61,18 @@ export default function HeroSection() {
           </div>
         </div>
 
-        {/* Right column — animated visual */}
-        <div className="flex-shrink-0 flex items-center justify-center">
-          <HeroVisual />
+        {/* Right column — 3D Subjects Orbital Hero Image (Transparent Background) */}
+        <div className="flex-shrink-0 flex items-center justify-center relative group">
+          <div className="relative w-[340px] h-[340px] sm:w-[440px] sm:h-[440px] transition-transform duration-500 hover:scale-105">
+            <Image
+              src="/hero-subjects.png"
+              alt="K-8 Educational Subjects — Maths, Science, English, EVS, Social Studies, GK, Reasoning, Art"
+              fill
+              priority
+              sizes="(max-width: 640px) 340px, 440px"
+              className="object-contain drop-shadow-2xl"
+            />
+          </div>
         </div>
       </div>
     </section>
