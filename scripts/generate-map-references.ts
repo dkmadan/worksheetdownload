@@ -18,6 +18,7 @@ import { CONTINENT_OF, CONTINENT_FILL, CONTINENT_LABEL, type Continent } from ".
 import { US_STATE } from "./lib/us-states";
 import * as F from "./lib/map-features";
 import type { LL } from "./lib/map-features";
+import { buildIndiaSvg, INDIA_STATES, JK_NOTE, UT_IDS, type IndiaSvgOpts } from "./lib/india-map";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 const require = createRequire(import.meta.url);
@@ -722,111 +723,251 @@ writeCrop("oceania-map", 620, 460, ["Australia", "New Zealand", "Papua New Guine
 }
 
 // ══════════════════════════════════════════════════════════════════════════
-//  INDIA (India + neighbours crop; internal boundaries not available)
+//  INDIA — real state/UT boundaries (@svg-maps/india, CC BY 4.0)
 // ══════════════════════════════════════════════════════════════════════════
-const IN_CROP_WIDE = ["India", "Pakistan", "China", "Nepal", "Bhutan", "Bangladesh", "Myanmar", "Sri Lanka", "Afghanistan"];
-const IN_CROP = ["India", "Pakistan", "Nepal", "Bhutan", "Bangladesh", "Sri Lanka"];
-const IN_NOTE = "Points are approximate. State boundaries are not shown — use an atlas.";
-function indiaRef(slug: string, o: Parameters<typeof writeCrop>[4] = {}) {
-  writeCrop(slug, 470, 540, IN_CROP, {
-    highlight: ["India"],
-    label: ["India"],
-    labelSize: 8,
-    note: IN_NOTE,
-    ...o,
-  });
+function writeIndia(slug: string, o: IndiaSvgOpts) {
+  writeFileSync(join(OUT, `${slug}.svg`), buildIndiaSvg(o));
 }
-indiaRef("india-political-map", { overlay: { markers: F.INDIA_CITIES, labelSize: 5.5, markerColor: "#dc2626" } });
-indiaRef("india-physical-map", {
-  overlay: {
-    markers: F.INDIA_FEATURES,
-    lines: { "": F.WORLD_RANGES.Himalayas, " ": F.WORLD_RANGES["Western Ghats"], "  ": F.WORLD_RANGES["Eastern Ghats"] },
-    labelLines: false,
-    labelSize: 6,
-    markerColor: "#7c2d12",
-    lineColor: "#7c2d12",
-  },
+const ALL_IDS = INDIA_STATES.map((s) => s.id);
+
+// core.ts — general overview (neighbours-focused, no per-state clutter)
+writeIndia("india-map", {
+  fillMode: "highlight",
+  highlightIds: ALL_IDS,
+  highlightColor: "#8fbf9a",
+  showNeighbours: true,
+  note: JK_NOTE,
 });
-indiaRef("indian-states-identification-map", {});
-indiaRef("union-territories-map", {
-  overlay: {
-    markers: { Delhi: [77.2, 28.6], Chandigarh: [76.78, 30.73], "Port Blair": [92.75, 11.62], Kavaratti: [72.64, 10.57], Leh: [77.58, 34.15], Puducherry: [79.83, 11.94], Daman: [72.83, 20.4] },
-    labelSize: 6,
-    markerColor: "#dc2626",
-  },
+// core.ts — the flagship "label every state" map
+writeIndia("states-of-india-map", {
+  fillMode: "distinct",
+  showStateLabels: true,
+  showFlag: true,
+  note: `28 states & 8 union territories. ${JK_NOTE}`,
 });
-indiaRef("states-and-capitals-of-india-map", { overlay: { markers: F.INDIA_CITIES, labelSize: 5.5, markerColor: "#dc2626" } });
-indiaRef("major-rivers-of-india-map", { overlay: { lines: F.INDIA_RIVERS, labelSize: 5.5, lineColor: "#1d4ed8" } });
-indiaRef("mountain-ranges-of-india-map", {
-  overlay: {
-    lines: {
-      Himalayas: F.WORLD_RANGES.Himalayas,
-      "Western Ghats": F.WORLD_RANGES["Western Ghats"],
-      "Eastern Ghats": F.WORLD_RANGES["Eastern Ghats"],
-      "Aravalli Range": F.WORLD_RANGES["Aravalli Range"],
-      Vindhya: F.WORLD_RANGES.Vindhya,
-      Satpura: F.WORLD_RANGES.Satpura,
-    },
-    labelSize: 5.5,
-    lineColor: "#7c2d12",
-  },
+
+writeIndia("india-political-map", {
+  fillMode: "distinct",
+  showStateLabels: true,
+  showNeighbours: true,
+  note: JK_NOTE,
 });
-indiaRef("indian-states-by-region-map", {
-  extraLabels: [
-    { t: "NORTH", x: 190, y: 130, s: 8, b: true },
-    { t: "WEST", x: 130, y: 270, s: 8, b: true },
-    { t: "CENTRAL", x: 230, y: 250, s: 7, b: true },
-    { t: "EAST", x: 310, y: 220, s: 8, b: true },
-    { t: "SOUTH", x: 230, y: 400, s: 8, b: true },
-    { t: "NORTH-EAST", x: 380, y: 190, s: 6.5, b: true },
+writeIndia("india-physical-map", {
+  fillMode: "highlight",
+  highlightIds: ALL_IDS,
+  highlightColor: "#d7e5d0",
+  markers: [
+    { t: "HIMALAYAS", x: 260, y: 30, s: 7.5, bold: true, color: "#7c2d12" },
+    { t: "Ganga Plain", x: 300, y: 210, s: 6, color: "#1d4ed8" },
+    { t: "Rann of Kutch", x: 30, y: 320, s: 5.5, color: "#7c2d12" },
+    { t: "Deccan Plateau", x: 210, y: 430, s: 6.5, color: "#7c2d12" },
+    { t: "Western Ghats", x: 130, y: 500, s: 6, color: "#7c2d12" },
+    { t: "Eastern Ghats", x: 300, y: 470, s: 6, color: "#7c2d12" },
+    { t: "Sundarbans", x: 400, y: 355, s: 5.5, color: "#065f46" },
+  ],
+  stateMarkers: [
+    { t: "Thar Desert", stateId: "rj", dx: -20, dy: -55, color: "#b45309" },
+    { t: "Aravalli Range", stateId: "rj", dx: 40, dy: -95, color: "#7c2d12" },
+  ],
+  note: "Ranges/plains labelled indicatively — positions are approximate.",
+});
+writeIndia("indian-states-identification-map", { fillMode: "distinct", showStateLabels: true });
+writeIndia("union-territories-map", {
+  fillMode: "highlight",
+  highlightIds: [...UT_IDS],
+  highlightColor: "#f6c9a0",
+  stateMarkers: [
+    { t: "Andaman & Nicobar Is.", stateId: "an", dx: 12, dy: 0 },
+    { t: "Chandigarh", stateId: "ch", dx: 0, dy: -10 },
+    { t: "Dadra & N. Haveli, Daman & Diu", stateId: "dn", dx: 0, dy: 22, s: 4.6 },
+    { t: "Delhi (NCT)", stateId: "dl", dx: 14, dy: 2 },
+    { t: "Lakshadweep", stateId: "ld", dx: -10, dy: 0 },
+    { t: "Puducherry", stateId: "py", dx: 0, dy: 12 },
+  ],
+  note: `8 union territories. ${JK_NOTE}`,
+});
+writeIndia("states-and-capitals-of-india-map", {
+  fillMode: "distinct",
+  showStateLabels: true,
+  showCapitals: true,
+  note: "Capital city shown for every state & union territory.",
+});
+writeIndia("major-rivers-of-india-map", {
+  fillMode: "highlight",
+  highlightIds: ALL_IDS,
+  highlightColor: "#eef3ea",
+  markers: [
+    { t: "Ganga", x: 340, y: 250, s: 6.5, bold: true, color: "#1d4ed8" },
+    { t: "Yamuna", x: 250, y: 225, s: 6, color: "#1d4ed8" },
+    { t: "Brahmaputra", x: 480, y: 260, s: 6, bold: true, color: "#1d4ed8" },
+    { t: "Indus", x: 130, y: 70, s: 6, color: "#1d4ed8" },
+    { t: "Godavari", x: 240, y: 465, s: 6, color: "#1d4ed8" },
+    { t: "Krishna", x: 220, y: 500, s: 6, color: "#1d4ed8" },
+    { t: "Narmada", x: 150, y: 335, s: 6, color: "#1d4ed8" },
+    { t: "Kaveri", x: 195, y: 565, s: 6, color: "#1d4ed8" },
+    { t: "Mahanadi", x: 320, y: 400, s: 6, color: "#1d4ed8" },
+  ],
+  note: "River courses are simplified for readability.",
+});
+writeIndia("mountain-ranges-of-india-map", {
+  fillMode: "highlight",
+  highlightIds: ALL_IDS,
+  highlightColor: "#eef3ea",
+  markers: [
+    { t: "HIMALAYAS", x: 330, y: 30, s: 7, bold: true, color: "#7c2d12" },
+    { t: "Karakoram Range", x: 190, y: 15, s: 5.5, color: "#7c2d12" },
+    { t: "Aravalli Range", x: 145, y: 175, s: 5.5, color: "#7c2d12" },
+    { t: "Vindhya Range", x: 240, y: 300, s: 5.5, color: "#7c2d12" },
+    { t: "Satpura Range", x: 230, y: 345, s: 5.5, color: "#7c2d12" },
+    { t: "Western Ghats", x: 135, y: 500, s: 6, color: "#7c2d12" },
+    { t: "Eastern Ghats", x: 305, y: 470, s: 6, color: "#7c2d12" },
   ],
 });
-writeCrop("india-neighbouring-countries-map", 470, 540, IN_CROP_WIDE, {
-  highlight: ["India"],
-  label: ["India", "Pakistan", "China", "Nepal", "Bhutan", "Bangladesh", "Myanmar", "Sri Lanka", "Afghanistan"],
-  labelSize: 6.5,
-  extraLabels: [
-    { t: "Arabian Sea", x: 95, y: 390, s: 7 },
-    { t: "Bay of Bengal", x: 375, y: 420, s: 7 },
+writeIndia("indian-states-by-region-map", {
+  fillMode: "region",
+  showStateLabels: true,
+  legend: [
+    { color: "#f6c9a0", label: "North" },
+    { color: "#a7d3c9", label: "South" },
+    { color: "#f4bbaa", label: "East" },
+    { color: "#c9c9e8", label: "West" },
+    { color: "#f7e3b4", label: "Central" },
+    { color: "#a9d5e2", label: "Northeast" },
   ],
 });
-indiaRef("indian-national-parks-map", { overlay: { markers: F.INDIA_PARKS, labelSize: 5.5, markerColor: "#166534" } });
-indiaRef("indian-wildlife-sanctuaries-map", {
-  overlay: {
-    markers: { "Keoladeo (Bharatpur)": [77.52, 27.16], "Chilika": [85.35, 19.72], "Dachigam": [74.9, 34.15], "Mudumalai": [76.55, 11.57], "Bhitarkanika": [86.9, 20.7], "Nal Sarovar": [72.05, 22.8], "Vedanthangal": [79.86, 12.55] },
-    labelSize: 5.5,
-    markerColor: "#166534",
-  },
+writeIndia("india-neighbouring-countries-map", {
+  fillMode: "highlight",
+  highlightIds: ALL_IDS,
+  highlightColor: "#8fbf9a",
+  showNeighbours: true,
+  note: JK_NOTE,
 });
-indiaRef("indian-monsoon-map", {
-  overlay: { markers: { "Mawsynram (wettest)": [91.58, 25.3], "Thar (driest)": [72, 27], "Chennai": [80.27, 13.08], "Mumbai": [72.88, 19.08] }, labelSize: 5.5, markerColor: "#0369a1" },
-  extraLabels: [
-    { t: "Arabian Sea branch →", x: 120, y: 340, s: 6 },
-    { t: "← Bay of Bengal branch", x: 340, y: 320, s: 6 },
+writeIndia("indian-national-parks-map", {
+  fillMode: "highlight",
+  highlightIds: ALL_IDS,
+  highlightColor: "#e9f2e4",
+  stateMarkers: [
+    { t: "Jim Corbett NP", stateId: "ut", color: "#166534" },
+    { t: "Kaziranga NP", stateId: "as", dx: 30, color: "#166534" },
+    { t: "Gir NP", stateId: "gj", dx: -20, dy: 60, color: "#166534" },
+    { t: "Ranthambore NP", stateId: "rj", dx: 60, dy: 30, color: "#166534" },
+    { t: "Sundarbans NP", stateId: "wb", dx: -10, dy: 60, color: "#166534" },
+    { t: "Kanha NP", stateId: "mp", dx: 60, dy: 30, color: "#166534" },
+    { t: "Bandhavgarh NP", stateId: "mp", dx: 70, dy: -10, color: "#166534" },
+    { t: "Periyar NP", stateId: "kl", dy: -10, color: "#166534" },
+    { t: "Hemis NP", stateId: "jk", dx: 90, dy: 60, color: "#166534" },
+    { t: "Bandipur NP", stateId: "ka", dx: 10, dy: 40, color: "#166534" },
   ],
 });
-indiaRef("indian-crops-map", {
-  overlay: { markers: { "Rice (E & S)": [85, 22], "Wheat (NW)": [76, 29], "Cotton (Deccan)": [76, 19], "Tea (Assam)": [93, 26.5], "Jute (WB)": [88, 24], "Coffee (S)": [76, 12.5] }, labelSize: 5.5, markerColor: "#166534" },
-});
-indiaRef("indian-mineral-resources-map", {
-  overlay: { markers: { "Coal / Iron (Chota Nagpur)": [85, 23.5], "Bauxite (Odisha)": [83, 20.5], "Mumbai High (oil)": [72, 19.5], "Mica (Rajasthan)": [74.5, 25.5], "Gold (Kolar)": [78.13, 12.96] }, labelSize: 5, markerColor: "#7c2d12" },
-});
-indiaRef("indian-industries-map", {
-  overlay: { markers: { "Jamshedpur (steel)": [86.2, 22.8], "Bhilai (steel)": [81.38, 21.19], "Mumbai (textiles)": [72.88, 19.08], "Ahmedabad (textiles)": [72.57, 23.03], "Bengaluru (IT)": [77.59, 12.97], "Chennai (autos)": [80.27, 13.08], "Coimbatore (textiles)": [76.96, 11.02] }, labelSize: 5, markerColor: "#111827" },
-});
-indiaRef("indian-climate-zones-map", {
-  extraLabels: [
-    { t: "Arid (Thar)", x: 130, y: 200, s: 6 },
-    { t: "Humid subtropical (N plains)", x: 240, y: 160, s: 5.5 },
-    { t: "Tropical wet & dry (Deccan)", x: 230, y: 320, s: 5.5 },
-    { t: "Tropical wet (W coast)", x: 150, y: 360, s: 5.5 },
-    { t: "Alpine (Himalayas)", x: 250, y: 100, s: 6 },
+writeIndia("indian-wildlife-sanctuaries-map", {
+  fillMode: "highlight",
+  highlightIds: ALL_IDS,
+  highlightColor: "#e9f2e4",
+  stateMarkers: [
+    { t: "Keoladeo (Bharatpur)", stateId: "rj", dx: 70, dy: 60, color: "#166534" },
+    { t: "Chilika", stateId: "or", dx: -10, dy: 40, color: "#166534" },
+    { t: "Dachigam", stateId: "jk", dx: 20, dy: 40, color: "#166534" },
+    { t: "Mudumalai", stateId: "tn", dx: -40, dy: -50, color: "#166534" },
+    { t: "Bhitarkanika", stateId: "or", dx: 40, dy: 10, color: "#166534" },
+    { t: "Nal Sarovar", stateId: "gj", dx: 10, dy: -20, color: "#166534" },
+    { t: "Vedanthangal", stateId: "tn", dx: 20, dy: -10, color: "#166534" },
   ],
 });
-indiaRef("indian-soil-types-map", {
-  overlay: { markers: { "Alluvial (plains)": [82, 27], "Black / Regur (Deccan)": [76, 19], "Red (SE peninsula)": [80, 14], "Laterite (Ghats)": [75, 13], "Desert (Rajasthan)": [72, 27], "Mountain (Himalayas)": [80, 33] }, labelSize: 5, markerColor: "#7c2d12" },
+writeIndia("indian-monsoon-map", {
+  fillMode: "highlight",
+  highlightIds: ALL_IDS,
+  highlightColor: "#eef3ea",
+  markers: [
+    { t: "Arabian Sea branch →", x: 20, y: 400, s: 6.5, bold: true, color: "#0369a1" },
+    { t: "← Bay of Bengal branch", x: 400, y: 380, s: 6.5, bold: true, color: "#0369a1" },
+  ],
+  stateMarkers: [
+    { t: "Mawsynram (wettest place)", stateId: "ml", dx: 40, color: "#0369a1" },
+    { t: "Thar (driest)", stateId: "rj", dx: -30, dy: -30, color: "#b45309" },
+  ],
 });
-indiaRef("indian-historical-places-map", { overlay: { markers: F.INDIA_HERITAGE, labelSize: 5, markerColor: "#b45309" } });
+writeIndia("indian-crops-map", {
+  fillMode: "highlight",
+  highlightIds: ALL_IDS,
+  highlightColor: "#eef3ea",
+  stateMarkers: [
+    { t: "Rice (E & S)", stateId: "or", color: "#166534" },
+    { t: "Wheat (NW)", stateId: "pb", color: "#166534" },
+    { t: "Cotton (Deccan)", stateId: "mh", color: "#166534" },
+    { t: "Tea", stateId: "as", dx: 30, color: "#166534" },
+    { t: "Jute", stateId: "wb", dx: -10, dy: 40, color: "#166534" },
+    { t: "Coffee (South)", stateId: "ka", dx: 10, dy: 40, color: "#166534" },
+  ],
+});
+writeIndia("indian-mineral-resources-map", {
+  fillMode: "highlight",
+  highlightIds: ALL_IDS,
+  highlightColor: "#eef3ea",
+  stateMarkers: [
+    { t: "Coal / Iron (Chota Nagpur)", stateId: "jh", color: "#7c2d12" },
+    { t: "Bauxite", stateId: "or", dx: -30, color: "#7c2d12" },
+    { t: "Mica", stateId: "rj", dx: 60, dy: 30, color: "#7c2d12" },
+    { t: "Gold (Kolar)", stateId: "ka", dx: 30, dy: 10, color: "#7c2d12" },
+  ],
+  markers: [{ t: "Mumbai High (oil)", x: -10, y: 400, s: 5.5, color: "#7c2d12" }],
+});
+writeIndia("indian-industries-map", {
+  fillMode: "highlight",
+  highlightIds: ALL_IDS,
+  highlightColor: "#eef3ea",
+  stateMarkers: [
+    { t: "Jamshedpur (steel)", stateId: "jh", dx: -20, dy: -20, color: "#111827" },
+    { t: "Bhilai (steel)", stateId: "ct", dx: -10, dy: -30, color: "#111827" },
+    { t: "Mumbai (textiles)", stateId: "mh", dx: -30, dy: 30, color: "#111827" },
+    { t: "Ahmedabad (textiles)", stateId: "gj", dx: 20, dy: -30, color: "#111827" },
+    { t: "Bengaluru (IT)", stateId: "ka", dx: 20, dy: -20, color: "#111827" },
+    { t: "Chennai (autos)", stateId: "tn", dx: 20, dy: -40, color: "#111827" },
+    { t: "Coimbatore (textiles)", stateId: "tn", dx: -30, dy: 10, color: "#111827" },
+  ],
+});
+writeIndia("indian-climate-zones-map", {
+  fillMode: "highlight",
+  highlightIds: ALL_IDS,
+  highlightColor: "#eef3ea",
+  markers: [
+    { t: "Arid (Thar)", x: 60, y: 240, s: 5.5 },
+    { t: "Humid subtropical (N plains)", x: 260, y: 190, s: 5.5 },
+    { t: "Tropical wet & dry (Deccan)", x: 230, y: 400, s: 5.5 },
+    { t: "Tropical wet (W coast)", x: 130, y: 530, s: 5.5 },
+    { t: "Alpine (Himalayas)", x: 300, y: 40, s: 5.5 },
+  ],
+});
+writeIndia("indian-soil-types-map", {
+  fillMode: "highlight",
+  highlightIds: ALL_IDS,
+  highlightColor: "#eef3ea",
+  stateMarkers: [
+    { t: "Alluvial (plains)", stateId: "up", color: "#7c2d12" },
+    { t: "Black / Regur (Deccan)", stateId: "mh", dx: 30, color: "#7c2d12" },
+    { t: "Red (SE peninsula)", stateId: "ap", dy: -20, color: "#7c2d12" },
+    { t: "Laterite (Ghats)", stateId: "kl", dy: 10, color: "#7c2d12" },
+    { t: "Desert (Rajasthan)", stateId: "rj", dx: -40, dy: 20, color: "#7c2d12" },
+    { t: "Mountain (Himalayas)", stateId: "jk", dx: 100, dy: 40, color: "#7c2d12" },
+  ],
+});
+writeIndia("indian-historical-places-map", {
+  fillMode: "highlight",
+  highlightIds: ALL_IDS,
+  highlightColor: "#eef3ea",
+  stateMarkers: [
+    { t: "Taj Mahal (Agra)", stateId: "up", dx: -50, dy: 30, color: "#b45309" },
+    { t: "Red Fort / Qutub Minar", stateId: "dl", dx: 40, dy: -10, color: "#b45309" },
+    { t: "Hawa Mahal (Jaipur)", stateId: "rj", dx: 50, dy: 10, color: "#b45309" },
+    { t: "Ajanta & Ellora", stateId: "mh", dx: 30, dy: -20, color: "#b45309" },
+    { t: "Khajuraho", stateId: "mp", dx: 40, dy: -20, color: "#b45309" },
+    { t: "Sanchi Stupa", stateId: "mp", dx: -50, dy: 10, color: "#b45309" },
+    { t: "Konark Sun Temple", stateId: "or", dx: 30, dy: -10, color: "#b45309" },
+    { t: "Hampi", stateId: "ka", dx: 20, dy: 10, color: "#b45309" },
+    { t: "Mahabalipuram", stateId: "tn", dx: 30, dy: -20, color: "#b45309" },
+    { t: "Golden Temple (Amritsar)", stateId: "pb", dx: -10, dy: -20, color: "#b45309" },
+    { t: "Gateway of India (Mumbai)", stateId: "mh", dx: -30, dy: 40, color: "#b45309" },
+  ],
+});
 
 // ══════════════════════════════════════════════════════════════════════════
 //  HISTORY

@@ -12,6 +12,7 @@ export default function MapWorksheetView({ map }: { map: MapWorksheet }) {
   const [showAnswers, setShowAnswers] = useState(false);
   const [busy, setBusy] = useState(false);
   const refSrc = map.referenceImage ? `/maps/reference/${map.referenceImage}` : null;
+  const isIndiaSourced = map.category === "india" || map.slug === "india-map" || map.slug === "states-of-india-map";
   // only show the reference image once it has actually loaded — no broken-image
   // flash on maps whose file hasn't been added yet
   const [refOk, setRefOk] = useState(false);
@@ -83,6 +84,21 @@ export default function MapWorksheetView({ map }: { map: MapWorksheet }) {
                   />
                   <figcaption className="mt-1.5 text-[11px] text-slate-400 text-center">
                     Reference map — a labelled copy is also the last page of the PDF.
+                    {isIndiaSourced && (
+                      <>
+                        {" "}
+                        India boundaries:{" "}
+                        <a
+                          href="https://github.com/VictorCazanave/svg-maps"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="underline hover:text-slate-500"
+                        >
+                          SVG Maps
+                        </a>
+                        , CC BY 4.0.
+                      </>
+                    )}
                   </figcaption>
                 </figure>
               ) : map.diagram ? (

@@ -434,9 +434,10 @@ export async function buildMapWorksheetPdf(m: MapWorksheet): Promise<Uint8Array>
       pageCount: total,
     });
     try {
+      const isIndiaSourced = m.category === "india" || m.slug === "india-map" || m.slug === "states-of-india-map";
       const img = refImage.kind === "png" ? await doc.embedPng(refImage.bytes) : await doc.embedJpg(refImage.bytes);
       const availW = b.width;
-      const availH = b.top - b.bottom - 6;
+      const availH = b.top - b.bottom - 6 - (isIndiaSourced ? 12 : 0);
       const s = Math.min(availW / img.width, availH / img.height);
       const w = img.width * s;
       const h = img.height * s;
@@ -446,6 +447,9 @@ export async function buildMapWorksheetPdf(m: MapWorksheet): Promise<Uint8Array>
         width: w,
         height: h,
       });
+      if (isIndiaSourced) {
+        text(page, "India boundaries: SVG Maps (github.com/VictorCazanave/svg-maps), CC BY 4.0.", b.left, b.top - 16 - h, 6.5, F.reg, TOK.MUTED);
+      }
     } catch {
       text(page, "Reference map image could not be loaded.", b.left, b.top - 20, 9, F.reg, TOK.MUTED);
     }
