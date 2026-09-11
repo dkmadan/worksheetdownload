@@ -1,5 +1,6 @@
 import GradeTile from "@/components/ui/GradeTile";
 import { GRADES_CURRICULUM } from "@/lib/curriculum";
+import { breadcrumbsJsonLd, collectionPageJsonLd } from "@/lib/jsonLd";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -35,8 +36,28 @@ export const metadata: Metadata = {
 };
 
 export default function GradesPage() {
+  const breadcrumbSchema = breadcrumbsJsonLd([
+    { name: "Home", url: "/" },
+    { name: "Grades", url: "/grades" },
+  ]);
+
+  const collectionSchema = collectionPageJsonLd({
+    name: "Printable Worksheets by Grade Level (K–8)",
+    description:
+      "Explore free printable worksheets organized by grade level from Kindergarten through Grade 8.",
+    url: "/grades",
+  });
+
   return (
     <div className="bg-gradient-to-br from-orange-50 to-amber-50 min-h-full">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionSchema) }}
+      />
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-12">
         <div className="text-center mb-10">
           <h1 className="text-4xl font-bold text-gray-900">Choose Your Grade</h1>
@@ -54,3 +75,4 @@ export default function GradesPage() {
     </div>
   );
 }
+

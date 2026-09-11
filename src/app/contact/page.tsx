@@ -1,16 +1,59 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { breadcrumbsJsonLd } from "@/lib/jsonLd";
 
 export const metadata: Metadata = {
-  title: "Contact Us — WorksheetDownload",
+  title: "Contact Us — WorksheetDownload Support & Feedback",
   description:
-    "Get in touch with WorksheetDownload. Questions, suggestions, topic requests, or worksheet feedback are always welcome.",
+    "Get in touch with WorksheetDownload. Questions, suggestions, worksheet error reports, or new topic requests are always welcome.",
+  keywords: [
+    "contact worksheetdownload",
+    "worksheet feedback",
+    "request worksheet topic",
+    "educational support",
+  ],
   alternates: { canonical: "/contact" },
+  openGraph: {
+    title: "Contact Us | WorksheetDownload",
+    description: "Questions, worksheet requests, or developer cheat sheet suggestions? Contact our team.",
+    url: "/contact",
+    type: "website",
+  },
+  twitter: {
+    title: "Contact Us | WorksheetDownload",
+    description: "Get in touch with the WorksheetDownload educational team.",
+  },
 };
 
 export default function ContactPage() {
+  const breadcrumbSchema = breadcrumbsJsonLd([
+    { name: "Home", url: "/" },
+    { name: "Contact Us", url: "/contact" },
+  ]);
+
+  const contactSchema = {
+    "@context": "https://schema.org",
+    "@type": "ContactPage",
+    name: "Contact WorksheetDownload",
+    url: "https://worksheetdownload.com/contact",
+    mainEntity: {
+      "@type": "EducationalOrganization",
+      name: "WorksheetDownload",
+      url: "https://worksheetdownload.com",
+      email: "support@toytobook.com",
+    },
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(contactSchema) }}
+      />
       {/* Header */}
       <div className="bg-white border-b border-gray-100">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 py-12">

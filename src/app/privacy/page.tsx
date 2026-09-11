@@ -5,8 +5,8 @@ export const metadata: Metadata = {
   title: "Privacy Policy — WorksheetDownload",
   description:
     "Privacy policy for worksheetdownload.com and the Worksheets Download Android app. No personal data collection, no tracking, no ads.",
-  alternates: { canonical: "/privacy" },
-  robots: { index: false, follow: false },
+  alternates: { canonical: "/privacy-policy" },
+  robots: { index: false, follow: true },
 };
 
 export default PrivacyPolicyPage;

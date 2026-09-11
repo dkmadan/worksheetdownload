@@ -11,6 +11,7 @@ import {
 } from "@/lib/knowledge";
 import KnowledgeArt from "@/components/knowledge/KnowledgeArt";
 import CycleRing from "@/components/knowledge/CycleRing";
+import BookmarkButton from "@/components/bookmarks/BookmarkButton";
 
 export function generateStaticParams() {
   return KNOWLEDGE_ARTICLES.map((a) => ({ slug: a.slug }));
@@ -174,15 +175,30 @@ export default async function KnowledgeArticlePage({
 
           <div className="grid lg:grid-cols-2 gap-8 items-center">
             <div className="text-white">
-              {/* Category Tag */}
-              <div className="flex flex-wrap items-center gap-2 mb-4">
-                <span className="inline-flex items-center gap-1.5 bg-slate-900/40 backdrop-blur text-white text-xs font-bold px-3 py-1 rounded-full border border-white/20">
-                  <span>{article.categoryEmoji}</span>
-                  <span>{article.category}</span>
-                </span>
-                <span className="bg-white/20 backdrop-blur rounded-full px-3 py-1 text-xs font-semibold">
-                  ⏱️ {article.readingMinutes} min read
-                </span>
+              {/* Category Tag & Bookmark */}
+              <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="inline-flex items-center gap-1.5 bg-slate-900/40 backdrop-blur text-white text-xs font-bold px-3 py-1 rounded-full border border-white/20">
+                    <span>{article.categoryEmoji}</span>
+                    <span>{article.category}</span>
+                  </span>
+                  <span className="bg-white/20 backdrop-blur rounded-full px-3 py-1 text-xs font-semibold">
+                    ⏱️ {article.readingMinutes} min read
+                  </span>
+                </div>
+                <BookmarkButton
+                  item={{
+                    id: `/knowledge/${article.slug}`,
+                    url: `/knowledge/${article.slug}`,
+                    title: `${article.title} — ${article.category}`,
+                    category: "STEM Knowledge",
+                    badge: article.category,
+                    icon: article.categoryEmoji,
+                    description: article.subtitle,
+                  }}
+                  variant="dark"
+                  size="sm"
+                />
               </div>
 
               <h1 className="text-3xl sm:text-4xl lg:text-[2.6rem] font-black leading-[1.15]">

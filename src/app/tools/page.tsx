@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { TOOLS } from "@/lib/tools/registry";
+import { breadcrumbsJsonLd, collectionPageJsonLd } from "@/lib/jsonLd";
 
 export const metadata: Metadata = {
   title: "Free Worksheet Generators — Make Your Own Printable Practice Sheets",
@@ -15,6 +16,9 @@ export const metadata: Metadata = {
     "custom worksheets pdf",
     "number line generator",
     "graph paper generator",
+    "multiplication table generator",
+    "spelling worksheet generator",
+    "telling time worksheet generator",
   ],
   alternates: { canonical: "/tools" },
   openGraph: {
@@ -24,11 +28,35 @@ export const metadata: Metadata = {
     url: "/tools",
     type: "website",
   },
+  twitter: {
+    title: "Free Worksheet Generators | WorksheetDownload",
+    description: "Free interactive worksheet makers with instant randomized printable PDFs and answer keys.",
+  },
 };
 
 export default function ToolsHubPage() {
+  const breadcrumbSchema = breadcrumbsJsonLd([
+    { name: "Home", url: "/" },
+    { name: "Tools", url: "/tools" },
+  ]);
+
+  const collectionSchema = collectionPageJsonLd({
+    name: "Interactive Printable Worksheet Generators",
+    description:
+      "Free interactive generator tools to build custom math worksheets, handwriting practice, number lines, graph paper, times tables and spelling sheets.",
+    url: "/tools",
+  });
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionSchema) }}
+      />
       <div className="bg-gradient-to-br from-slate-800 via-slate-900 to-indigo-950 text-white py-16 sm:py-20 px-4">
         <div className="max-w-3xl mx-auto text-center">
           <div className="inline-flex items-center gap-2 bg-white/10 text-white/90 text-xs font-semibold px-4 py-1.5 rounded-full mb-6 border border-white/20">
@@ -89,3 +117,4 @@ export default function ToolsHubPage() {
     </div>
   );
 }
+

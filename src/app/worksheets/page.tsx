@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import TopicsBrowser from "@/components/worksheets/TopicsBrowser";
 import type { TopicEntry } from "@/components/worksheets/TopicsBrowser";
 import { CURRICULUM, GRADES_CURRICULUM, SUBJECTS_META, slugifyTopic } from "@/lib/curriculum";
+import { breadcrumbsJsonLd, collectionPageJsonLd } from "@/lib/jsonLd";
 
 export const metadata: Metadata = {
   title: "Browse All Worksheets — 730+ Topics for K–8",
@@ -63,8 +64,27 @@ function getAllTopics(): TopicEntry[] {
 export default function WorksheetsPage() {
   const topics = getAllTopics();
 
+  const breadcrumbSchema = breadcrumbsJsonLd([
+    { name: "Home", url: "/" },
+    { name: "Worksheets", url: "/worksheets" },
+  ]);
+
+  const collectionSchema = collectionPageJsonLd({
+    name: "All K–8 Printable Worksheets Directory",
+    description: `Browse ${topics.length}+ free printable worksheet topics across Kindergarten to Grade 8.`,
+    url: "/worksheets",
+  });
+
   return (
     <div>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionSchema) }}
+      />
       {/* Hero banner */}
       <div className="bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-700 py-14 px-4 sm:px-6 text-center text-white">
         <p className="text-sm font-semibold tracking-widest uppercase text-blue-200 mb-2">
@@ -84,3 +104,4 @@ export default function WorksheetsPage() {
     </div>
   );
 }
+

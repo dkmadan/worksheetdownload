@@ -10,6 +10,8 @@ import SpellingGenerator from "@/components/tools/SpellingGenerator";
 import TimesTableGenerator from "@/components/tools/TimesTableGenerator";
 import WordSearchGenerator from "@/components/tools/WordSearchGenerator";
 import ClockGenerator from "@/components/tools/ClockGenerator";
+import { breadcrumbsJsonLd, softwareAppJsonLd, faqJsonLd } from "@/lib/jsonLd";
+import BookmarkButton from "@/components/bookmarks/BookmarkButton";
 
 export function generateStaticParams() {
   return TOOLS.map((t) => ({ slug: t.slug }));
@@ -24,15 +26,19 @@ export async function generateMetadata({
   const tool = getTool(slug);
   if (!tool) return {};
   return {
-    title: `${tool.title} — Free & Printable`,
-    description: tool.description,
+    title: `${tool.title} — Free Printable Worksheet Generator`,
+    description: `${tool.description} Customize settings and download a randomized printable PDF with answer key for free.`,
     keywords: tool.keywords,
     alternates: { canonical: `/tools/${tool.slug}` },
     openGraph: {
-      title: `${tool.title} | WorksheetDownload`,
+      title: `${tool.title} | Free Worksheet Generator`,
       description: tool.description,
       url: `/tools/${tool.slug}`,
       type: "website",
+    },
+    twitter: {
+      title: `${tool.title} | Free Worksheet Generator`,
+      description: tool.description,
     },
   };
 }
@@ -72,8 +78,45 @@ export default async function ToolPage({
   const body = renderTool(slug);
   if (!body) notFound();
 
+  const breadcrumbSchema = breadcrumbsJsonLd([
+    { name: "Home", url: "/" },
+    { name: "Tools", url: "/tools" },
+    { name: tool.title, url: `/tools/${tool.slug}` },
+  ]);
+
+  const appSchema = softwareAppJsonLd({
+    name: tool.title,
+    description: tool.description,
+    url: `/tools/${tool.slug}`,
+    applicationCategory: "EducationalApplication",
+  });
+
+  const toolFaqs = faqJsonLd([
+    {
+      q: `Is the ${tool.title} free to use?`,
+      a: `Yes, this worksheet generator is 100% free with unlimited sheet creation and instant PDF download with answer keys.`,
+    },
+    {
+      q: "Can I generate different problem sets?",
+      a: "Yes, clicking Generate creates a fresh, randomized set of questions and exercises every time.",
+    },
+  ]);
+
   return (
     <div className="min-h-screen bg-slate-50">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(appSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(toolFaqs) }}
+      />
+
       <div className={`bg-gradient-to-r ${tool.gradient} text-white`}>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10 sm:py-12">
           <nav className="text-xs font-medium text-white/70 mb-3 flex items-center gap-1.5">
@@ -81,11 +124,29 @@ export default async function ToolPage({
             <span>/</span>
             <span className="text-white/90">{tool.short}</span>
           </nav>
-          <h1 className="text-3xl sm:text-4xl font-black tracking-tight flex items-center gap-3">
-            <span>{tool.emoji}</span>
-            {tool.title}
-          </h1>
-          <p className="text-white/85 mt-2 max-w-2xl">{tool.tagline}</p>
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div>
+              <h1 className="text-3xl sm:text-4xl font-black tracking-tight flex items-center gap-3">
+                <span>{tool.emoji}</span>
+                {tool.title}
+              </h1>
+              <p className="text-white/85 mt-2 max-w-2xl">{tool.tagline}</p>
+            </div>
+            <div className="flex-shrink-0">
+              <BookmarkButton
+                item={{
+                  id: `/tools/${tool.slug}`,
+                  url: `/tools/${tool.slug}`,
+                  title: tool.title,
+                  category: "Worksheet Generator",
+                  badge: "Interactive Tool",
+                  icon: tool.emoji,
+                  description: tool.description,
+                }}
+                variant="dark"
+              />
+            </div>
+          </div>
         </div>
       </div>
 
@@ -111,3 +172,4 @@ export default async function ToolPage({
     </div>
   );
 }
+

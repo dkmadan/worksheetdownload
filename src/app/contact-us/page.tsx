@@ -5,7 +5,8 @@ export const metadata: Metadata = {
   title: "Contact Us — WorksheetDownload",
   description:
     "Get in touch with WorksheetDownload. Questions, suggestions, topic requests, or worksheet feedback are always welcome.",
-  alternates: { canonical: "/contact-us" },
+  alternates: { canonical: "/contact" },
+  robots: { index: false, follow: true },
 };
 
 export default ContactPage;

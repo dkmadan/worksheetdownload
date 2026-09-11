@@ -32,8 +32,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     url("/privacy-policy", 0.3, "yearly"),
     url("/terms",          0.3, "yearly"),
     url("/contact",        0.5, "monthly"),
-    url("/quiz",           0.4, "monthly"),
-    url("/quiz/start",     0.4, "monthly"),
+    url("/quiz",           0.6, "monthly"),
     url("/knowledge",      0.8, "weekly"),
     url("/tools",          0.8, "monthly"),
   );

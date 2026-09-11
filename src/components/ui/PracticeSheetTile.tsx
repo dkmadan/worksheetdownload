@@ -1,4 +1,5 @@
 import DownloadButtons from "@/components/ui/DownloadButtons";
+import BookmarkButton from "@/components/bookmarks/BookmarkButton";
 
 const SHEET_STYLES = [
   { badge: "bg-blue-600 text-white",    border: "border-blue-200",   numBg: "bg-blue-100",    numText: "text-blue-600"    },
@@ -64,6 +65,22 @@ export default function PracticeSheetTile({
         <span className={`absolute top-2 left-2 text-xs font-bold px-2.5 py-1 rounded-full shadow-sm z-10 ${badge}`}>
           PracticeSheet-{sheetNumber}
         </span>
+
+        {/* Bookmark Action */}
+        <div className="absolute top-2 right-2 z-10">
+          <BookmarkButton
+            item={{
+              id: `${gradeId}-${subjectId}-${topicSlug}-sheet-${sheetNumber}`,
+              url: `/grades/${gradeId}/${subjectId}/${topicSlug}`,
+              title: `${topic} — Sheet ${sheetNumber}`,
+              category: "Worksheet",
+              badge: `${gradeLabel} · ${subjectLabel}`,
+              icon: "📝",
+            }}
+            variant="icon"
+            size="sm"
+          />
+        </div>
       </div>
 
       {/* ── Card body ── */}

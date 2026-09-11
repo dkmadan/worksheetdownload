@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { TECH_DATA, findCategory, findTechItem } from "@/lib/technologies";
 import { TechItemIcon } from "@/components/icons/TechItemIcon";
+import { breadcrumbsJsonLd, learningResourceJsonLd } from "@/lib/jsonLd";
 
 export function generateStaticParams() {
   const params: { tech: string; item: string }[] = [];
@@ -26,13 +27,25 @@ export async function generateMetadata({
   if (!found) return {};
   const { category: cat, subcategory: sub, item: techItem } = found;
   return {
-    title: `${techItem.name} — ${cat.label}`,
-    description: `Learn about ${techItem.name} — a key technology in the ${sub.name} area of ${cat.label}. Explore concepts, use cases, and best practices.`,
+    title: `${techItem.name} — ${cat.label} Overview & Use Cases`,
+    description: `Learn about ${techItem.name} in ${sub.name} (${cat.label}). Explore core concepts, key architecture use cases, and downloadable cheat sheets.`,
+    keywords: [
+      `${techItem.name.toLowerCase()} cheat sheet`,
+      `${techItem.name.toLowerCase()} interview questions`,
+      `${techItem.name.toLowerCase()} practice worksheet`,
+      `${techItem.name.toLowerCase()} tutorial`,
+      `${sub.name.toLowerCase()} cheat sheets`,
+    ],
     alternates: { canonical: `/technologies/${tech}/${item}` },
     openGraph: {
       title: `${techItem.name} | WorksheetDownload`,
       description: `${techItem.name} is part of ${cat.label} > ${sub.name}. ${cat.description}`,
       url: `/technologies/${tech}/${item}`,
+      type: "article",
+    },
+    twitter: {
+      title: `${techItem.name} | WorksheetDownload`,
+      description: `Learn ${techItem.name} in ${cat.label}. Free PDF cheat sheet and interview prep.`,
     },
   };
 }
@@ -159,8 +172,32 @@ export default async function TechItemPage({
 
   const relatedItems = sub.items.filter((it) => it.slug !== techItem.slug).slice(0, 8);
 
+  const breadcrumbSchema = breadcrumbsJsonLd([
+    { name: "Home", url: "/" },
+    { name: "Technologies", url: "/technologies" },
+    { name: cat.label, url: `/technologies/${cat.slug}` },
+    { name: techItem.name, url: `/technologies/${tech}/${item}` },
+  ]);
+
+  const learningResource = learningResourceJsonLd({
+    name: `${techItem.name} — ${cat.label} Learning Resource`,
+    description: `Learn ${techItem.name} with structured concepts, key use cases, and downloadable cheat sheets.`,
+    url: `/technologies/${tech}/${item}`,
+    about: techItem.name,
+    keywords: [techItem.name, cat.label, sub.name, "developer cheat sheet", "cheat sheet pdf"],
+  });
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(learningResource) }}
+      />
+
       {/* Hero */}
       <div className={`bg-gradient-to-r ${cat.color}`}>
         <div className="max-w-5xl mx-auto px-4 sm:px-6 py-12">
@@ -292,3 +329,4 @@ export default async function TechItemPage({
     </div>
   );
 }
+

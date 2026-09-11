@@ -1,16 +1,33 @@
 import type { Metadata } from "next";
+import Link from "next/link";
+import { breadcrumbsJsonLd } from "@/lib/jsonLd";
 
 export const metadata: Metadata = {
   title: "Privacy Policy — WorksheetDownload",
   description:
     "Privacy policy for worksheetdownload.com and the Worksheets Download Android app. No personal data collection, no tracking, no ads.",
   alternates: { canonical: "/privacy-policy" },
-  robots: { index: false, follow: false },
+  robots: { index: true, follow: true },
 };
 
 export default function PrivacyPolicyPage() {
+  const breadcrumbSchema = breadcrumbsJsonLd([
+    { name: "Home", url: "/" },
+    { name: "Privacy Policy", url: "/privacy-policy" },
+  ]);
+
   return (
     <div className="max-w-3xl mx-auto px-4 sm:px-6 py-16">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      {/* Breadcrumb */}
+      <nav className="flex items-center gap-2 text-xs text-gray-400 mb-6">
+        <Link href="/" className="hover:text-gray-600 transition-colors">Home</Link>
+        <span>›</span>
+        <span className="text-gray-700 font-medium">Privacy Policy</span>
+      </nav>
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-gray-900">Privacy Policy</h1>
         <p className="text-sm text-gray-500 mt-2">Last updated: July 4, 2026</p>

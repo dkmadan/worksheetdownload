@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import { breadcrumbsJsonLd } from "@/lib/jsonLd";
 
 export const metadata: Metadata = {
   title: "Disclaimer — WorksheetDownload",
@@ -54,8 +55,17 @@ const sections = [
 ];
 
 export default function DisclaimerPage() {
+  const breadcrumbSchema = breadcrumbsJsonLd([
+    { name: "Home", url: "/" },
+    { name: "Disclaimer", url: "/disclaimer" },
+  ]);
+
   return (
     <div className="min-h-screen bg-gray-50">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       {/* Header */}
       <div className="bg-white border-b border-gray-100">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 py-12">

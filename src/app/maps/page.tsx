@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { MAP_WORKSHEETS, mapsByCategory } from "@/lib/maps";
+import { breadcrumbsJsonLd, collectionPageJsonLd } from "@/lib/jsonLd";
 
 export const metadata: Metadata = {
   title: "Free Printable Map Worksheets — World, India, US & Geography Maps",
@@ -25,13 +26,37 @@ export const metadata: Metadata = {
     url: "/maps",
     type: "website",
   },
+  twitter: {
+    title: "Free Printable Map Worksheets | WorksheetDownload",
+    description: "Printable geography and map worksheets with word banks and answer keys. Free PDF download.",
+  },
 };
 
 export default function MapsHubPage() {
   const groups = mapsByCategory();
 
+  const breadcrumbSchema = breadcrumbsJsonLd([
+    { name: "Home", url: "/" },
+    { name: "Maps", url: "/maps" },
+  ]);
+
+  const collectionSchema = collectionPageJsonLd({
+    name: "Printable Map Worksheets Directory",
+    description:
+      "Explore free printable geography map worksheets covering world maps, continents, oceans, US states, India and climate zones.",
+    url: "/maps",
+  });
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionSchema) }}
+      />
       <div className="bg-gradient-to-br from-emerald-700 via-teal-800 to-cyan-900 text-white py-16 sm:py-20 px-4">
         <div className="max-w-3xl mx-auto text-center">
           <div className="inline-flex items-center gap-2 bg-white/10 text-white/90 text-xs font-semibold px-4 py-1.5 rounded-full mb-6 border border-white/20">
@@ -81,3 +106,4 @@ export default function MapsHubPage() {
     </div>
   );
 }
+

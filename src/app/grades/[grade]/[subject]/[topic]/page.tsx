@@ -1,11 +1,13 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import PracticeSheetTile from "@/components/ui/PracticeSheetTile";
+import BookmarkButton from "@/components/bookmarks/BookmarkButton";
 import {
   GRADES_CURRICULUM, SUBJECTS_META,
   unslugifyTopic, isValidGrade, isValidSubject, CURRICULUM,
   slugifyTopic,
 } from "@/lib/curriculum";
+import { breadcrumbsJsonLd, learningResourceJsonLd, faqJsonLd } from "@/lib/jsonLd";
 import type { Metadata } from "next";
 
 export function generateStaticParams() {
@@ -74,8 +76,53 @@ export default async function TopicPage({
   const gradeDef = GRADES_CURRICULUM.find((g) => g.id === grade)!;
   const subjectDef = SUBJECTS_META[subject]!;
 
+  const breadcrumbSchema = breadcrumbsJsonLd([
+    { name: "Home", url: "/" },
+    { name: "Grades", url: "/grades" },
+    { name: gradeDef.label, url: `/grades/${grade}` },
+    { name: subjectDef.label, url: `/grades/${grade}/${subject}` },
+    { name: topicLabel, url: `/grades/${grade}/${subject}/${topic}` },
+  ]);
+
+  const learningResource = learningResourceJsonLd({
+    name: `${topicLabel} Worksheets — ${gradeDef.label} ${subjectDef.label}`,
+    description: `Free printable ${topicLabel} practice worksheets with answer keys for ${gradeDef.label} (${gradeDef.ageRange}). 4 unique PDF practice sheets.`,
+    url: `/grades/${grade}/${subject}/${topic}`,
+    educationalLevel: gradeDef.label,
+    about: topicLabel,
+    keywords: [topicLabel, gradeDef.label, subjectDef.label, "practice worksheet", "printable PDF", "answer key"],
+  });
+
+  const topicFaqs = faqJsonLd([
+    {
+      q: `How many practice sheets are included for ${topicLabel}?`,
+      a: `There are 4 unique printable practice worksheets for ${topicLabel}, each with distinct problem variations and a complete answer key.`,
+    },
+    {
+      q: `Are these ${topicLabel} worksheets suitable for ${gradeDef.label}?`,
+      a: `Yes, these worksheets are tailored for ${gradeDef.label} students (${gradeDef.ageRange}) and align with standard curriculum learning milestones.`,
+    },
+    {
+      q: `Can I download these worksheets as PDF for free?`,
+      a: `Yes, every worksheet is 100% free to view in browser and download as printable PDF. No account or subscription required.`,
+    },
+  ]);
+
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(learningResource) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(topicFaqs) }}
+      />
+
       {/* Breadcrumb */}
       <nav className="flex items-center gap-2 text-xs text-gray-400 mb-6 flex-wrap">
         <Link href="/" className="hover:text-gray-600">Home</Link>
@@ -89,12 +136,28 @@ export default async function TopicPage({
         <span className="text-gray-700 font-medium">{topicLabel}</span>
       </nav>
 
-      <div className="mb-8">
-        <p className="text-sm text-gray-400 font-medium">
-          {gradeDef.label} · {subjectDef.label}
-        </p>
-        <h1 className="text-3xl font-bold text-gray-900 mt-1">{topicLabel}</h1>
-        <p className="text-gray-500 mt-2">4 practice sheets available — free to view and download.</p>
+      <div className="mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+          <p className="text-sm text-gray-400 font-medium">
+            {gradeDef.label} · {subjectDef.label}
+          </p>
+          <h1 className="text-3xl font-bold text-gray-900 mt-1">{topicLabel}</h1>
+          <p className="text-gray-500 mt-2">4 practice sheets available — free to view and download.</p>
+        </div>
+        <div className="flex-shrink-0">
+          <BookmarkButton
+            item={{
+              id: `/grades/${grade}/${subject}/${topic}`,
+              url: `/grades/${grade}/${subject}/${topic}`,
+              title: `${topicLabel} Worksheets (${gradeDef.label})`,
+              category: "Worksheet",
+              badge: `${gradeDef.label} · ${subjectDef.label}`,
+              icon: "📝",
+              description: `Free printable ${topicLabel} practice worksheets with answer keys for ${gradeDef.label}.`,
+            }}
+            variant="button"
+          />
+        </div>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
@@ -114,3 +177,4 @@ export default async function TopicPage({
     </div>
   );
 }
+

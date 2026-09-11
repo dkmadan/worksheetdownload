@@ -9,6 +9,7 @@ import {
   totalItems,
 } from "@/lib/maps";
 import MapWorksheetView from "@/components/maps/MapWorksheetView";
+import BookmarkButton from "@/components/bookmarks/BookmarkButton";
 
 export function generateStaticParams() {
   return MAP_WORKSHEETS.map((m) => ({ slug: m.slug }));
@@ -94,14 +95,32 @@ export default async function MapWorksheetPage({
             <span>/</span>
             <span className="text-white/90">{cat.label}</span>
           </nav>
-          <h1 className="text-3xl sm:text-4xl font-black tracking-tight flex items-start gap-3">
-            <span>{m.emoji}</span>
-            <span>{m.h1}</span>
-          </h1>
-          <div className="flex flex-wrap items-center gap-2 mt-3 text-xs font-semibold">
-            <span className="bg-white/15 border border-white/20 px-2.5 py-1 rounded-full">{m.gradeBand}</span>
-            <span className="bg-white/15 border border-white/20 px-2.5 py-1 rounded-full">{totalItems(m)} labels</span>
-            <span className="bg-white/15 border border-white/20 px-2.5 py-1 rounded-full">Word bank + answer key</span>
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div>
+              <h1 className="text-3xl sm:text-4xl font-black tracking-tight flex items-start gap-3">
+                <span>{m.emoji}</span>
+                <span>{m.h1}</span>
+              </h1>
+              <div className="flex flex-wrap items-center gap-2 mt-3 text-xs font-semibold">
+                <span className="bg-white/15 border border-white/20 px-2.5 py-1 rounded-full">{m.gradeBand}</span>
+                <span className="bg-white/15 border border-white/20 px-2.5 py-1 rounded-full">{totalItems(m)} labels</span>
+                <span className="bg-white/15 border border-white/20 px-2.5 py-1 rounded-full">Word bank + answer key</span>
+              </div>
+            </div>
+            <div className="flex-shrink-0">
+              <BookmarkButton
+                item={{
+                  id: `/maps/${m.slug}`,
+                  url: `/maps/${m.slug}`,
+                  title: `${m.title} Map Worksheet`,
+                  category: "Map Worksheet",
+                  badge: cat.label,
+                  icon: m.emoji,
+                  description: m.metaDescription,
+                }}
+                variant="dark"
+              />
+            </div>
           </div>
         </div>
       </div>

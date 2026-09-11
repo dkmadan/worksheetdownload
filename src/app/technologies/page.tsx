@@ -2,25 +2,60 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { TECH_DATA, totalItemCount } from "@/lib/technologies";
 import { getMeshForIndex, FEATURED_MESH } from "@/lib/patterns";
+import { breadcrumbsJsonLd, collectionPageJsonLd } from "@/lib/jsonLd";
 
 export const metadata: Metadata = {
-  title: "Technologies — Browse by Tech Topic",
+  title: "Technologies — Browse 647 Developer Cheat Sheets",
   description:
-    "Explore 650+ technologies across 37 categories — AI/ML, Cloud, DevOps, Databases, Security, Web Technologies and more. Worksheets and learning resources for every tech stack.",
+    "Explore 647 technologies across 37 categories — AI/ML, Cloud, DevOps, Databases, Security, Web Technologies and more. Free PDF cheat sheets, interview questions, and practice worksheets.",
+  keywords: [
+    "technologies cheat sheet",
+    "developer cheat sheets",
+    "coding cheat sheets pdf",
+    "devops cheat sheets",
+    "ai ml cheat sheets",
+    "cloud computing cheat sheets",
+    "database cheat sheets",
+    "free tech worksheets",
+    "technical interview prep pdf",
+  ],
   alternates: { canonical: "/technologies" },
   openGraph: {
-    title: "Technologies | WorksheetDownload",
-    description: "Browse 650+ technology topics across 37 categories — AI/ML, Cloud, DevOps, Security, and more.",
+    title: "Technologies | 647 Developer Cheat Sheets | WorksheetDownload",
+    description: "Browse 647 technology topics across 37 categories — AI/ML, Cloud, DevOps, Security, and more.",
     url: "/technologies",
     type: "website",
+  },
+  twitter: {
+    title: "Technologies | 647 Developer Cheat Sheets | WorksheetDownload",
+    description: "Browse 647 technology topics across 37 categories with free PDF cheat sheets and interview prep.",
   },
 };
 
 export default function TechnologiesPage() {
   const count = totalItemCount();
 
+  const breadcrumbSchema = breadcrumbsJsonLd([
+    { name: "Home", url: "/" },
+    { name: "Technologies", url: "/technologies" },
+  ]);
+
+  const collectionSchema = collectionPageJsonLd({
+    name: "Developer Cheat Sheets & Technology Learning Hub",
+    description: `Browse ${count}+ technologies across ${TECH_DATA.length} categories with free downloadable cheat sheets.`,
+    url: "/technologies",
+  });
+
   return (
     <div className="min-h-screen bg-slate-50">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionSchema) }}
+      />
 
       {/* Hero */}
       <div className="bg-gradient-to-br from-slate-800 via-slate-900 to-indigo-950 px-4 sm:px-6 pt-14 pb-16">
@@ -112,3 +147,4 @@ export default function TechnologiesPage() {
     </div>
   );
 }
+

@@ -5,6 +5,7 @@ import {
   GRADES_CURRICULUM, getSubjectsForGrade, getTopicsForGradeSubject,
   isValidGrade, CURRICULUM,
 } from "@/lib/curriculum";
+import { breadcrumbsJsonLd, collectionPageJsonLd } from "@/lib/jsonLd";
 import type { Metadata } from "next";
 
 export function generateStaticParams() {
@@ -63,8 +64,28 @@ export default async function GradePage({
     0
   );
 
+  const breadcrumbSchema = breadcrumbsJsonLd([
+    { name: "Home", url: "/" },
+    { name: "Grades", url: "/grades" },
+    { name: gradeDef.label, url: `/grades/${grade}` },
+  ]);
+
+  const collectionSchema = collectionPageJsonLd({
+    name: `${gradeDef.label} Printable Worksheets (${gradeDef.ageRange})`,
+    description: `Free printable worksheets for ${gradeDef.label} across ${subjects.length} subjects and ${totalTopics} topics.`,
+    url: `/grades/${grade}`,
+  });
+
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionSchema) }}
+      />
       {/* Breadcrumb */}
       <nav className="flex items-center gap-2 text-xs text-gray-400 mb-6">
         <Link href="/" className="hover:text-gray-600">Home</Link>
@@ -101,3 +122,4 @@ export default async function GradePage({
     </div>
   );
 }
+

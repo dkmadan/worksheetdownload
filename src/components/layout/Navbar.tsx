@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Logo from "@/components/ui/Logo";
 import NavAuthButton from "@/components/auth/NavAuthButton";
+import BookmarkHeaderButton from "@/components/bookmarks/BookmarkHeaderButton";
 import GradesMenu from "@/components/layout/GradesMenu";
 import SubjectsMenu from "@/components/layout/SubjectsMenu";
 import TechnologiesMenu from "@/components/layout/TechnologiesMenu";
@@ -11,7 +12,7 @@ export default function Navbar() {
   return (
     <header className="sticky top-0 z-50 shadow-sm transition-all">
 
-      {/* ── Row 1: Logo · Prominent Search · Sign In Button (Light Glass) ─── */}
+      {/* ── Row 1: Logo · Prominent Search · Saved Bookmarks & Sign In Button ─── */}
       <div className="bg-white/95 backdrop-blur-xl border-b border-slate-200/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-2.5 flex items-center justify-between gap-2 sm:gap-6">
 
@@ -25,13 +26,15 @@ export default function Navbar() {
             <NavSearch large />
           </div>
 
-          {/* Auth Button (desktop) */}
-          <div className="hidden sm:flex items-center flex-shrink-0">
+          {/* Saved Bookmarks & Auth Button (desktop) */}
+          <div className="hidden sm:flex items-center gap-3 flex-shrink-0">
+            <BookmarkHeaderButton />
             <NavAuthButton />
           </div>
 
-          {/* Mobile: hamburger only (auth lives inside the menu) */}
-          <div className="sm:hidden flex-shrink-0 flex items-center">
+          {/* Mobile: Saved Bookmarks + Hamburger Menu */}
+          <div className="sm:hidden flex-shrink-0 flex items-center gap-2">
+            <BookmarkHeaderButton showText={false} />
             <MobileMenu />
           </div>
 

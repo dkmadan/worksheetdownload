@@ -4,6 +4,8 @@ import type { Metadata } from "next";
 import { TECH_DATA, findTechItem } from "@/lib/technologies";
 import { getTechPageContent } from "@/lib/tech-content";
 import TechResourceTile from "@/components/tech/TechResourceTile";
+import BookmarkButton from "@/components/bookmarks/BookmarkButton";
+import { breadcrumbsJsonLd, learningResourceJsonLd } from "@/lib/jsonLd";
 
 export function generateStaticParams() {
   const params: { tech: string; item: string }[] = [];
@@ -29,11 +31,23 @@ export async function generateMetadata({
   return {
     title: `${techItem.name} Cheat Sheet PDF — Free Download | WorksheetDownload`,
     description: `Free ${techItem.name} cheat sheet, interview questions, and practice worksheet PDFs. Download structured ${cat.label} learning resources — no sign-up required.`,
+    keywords: [
+      `${techItem.name.toLowerCase()} cheat sheet pdf`,
+      `${techItem.name.toLowerCase()} quick reference`,
+      `${techItem.name.toLowerCase()} interview questions pdf`,
+      `${techItem.name.toLowerCase()} practice worksheet`,
+      `${cat.label.toLowerCase()} pdf resources`,
+    ],
     alternates: { canonical: `/technologies/${tech}/${item}/resources` },
     openGraph: {
       title: `${techItem.name} Cheat Sheet & Interview Questions PDF | WorksheetDownload`,
       description: `Download free ${techItem.name} PDFs: cheat sheet, 10 interview questions, and practice worksheet. Covers core ${cat.label} concepts.`,
       url: `/technologies/${tech}/${item}/resources`,
+      type: "article",
+    },
+    twitter: {
+      title: `${techItem.name} Cheat Sheet PDF | WorksheetDownload`,
+      description: `Free printable ${techItem.name} cheat sheet & interview prep PDF.`,
     },
   };
 }
@@ -84,6 +98,22 @@ export default async function TechResourcesPage({
     .filter((it) => it.slug !== techItem.slug)
     .slice(0, 5);
 
+  const breadcrumbSchema = breadcrumbsJsonLd([
+    { name: "Home", url: "/" },
+    { name: "Technologies", url: "/technologies" },
+    { name: cat.label, url: `/technologies/${tech}` },
+    { name: techItem.name, url: `/technologies/${tech}/${item}` },
+    { name: "Resources", url: `/technologies/${tech}/${item}/resources` },
+  ]);
+
+  const learningResource = learningResourceJsonLd({
+    name: `${techItem.name} Cheat Sheet, Practice Worksheet & Interview Prep PDF`,
+    description: `Free printable cheat sheet and interview prep worksheets for ${techItem.name} in ${cat.label}.`,
+    url: `/technologies/${tech}/${item}/resources`,
+    about: techItem.name,
+    keywords: [techItem.name, `${techItem.name} cheat sheet`, "interview questions", "PDF download"],
+  });
+
   const faqSchema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -96,6 +126,14 @@ export default async function TechResourcesPage({
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(learningResource) }}
+      />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
@@ -115,17 +153,33 @@ export default async function TechResourcesPage({
             <span>›</span>
             <span className="text-white font-medium">Resources</span>
           </nav>
-          <div className="flex items-center gap-4">
-            <div className="w-14 h-14 bg-white/15 backdrop-blur-sm rounded-2xl flex items-center justify-center flex-shrink-0">
-              <span className="text-2xl">{cat.icon}</span>
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div className="flex items-center gap-4">
+              <div className="w-14 h-14 bg-white/15 backdrop-blur-sm rounded-2xl flex items-center justify-center flex-shrink-0">
+                <span className="text-2xl">{cat.icon}</span>
+              </div>
+              <div>
+                <p className="text-white/60 text-sm font-medium mb-1">
+                  {cat.label} · {sub.name}
+                </p>
+                <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight leading-tight">
+                  {techItem.name} — Free Learning Resources
+                </h1>
+              </div>
             </div>
-            <div>
-              <p className="text-white/60 text-sm font-medium mb-1">
-                {cat.label} · {sub.name}
-              </p>
-              <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight leading-tight">
-                {techItem.name} — Free Learning Resources
-              </h1>
+            <div className="flex-shrink-0">
+              <BookmarkButton
+                item={{
+                  id: `/technologies/${tech}/${item}/resources`,
+                  url: `/technologies/${tech}/${item}/resources`,
+                  title: `${techItem.name} Cheat Sheet & Resources`,
+                  category: "Tech Cheat Sheet",
+                  badge: cat.label,
+                  icon: cat.icon,
+                  description: `Free ${techItem.name} cheat sheet, interview questions, and practice worksheet PDFs.`,
+                }}
+                variant="dark"
+              />
             </div>
           </div>
         </div>

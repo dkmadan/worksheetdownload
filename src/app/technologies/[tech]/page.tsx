@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { TECH_DATA, findCategory } from "@/lib/technologies";
 import { TechItemIcon } from "@/components/icons/TechItemIcon";
+import { breadcrumbsJsonLd, collectionPageJsonLd } from "@/lib/jsonLd";
 
 export function generateStaticParams() {
   return TECH_DATA.map((cat) => ({ tech: cat.slug }));
@@ -18,10 +19,25 @@ export async function generateMetadata({
   if (!cat) return {};
   const count = cat.subcategories.reduce((s, sub) => s + sub.items.length, 0);
   return {
-    title: `${cat.label} — ${count} Technologies`,
-    description: cat.description,
+    title: `${cat.label} Cheat Sheets — ${count} Technologies`,
+    description: `${cat.description} Download free PDF cheat sheets, interview questions, and practice worksheets for ${cat.label}.`,
+    keywords: [
+      `${cat.label.toLowerCase()} cheat sheet`,
+      `${cat.label.toLowerCase()} interview questions`,
+      `${cat.label.toLowerCase()} practice sheets`,
+      ...cat.subcategories.map((s) => `${s.name.toLowerCase()} cheat sheet`),
+    ],
     alternates: { canonical: `/technologies/${tech}` },
-    openGraph: { title: `${cat.label} | WorksheetDownload`, description: cat.description, url: `/technologies/${tech}` },
+    openGraph: {
+      title: `${cat.label} Cheat Sheets | WorksheetDownload`,
+      description: cat.description,
+      url: `/technologies/${tech}`,
+      type: "website",
+    },
+    twitter: {
+      title: `${cat.label} Cheat Sheets | WorksheetDownload`,
+      description: cat.description,
+    },
   };
 }
 
@@ -36,8 +52,28 @@ export default async function TechCategoryPage({
 
   const totalItems = cat.subcategories.reduce((s, sub) => s + sub.items.length, 0);
 
+  const breadcrumbSchema = breadcrumbsJsonLd([
+    { name: "Home", url: "/" },
+    { name: "Technologies", url: "/technologies" },
+    { name: cat.label, url: `/technologies/${tech}` },
+  ]);
+
+  const collectionSchema = collectionPageJsonLd({
+    name: `${cat.label} Developer Resources & Cheat Sheets`,
+    description: cat.description,
+    url: `/technologies/${tech}`,
+  });
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionSchema) }}
+      />
       {/* Hero banner */}
       <div className={`bg-gradient-to-r ${cat.color}`}>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-12">
@@ -124,3 +160,4 @@ export default async function TechCategoryPage({
     </div>
   );
 }
+

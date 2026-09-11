@@ -5,7 +5,8 @@ export const metadata: Metadata = {
   title: "Terms & Conditions — WorksheetDownload",
   description:
     "Terms and Conditions for WorksheetDownload. Free educational worksheets for K–8 and tech cheat sheets for developers.",
-  alternates: { canonical: "/terms-and-conditions" },
+  alternates: { canonical: "/terms" },
+  robots: { index: false, follow: true },
 };
 
 export default TermsPage;

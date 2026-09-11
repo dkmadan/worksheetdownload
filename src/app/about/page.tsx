@@ -2,11 +2,19 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { TECH_DATA } from "@/lib/technologies";
 import { GRADES_CURRICULUM, SUBJECTS_META } from "@/lib/curriculum";
+import { breadcrumbsJsonLd } from "@/lib/jsonLd";
 
 export const metadata: Metadata = {
   title: "About WorksheetDownload — Free K–8 Worksheets & 647 Tech Cheat Sheets",
   description:
     "WorksheetDownload is a free learning platform covering K–8 printable worksheets across all grades and subjects, plus 647 developer cheat sheets spanning 37 tech categories from AI to Cloud.",
+  keywords: [
+    "about worksheetdownload",
+    "free educational worksheets mission",
+    "printable worksheets for teachers",
+    "homeschool worksheets free",
+    "developer cheat sheets platform",
+  ],
   alternates: { canonical: "/about" },
   openGraph: {
     title: "About WorksheetDownload | Free K–8 Worksheets & Tech Cheat Sheets",
@@ -14,6 +22,10 @@ export const metadata: Metadata = {
       "Free printable worksheets for K–8 and 647 developer cheat sheets across 37 tech categories. No sign-up. Free forever.",
     url: "/about",
     type: "website",
+  },
+  twitter: {
+    title: "About WorksheetDownload | Free Educational Resources",
+    description: "Free printable worksheets for K–8 and 647 developer cheat sheets.",
   },
 };
 
@@ -24,8 +36,35 @@ export default function AboutPage() {
     0
   );
 
+  const breadcrumbSchema = breadcrumbsJsonLd([
+    { name: "Home", url: "/" },
+    { name: "About Us", url: "/about" },
+  ]);
+
+  const aboutSchema = {
+    "@context": "https://schema.org",
+    "@type": "AboutPage",
+    name: "About WorksheetDownload",
+    description:
+      "WorksheetDownload provides 3,000+ free printable worksheets for K–8 students and 647 developer cheat sheets.",
+    url: "https://worksheetdownload.com/about",
+    mainEntity: {
+      "@type": "EducationalOrganization",
+      name: "WorksheetDownload",
+      url: "https://worksheetdownload.com",
+    },
+  };
+
   return (
     <div className="bg-white">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(aboutSchema) }}
+      />
 
       {/* ── Hero ─────────────────────────────────────────────────────── */}
       <div className="bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950 py-16 px-4 sm:px-6">

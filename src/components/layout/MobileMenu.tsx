@@ -7,6 +7,7 @@ import { useSession, signOut } from "next-auth/react";
 import { GRADES_CURRICULUM, SUBJECTS_META } from "@/lib/curriculum";
 import NavSearch from "@/components/layout/NavSearch";
 import AuthModal from "@/components/auth/AuthModal";
+import { useBookmarks } from "@/context/BookmarkContext";
 
 const MOBILE_SUBJECTS = [
   "mathematics",
@@ -26,6 +27,7 @@ export default function MobileMenu() {
   const [subjectsOpen, setSubjectsOpen] = useState(false);
   const [showAuth, setShowAuth] = useState(false);
   const { data: session } = useSession();
+  const { count, setIsDrawerOpen } = useBookmarks();
 
   // Lock background scroll while the menu is open.
   useEffect(() => {
@@ -88,6 +90,29 @@ export default function MobileMenu() {
 
             {/* Simple links */}
             <div className="px-2 py-1 space-y-0.5">
+              <button
+                onClick={() => {
+                  close();
+                  setIsDrawerOpen(true);
+                }}
+                className="w-full flex items-center justify-between px-4 py-2.5 text-sm font-semibold text-purple-700 bg-purple-50/60 hover:bg-purple-100/80 rounded-xl transition-colors text-left"
+              >
+                <div className="flex items-center gap-2.5">
+                  <svg className="w-4 h-4 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"
+                    />
+                  </svg>
+                  <span>Saved Bookmarks</span>
+                </div>
+                <span className="text-xs font-extrabold px-2 py-0.5 rounded-full bg-purple-600 text-white">
+                  {count}
+                </span>
+              </button>
+
               <Link
                 href="/"
                 onClick={close}

@@ -1,11 +1,22 @@
 import type { Metadata } from "next";
 import { KNOWLEDGE_ARTICLES, KNOWLEDGE_CATEGORIES } from "@/lib/knowledge";
 import KnowledgeDirectory from "@/components/knowledge/KnowledgeDirectory";
+import { breadcrumbsJsonLd, collectionPageJsonLd } from "@/lib/jsonLd";
 
 export const metadata: Metadata = {
   title: "Knowledge Library — 60 Illustrated Science Explainers for Kids",
   description:
     "Explore 60 beautifully illustrated science guides across 6 categories: Nature & Earth, Weather & Climate, Space, Animal & Plant Life, Human Body, and Everyday Science. Linked to K–8 Science and EVS worksheets.",
+  keywords: [
+    "science explainers for kids",
+    "STEM knowledge library",
+    "illustrated science guides",
+    "water cycle explained",
+    "solar system for kids",
+    "human body for kids",
+    "photosynthesis diagram",
+    "kids science learning",
+  ],
   alternates: { canonical: "/knowledge" },
   openGraph: {
     title: "Knowledge Library — 60 Illustrated Science Explainers | WorksheetDownload",
@@ -14,11 +25,35 @@ export const metadata: Metadata = {
     url: "/knowledge",
     type: "website",
   },
+  twitter: {
+    title: "Knowledge Library — 60 Illustrated Science Explainers | WorksheetDownload",
+    description: "60 illustrated science explainers with step-by-step diagrams and matching printable worksheets.",
+  },
 };
 
 export default function KnowledgePage() {
+  const breadcrumbSchema = breadcrumbsJsonLd([
+    { name: "Home", url: "/" },
+    { name: "Knowledge", url: "/knowledge" },
+  ]);
+
+  const collectionSchema = collectionPageJsonLd({
+    name: "STEM Knowledge Library for Kids",
+    description:
+      "60 clearly illustrated, step-by-step science explainers for young learners across 6 core STEM categories.",
+    url: "/knowledge",
+  });
+
   return (
     <div className="min-h-screen bg-slate-50">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionSchema) }}
+      />
       {/* ── Hero ─────────────────────────────────────────────────────────── */}
       <div className="bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 px-4 sm:px-6 py-14 sm:py-20 relative overflow-hidden">
         {/* Subtle decorative background stars */}
@@ -61,3 +96,4 @@ export default function KnowledgePage() {
     </div>
   );
 }
+

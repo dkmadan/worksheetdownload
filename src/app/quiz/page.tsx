@@ -2,12 +2,33 @@ import type { Metadata } from "next";
 import { GRADES_CURRICULUM, SUBJECTS_META, CURRICULUM } from "@/lib/curriculum";
 import { TECH_DATA } from "@/lib/technologies";
 import QuizConfig from "@/components/quiz/QuizConfig";
+import BookmarkButton from "@/components/bookmarks/BookmarkButton";
+import { breadcrumbsJsonLd } from "@/lib/jsonLd";
 
 export const metadata: Metadata = {
-  title: "Quiz — Test Your Knowledge",
+  title: "Interactive Educational & Tech Quizzes — Test Your Knowledge",
   description:
-    "Take a free 10-question multiple-choice quiz on any Grade & Subject or Technology. Instant results with explanations.",
+    "Take a free 10-question multiple-choice quiz on any Grade & Subject or Technology. Instant results with detailed explanations. Kindergarten to Grade 8 & 37 tech stacks.",
+  keywords: [
+    "online quiz for kids",
+    "math quiz k-8",
+    "science quiz for students",
+    "technology quiz",
+    "developer knowledge test",
+    "coding quiz online",
+    "free multiple choice quiz",
+  ],
   alternates: { canonical: "/quiz" },
+  openGraph: {
+    title: "Interactive Quizzes — Test Your Knowledge | WorksheetDownload",
+    description: "Free 10-question quizzes for K–8 subjects and developer tech stacks with instant explanations.",
+    url: "/quiz",
+    type: "website",
+  },
+  twitter: {
+    title: "Interactive Quizzes | WorksheetDownload",
+    description: "Test your skills with free interactive quizzes across K–8 curriculum and developer tech topics.",
+  },
 };
 
 export default function QuizPage() {
@@ -36,8 +57,17 @@ export default function QuizPage() {
     ),
   }));
 
+  const breadcrumbSchema = breadcrumbsJsonLd([
+    { name: "Home", url: "/" },
+    { name: "Quiz", url: "/quiz" },
+  ]);
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       {/* Hero */}
       <div className="bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800 text-white py-14 sm:py-20 px-4">
         <div className="max-w-2xl mx-auto text-center">
@@ -47,9 +77,24 @@ export default function QuizPage() {
           <h1 className="text-4xl sm:text-5xl font-extrabold leading-tight mb-4 tracking-tight">
             Test Your Knowledge
           </h1>
-          <p className="text-blue-100 text-lg max-w-md mx-auto leading-relaxed">
+          <p className="text-blue-100 text-lg max-w-md mx-auto leading-relaxed mb-6">
             10 multiple-choice questions. Pick any grade, subject, or technology — get instant results with full explanations.
           </p>
+
+          <div className="flex justify-center">
+            <BookmarkButton
+              item={{
+                id: "/quiz",
+                url: "/quiz",
+                title: "Interactive Knowledge Quiz Engine",
+                category: "Quiz",
+                badge: "10-Q MCQ",
+                icon: "🧠",
+                description: "Test your skills with interactive quizzes across K–8 curriculum and developer tech topics.",
+              }}
+              variant="dark"
+            />
+          </div>
 
           <div className="flex justify-center gap-8 mt-10 flex-wrap">
             {[
@@ -95,3 +140,4 @@ export default function QuizPage() {
     </div>
   );
 }
+

@@ -10,6 +10,7 @@ import {
   getAllTopicsForSubject,
   isValidSubjectGlobal,
 } from "@/lib/curriculum";
+import { breadcrumbsJsonLd, collectionPageJsonLd } from "@/lib/jsonLd";
 import type { Metadata } from "next";
 
 export function generateStaticParams() {
@@ -76,8 +77,28 @@ export default async function SubjectTopicsPage({
   const grades = getGradesForSubject(subject);
   const totalTopics = getAllTopicsForSubject(subject).length;
 
+  const breadcrumbSchema = breadcrumbsJsonLd([
+    { name: "Home", url: "/" },
+    { name: "Subjects", url: "/subjects" },
+    { name: subjectDef.label, url: `/subjects/${subject}` },
+  ]);
+
+  const collectionSchema = collectionPageJsonLd({
+    name: `${subjectDef.label} Worksheets for K–8`,
+    description: `Free printable ${subjectDef.label} worksheets covering ${totalTopics} topics across Kindergarten to Grade 8.`,
+    url: `/subjects/${subject}`,
+  });
+
   return (
     <div className="min-h-screen bg-gray-50">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionSchema) }}
+      />
       {/* Gradient hero */}
       <div className={`bg-gradient-to-br ${subjectDef.headerGradient}`}>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 pt-6 pb-10">
@@ -173,3 +194,4 @@ export default async function SubjectTopicsPage({
     </div>
   );
 }
+

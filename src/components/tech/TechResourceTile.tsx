@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import BookmarkButton from "@/components/bookmarks/BookmarkButton";
 
 interface Props {
   type: string;
@@ -132,6 +133,23 @@ export default function TechResourceTile({
             <span>{icon}</span>
             {label}
           </div>
+
+          {/* Bookmark Button */}
+          <div className="absolute top-3 right-3 z-10">
+            <BookmarkButton
+              item={{
+                id: `tech-${filename}`,
+                url: `/technologies`,
+                title: `${techName} — ${label}`,
+                category: "Tech Cheat Sheet",
+                badge: techName,
+                icon: icon,
+                description: description,
+              }}
+              variant="icon"
+              size="sm"
+            />
+          </div>
         </div>
 
         {/* ── Info ── */}
@@ -144,10 +162,10 @@ export default function TechResourceTile({
           </div>
 
           {/* ── Actions ── */}
-          <div className="flex gap-3 mt-auto">
+          <div className="flex gap-2.5 mt-auto">
             <button
               onClick={() => setViewOpen(true)}
-              className="flex-1 flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-500 text-white font-semibold py-2.5 rounded-xl transition-colors text-sm"
+              className="flex-1 flex items-center justify-center gap-1.5 bg-blue-600 hover:bg-blue-500 text-white font-semibold py-2.5 rounded-xl transition-colors text-xs sm:text-sm"
             >
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -157,7 +175,7 @@ export default function TechResourceTile({
             </button>
             <button
               onClick={handleDownload}
-              className="flex-1 flex items-center justify-center gap-2 bg-gray-700 hover:bg-gray-600 text-white font-semibold py-2.5 rounded-xl transition-colors text-sm"
+              className="flex-1 flex items-center justify-center gap-1.5 bg-gray-700 hover:bg-gray-600 text-white font-semibold py-2.5 rounded-xl transition-colors text-xs sm:text-sm"
             >
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />

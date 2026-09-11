@@ -5,6 +5,7 @@ import {
   GRADES_CURRICULUM, SUBJECTS_META,
   getTopicsForGradeSubject, isValidGrade, isValidSubject, CURRICULUM,
 } from "@/lib/curriculum";
+import { breadcrumbsJsonLd, collectionPageJsonLd } from "@/lib/jsonLd";
 import type { Metadata } from "next";
 
 export function generateStaticParams() {
@@ -29,7 +30,7 @@ export async function generateMetadata({
   const topics = getTopicsForGradeSubject(grade, subject);
   const sampleTopics = topics.slice(0, 3).join(", ");
   const title = `${subjectDef.label} Worksheets for ${gradeDef.label} — ${topics.length} Topics`;
-  const description = `Free printable ${subjectDef.label} worksheets for ${gradeDef.label} (${gradeDef.ageRange}). ${topics.length} topics including ${sampleTopics} and more. Download 4 unique practice sheets per topic with answer keys.`;
+  const description = `Free printable ${subjectDef.label} worksheets for ${gradeDef.label} (${gradeDef.ageRange}). ${topics.length} topics including ${sampleTopics} and more. Download 4 practice sheets per topic with answer keys.`;
   return {
     title,
     description,
@@ -67,8 +68,29 @@ export default async function SubjectPage({
   const subjectDef = SUBJECTS_META[subject]!;
   const topics = getTopicsForGradeSubject(grade, subject);
 
+  const breadcrumbSchema = breadcrumbsJsonLd([
+    { name: "Home", url: "/" },
+    { name: "Grades", url: "/grades" },
+    { name: gradeDef.label, url: `/grades/${grade}` },
+    { name: subjectDef.label, url: `/grades/${grade}/${subject}` },
+  ]);
+
+  const collectionSchema = collectionPageJsonLd({
+    name: `${subjectDef.label} Worksheets for ${gradeDef.label}`,
+    description: `Free printable ${subjectDef.label} worksheets for ${gradeDef.label} (${gradeDef.ageRange}) across ${topics.length} topics.`,
+    url: `/grades/${grade}/${subject}`,
+  });
+
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionSchema) }}
+      />
       {/* Breadcrumb */}
       <nav className="flex items-center gap-2 text-xs text-gray-400 mb-6 flex-wrap">
         <Link href="/" className="hover:text-gray-600">Home</Link>

@@ -1,5 +1,6 @@
 import SubjectPageTile from "@/components/ui/SubjectPageTile";
 import { SUBJECTS_META } from "@/lib/curriculum";
+import { breadcrumbsJsonLd, collectionPageJsonLd } from "@/lib/jsonLd";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -35,8 +36,28 @@ export const metadata: Metadata = {
 export default function SubjectsPage() {
   const subjects = Object.values(SUBJECTS_META);
 
+  const breadcrumbSchema = breadcrumbsJsonLd([
+    { name: "Home", url: "/" },
+    { name: "Subjects", url: "/subjects" },
+  ]);
+
+  const collectionSchema = collectionPageJsonLd({
+    name: "Printable Worksheets by Subject (K–8)",
+    description:
+      "Explore free printable worksheets organized by subject across Math, English, Science, EVS, GK, Reasoning, and Social Studies.",
+    url: "/subjects",
+  });
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-indigo-50">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionSchema) }}
+      />
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-12">
         {/* Page hero */}
         <div className="text-center mb-12">
@@ -79,3 +100,4 @@ export default function SubjectsPage() {
     </div>
   );
 }
+

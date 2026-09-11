@@ -6,7 +6,17 @@ import { getAttemptById } from "@/lib/quizAttempts";
 import { getQuestionsForScoring } from "@/lib/questionsDb";
 import QuizReviewAccordion, { type ReviewItem } from "@/components/quiz/QuizReviewAccordion";
 
+import type { Metadata } from "next";
+
 export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+  title: "Quiz Results",
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 export default async function QuizResultPage({
   params,
