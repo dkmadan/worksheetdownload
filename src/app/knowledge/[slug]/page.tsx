@@ -463,7 +463,7 @@ export default async function KnowledgeArticlePage({
               href="/knowledge"
               className="bg-white border border-slate-200 text-slate-700 hover:bg-slate-100 font-bold px-6 py-3 rounded-full transition-colors shadow-sm"
             >
-              All 60 Science Guides 📖
+              All 120 Science Guides 📖
             </Link>
           </div>
         </section>

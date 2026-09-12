@@ -89,7 +89,7 @@ export default function KnowledgeDirectory({ articles }: Props) {
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search 60 topics, terms, cycles..."
+              placeholder={`Search ${articles.length} topics, terms, cycles...`}
               className="w-full pl-9 pr-4 py-2 rounded-xl border border-slate-200 bg-slate-50 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition-all"
             />
             {searchQuery && (

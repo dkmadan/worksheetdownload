@@ -1,6 +1,6 @@
 import React from "react";
 
-// Nature & Earth Scenes (1–10)
+// Nature & Earth Scenes (1–20)
 import {
   RockCycleScene,
   FoodChainScene,
@@ -12,9 +12,19 @@ import {
   RaindropJourneyScene,
   SoilMadeScene,
   TreeLifeScene,
+  VolcanoEruptScene,
+  EarthquakeScene,
+  MountainFormationScene,
+  WaterCycleScene,
+  CaveFormationScene,
+  FossilFormationScene,
+  GlacierLandformScene,
+  OceanSalinityScene,
+  BeachFormationScene,
+  EarthLayersScene,
 } from "./scenes/NatureScenes";
 
-// Weather & Climate Scenes (11–20)
+// Weather & Climate Scenes (21–40)
 import {
   CloudFormationScene,
   WindJourneyScene,
@@ -26,9 +36,19 @@ import {
   WeatherForecastingScene,
   SunlightJourneyScene,
   WeatherVsClimateScene,
+  TornadoFormationScene,
+  FogFormationScene,
+  BlueSkyScatteringScene,
+  HailFormationScene,
+  DroughtCausesScene,
+  FloodCausesScene,
+  WeatherFrontScene,
+  OceanCurrentsScene,
+  GreenhouseEffectScene,
+  DesertDrynessScene,
 } from "./scenes/WeatherScenes";
 
-// Space Scenes (21–30)
+// Space Scenes (41–60)
 import {
   EarthAroundSunScene,
   DayNightScene,
@@ -40,9 +60,19 @@ import {
   RocketPhysicsScene,
   AstronautLifeScene,
   NorthernLightsScene,
+  SolarSystemFormedScene,
+  WhatIsGravityScene,
+  HowSatellitesWorkScene,
+  BlackHoleScene,
+  MoonFormationScene,
+  WhyPlanetsOrbitScene,
+  HowTelescopesWorkScene,
+  WhatAreCometsScene,
+  WhatAreAsteroidsScene,
+  ExploreMarsScene,
 } from "./scenes/SpaceScenes";
 
-// Animal & Plant Life Scenes (31–40)
+// Animal & Plant Life Scenes (61–80)
 import {
   FrogLifeCycleScene,
   BeeLifeCycleScene,
@@ -54,9 +84,19 @@ import {
   AnimalAdaptationScene,
   AnimalDigestionScene,
   EcosystemScene,
+  ButterflyLifeCycleScene,
+  SeedGerminationScene,
+  FlowerToFruitScene,
+  PlantDrinkWaterScene,
+  PollinationScene,
+  LeavesColorChangeScene,
+  FishBreatheUnderwaterScene,
+  BirdFlightScene,
+  AnimalHibernateScene,
+  AnimalMigrateScene,
 } from "./scenes/AnimalPlantScenes";
 
-// Human Body Scenes (41–50)
+// Human Body Scenes (81–100)
 import {
   HumanDigestionScene,
   BreathingScene,
@@ -68,9 +108,19 @@ import {
   ImmuneSystemScene,
   HumanGrowthScene,
   SleepScene,
+  EyeVisionScene,
+  EarHearingScene,
+  KidneyFiltrationScene,
+  SkinProtectionScene,
+  WoundHealingScene,
+  TeethGrowthScene,
+  SkeletonGrowthScene,
+  MemorySynapseScene,
+  BodyBalanceScene,
+  HungerHormonesScene,
 } from "./scenes/HumanBodyScenes";
 
-// Everyday Science Scenes (51–60)
+// Everyday Science Scenes (101–120)
 import {
   ElectricityCircuitScene,
   MagnetsScene,
@@ -82,6 +132,16 @@ import {
   SimpleMachinesScene,
   BatteryPhysicsScene,
   BridgeForcesScene,
+  FrictionMechanicsScene,
+  GravityAccelerationScene,
+  MirrorReflectionScene,
+  LensRefractionScene,
+  BuoyancyFloatScene,
+  AirplaneLiftScene,
+  RefrigeratorCycleScene,
+  SolarPanelElectricityScene,
+  WifiRadioWavesScene,
+  TouchscreenCapacitiveScene,
 } from "./scenes/EverydayScienceScenes";
 
 interface Props {
@@ -90,7 +150,7 @@ interface Props {
 }
 
 const SCENE_REGISTRY: Record<string, () => React.ReactElement> = {
-  // ── Nature & Earth (1–10) ──────────────────────────────────────────────────
+  // ── Nature & Earth (1–20) ──────────────────────────────────────────────────
   "the-rock-cycle": RockCycleScene,
   "the-food-chain": FoodChainScene,
   "the-food-web": FoodWebScene,
@@ -101,8 +161,18 @@ const SCENE_REGISTRY: Record<string, () => React.ReactElement> = {
   "the-journey-of-a-raindrop": RaindropJourneyScene,
   "how-soil-is-made": SoilMadeScene,
   "the-life-of-a-tree": TreeLifeScene,
+  "how-volcanoes-erupt": VolcanoEruptScene,
+  "how-earthquakes-happen": EarthquakeScene,
+  "how-mountains-are-formed": MountainFormationScene,
+  "the-water-cycle": WaterCycleScene,
+  "how-caves-are-formed": CaveFormationScene,
+  "how-fossils-are-made": FossilFormationScene,
+  "how-glaciers-shape-the-land": GlacierLandformScene,
+  "why-oceans-are-salty": OceanSalinityScene,
+  "how-beaches-are-formed": BeachFormationScene,
+  "inside-the-layers-of-the-earth": EarthLayersScene,
 
-  // ── Weather & Climate (11–20) ──────────────────────────────────────────────
+  // ── Weather & Climate (21–40) ──────────────────────────────────────────────
   "how-clouds-are-made": CloudFormationScene,
   "the-journey-of-the-wind": WindJourneyScene,
   "how-rain-happens": RainHappensScene,
@@ -113,8 +183,18 @@ const SCENE_REGISTRY: Record<string, () => React.ReactElement> = {
   "how-weather-forecasting-works": WeatherForecastingScene,
   "the-journey-of-sunlight": SunlightJourneyScene,
   "weather-vs-climate": WeatherVsClimateScene,
+  "how-tornadoes-form": TornadoFormationScene,
+  "how-fog-forms": FogFormationScene,
+  "why-the-sky-is-blue": BlueSkyScatteringScene,
+  "how-hail-forms": HailFormationScene,
+  "what-causes-a-drought": DroughtCausesScene,
+  "how-floods-happen": FloodCausesScene,
+  "how-a-weather-front-works": WeatherFrontScene,
+  "what-causes-ocean-currents": OceanCurrentsScene,
+  "how-the-greenhouse-effect-works": GreenhouseEffectScene,
+  "why-deserts-are-so-dry": DesertDrynessScene,
 
-  // ── Space (21–30) ──────────────────────────────────────────────────────────
+  // ── Space (41–60) ──────────────────────────────────────────────────────────
   "journey-of-earth-around-sun": EarthAroundSunScene,
   "why-do-we-have-day-and-night": DayNightScene,
   "the-phases-of-the-moon": MoonPhasesScene,
@@ -125,8 +205,18 @@ const SCENE_REGISTRY: Record<string, () => React.ReactElement> = {
   "how-rockets-reach-space": RocketPhysicsScene,
   "how-astronauts-live-in-space": AstronautLifeScene,
   "what-causes-the-northern-lights": NorthernLightsScene,
+  "how-the-solar-system-formed": SolarSystemFormedScene,
+  "what-is-gravity": WhatIsGravityScene,
+  "how-satellites-work": HowSatellitesWorkScene,
+  "what-is-a-black-hole": BlackHoleScene,
+  "how-the-moon-was-formed": MoonFormationScene,
+  "why-planets-orbit-the-sun": WhyPlanetsOrbitScene,
+  "how-telescopes-work": HowTelescopesWorkScene,
+  "what-are-comets": WhatAreCometsScene,
+  "what-are-asteroids": WhatAreAsteroidsScene,
+  "how-scientists-explore-mars": ExploreMarsScene,
 
-  // ── Animal & Plant Life (31–40) ────────────────────────────────────────────
+  // ── Animal & Plant Life (61–80) ────────────────────────────────────────────
   "the-life-cycle-of-a-frog": FrogLifeCycleScene,
   "the-life-cycle-of-a-bee": BeeLifeCycleScene,
   "the-life-cycle-of-a-chicken": ChickenLifeCycleScene,
@@ -137,8 +227,18 @@ const SCENE_REGISTRY: Record<string, () => React.ReactElement> = {
   "how-animals-adapt-to-their-environment": AnimalAdaptationScene,
   "the-journey-of-food-through-an-animal": AnimalDigestionScene,
   "how-ecosystems-work": EcosystemScene,
+  "the-life-cycle-of-a-butterfly": ButterflyLifeCycleScene,
+  "how-seeds-germinate": SeedGerminationScene,
+  "how-flowers-become-fruit": FlowerToFruitScene,
+  "how-plants-drink-water": PlantDrinkWaterScene,
+  "how-pollination-works": PollinationScene,
+  "why-leaves-change-color": LeavesColorChangeScene,
+  "how-fish-breathe-underwater": FishBreatheUnderwaterScene,
+  "how-birds-fly": BirdFlightScene,
+  "how-animals-hibernate": AnimalHibernateScene,
+  "how-animals-migrate": AnimalMigrateScene,
 
-  // ── Human Body (41–50) ─────────────────────────────────────────────────────
+  // ── Human Body (81–100) ─────────────────────────────────────────────────────
   "journey-of-food-through-your-body": HumanDigestionScene,
   "how-we-breathe": BreathingScene,
   "how-the-heart-pumps-blood": HeartPumpScene,
@@ -149,8 +249,18 @@ const SCENE_REGISTRY: Record<string, () => React.ReactElement> = {
   "how-the-immune-system-protects-us": ImmuneSystemScene,
   "how-we-grow": HumanGrowthScene,
   "why-do-we-sleep": SleepScene,
+  "how-your-eyes-see": EyeVisionScene,
+  "how-your-ears-hear": EarHearingScene,
+  "how-the-kidneys-clean-blood": KidneyFiltrationScene,
+  "how-skin-protects-your-body": SkinProtectionScene,
+  "how-a-cut-heals": WoundHealingScene,
+  "how-teeth-grow": TeethGrowthScene,
+  "how-your-skeleton-grows": SkeletonGrowthScene,
+  "how-memory-works": MemorySynapseScene,
+  "how-your-body-balances": BodyBalanceScene,
+  "why-we-get-hungry": HungerHormonesScene,
 
-  // ── Everyday Science (51–60) ───────────────────────────────────────────────
+  // ── Everyday Science (101–120) ──────────────────────────────────────────────
   "how-electricity-travels": ElectricityCircuitScene,
   "how-magnets-work": MagnetsScene,
   "how-sound-travels": SoundWavesScene,
@@ -161,10 +271,20 @@ const SCENE_REGISTRY: Record<string, () => React.ReactElement> = {
   "how-simple-machines-make-work-easier": SimpleMachinesScene,
   "how-a-battery-works": BatteryPhysicsScene,
   "how-bridges-stay-strong": BridgeForcesScene,
+  "how-friction-works": FrictionMechanicsScene,
+  "how-gravity-affects-us": GravityAccelerationScene,
+  "how-mirrors-work": MirrorReflectionScene,
+  "how-lenses-bend-light": LensRefractionScene,
+  "why-objects-float-or-sink": BuoyancyFloatScene,
+  "how-airplanes-fly": AirplaneLiftScene,
+  "how-refrigerators-keep-food-cold": RefrigeratorCycleScene,
+  "how-solar-panels-make-electricity": SolarPanelElectricityScene,
+  "how-wi-fi-carries-information": WifiRadioWavesScene,
+  "how-touchscreens-work": TouchscreenCapacitiveScene,
 
   // Legacy Aliases
   "water-life-cycle": RaindropJourneyScene,
-  "butterfly-life-cycle": LadybugLifeCycleScene,
+  "butterfly-life-cycle": ButterflyLifeCycleScene,
   "seed-to-plant-cycle": TreeLifeScene,
   "decomposer-soil-cycle": SoilMadeScene,
   "oxygen-carbon-dioxide-breath-swap": BreathingScene,
@@ -178,3 +298,5 @@ export default function KnowledgeArt({ slug, className }: Props) {
     </div>
   );
 }
+
+

@@ -954,4 +954,952 @@ export const HUMAN_BODY_ARTICLES: KnowledgeArticle[] = [
       { gradeId: "grade-8", subjectId: "science", topic: "Reaching the Age of Adolescence" },
     ],
   },
+
+  // 51. How Your Eyes See
+  {
+    slug: "how-your-eyes-see",
+    title: "How Your Eyes See",
+    subtitle: "From photon refraction to retinal photoreceptors and optical image processing in the brain",
+    category: "Human Body",
+    categorySlug: "human-body",
+    categoryEmoji: "🧍",
+    emoji: "👁️",
+    accent: "sky",
+    readingMinutes: 5,
+    bigIdea:
+      "Your eyes are living video cameras that capture reflected light waves, flip the image upside down on the retina, and send 10 million bits of visual data to your brain every second.",
+    intro:
+      "Every waking moment, your eyes take in light bouncing off everything in the room. Through an intricate system of transparent lenses, adjustable apertures, and millions of light-sensing cells, your visual system creates the vivid, full-color 3D movie of the world you experience.",
+    cycleTitle: "The Optical Pathway of Human Vision",
+    cycle: [
+      {
+        emoji: "💡",
+        label: "1. Light Entry & Cornea Focus",
+        description:
+          "Light rays bounce off an object and pass through the clear, curved cornea, which does two-thirds of the focusing.",
+      },
+      {
+        emoji: "🪟",
+        label: "2. Pupil & Iris Aperture",
+        description:
+          "The colored iris contracts or widens the pupil opening to regulate how much light enters the eye.",
+      },
+      {
+        emoji: "🔍",
+        label: "3. Crystalline Lens Fine-Tuning",
+        description:
+          "Ciliary muscles bend the flexible crystalline lens to bring near or distant objects into sharp focus.",
+      },
+      {
+        emoji: "🎨",
+        label: "4. Retinal Rods & Cones Detection",
+        description:
+          "Light hits 120 million rods (light/dark) and 6 million cones (red, green, blue), generating electrical impulses.",
+      },
+      {
+        emoji: "🧠",
+        label: "5. Visual Cortex Brain Decoding",
+        description:
+          "The optic nerve rushes nerve impulses to the occipital lobe, flipping the upside-down image right-side up.",
+      },
+    ],
+    sections: [
+      {
+        heading: "The Cornea and the Iris: Shutter and Aperture",
+        paragraphs: [
+          "The clear dome at the front of your eye is the Cornea. It acts as the primary fixed lens. Behind it sits the Iris, the colorful muscular ring that gives your eye its color (brown, blue, green, or hazel).",
+          "In bright sunlight, the iris narrows the central dark hole—the pupil—to prevent blinding glare. In dim light, the pupil dilates wide to gather every available photon.",
+        ],
+      },
+      {
+        heading: "Rods and Cones: The Retina's Pixel Array",
+        paragraphs: [
+          "The back wall of the eye is lined with the Retina, a microscopic sensor carpet packed with photoreceptors. Rods detect brightness and motion in low light, while Cones detect crisp details and rich color spectrums.",
+          "At the center of your retina lies the Fovea, where cone density is highest, giving you sharp vision for reading and recognizing faces.",
+        ],
+      },
+      {
+        heading: "The Upside-Down Mystery",
+        paragraphs: [
+          "Because your eye's lens is curved convexly, the image projected onto your retina is actually upside down and backward! Your brain's visual cortex automatically corrects the orientation so you perceive the world right-side up without any delay.",
+        ],
+      },
+    ],
+    vocabulary: [
+      { term: "Cornea", definition: "The transparent outer layer at the front of the eye that protects the eye and refracts light." },
+      { term: "Retina", definition: "The light-sensitive inner lining at the back of the eyeball containing rods and cones." },
+      { term: "Optic Nerve", definition: "The bundle of over one million nerve fibers that carries visual impulses from the retina to the brain." },
+      { term: "Accommodation", definition: "The ability of the eye's lens to change shape and adjust focus between near and distant objects." },
+    ],
+    facts: [
+      "The muscles that move your eyes are the fastest and most active muscles in your entire body, moving over 100,000 times a day!",
+      "You have a natural blind spot where the optic nerve connects to the retina, but your brain seamlessly fills in the missing visual puzzle piece.",
+      "An eagle's eye has up to five times more photoreceptor cones per square millimetre than a human eye, allowing it to spot a rabbit from two miles away.",
+    ],
+    activity: {
+      title: "Find Your Own Retinal Blind Spot",
+      steps: [
+        "Draw a small plus sign (+) on the left and a solid circle (•) about 10 cm to the right on a white piece of paper.",
+        "Hold the paper at arm's length, close your left eye, and stare directly at the plus sign with your right eye.",
+        "Slowly move the paper closer to your face: at about 20 cm distance, the circle will completely vanish as its light falls on your optic nerve blind spot!",
+      ],
+    },
+    related: [
+      { gradeId: "grade-3", subjectId: "evs", topic: "Our Body" },
+      { gradeId: "grade-5", subjectId: "science", topic: "Human Body" },
+      { gradeId: "grade-8", subjectId: "science", topic: "Light and Eyes" },
+    ],
+  },
+
+  // 52. How Your Ears Hear
+  {
+    slug: "how-your-ears-hear",
+    title: "How Your Ears Hear",
+    subtitle: "Acoustic sound waves, eardrum vibrations, tiny ossicles, and the cochlea's fluid symphony",
+    category: "Human Body",
+    categorySlug: "human-body",
+    categoryEmoji: "🧍",
+    emoji: "👂",
+    accent: "amber",
+    readingMinutes: 5,
+    bigIdea:
+      "Your ears convert invisible vibrations traveling through the air into mechanical vibrations, fluid waves, and electrical impulses your brain recognizes as music, speech, and laughter.",
+    intro:
+      "When someone speaks, their vocal cords vibrate air molecules, sending sound waves radiating outward. Your ear is an ultra-precise mechanical-to-electrical converter that can detect sounds as quiet as a falling leaf or as loud as a thunderclap.",
+    cycleTitle: "The Journey of a Sound Wave Through the Ear",
+    cycle: [
+      {
+        emoji: "📡",
+        label: "1. Outer Ear Funneling (Pinna)",
+        description:
+          "The outer ear flap (pinna) collects sound waves and channels them down the auditory ear canal.",
+      },
+      {
+        emoji: "🥁",
+        label: "2. Eardrum Vibration (Tympanum)",
+        description:
+          "Sound waves hit the thin, taut eardrum membrane, causing it to vibrate back and forth.",
+      },
+      {
+        emoji: "🔨",
+        label: "3. The Three Tiny Bones (Ossicles)",
+        description:
+          "The hammer, anvil, and stirrup (malleus, incus, stapes) amplify vibrations by 20 times.",
+      },
+      {
+        emoji: "🐚",
+        label: "4. Cochlear Fluid Waves",
+        description:
+          "The stirrup taps the oval window of the fluid-filled snail shell (cochlea), creating fluid pressure ripples.",
+      },
+      {
+        emoji: "⚡",
+        label: "5. Hair Cell Electrical Firing",
+        description:
+          "16,000 microscopic stereocilia hair cells bend in the fluid waves, triggering nerve signals via the auditory nerve.",
+      },
+    ],
+    sections: [
+      {
+        heading: "The Three Smallest Bones in Your Body",
+        paragraphs: [
+          "Inside your middle ear sit three bones called ossicles: the Malleus (hammer), Incus (anvil), and Stapes (stirrup). The stapes is only 3 millimetres long—smaller than a grain of rice!",
+          "Working together as a mechanical lever system, they amplify gentle vibrations so they can push through the dense fluid inside the inner ear.",
+        ],
+      },
+      {
+        heading: "The Cochlea: A Spiral Frequency Analyzer",
+        paragraphs: [
+          "The cochlea is shaped like a tiny snail shell. Inside, the basilar membrane is tuned like a piano keyboard. High-pitched sounds (like birds chirping) vibrate hair cells at the base, while deep low-pitched rumbles (like thunder) travel to the spiral's tip.",
+        ],
+      },
+      {
+        heading: "Protecting Your Auditory Hair Cells",
+        paragraphs: [
+          "Unlike skin or bone cells, the microscopic sensory hair cells in human ears do not grow back once damaged. Listening to very loud music or machinery can bend and break these hair cells permanently, which is why ear protection is crucial.",
+        ],
+      },
+    ],
+    vocabulary: [
+      { term: "Pinna", definition: "The visible outer portion of the ear that gathers sound waves from the environment." },
+      { term: "Tympanic Membrane", definition: "The thin membrane (eardrum) separating the outer ear from the middle ear." },
+      { term: "Ossicles", definition: "The three tiny middle-ear bones (hammer, anvil, and stirrup) that amplify acoustic vibrations." },
+      { term: "Stereocilia", definition: "Microscopic hair-like projections on auditory sensory cells that generate nerve signals when bent." },
+    ],
+    facts: [
+      "Your ears never stop hearing—even while you sleep, your ears detect sound, but your brain ignores non-threatening noises!",
+      "The Eustachian tube connects your middle ear to the back of your throat, equalizing air pressure when your ears 'pop' in an airplane.",
+      "Elephants can hear low infrasound vibrations through their feet from over 10 miles away.",
+    ],
+    activity: {
+      title: "Build a Cup-and-String Acoustic Sound Transmitter",
+      steps: [
+        "Poke a small hole in the bottom of two paper cups.",
+        "Thread a 5-metre piece of cotton string through both holes and tie knots to secure.",
+        "Pull the string tightly with a partner and speak softly into one cup while your partner listens to hear sound travel through mechanical vibrations!",
+      ],
+    },
+    related: [
+      { gradeId: "grade-3", subjectId: "evs", topic: "Our Body" },
+      { gradeId: "grade-5", subjectId: "science", topic: "Human Body" },
+      { gradeId: "grade-8", subjectId: "science", topic: "Sound" },
+    ],
+  },
+
+  // 53. How the Kidneys Clean Blood
+  {
+    slug: "how-the-kidneys-clean-blood",
+    title: "How the Kidneys Clean Blood",
+    subtitle: "Two million microscopic nephron filters purifying 200 quarts of blood every single day",
+    category: "Human Body",
+    categorySlug: "human-body",
+    categoryEmoji: "🧍",
+    emoji: "🫘",
+    accent: "rose",
+    readingMinutes: 5,
+    bigIdea:
+      "Your two bean-shaped kidneys are your body's master filtration plant — filtering every drop of your blood 40 times a day to maintain perfect chemical balance and eliminate toxic waste.",
+    intro:
+      "As your cells burn food and perform chemical work, they produce metabolic wastes like urea, excess salts, and acids. Your kidneys filter this waste out of your bloodstream while carefully recycling 99% of the water, glucose, and essential minerals back into circulation.",
+    cycleTitle: "The Nephron Blood Filtration and Purification Cycle",
+    cycle: [
+      {
+        emoji: "🩸",
+        label: "1. Renal Artery Blood Inflow",
+        description:
+          "Oxygen-rich blood containing cellular wastes enters the kidneys through the renal arteries under high pressure.",
+      },
+      {
+        emoji: "🕸️",
+        label: "2. Glomerulus High-Pressure Sieve",
+        description:
+          "Blood passes into millions of tiny capillary knots (glomeruli) that squeeze water and small molecules through microscopic pores.",
+      },
+      {
+        emoji: "🧪",
+        label: "3. Bowman's Capsule Filtrate Collection",
+        description:
+          "The surrounding Bowman's capsule captures the fluid filtrate, leaving large red blood cells and proteins behind in blood vessels.",
+      },
+      {
+        emoji: "🔄",
+        label: "4. Renal Tubule Selective Reabsorption",
+        description:
+          "As filtrate moves along coiled tubules, 99% of water, glucose, amino acids, and salts are reabsorbed back into the blood.",
+      },
+      {
+        emoji: "🚽",
+        label: "5. Urine Drainage to Bladder",
+        description:
+          "Remaining concentrated urea and excess water drain through ureters into the bladder for excretion.",
+      },
+    ],
+    sections: [
+      {
+        heading: "Nephrons: The Microscopic Cleaning Engines",
+        paragraphs: [
+          "Each kidney contains about one million microscopic filtering units called Nephrons. If you stretched out all the nephron tubules in both kidneys end-to-end, they would stretch over 50 miles!",
+          "Nephrons operate in two phases: ultrafiltration (squeezing out fluid) followed by selective reabsorption (pulling back what your body needs).",
+        ],
+      },
+      {
+        heading: "Maintaining Fluid and Electrolyte Balance",
+        paragraphs: [
+          "Your kidneys do far more than remove waste. They monitor sodium, potassium, calcium, and water levels with incredible accuracy. When you drink extra water, kidneys produce paler, dilute urine; when dehydrated, they save water, making urine concentrated and darker.",
+        ],
+      },
+      {
+        heading: "Blood Pressure Regulators and Hormone Producers",
+        paragraphs: [
+          "Kidneys also produce vital hormones! Erythropoietin (EPO) signals bone marrow to create fresh red blood cells when oxygen levels drop, and renin helps regulate your blood pressure.",
+        ],
+      },
+    ],
+    vocabulary: [
+      { term: "Nephron", definition: "The functional microscopic filtering unit of the kidney that processes blood and forms urine." },
+      { term: "Glomerulus", definition: "A tiny cluster of capillaries in the nephron that filters fluid and small solutes from blood." },
+      { term: "Urea", definition: "A nitrogen-containing waste product formed in the liver from protein breakdown and excreted by kidneys." },
+      { term: "Ureter", definition: "A muscular duct that carries urine from each kidney down to the urinary bladder." },
+    ],
+    facts: [
+      "Your kidneys filter about 200 litres of fluid every day, but only about 1 to 2 litres leaves your body as urine!",
+      "A person can live a completely healthy, normal life with just one working kidney.",
+      "About 20% of all blood pumped by the heart on every single beat goes straight to the kidneys for purification.",
+    ],
+    activity: {
+      title: "Model Kidney Filtration with Sand, Salt, and Coffee Filters",
+      steps: [
+        "Mix water, salt, red food coloring (representing blood), and coarse sand (representing large blood cells) in a cup.",
+        "Pour the mixture through a coffee filter set over a clear jar.",
+        "Observe how the filter traps the sand while clean colored salty water passes through, demonstrating glomerular filtration!",
+      ],
+    },
+    related: [
+      { gradeId: "grade-4", subjectId: "evs", topic: "Our Internal Organs" },
+      { gradeId: "grade-5", subjectId: "science", topic: "Human Body" },
+      { gradeId: "grade-7", subjectId: "science", topic: "Excretion in Animals" },
+    ],
+  },
+
+  // 54. How Skin Protects Your Body
+  {
+    slug: "how-skin-protects-your-body",
+    title: "How Skin Protects Your Body",
+    subtitle: "The waterproof, self-repairing, microbe-blocking shield that covers your entire body",
+    category: "Human Body",
+    categorySlug: "human-body",
+    categoryEmoji: "🧍",
+    emoji: "🛡️",
+    accent: "emerald",
+    readingMinutes: 5,
+    bigIdea:
+      "Your skin is your body's largest organ — a multi-layered waterproof armor that blocks germs, regulates temperature, produces Vitamin D, and senses the world.",
+    intro:
+      "Weighing around 8 pounds and covering about 20 square feet, your skin is a dynamic biological spacesuit. It keeps your internal organs safe and moist, prevents harmful UV radiation from damaging DNA, and protects against millions of environmental microbes.",
+    cycleTitle: "The Three Layers and Protective Systems of Skin",
+    cycle: [
+      {
+        emoji: "🧱",
+        label: "1. Epidermis Waterproof Shield",
+        description:
+          "The outer layer of tough keratinized dead cells forms a waterproof barrier that prevents dehydration and germ entry.",
+      },
+      {
+        emoji: "☀️",
+        label: "2. Melanin UV Sunscreen",
+        description:
+          "Melanocyte cells produce melanin pigment to absorb harmful solar ultraviolet radiation and protect cell DNA.",
+      },
+      {
+        emoji: "🌡️",
+        label: "3. Dermis Temperature Regulation",
+        description:
+          "Sweat glands secrete cooling moisture while blood vessels dilate or constrict to release or conserve heat.",
+      },
+      {
+        emoji: "🖐️",
+        label: "4. Dermal Nerve Sensing",
+        description:
+          "Millions of mechanoreceptors and thermoreceptors detect pain, heat, cold, and pressure to alert the brain to hazards.",
+      },
+      {
+        emoji: "🛏️",
+        label: "5. Hypodermis Cushioning & Insulation",
+        description:
+          "The deep subcutaneous fat layer cushions impacts and insulates vital organs against extreme cold.",
+      },
+    ],
+    sections: [
+      {
+        heading: "The Epidermis: A Self-Renewing Conveyor Belt",
+        paragraphs: [
+          "The outermost layer of your skin, the Epidermis, contains no blood vessels. New skin cells are born deep at the base and push upward over a 28-day cycle. As they reach the surface, they fill with a tough, waterproof protein called Keratin and flatten out.",
+          "You shed about 30,000 to 40,000 dead skin cells every single minute!",
+        ],
+      },
+      {
+        heading: "The Dermis: The Engine Room of the Skin",
+        paragraphs: [
+          "Beneath the epidermis lies the Dermis, a thick layer packed with collagen and elastin fibers that make skin stretchy and strong. The dermis houses hair follicles, oil (sebaceous) glands that soften skin, and sweat glands that cool you down.",
+        ],
+      },
+      {
+        heading: "Sweat and Shivering: The Body's Thermostat",
+        paragraphs: [
+          "When you get too hot, your body activates 2 to 4 million sweat glands. As sweat evaporates off your skin, it draws heat away from your blood. When cold, dermal blood vessels narrow (vasoconstriction) to keep warm blood centered near vital organs.",
+        ],
+      },
+    ],
+    vocabulary: [
+      { term: "Epidermis", definition: "The thin, outermost layer of skin that provides a waterproof barrier and creates skin tone." },
+      { term: "Dermis", definition: "The thick underlying layer of skin containing blood vessels, nerve endings, sweat glands, and hair follicles." },
+      { term: "Melanin", definition: "A natural dark pigment produced by melanocytes that protects skin cells from ultraviolet (UV) radiation." },
+      { term: "Keratin", definition: "A tough, fibrous protein that forms the primary structural component of skin, hair, and nails." },
+    ],
+    facts: [
+      "Skin accounts for roughly 16% of an adult's total body weight.",
+      "Most household dust is composed of shed dead human skin cells!",
+      "When exposed to natural sunlight, skin cells convert cholesterol precursors into active Vitamin D for strong bones.",
+    ],
+    activity: {
+      title: "Test Skin Evaporative Cooling with Water Drops",
+      steps: [
+        "Place one drop of room-temperature water on the back of your left hand.",
+        "Leave your right hand dry.",
+        "Gently blow air across both hands simultaneously: feel how noticeably cooler the wet spot feels as evaporation extracts heat!",
+      ],
+    },
+    related: [
+      { gradeId: "grade-2", subjectId: "evs", topic: "Our Body" },
+      { gradeId: "grade-5", subjectId: "science", topic: "Human Body" },
+      { gradeId: "grade-7", subjectId: "science", topic: "Transportation and Excretion" },
+    ],
+  },
+
+  // 55. How a Cut Heals
+  {
+    slug: "how-a-cut-heals",
+    title: "How a Cut Heals",
+    subtitle: "Platelet plugs, fibrin nets, macrophage cleanups, and collagen tissue remodeling",
+    category: "Human Body",
+    categorySlug: "human-body",
+    categoryEmoji: "🧍",
+    emoji: "🩹",
+    accent: "rose",
+    readingMinutes: 5,
+    bigIdea:
+      "When you scrape your knee, your body immediately launches a high-speed four-stage emergency repair protocol: stopping blood flow, disinfecting the wound, rebuilding tissue, and strengthening the scar.",
+    intro:
+      "Whether it's a paper cut or a skinned knee, your body begins repairing damaged tissue within seconds of injury. A coordinated team of platelets, clotting proteins, immune defenders, and skin cells works together to seal the breach and restore your skin.",
+    cycleTitle: "The Four Phases of Wound Healing",
+    cycle: [
+      {
+        emoji: "🛑",
+        label: "1. Hemostasis (Clotting & Scab Formation)",
+        description:
+          "Broken blood vessels constrict; platelets clump together and trap fibrin threads to create a blood clot and protective scab.",
+      },
+      {
+        emoji: "🚨",
+        label: "2. Inflammation (Immune Defense)",
+        description:
+          "Blood vessels widen, sending macrophages and neutrophils to consume invading bacteria and clean away dead cell debris.",
+      },
+      {
+        emoji: "🏗️",
+        label: "3. Proliferation (Tissue Rebuilding)",
+        description:
+          "Fibroblasts lay down fresh collagen scaffolding while new capillary loops sprout (granulation tissue) and epidermis regrows.",
+      },
+      {
+        emoji: "✨",
+        label: "4. Maturation & Remodeling",
+        description:
+          "Collagen fibers are cross-linked and rearranged over months to increase tensile strength; the scab falls away.",
+      },
+      {
+        emoji: "🛡️",
+        label: "5. Restored Barrier Function",
+        description:
+          "New epidermal layers complete the skin barrier, leaving healed skin or a subtle protective scar.",
+      },
+    ],
+    sections: [
+      {
+        heading: "Platelets and the Fibrin Spiderweb",
+        paragraphs: [
+          "The instant a blood vessel tears, tiny cell fragments called Platelets rush to the injury site. They transform from smooth discs into spiky spheres that stick to the wound edges.",
+          "Chemical clotting factors activate Fibrin, a protein that forms a tough mesh web across the platelets, trapping red blood cells like fish in a net to form a solid plug.",
+        ],
+      },
+      {
+        heading: "Why Scabs Turn Red, Swollen, and Itchy",
+        paragraphs: [
+          "Inflammation causes redness and swelling because blood vessels dilate to rush white blood cells and repair nutrients to the area. As the wound heals and new nerve endings sprout under the contracting scab, chemical histamines trigger that familiar itchy sensation!",
+        ],
+      },
+      {
+        heading: "Never Pick a Scab!",
+        paragraphs: [
+          "A scab is nature's sterile biological bandage. Beneath that crusty roof, fresh skin cells are actively crawling across the wound bed. If you pull the scab off prematurely, you tear away the delicate new cells and increase the risk of scarring.",
+        ],
+      },
+    ],
+    vocabulary: [
+      { term: "Platelet", definition: "A small, disc-shaped cell fragment in blood that plays a crucial role in blood clotting." },
+      { term: "Fibrin", definition: "An insoluble fibrous protein that forms a mesh network to stabilize blood clots." },
+      { term: "Fibroblast", definition: "A type of biological cell that synthesizes collagen and the extracellular framework in wound healing." },
+      { term: "Granulation Tissue", definition: "New vascular tissue and collagen formed on the surface of a wound during the healing process." },
+    ],
+    facts: [
+      "A healthy blood clot begins forming within just 30 to 60 seconds after a cut occurs.",
+      "Scars look different from normal skin because the newly laid collagen fibers align in parallel sheets rather than normal basket-weave patterns.",
+      "Vitamin C is essential for fibroblasts to produce collagen—without it, old wounds can actually reopen (a symptom of scurvy)!",
+    ],
+    activity: {
+      title: "Model a Fibrin Clot with Wool Yarn and Beads",
+      steps: [
+        "Scatter red beads (red blood cells) and blue beads (platelets) into a shallow bowl.",
+        "Crisscross strands of sticky red wool yarn across the beads (representing fibrin strands).",
+        "Gently lift the yarn mesh: observe how the interconnected fibers trap all the beads into a unified solid clot plug!",
+      ],
+    },
+    related: [
+      { gradeId: "grade-3", subjectId: "evs", topic: "Health and Safety" },
+      { gradeId: "grade-5", subjectId: "science", topic: "Human Body" },
+      { gradeId: "grade-7", subjectId: "science", topic: "Transportation in Animals and Plants" },
+    ],
+  },
+
+  // 56. How Teeth Grow
+  {
+    slug: "how-teeth-grow",
+    title: "How Teeth Grow",
+    subtitle: "Enamel, dentin, pulp chambers, and the transition from primary milk teeth to adult sets",
+    category: "Human Body",
+    categorySlug: "human-body",
+    categoryEmoji: "🧍",
+    emoji: "🦷",
+    accent: "sky",
+    readingMinutes: 5,
+    bigIdea:
+      "Your teeth are the hardest substances in your body — engineered with protective enamel helmets, sensitive dentin shock-absorbers, and living pulp nerves.",
+    intro:
+      "Long before you smiled as a baby, your teeth were already developing inside your jawbones. Throughout childhood, humans grow two distinct sets of teeth: 20 primary 'baby' teeth and 32 permanent adult teeth designed to bite, tear, and grind food for a lifetime.",
+    cycleTitle: "The Developmental Lifecycle of Human Teeth",
+    cycle: [
+      {
+        emoji: "🌱",
+        label: "1. Tooth Bud Formation in Utero",
+        description:
+          "Microscopic tooth buds begin developing beneath gums during early embryonic development.",
+      },
+      {
+        emoji: "👶",
+        label: "2. Primary Teeth Eruption",
+        description:
+          "Between 6 and 24 months, 20 primary milk teeth push through the gums (teething).",
+      },
+      {
+        emoji: "🦷",
+        label: "3. Root Resorption & Tooth Loss",
+        description:
+          "Growing adult teeth underneath dissolve the roots of baby teeth, causing them to loosen and fall out (ages 6 to 12).",
+      },
+      {
+        emoji: "👑",
+        label: "4. Permanent Tooth Eruption",
+        description:
+          "32 larger permanent teeth (incisors, canines, premolars, and molars) erupt into the dental arch.",
+      },
+      {
+        emoji: "🛡️",
+        label: "5. Enamel Mineralization & Care",
+        description:
+          "Fluoride and saliva minerals remineralize enamel crystals, protecting living pulp nerves from acid decay.",
+      },
+    ],
+    sections: [
+      {
+        heading: "The Layers of a Tooth: Harder than Bone",
+        paragraphs: [
+          "Tooth Enamel: The white outer coating is 96% mineralized hydroxyapatite crystals—harder than steel or bone!",
+          "Dentin: The softer, yellow bone-like layer underneath that contains microscopic fluid tubes.",
+          "Pulp: The living inner sanctum containing blood vessels and sensory nerves that sense hot, cold, and pain.",
+        ],
+      },
+      {
+        heading: "Four Types of Specialized Teeth",
+        paragraphs: [
+          "Incisors (8): Sharp, chisel-shaped front teeth for cutting and biting off chunks.",
+          "Canines (4): Pointed corner teeth for tearing tough foods.",
+          "Premolars (8) and Molars (12): Broad, ridged back teeth for crushing and grinding food into fine pulp.",
+        ],
+      },
+      {
+        heading: "How Cavities Form and How Saliva Fights Back",
+        paragraphs: [
+          "Bacteria in dental plaque feed on dietary sugars and excrete lactic acid. This acid dissolves enamel minerals (demineralization). Saliva naturally neutralizes acid and delivers calcium and phosphate to rebuild enamel (remineralization).",
+        ],
+      },
+    ],
+    vocabulary: [
+      { term: "Enamel", definition: "The extremely hard, calcified outer surface layer of a tooth crown that protects underlying dentin." },
+      { term: "Dentin", definition: "The calcified tissue layer beneath enamel that makes up the bulk of tooth structure." },
+      { term: "Pulp Cavity", definition: "The central chamber of a tooth containing connective tissue, blood vessels, and nerve fibers." },
+      { term: "Eruption", definition: "The biological process in tooth development in which teeth enter the mouth and become visible." },
+    ],
+    facts: [
+      "Tooth enamel is the hardest substance in the entire human body, even harder than your femur bone!",
+      "Just like fingerprints, no two people in the world have the exact same bite pattern or tooth alignment.",
+      "Wisdom teeth (third molars) are evolutionary remnants from ancient ancestors who needed extra grinding power for tough roots and raw leaves.",
+    ],
+    activity: {
+      title: "The Eggshell & Vinegar Acid Decay Simulation",
+      steps: [
+        "Place one hard-boiled egg in a glass of white vinegar (acid) and another in plain water (control).",
+        "Check back after 24 hours: observe how acid completely dissolves the hard calcium carbonate eggshell, mimicking enamel erosion from sugary sodas!",
+      ],
+    },
+    related: [
+      { gradeId: "grade-2", subjectId: "evs", topic: "Health and Hygiene" },
+      { gradeId: "grade-4", subjectId: "evs", topic: "Our Teeth" },
+      { gradeId: "grade-7", subjectId: "science", topic: "Nutrition in Animals" },
+    ],
+  },
+
+  // 57. How Your Skeleton Grows
+  {
+    slug: "how-your-skeleton-grows",
+    title: "How Your Skeleton Grows",
+    subtitle: "From flexible baby cartilage to solid adult bones: endochondral ossification explained",
+    category: "Human Body",
+    categorySlug: "human-body",
+    categoryEmoji: "🧍",
+    emoji: "🦴",
+    accent: "amber",
+    readingMinutes: 5,
+    bigIdea:
+      "When you were born, most of your skeleton was made of soft, rubbery cartilage — which osteoblast builder cells gradually replace with rock-solid calcium phosphate bone tissue as you grow.",
+    intro:
+      "A newborn baby has around 300 individual bone segments, while an adult has only 206. Where did those missing bones go? As you grow, smaller bone pieces fuse together and soft cartilage models transform into sturdy, calcium-reinforced skeletal scaffolds.",
+    cycleTitle: "The Endochondral Ossification Growth Process",
+    cycle: [
+      {
+        emoji: "🥟",
+        label: "1. Cartilage Model Template",
+        description:
+          "In the womb, flexible hyaline cartilage forms the initial miniature template of each future bone.",
+      },
+      {
+        emoji: "🩸",
+        label: "2. Primary Ossification Center",
+        description:
+          "Capillaries penetrate the cartilage shaft (diaphysis), bringing osteoblast cells that deposit mineralized bone matrix.",
+      },
+      {
+        emoji: "🦴",
+        label: "3. Secondary Ossification at Ends",
+        description:
+          "Around birth, secondary bone-forming centers appear at the rounded ends (epiphyses) of long bones.",
+      },
+      {
+        emoji: "📏",
+        label: "4. Epiphyseal Growth Plate Lengthening",
+        description:
+          "Cartilage cells in the growth plate divide rapidly, pushing bone ends outward while older cartilage calcifies.",
+      },
+      {
+        emoji: "🔒",
+        label: "5. Growth Plate Fusion in Adulthood",
+        description:
+          "In late adolescence, growth plates fully ossify into solid bone; vertical height growth reaches its permanent limit.",
+      },
+    ],
+    sections: [
+      {
+        heading: "Ossification: Turning Cartilage into Bone",
+        paragraphs: [
+          "The process of converting soft cartilage into rigid bone is called Ossification. Special builder cells called Osteoblasts absorb calcium and phosphorus from your bloodstream and deposit hard mineral crystals onto a flexible collagen protein matrix.",
+        ],
+      },
+      {
+        heading: "Why Do Babies Have Soft Spots on Their Heads?",
+        paragraphs: [
+          "Newborn skulls are not one solid helmet. They consist of separate bony plates connected by flexible fibrous spaces called Fontanelles ('soft spots'). These allow the baby's head to compress safely during birth and give the rapidly growing brain room to expand!",
+        ],
+      },
+      {
+        heading: "Bone Remodeling: The Osteoblast-Osteoclast Team",
+        paragraphs: [
+          "Even after you stop growing taller, your bones never stop changing. Osteoclasts dissolve aged or stressed bone tissue, while Osteoblasts lay down fresh, strong bone. This continuous remodeling ensures bones strengthen where you put physical exercise stress.",
+        ],
+      },
+    ],
+    vocabulary: [
+      { term: "Ossification", definition: "The biological process of bone formation, in which cartilage is transformed into bone tissue." },
+      { term: "Fontanelle", definition: "A space between the bones of the skull in an infant or fetus where ossification is not complete." },
+      { term: "Osteoclast", definition: "A specialized bone cell that breaks down and reabsorbs old bone tissue during remodeling." },
+      { term: "Epiphysis", definition: "The rounded end of a long bone, originally separated from the main shaft by a layer of cartilage." },
+    ],
+    facts: [
+      "Your skeleton completely renews and replaces every single cell roughly every 10 years!",
+      "Astronauts in microgravity lose about 1% of their bone mass per month because their bones lack the gravitational stress that triggers osteoblast rebuilding.",
+      "The hyoid bone at the base of your tongue is the only bone in the human body that does not connect to any other bone!",
+    ],
+    activity: {
+      title: "Map Your Own Skeletal Landmarks",
+      steps: [
+        "Feel the top of your shoulder (clavicle collarbone).",
+        "Gently press the bumps on your spine (vertebrae) and your elbow (olecranon process).",
+        "Trace your shinbone (tibia) to feel how close the solid compact bone lies to the skin surface!",
+      ],
+    },
+    related: [
+      { gradeId: "grade-3", subjectId: "evs", topic: "Our Body" },
+      { gradeId: "grade-5", subjectId: "science", topic: "Human Body" },
+      { gradeId: "grade-6", subjectId: "science", topic: "Body Movements" },
+    ],
+  },
+
+  // 58. How Memory Works
+  {
+    slug: "how-memory-works",
+    title: "How Memory Works",
+    subtitle: "Sensory encoding, synaptic consolidation, neural networks, and memory retrieval",
+    category: "Human Body",
+    categorySlug: "human-body",
+    categoryEmoji: "🧍",
+    emoji: "🧠",
+    accent: "indigo",
+    readingMinutes: 6,
+    bigIdea:
+      "A memory is not a video file stored in a single brain drawer — it is a constellation of thousands of connected neurons firing together in a synchronized electrical symphony.",
+    intro:
+      "How can you remember the lyrics to your favorite song, how to ride a bicycle, or what you had for breakfast yesterday? Memory is your brain's incredible ability to encode sensory experiences, store them across billions of synaptic connections, and retrieve them on demand.",
+    cycleTitle: "The Three Stages of Memory Processing",
+    cycle: [
+      {
+        emoji: "📥",
+        label: "1. Encoding (Sensory Input)",
+        description:
+          "Sensory organs convert sight, sound, and smell into electrical neural signals processed by the prefrontal cortex.",
+      },
+      {
+        emoji: "⏱️",
+        label: "2. Working Memory (Short-Term Hold)",
+        description:
+          "The hippocampus holds 4 to 7 items of temporary information for about 20 to 30 seconds.",
+      },
+      {
+        emoji: "💾",
+        label: "3. Consolidation (Deep Sleep Transfer)",
+        description:
+          "During deep sleep, the hippocampus replays patterns and writes permanent connections into the cerebral cortex.",
+      },
+      {
+        emoji: "🕸️",
+        label: "4. Synaptic Potentiation (Storage)",
+        description:
+          "Repeated recall strengthens synaptic connections between neurons ('neurons that fire together, wire together').",
+      },
+      {
+        emoji: "🔍",
+        label: "5. Retrieval & Reconstruction",
+        description:
+          "A sensory cue triggers the original neural circuit, actively reconstructing the memory in conscious thought.",
+      },
+    ],
+    sections: [
+      {
+        heading: "The Three Types of Memory",
+        paragraphs: [
+          "Sensory Memory: Holds fleeting impressions of sights and sounds for a fraction of a second.",
+          "Short-Term (Working) Memory: Holds small chunks of information (like a phone number) temporarily while you use it.",
+          "Long-Term Memory: Vast permanent storage divided into Declarative (facts, events) and Procedural (motor skills like swimming or typing).",
+        ],
+      },
+      {
+        heading: "The Hippocampus: The Brain's Memory Librarian",
+        paragraphs: [
+          "Tucked deep inside your temporal lobe sits the seahorse-shaped Hippocampus. It acts as the brain's librarian: organizing incoming experiences, deciding what is worth keeping, and indexing memories for long-term storage in the cortex.",
+        ],
+      },
+      {
+        heading: "Spaced Repetition: The Secret to Super Memory",
+        paragraphs: [
+          "Every time you review a concept just before you forget it, the synaptic bridges between those neurons become physically stronger and thicker with myelin insulation. This is why reviewing over several days works infinitely better than cramming the night before!",
+        ],
+      },
+    ],
+    vocabulary: [
+      { term: "Hippocampus", definition: "A complex brain structure embedded deep in the temporal lobe that plays a major role in learning and memory." },
+      { term: "Long-Term Potentiation (LTP)", definition: "A persistent strengthening of synapses based on recent patterns of activity, forming the cellular basis of memory." },
+      { term: "Working Memory", definition: "The system responsible for temporarily holding and manipulating information during complex cognitive tasks." },
+      { term: "Procedural Memory", definition: "Unconscious long-term memory for how to perform motor skills and actions (like riding a bicycle)." },
+    ],
+    facts: [
+      "Your brain's memory storage capacity is estimated to be roughly 2.5 petabytes (equivalent to 3 million hours of HD video)!",
+      "The smell of a familiar food or place can trigger vivid childhood memories instantly because the olfactory bulb connects directly to the hippocampus.",
+      "London taxi drivers have significantly enlarged hippocampi from memorizing the 25,000 streets and landmarks of London!",
+    ],
+    activity: {
+      title: "Test Your Short-Term Digit Span Memory",
+      steps: [
+        "Have a friend read a random 4-digit number (e.g. 5-8-2-9) once. Repeat it back.",
+        "Increase to 5 digits, then 6, 7, 8, and 9 digits.",
+        "Note where you make a mistake: most human working memories comfortably hold between 5 and 9 chunks of information!",
+      ],
+    },
+    related: [
+      { gradeId: "grade-3", subjectId: "evs", topic: "Our Body" },
+      { gradeId: "grade-5", subjectId: "science", topic: "Human Body" },
+      { gradeId: "grade-7", subjectId: "science", topic: "Control and Coordination" },
+    ],
+  },
+
+  // 59. How Your Body Balances
+  {
+    slug: "how-your-body-balances",
+    title: "How Your Body Balances",
+    subtitle: "Semicircular canals, otolith crystals, proprioception, and cerebellar equilibrium",
+    category: "Human Body",
+    categorySlug: "human-body",
+    categoryEmoji: "🧍",
+    emoji: "🤸",
+    accent: "teal",
+    readingMinutes: 5,
+    bigIdea:
+      "Balance is an active trio: your inner ear gyroscope, your eyes, and sensory sensors in your joints constantly update your cerebellum so you can stand on one foot without falling.",
+    intro:
+      "Whether riding a skateboard, walking a narrow curb, or simply standing still, your body is performing hundreds of micro-adjustments every second. Your sense of balance (vestibular system) is your secret sixth sense, keeping you upright against gravity.",
+    cycleTitle: "The Vestibular and Equilibrium Triad",
+    cycle: [
+      {
+        emoji: "🌊",
+        label: "1. Semicircular Fluid Flow",
+        description:
+          "Three fluid-filled loops in the inner ear detect rotational movement across three 3D spatial axes (pitch, roll, yaw).",
+      },
+      {
+        emoji: "💎",
+        label: "2. Otolith Calcium Crystal Shifts",
+        description:
+          "Microscopic calcium carbonate crystals (otoconia) slide across gel layers, signaling linear acceleration and gravity.",
+      },
+      {
+        emoji: "👁️",
+        label: "3. Visual Horizon Alignment",
+        description:
+          "Your eyes provide constant visual feedback confirming head position relative to the horizon.",
+      },
+      {
+        emoji: "🦶",
+        label: "4. Proprioceptive Joint Sensors",
+        description:
+          "Mechanoreceptors in the soles of feet, ankles, and neck report physical pressure and muscle stretch.",
+      },
+      {
+        emoji: "🧠",
+        label: "5. Cerebellar Motor Correction",
+        description:
+          "The cerebellum synthesizes all inputs and commands micro-contractions in leg and core muscles to keep you upright.",
+      },
+    ],
+    sections: [
+      {
+        heading: "The Three Semicircular Canals: 3D Gyroscopes",
+        paragraphs: [
+          "Inside your inner ear, behind the cochlea, sit three semicircular canals arranged at right angles to each other (like the corner of a room). One senses nodding 'yes', one senses shaking 'no', and the third senses tilting your head side to side.",
+          "When you move, fluid inside these loops pushes against a gelatinous dome called the Cupula, bending sensory hair cells.",
+        ],
+      },
+      {
+        heading: "Why Do You Feel Dizzy After Spinning?",
+        paragraphs: [
+          "When you spin around fast and suddenly stop, the fluid inside your semicircular canals keeps swirling due to inertia. The hair cells tell your brain you are still spinning, but your still eyes say you stopped! This sensory conflict causes dizziness and vertigo.",
+        ],
+      },
+    ],
+    vocabulary: [
+      { term: "Vestibular System", definition: "The sensory system in the inner ear responsible for providing our brain with balance, spatial orientation, and motion data." },
+      { term: "Semicircular Canals", definition: "Three fluid-filled bony channels in the inner ear situated at right angles to detect rotational motion." },
+      { term: "Otolith", definition: "Microscopic calcium carbonate structures in the utricle and saccule that register gravity and linear acceleration." },
+      { term: "Cerebellum", definition: "The part of the brain at the back of the skull that coordinates voluntary muscular movement, balance, and posture." },
+    ],
+    facts: [
+      "Cats have an exceptionally sensitive vestibular system and flexible spine, allowing them to right themselves in mid-air and land on their feet.",
+      "Motion sickness occurs when your inner ears detect movement (like rolling on a ship) but your eyes see a stationary cabin interior.",
+      "Closing your eyes while standing on one foot makes balance 5 times harder because you remove one of your three primary equilibrium inputs!",
+    ],
+    activity: {
+      title: "The Romberg Balance Challenge",
+      steps: [
+        "Stand on one foot with your arms crossed over your chest and eyes open: time how many seconds you stay steady.",
+        "Now close your eyes and try the exact same stance on one foot.",
+        "Notice how quickly your ankle muscles wobble to compensate for the loss of visual orientation!",
+      ],
+    },
+    related: [
+      { gradeId: "grade-3", subjectId: "evs", topic: "Our Body" },
+      { gradeId: "grade-5", subjectId: "science", topic: "Human Body" },
+      { gradeId: "grade-6", subjectId: "science", topic: "Body Movements" },
+    ],
+  },
+
+  // 60. Why We Get Hungry
+  {
+    slug: "why-we-get-hungry",
+    title: "Why We Get Hungry",
+    subtitle: "Ghrelin, leptin, blood glucose levels, and the hypothalamus appetite switchboard",
+    category: "Human Body",
+    categorySlug: "human-body",
+    categoryEmoji: "🧍",
+    emoji: "🍽️",
+    accent: "orange",
+    readingMinutes: 5,
+    bigIdea:
+      "Hunger is not just an empty stomach feeling — it is an orchestrated biochemical communication network driven by gut hormones (ghrelin and leptin) and your brain's hypothalamus.",
+    intro:
+      "Your stomach growls, your energy dips, and your thoughts drift toward snacks. Why does your body demand food at regular intervals? Hunger is your body's survival signaling system, ensuring your trillions of cells receive a steady supply of glucose, fats, and amino acids to stay alive.",
+    cycleTitle: "The Biochemical Appetite and Satiety Loop",
+    cycle: [
+      {
+        emoji: "📉",
+        label: "1. Blood Glucose Drop",
+        description:
+          "As cells consume circulating energy, blood glucose levels decline, signaling energy deficit.",
+      },
+      {
+        emoji: "📢",
+        label: "2. Ghrelin Hormone Surge",
+        description:
+          "The empty stomach wall secretes the 'hunger hormone' Ghrelin into the bloodstream.",
+      },
+      {
+        emoji: "🧠",
+        label: "3. Hypothalamus Appetite Activation",
+        description:
+          "Ghrelin activates NPY neurons in the hypothalamus, triggering food-seeking thoughts and appetite.",
+      },
+      {
+        emoji: "🍲",
+        label: "4. Stomach Distension & Digestion",
+        description:
+          "Eating food physically stretches stomach walls and releases peptide hormones (CCK, PYY).",
+      },
+      {
+        emoji: "🛑",
+        label: "5. Leptin & Satiety Signal",
+        description:
+          "Fat stores and full intestines signal the hypothalamus that energy is restored, shutting off hunger.",
+      },
+    ],
+    sections: [
+      {
+        heading: "Ghrelin vs. Leptin: The Hunger Tug-of-War",
+        paragraphs: [
+          "Ghrelin: The 'Go eat!' hormone produced by an empty stomach. It stimulates appetite and increases fat storage.",
+          "Leptin: The 'Stop eating!' satiety hormone made by fat cells. It tells your brain you have stored plenty of fuel and can stop eating.",
+        ],
+      },
+      {
+        heading: "What Makes Your Stomach Growl?",
+        paragraphs: [
+          "The rumbling sound from your belly (scientific name: Borborygmi) is caused by peristaltic muscle contractions churning gas, fluids, and air through your empty intestines. It happens all the time, but without food muffling the sound, it echoes loudly!",
+        ],
+      },
+      {
+        heading: "Why Lack of Sleep Makes You Crave Snacks",
+        paragraphs: [
+          "When you don't get enough sleep, your body produces more ghrelin and less leptin. This hormonal imbalance tricks your brain into thinking you are starving, triggering intense cravings for high-calorie sugary and carbohydrate-rich foods.",
+        ],
+      },
+    ],
+    vocabulary: [
+      { term: "Ghrelin", definition: "A circulating peptide hormone produced by the stomach that stimulates appetite and food intake." },
+      { term: "Leptin", definition: "A hormone secreted by adipose (fat) tissue that suppresses appetite and signals satiety to the brain." },
+      { term: "Hypothalamus", definition: "The region of the brain that coordinates the autonomic nervous system and controls appetite, thirst, and body temperature." },
+      { term: "Borborygmi", definition: "The rumbling or gurgling noise produced by the movement of gas and fluids in the gastrointestinal tract." },
+    ],
+    facts: [
+      "It takes about 20 minutes for your stomach to signal to your brain that you are full—eating slowly prevents overeating!",
+      "Hanger (hunger + anger) is a real biological reaction: low blood glucose triggers the release of stress hormones like cortisol and adrenaline.",
+      "The smell and sight of delicious food can trigger cephalic-phase saliva and stomach acid production even before you take your first bite.",
+    ],
+    activity: {
+      title: "Mindful Eating 20-Minute Satiety Test",
+      steps: [
+        "Take a normal meal or healthy snack.",
+        "Chew each bite slowly (15 to 20 chews), putting your fork down between bites.",
+        "Check how full you feel after 10 minutes versus after 20 minutes to experience how leptin takes time to signal satiety!",
+      ],
+    },
+    related: [
+      { gradeId: "grade-3", subjectId: "evs", topic: "Food and Nutrition" },
+      { gradeId: "grade-5", subjectId: "science", topic: "Human Body" },
+      { gradeId: "grade-7", subjectId: "science", topic: "Nutrition in Animals" },
+    ],
+  },
 ];
+

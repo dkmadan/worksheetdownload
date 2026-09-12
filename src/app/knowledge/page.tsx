@@ -4,9 +4,9 @@ import KnowledgeDirectory from "@/components/knowledge/KnowledgeDirectory";
 import { breadcrumbsJsonLd, collectionPageJsonLd } from "@/lib/jsonLd";
 
 export const metadata: Metadata = {
-  title: "Knowledge Library — 60 Illustrated Science Explainers for Kids",
+  title: "Knowledge Library — 120 Illustrated Science Explainers for Kids",
   description:
-    "Explore 60 beautifully illustrated science guides across 6 categories: Nature & Earth, Weather & Climate, Space, Animal & Plant Life, Human Body, and Everyday Science. Linked to K–8 Science and EVS worksheets.",
+    "Explore 120 beautifully illustrated science guides across 6 categories: Nature & Earth, Weather & Climate, Space, Animal & Plant Life, Human Body, and Everyday Science. Linked to K–8 Science and EVS worksheets.",
   keywords: [
     "science explainers for kids",
     "STEM knowledge library",
@@ -19,15 +19,15 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: "/knowledge" },
   openGraph: {
-    title: "Knowledge Library — 60 Illustrated Science Explainers | WorksheetDownload",
+    title: "Knowledge Library — 120 Illustrated Science Explainers | WorksheetDownload",
     description:
       "Explore nature's cycles, space physics, the human body, weather, and everyday science with clear diagrams and hands-on activities, then practise with matching K–8 worksheets.",
     url: "/knowledge",
     type: "website",
   },
   twitter: {
-    title: "Knowledge Library — 60 Illustrated Science Explainers | WorksheetDownload",
-    description: "60 illustrated science explainers with step-by-step diagrams and matching printable worksheets.",
+    title: "Knowledge Library — 120 Illustrated Science Explainers | WorksheetDownload",
+    description: "120 illustrated science explainers with step-by-step diagrams and matching printable worksheets.",
   },
 };
 
@@ -40,7 +40,7 @@ export default function KnowledgePage() {
   const collectionSchema = collectionPageJsonLd({
     name: "STEM Knowledge Library for Kids",
     description:
-      "60 clearly illustrated, step-by-step science explainers for young learners across 6 core STEM categories.",
+      "120 clearly illustrated, step-by-step science explainers for young learners across 6 core STEM categories.",
     url: "/knowledge",
   });
 
@@ -67,7 +67,7 @@ export default function KnowledgePage() {
             How the World Works
           </h1>
           <p className="text-slate-300 text-base sm:text-lg max-w-3xl mx-auto leading-relaxed">
-            60 clearly illustrated, step-by-step science explainers for young learners.
+            120 clearly illustrated, step-by-step science explainers for young learners.
             Explore planetary cycles, rocket physics, human anatomy, ecosystems, and weather
             phenomena — complete with key vocabulary, fun facts, try-it-yourself activities, and
             curriculum-matched printable worksheets.

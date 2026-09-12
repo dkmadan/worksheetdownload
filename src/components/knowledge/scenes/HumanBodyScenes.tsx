@@ -351,3 +351,373 @@ export function SleepScene() {
     </Frame>
   );
 }
+
+// 51. How Your Eyes See
+export function EyeVisionScene() {
+  return (
+    <Frame label="How Your Eyes See: Cornea, Iris, Lens, Retina Photoreceptors & Optic Nerve">
+      <defs>
+        <linearGradient id="eye-bg" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#0f172a" />
+          <stop offset="100%" stopColor="#1e293b" />
+        </linearGradient>
+        <radialGradient id="iris-glow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor="#0284c7" />
+          <stop offset="70%" stopColor="#0369a1" />
+          <stop offset="100%" stopColor="#082f49" />
+        </radialGradient>
+      </defs>
+      <rect width="440" height="260" fill="url(#eye-bg)" />
+      {/* Eye Cross-Section Diagram */}
+      <g transform="translate(190, 130)">
+        {/* Eyeball outer sclera */}
+        <circle cx="0" cy="0" r="75" fill="#f8fafc" stroke="#64748b" strokeWidth="2" />
+        {/* Retina back lining */}
+        <path d="M-65 -35 A75 75 0 0 0 -65 35" fill="none" stroke="#f43f5e" strokeWidth="6" />
+        <text x="-120" y="5" fill="#fda4af" fontSize="10" fontWeight="bold">Retina (Rods/Cones)</text>
+        {/* Optic Nerve exit */}
+        <path d="M-75 -10 L-110 -20 L-110 20 L-75 10 Z" fill="#cbd5e1" />
+        <text x="-140" y="-25" fill="#93c5fd" fontSize="9" fontWeight="bold">Optic Nerve to Brain</text>
+        {/* Vitreous Humour interior */}
+        <circle cx="-10" cy="0" r="55" fill="#e0f2fe" opacity="0.6" />
+        {/* Crystalline Lens */}
+        <ellipse cx="38" cy="0" rx="9" ry="28" fill="#bae6fd" stroke="#0284c7" strokeWidth="2" />
+        <text x="30" y="-35" fill="#7dd3fc" fontSize="9" fontWeight="bold">Lens</text>
+        {/* Iris & Pupil */}
+        <rect x="44" y="-36" width="6" height="18" fill="url(#iris-glow)" rx="2" />
+        <rect x="44" y="18" width="6" height="18" fill="url(#iris-glow)" rx="2" />
+        {/* Clear Cornea dome */}
+        <path d="M42 -40 C68 -25 68 25 42 40" fill="none" stroke="#38bdf8" strokeWidth="4" />
+        <text x="60" y="45" fill="#38bdf8" fontSize="10" fontWeight="bold">Cornea Dome</text>
+        {/* Incoming Light Rays */}
+        <path d="M140 -25 L48 -5 L-65 18" stroke="#fde047" strokeWidth="2" strokeDasharray="4 2" />
+        <path d="M140 25 L48 5 L-65 -18" stroke="#fde047" strokeWidth="2" strokeDasharray="4 2" />
+      </g>
+      <text x="130" y="30" fill="#fde047" fontSize="13" fontWeight="black">126M Photoreceptors &amp; 3D Vision 👁️</text>
+    </Frame>
+  );
+}
+
+// 52. How Your Ears Hear
+export function EarHearingScene() {
+  return (
+    <Frame label="How Your Ears Hear: Sound Waves, Eardrum, 3 Ossicles, Cochlea Hair Cells">
+      <defs>
+        <linearGradient id="ear-bg" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#78350f" />
+          <stop offset="100%" stopColor="#451a03" />
+        </linearGradient>
+      </defs>
+      <rect width="440" height="260" fill="url(#ear-bg)" />
+      {/* Sound Waves & Ear Anatomy */}
+      <g transform="translate(60, 130)">
+        {/* Sound Waves */}
+        <path d="M-20 -30 A40 40 0 0 1 -20 30" fill="none" stroke="#fde047" strokeWidth="3" />
+        <path d="M-5 -45 A60 60 0 0 1 -5 45" fill="none" stroke="#fde047" strokeWidth="3" />
+        <text x="-40" y="-55" fill="#fde047" fontSize="10" fontWeight="bold">Sound Waves</text>
+      </g>
+      <g transform="translate(180, 130)">
+        {/* Pinna outer ear curve */}
+        <path d="M-60 -60 C-30 -70 -10 -40 -30 -10 C-45 10 -40 50 -60 60" fill="none" stroke="#fed7aa" strokeWidth="6" strokeLinecap="round" />
+        {/* Ear canal tube */}
+        <rect x="-30" y="-12" width="60" height="24" fill="#fb923c" opacity="0.4" rx="6" />
+        {/* Eardrum membrane */}
+        <line x1="30" y1="-18" x2="30" y2="18" stroke="#f43f5e" strokeWidth="4" />
+        <text x="15" y="34" fill="#fda4af" fontSize="9" fontWeight="bold">Eardrum</text>
+        {/* 3 Ossicles (Hammer, Anvil, Stirrup) */}
+        <path d="M32 -5 L45 -12 L55 -2 L62 -2" stroke="#fde047" strokeWidth="3" fill="none" />
+        <text x="40" y="-22" fill="#fde047" fontSize="9" fontWeight="bold">3 Ossicles</text>
+        {/* Snail-shell Cochlea */}
+        <g transform="translate(85, 0)">
+          <path d="M0 0 A18 18 0 0 1 20 15 A12 12 0 0 1 10 25 A6 6 0 0 1 5 18" fill="none" stroke="#38bdf8" strokeWidth="6" strokeLinecap="round" />
+          <text x="25" y="10" fill="#38bdf8" fontSize="10" fontWeight="bold">Cochlea (Hair Cells)</text>
+          <path d="M22 20 L55 35" stroke="#a78bfa" strokeWidth="3" strokeDasharray="3 2" />
+          <text x="45" y="52" fill="#c4b5fd" fontSize="9" fontWeight="bold">Auditory Nerve</text>
+        </g>
+      </g>
+      <text x="120" y="32" fill="#ffffff" fontSize="13" fontWeight="black">Acoustic Vibrations to Nerve Pulses 👂</text>
+    </Frame>
+  );
+}
+
+// 53. How the Kidneys Clean Blood
+export function KidneyFiltrationScene() {
+  return (
+    <Frame label="How the Kidneys Clean Blood: Renal Artery, Nephron Glomerulus, Urine Tube">
+      <defs>
+        <linearGradient id="kid-bg" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#831843" />
+          <stop offset="100%" stopColor="#500724" />
+        </linearGradient>
+      </defs>
+      <rect width="440" height="260" fill="url(#kid-bg)" />
+      {/* Twin Bean Kidneys and Vessles */}
+      <g transform="translate(160, 130)">
+        {/* Left Kidney */}
+        <path d="M-50 -50 C-85 -40 -85 40 -50 50 C-35 30 -35 -30 -50 -50 Z" fill="#be123c" stroke="#f43f5e" strokeWidth="3" />
+        <text x="-120" y="5" fill="#fda4af" fontSize="10" fontWeight="bold">Kidney (1M Nephrons)</text>
+        {/* Renal Artery (Red) & Vein (Blue) */}
+        <line x1="-38" y1="-10" x2="20" y2="-10" stroke="#ef4444" strokeWidth="5" />
+        <line x1="-38" y1="8" x2="20" y2="8" stroke="#3b82f6" strokeWidth="5" />
+        {/* Ureter Tube to Bladder */}
+        <path d="M-40 25 Q-15 65 20 85" fill="none" stroke="#facc15" strokeWidth="4" />
+        <text x="-40" y="75" fill="#fde047" fontSize="9" fontWeight="bold">Ureter (Waste)</text>
+        {/* Zoom In Glomerulus Sieve */}
+        <g transform="translate(130, -20)">
+          <circle cx="0" cy="0" r="32" fill="#1e1b4b" stroke="#f43f5e" strokeWidth="2" />
+          <path d="M-15 -10 C-5 -25 15 -15 0 0 C-10 15 15 20 5 0" fill="none" stroke="#ef4444" strokeWidth="4" />
+          <text x="-32" y="-38" fill="#fde047" fontSize="10" fontWeight="bold">Glomerular Filter Sieve</text>
+          <text x="-35" y="48" fill="#93c5fd" fontSize="9">99% Water Recycled</text>
+        </g>
+      </g>
+      <text x="110" y="32" fill="#fde047" fontSize="13" fontWeight="black">200 Quarts of Blood Purified Daily 🫘</text>
+    </Frame>
+  );
+}
+
+// 54. How Skin Protects Your Body
+export function SkinProtectionScene() {
+  return (
+    <Frame label="How Skin Protects Your Body: Epidermis, Dermis, Sweat Glands, Melanin Shield">
+      <defs>
+        <linearGradient id="skin-bg" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#065f46" />
+          <stop offset="100%" stopColor="#022c22" />
+        </linearGradient>
+      </defs>
+      <rect width="440" height="260" fill="url(#skin-bg)" />
+      {/* Multi-Layer Skin Cross-Section */}
+      <g transform="translate(50, 70)">
+        {/* Layer 1: Epidermis */}
+        <rect x="0" y="0" width="340" height="35" fill="#fed7aa" stroke="#fb923c" strokeWidth="2" rx="4" />
+        <text x="10" y="22" fill="#9a3412" fontSize="11" fontWeight="black">1. EPIDERMIS (Keratin Shield &amp; Melanin UV Filter)</text>
+        {/* Hair Shafts */}
+        <line x1="80" y1="-25" x2="95" y2="40" stroke="#78350f" strokeWidth="3" strokeLinecap="round" />
+        <line x1="220" y1="-25" x2="235" y2="40" stroke="#78350f" strokeWidth="3" strokeLinecap="round" />
+        {/* Layer 2: Dermis */}
+        <rect x="0" y="40" width="340" height="60" fill="#fca5a5" stroke="#ef4444" strokeWidth="2" rx="4" />
+        <text x="10" y="65" fill="#7f1d1d" fontSize="11" fontWeight="black">2. DERMIS (Sweat Glands, Capillaries &amp; Nerve Receptors)</text>
+        {/* Sweat Gland Coil */}
+        <circle cx="160" cy="70" r="10" fill="none" stroke="#0284c7" strokeWidth="3" />
+        <line x1="160" y1="60" x2="160" y2="0" stroke="#0284c7" strokeWidth="2" strokeDasharray="3 2" />
+        {/* Layer 3: Hypodermis Subcutaneous Fat */}
+        <rect x="0" y="105" width="340" height="40" fill="#fef08a" stroke="#eab308" strokeWidth="2" rx="4" />
+        <text x="10" y="130" fill="#713f12" fontSize="11" fontWeight="black">3. HYPODERMIS (Subcutaneous Fat Cushion &amp; Insulation)</text>
+      </g>
+      <text x="120" y="32" fill="#fde047" fontSize="13" fontWeight="black">20 Sq Ft Waterproof Biological Armor 🛡️</text>
+    </Frame>
+  );
+}
+
+// 55. How a Cut Heals
+export function WoundHealingScene() {
+  return (
+    <Frame label="How a Cut Heals: Platelets, Fibrin Mesh, Scab, Fibroblast Collagen">
+      <defs>
+        <linearGradient id="wh-bg" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#881337" />
+          <stop offset="100%" stopColor="#4c0519" />
+        </linearGradient>
+      </defs>
+      <rect width="440" height="260" fill="url(#wh-bg)" />
+      {/* Wound Healing Stage Graphic */}
+      <g transform="translate(60, 110)">
+        {/* Normal Skin Left & Right */}
+        <rect x="0" y="0" width="110" height="50" fill="#fed7aa" rx="4" />
+        <rect x="210" y="0" width="110" height="50" fill="#fed7aa" rx="4" />
+        <text x="15" y="30" fill="#78350f" fontSize="10" fontWeight="bold">Healthy Skin</text>
+        <text x="225" y="30" fill="#78350f" fontSize="10" fontWeight="bold">Healthy Skin</text>
+        {/* Cut Gap with Clot / Scab */}
+        <g transform="translate(110, -10)">
+          {/* Scab Roof */}
+          <path d="M0 10 Q50 -5 100 10 L100 20 Q50 15 0 20 Z" fill="#7f1d1d" stroke="#450a0a" strokeWidth="1" />
+          <text x="20" y="8" fill="#fecdd3" fontSize="9" fontWeight="bold">Protective Scab</text>
+          {/* Fibrin Net & Platelets */}
+          <rect x="5" y="20" width="90" height="40" fill="#be123c" opacity="0.8" rx="2" />
+          <path d="M10 25 L85 55 M15 50 L80 25 M30 22 L70 58 M45 58 L55 22" stroke="#fde047" strokeWidth="2" />
+          <circle cx="35" cy="35" r="4" fill="#38bdf8" />
+          <circle cx="65" cy="45" r="4" fill="#38bdf8" />
+          <text x="12" y="72" fill="#fde047" fontSize="9" fontWeight="bold">Fibrin Net &amp; Platelets</text>
+        </g>
+      </g>
+      <text x="120" y="35" fill="#ffffff" fontSize="13" fontWeight="black">4-Stage Cellular Emergency Repair 🩹</text>
+    </Frame>
+  );
+}
+
+// 56. How Teeth Grow
+export function TeethGrowthScene() {
+  return (
+    <Frame label="How Teeth Grow: Enamel Crown, Dentin Shock-Absorber, Pulp Nerves & Roots">
+      <defs>
+        <linearGradient id="tg-bg" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#0369a1" />
+          <stop offset="100%" stopColor="#0c4a6e" />
+        </linearGradient>
+      </defs>
+      <rect width="440" height="260" fill="url(#tg-bg)" />
+      {/* Tooth Anatomy Cutaway */}
+      <g transform="translate(220, 130)">
+        {/* Gum Line */}
+        <path d="M-110 0 C-60 10 -40 -15 0 0 C40 -15 60 10 110 0 L110 90 L-110 90 Z" fill="#fb7185" opacity="0.85" />
+        <text x="-95" y="45" fill="#ffffff" fontSize="10" fontWeight="bold">Gum Tissue</text>
+        {/* Tooth Outer Enamel */}
+        <path d="M-45 -50 C-45 -75 45 -75 45 -50 L35 0 L25 60 L10 65 L5 10 L-5 10 L-10 65 L-25 60 L-35 0 Z" fill="#f8fafc" stroke="#cbd5e1" strokeWidth="2" />
+        {/* Yellow Dentin Layer */}
+        <path d="M-35 -45 C-35 -62 35 -62 35 -45 L25 -5 L18 45 L10 50 L5 5 L-5 5 L-10 50 L-18 45 L-25 -5 Z" fill="#fef08a" />
+        <text x="-85" y="-55" fill="#fde047" fontSize="10" fontWeight="bold">Enamel Helmet</text>
+        <text x="50" y="-35" fill="#fef08a" fontSize="10" fontWeight="bold">Dentin Layer</text>
+        {/* Red/Blue Pulp Chamber with Nerves */}
+        <path d="M-15 -35 C-15 -45 15 -45 15 -35 L8 0 L5 35 L0 5 L-5 35 L-8 0 Z" fill="#ef4444" />
+        <line x1="0" y1="-30" x2="0" y2="70" stroke="#3b82f6" strokeWidth="2" />
+        <text x="45" y="15" fill="#fca5a5" fontSize="9" fontWeight="bold">Pulp &amp; Nerve Roots</text>
+      </g>
+      <text x="130" y="32" fill="#ffffff" fontSize="13" fontWeight="black">Hardest Substance in Your Body 🦷</text>
+    </Frame>
+  );
+}
+
+// 57. How Your Skeleton Grows
+export function SkeletonGrowthScene() {
+  return (
+    <Frame label="How Your Skeleton Grows: Cartilage Model to Solid Bone & Growth Plates">
+      <defs>
+        <linearGradient id="sg-bg" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#713f12" />
+          <stop offset="100%" stopColor="#451a03" />
+        </linearGradient>
+      </defs>
+      <rect width="440" height="260" fill="url(#sg-bg)" />
+      {/* Growing Long Bone with Epiphyseal Plates */}
+      <g transform="translate(220, 130)">
+        {/* Bone Shaft (Diaphysis) */}
+        <rect x="-20" y="-50" width="40" height="100" fill="#f8fafc" stroke="#cbd5e1" strokeWidth="2" />
+        {/* Growth Plate Top (Cartilage) */}
+        <rect x="-30" y="-58" width="60" height="8" fill="#38bdf8" stroke="#0284c7" strokeWidth="1.5" rx="2" />
+        <text x="40" y="-52" fill="#7dd3fc" fontSize="10" fontWeight="bold">Growth Plate (Cartilage)</text>
+        {/* Epiphysis Top End */}
+        <path d="M-35 -58 C-35 -85 35 -85 35 -58 Z" fill="#f1f5f9" stroke="#cbd5e1" strokeWidth="2" />
+        {/* Growth Plate Bottom */}
+        <rect x="-30" y="50" width="60" height="8" fill="#38bdf8" stroke="#0284c7" strokeWidth="1.5" rx="2" />
+        <text x="40" y="56" fill="#7dd3fc" fontSize="10" fontWeight="bold">Growth Plate (Cartilage)</text>
+        {/* Epiphysis Bottom End */}
+        <path d="M-35 58 C-35 85 35 85 35 58 Z" fill="#f1f5f9" stroke="#cbd5e1" strokeWidth="2" />
+        {/* Osteoblast Building Arrows */}
+        <path d="M-50 -20 L-30 -20" stroke="#fde047" strokeWidth="3" markerEnd="url(#arrow)" />
+        <text x="-120" y="-15" fill="#fde047" fontSize="9" fontWeight="bold">Osteoblasts Add Calcium</text>
+      </g>
+      <text x="110" y="32" fill="#fde047" fontSize="13" fontWeight="black">Endochondral Bone Ossification 🦴</text>
+    </Frame>
+  );
+}
+
+// 58. How Memory Works
+export function MemorySynapseScene() {
+  return (
+    <Frame label="How Memory Works: Synaptic Strengthening, Neural Wiring, Hippocampus">
+      <defs>
+        <linearGradient id="mem-bg" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stopColor="#311042" />
+          <stop offset="100%" stopColor="#1e1b4b" />
+        </linearGradient>
+      </defs>
+      <rect width="440" height="260" fill="url(#mem-bg)" />
+      {/* Interconnected Neural Web */}
+      <g transform="translate(220, 130)">
+        {/* Center Synaptic Hub */}
+        <circle cx="0" cy="0" r="18" fill="#818cf8" />
+        <circle cx="0" cy="0" r="28" fill="#818cf8" opacity="0.3" />
+        {/* Node connections */}
+        {[
+          { x: -80, y: -45, label: "Sensory Input" },
+          { x: 80, y: -45, label: "Working Memory" },
+          { x: -90, y: 45, label: "Hippocampus" },
+          { x: 90, y: 45, label: "Long-Term Cortex" },
+        ].map((node, i) => (
+          <g key={i}>
+            <line x1="0" y1="0" x2={node.x} y2={node.y} stroke="#fde047" strokeWidth="3" strokeDasharray="4 2" />
+            <circle cx={node.x} cy={node.y} r="14" fill="#a855f7" stroke="#ffffff" strokeWidth="2" />
+            <text x={node.x > 0 ? node.x - 20 : node.x - 45} y={node.y > 0 ? node.y + 25 : node.y - 18} fill="#e9d5ff" fontSize="9" fontWeight="bold">
+              {node.label}
+            </text>
+          </g>
+        ))}
+        {/* Synaptic Potentiation Text */}
+        <text x="-85" y="7" fill="#fde047" fontSize="11" fontWeight="black">Synaptic LTP Circuit ⚡</text>
+      </g>
+      <text x="120" y="32" fill="#ffffff" fontSize="13" fontWeight="black">2.5 Petabytes Neural Network 🧠</text>
+    </Frame>
+  );
+}
+
+// 59. How Your Body Balances
+export function BodyBalanceScene() {
+  return (
+    <Frame label="How Your Body Balances: Semicircular Canals, Otoliths, Cerebellum Equilibrium">
+      <defs>
+        <linearGradient id="bal-bg" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#115e59" />
+          <stop offset="100%" stopColor="#042f2e" />
+        </linearGradient>
+      </defs>
+      <rect width="440" height="260" fill="url(#bal-bg)" />
+      {/* 3D Semicircular Canal Gyroscope & Acrobat */}
+      <g transform="translate(130, 130)">
+        {/* 3 Semicircular Canal Rings */}
+        <ellipse cx="0" cy="-20" rx="35" ry="15" fill="none" stroke="#2dd4bf" strokeWidth="5" />
+        <ellipse cx="-20" cy="5" rx="15" ry="30" fill="none" stroke="#5eead4" strokeWidth="5" />
+        <ellipse cx="15" cy="5" rx="18" ry="28" fill="none" stroke="#99f6e4" strokeWidth="5" />
+        <circle cx="0" cy="5" r="8" fill="#fde047" />
+        <text x="-40" y="55" fill="#fde047" fontSize="10" fontWeight="bold">Inner Ear 3D Gyroscope</text>
+      </g>
+      <g transform="translate(320, 130)">
+        {/* Balancing Figure on tightrope */}
+        <line x1="-60" y1="50" x2="60" y2="50" stroke="#ffffff" strokeWidth="3" />
+        {/* Standing one foot */}
+        <circle cx="0" cy="-35" r="10" fill="#fef08a" />
+        <line x1="0" y1="-25" x2="0" y2="15" stroke="#fde047" strokeWidth="4" />
+        <line x1="-35" y1="-10" x2="35" y2="-10" stroke="#fde047" strokeWidth="4" strokeLinecap="round" />
+        <line x1="0" y1="15" x2="0" y2="50" stroke="#fde047" strokeWidth="4" />
+        <line x1="0" y1="15" x2="20" y2="35" stroke="#fde047" strokeWidth="3" />
+        <text x="-50" y="75" fill="#a7f3d0" fontSize="10" fontWeight="bold">Cerebellar Equilibrium</text>
+      </g>
+      <text x="120" y="32" fill="#fde047" fontSize="13" fontWeight="black">Vestibular Balance Triad 🤸</text>
+    </Frame>
+  );
+}
+
+// 60. Why We Get Hungry
+export function HungerHormonesScene() {
+  return (
+    <Frame label="Why We Get Hungry: Empty Stomach Ghrelin Surge vs Full Satiety Leptin">
+      <defs>
+        <linearGradient id="hh-bg" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#c2410c" />
+          <stop offset="100%" stopColor="#7c2d12" />
+        </linearGradient>
+      </defs>
+      <rect width="440" height="260" fill="url(#hh-bg)" />
+      {/* Hunger Communication Loop */}
+      <g transform="translate(120, 130)">
+        {/* Empty Stomach */}
+        <path d="M0 -30 C-30 -30 -40 10 -10 20 C15 25 20 0 0 -30 Z" fill="#fb923c" stroke="#ffffff" strokeWidth="2" />
+        <text x="-40" y="45" fill="#fed7aa" fontSize="10" fontWeight="bold">Empty Stomach</text>
+        {/* Ghrelin Signal Up */}
+        <path d="M10 -20 Q50 -50 90 -30" fill="none" stroke="#fde047" strokeWidth="3" strokeDasharray="4 2" />
+        <text x="25" y="-45" fill="#fde047" fontSize="9" fontWeight="black">GHRELIN ⬆️ (Hungry!)</text>
+      </g>
+      <g transform="translate(300, 100)">
+        {/* Hypothalamus Brain Center */}
+        <circle cx="0" cy="0" r="30" fill="#7c3aed" stroke="#c4b5fd" strokeWidth="2" />
+        <text x="-35" y="-35" fill="#fde047" fontSize="10" fontWeight="bold">Hypothalamus</text>
+        <text x="-25" y="5" fill="#ffffff" fontSize="10" fontWeight="bold">Appetite</text>
+        <text x="-20" y="18" fill="#ffffff" fontSize="10" fontWeight="bold">Center</text>
+        {/* Satiety Leptin Signal Down */}
+        <path d="M-10 32 Q-40 60 -80 50" fill="none" stroke="#4ade80" strokeWidth="3" strokeDasharray="4 2" />
+        <text x="-80" y="80" fill="#4ade80" fontSize="9" fontWeight="black">LEPTIN ⬇️ (Full/Satiated)</text>
+      </g>
+      <text x="120" y="32" fill="#ffffff" fontSize="13" fontWeight="black">Ghrelin &amp; Leptin Biochemical Axis 🍽️</text>
+    </Frame>
+  );
+}
+

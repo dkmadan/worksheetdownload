@@ -967,4 +967,966 @@ export const EVERYDAY_SCIENCE_ARTICLES: KnowledgeArticle[] = [
       { gradeId: "grade-8", subjectId: "science", topic: "Force and Pressure" },
     ],
   },
+
+  // 61. How Friction Works
+  {
+    slug: "how-friction-works",
+    title: "How Friction Works",
+    subtitle: "Microscopic surface asperities, static and kinetic friction, heat generation, and lubricants",
+    category: "Everyday Science",
+    categorySlug: "everyday-science",
+    categoryEmoji: "⚡",
+    emoji: "🛞",
+    accent: "orange",
+    readingMinutes: 5,
+    bigIdea:
+      "Even the smoothest glass looks like jagged mountain ranges under a microscope — when two surfaces rub together, these microscopic peaks crash and interlock, creating the resistive force called Friction.",
+    intro:
+      "Without friction, you couldn't walk across the floor without slipping like on butter, cars couldn't brake, and you couldn't even hold a pencil in your fingers! Friction is the universal force that resists sliding motion whenever two surfaces touch.",
+    cycleTitle: "The Microscopic Mechanics of Friction",
+    cycle: [
+      {
+        emoji: "🏔️",
+        label: "1. Surface Asperities Interlocking",
+        description:
+          "Under high magnification, all surfaces have microscopic peaks and valleys (asperities) that mesh together.",
+      },
+      {
+        emoji: "🔒",
+        label: "2. Static Friction Threshold",
+        description:
+          "Before motion begins, adhesive chemical bonds at microscopic contact points resist pushing forces.",
+      },
+      {
+        emoji: "🏃",
+        label: "3. Kinetic (Sliding) Friction",
+        description:
+          "Once an object starts sliding, peak tips continuously fracture and skip over each other with less total resistance.",
+      },
+      {
+        emoji: "🔥",
+        label: "4. Kinetic Energy to Heat",
+        description:
+          "Mechanical energy of motion is converted into atomic vibration, creating warmth (like rubbing hands in winter).",
+      },
+      {
+        emoji: "🛢️",
+        label: "5. Lubrication & Rolling Reduction",
+        description:
+          "Oil or ball bearings separate peaks with smooth fluid films or rolling contact, slashing friction by 90%.",
+      },
+    ],
+    sections: [
+      {
+        heading: "Static vs. Kinetic Friction",
+        paragraphs: [
+          "Static Friction: The force that resists the initial start of sliding. It is always stronger than kinetic friction, which is why pushing a heavy couch is hardest on the very first shove!",
+          "Kinetic (Sliding) Friction: The resistive force acting while objects are already sliding past one another.",
+          "Rolling Friction: When round wheels or ball bearings roll, friction drops dramatically because points of contact lift off instead of dragging.",
+        ],
+      },
+      {
+        heading: "Friction as a Lifesaver and Destroyer",
+        paragraphs: [
+          "Friction saves lives in car tires and bicycle brake pads by gripping the road and stopping vehicles in milliseconds. However, in engines, friction causes wear-and-tear and wastes fuel, which is why motor oil is vital to lubricate moving pistons.",
+        ],
+      },
+      {
+        heading: "Why Do You Slip on Ice or Banana Peels?",
+        paragraphs: [
+          "Ice has an ultra-thin microscopic film of liquid water on its surface. This liquid fills in all surface valleys and creates a frictionless fluid barrier that prevents shoe treads from interlocking!",
+        ],
+      },
+    ],
+    vocabulary: [
+      { term: "Asperity", definition: "A microscopic irregularity or roughness on a surface that interacts with other surfaces to create friction." },
+      { term: "Static Friction", definition: "The friction that exists between a stationary object and the surface on which it is resting." },
+      { term: "Kinetic Friction", definition: "The friction that opposes the relative motion of two surfaces sliding past one another." },
+      { term: "Lubricant", definition: "A substance (such as oil or grease) introduced to reduce friction between moving surfaces." },
+    ],
+    facts: [
+      "If there were zero friction on Earth, a dropped marble would roll endlessly across the entire globe without ever slowing down!",
+      "Matchsticks ignite solely because the high friction of striking generates enough instant thermal heat (over 180°C) to ignite red phosphorus.",
+      "Geckos can walk up smooth vertical glass walls using Van der Waals intermolecular frictional forces from millions of microscopic foot hairs (setae).",
+    ],
+    activity: {
+      title: "Test Friction on 4 Different Household Surfaces",
+      steps: [
+        "Create an inclined ramp using a stiff cardboard piece or book propped up on blocks.",
+        "Release a toy car or wooden block down bare cardboard and measure how far it rolls.",
+        "Cover the ramp with smooth aluminum foil, rough sandpaper, and a towel: compare stopping distances to observe friction differences!",
+      ],
+    },
+    related: [
+      { gradeId: "grade-3", subjectId: "science", topic: "Force and Motion" },
+      { gradeId: "grade-6", subjectId: "science", topic: "Motion and Measurement" },
+      { gradeId: "grade-8", subjectId: "science", topic: "Friction" },
+    ],
+  },
+
+  // 62. How Gravity Affects Us
+  {
+    slug: "how-gravity-affects-us",
+    title: "How Gravity Affects Us",
+    subtitle: "Mass, acceleration at 9.8 m/s², weightlessness in orbit, and universal gravitational attraction",
+    category: "Everyday Science",
+    categorySlug: "everyday-science",
+    categoryEmoji: "⚡",
+    emoji: "🍏",
+    accent: "indigo",
+    readingMinutes: 5,
+    bigIdea:
+      "Every object with mass in the universe pulls on every other object — Earth's colossal mass pulls down on your body at 9.8 m/s², giving you weight and keeping the atmosphere wrapped around the planet.",
+    intro:
+      "Drop your pencil: it plunges straight toward the center of the Earth. Why? Gravity is the invisible gravitational tether of the cosmos. It anchors our oceans, governs tides, keeps our feet on the ground, and shapes the architecture of our muscles and bones.",
+    cycleTitle: "How Gravitational Acceleration Operates",
+    cycle: [
+      {
+        emoji: "🪐",
+        label: "1. Mass Warps Spacetime",
+        description:
+          "Earth's 6 sextillion-ton mass curves surrounding spacetime, creating a gravitational field.",
+      },
+      {
+        emoji: "🍎",
+        label: "2. Gravitational Attraction Force",
+        description:
+          "Mutual attraction draws everything with mass toward Earth's center of gravity with force F = G(m₁m₂)/r².",
+      },
+      {
+        emoji: "⏱️",
+        label: "3. Constant Acceleration (9.8 m/s²)",
+        description:
+          "In a vacuum, all falling objects accelerate downward at the exact same rate regardless of their mass.",
+      },
+      {
+        emoji: "⚖️",
+        label: "4. Weight vs. Mass Measurement",
+        description:
+          "Mass is the constant amount of matter in your body, while Weight is the gravitational force pulling that mass.",
+      },
+      {
+        emoji: "🛰️",
+        label: "5. Orbital Freefall (Weightlessness)",
+        description:
+          "Astronauts in orbit float not because there is no gravity, but because they are in continuous freefall around Earth.",
+      },
+    ],
+    sections: [
+      {
+        heading: "Mass vs. Weight: What's the Difference?",
+        paragraphs: [
+          "Mass is the amount of atoms and matter inside you (measured in kilograms). It never changes whether you are on Earth, the Moon, or deep space.",
+          "Weight is the downward gravitational pull on your mass (measured in Newtons). On the Moon, where gravity is only 1/6th of Earth's, a 60 kg person weighs only 10 kg on a scale!",
+        ],
+      },
+      {
+        heading: "Galileo's Leaning Tower Experiment",
+        paragraphs: [
+          "Aristotle incorrectly believed heavier objects fall faster than lighter ones. Galileo proved that in the absence of air resistance, a heavy cannonball and a light wooden ball dropped simultaneously from the Leaning Tower of Pisa hit the ground at the exact same split second!",
+        ],
+      },
+      {
+        heading: "Why Astronauts Float in Space",
+        paragraphs: [
+          "The International Space Station experiences about 90% of Earth's surface gravity! Astronauts float because the station is traveling sideways at 17,500 mph while falling toward Earth—curving around the planet in perpetual freefall.",
+        ],
+      },
+    ],
+    vocabulary: [
+      { term: "Gravity", definition: "The fundamental universal force of attraction that exists between all physical bodies with mass." },
+      { term: "Acceleration Due to Gravity (g)", definition: "The constant downward acceleration experienced by objects in Earth's gravitational field (approximately 9.8 m/s²)." },
+      { term: "Weight", definition: "The force exerted on an object by gravity, equal to mass multiplied by gravitational acceleration (W = mg)." },
+      { term: "Freefall", definition: "The downward movement of an object under the sole influence of gravitational force." },
+    ],
+    facts: [
+      "On Jupiter, the largest planet in our solar system, gravity is 2.5 times stronger than on Earth—a 40 kg child would feel like 100 kg!",
+      "Tides in Earth's oceans are caused by the gravitational tug of the Moon and the Sun pulling on ocean water.",
+      "Apollo 15 astronaut David Scott dropped a heavy hammer and a light falcon feather on the airless Moon in 1971: both hit the lunar dust at the exact same instant.",
+    ],
+    activity: {
+      title: "The Crumpled Paper vs. Flat Sheet Air Drag Test",
+      steps: [
+        "Take two identical sheets of printer paper (same exact mass).",
+        "Crumple one tightly into a solid ball and leave the other completely flat.",
+        "Drop both from shoulder height at the same time: observe how air resistance slows the flat sheet while the crumpled ball falls at full gravitational acceleration!",
+      ],
+    },
+    related: [
+      { gradeId: "grade-3", subjectId: "science", topic: "Force and Motion" },
+      { gradeId: "grade-5", subjectId: "science", topic: "Force and Energy" },
+      { gradeId: "grade-8", subjectId: "science", topic: "Force and Pressure" },
+    ],
+  },
+
+  // 63. How Mirrors Work
+  {
+    slug: "how-mirrors-work",
+    title: "How Mirrors Work",
+    subtitle: "Specular reflection, the law of reflection (θi = θr), silvered coatings, and virtual images",
+    category: "Everyday Science",
+    categorySlug: "everyday-science",
+    categoryEmoji: "⚡",
+    emoji: "🪞",
+    accent: "sky",
+    readingMinutes: 5,
+    bigIdea:
+      "A mirror is an ultra-smooth microscopic sheet of reflective metal (aluminum or silver) behind glass that bounces incoming light waves off at the exact same angle they strike.",
+    intro:
+      "Every morning you look into a mirror to brush your teeth and see an exact twin image looking back. Why does a bathroom mirror show a crisp reflection while a white wall or piece of paper only scatters light? The secret lies in Specular Reflection and microscopic smoothness.",
+    cycleTitle: "The Physics of Specular Reflection",
+    cycle: [
+      {
+        emoji: "💡",
+        label: "1. Incident Light Ray Arrival",
+        description:
+          "Light rays bounce off your face and travel toward the flat mirror glass.",
+      },
+      {
+        emoji: "🪟",
+        label: "2. Glass Transmission to Metal Film",
+        description:
+          "Light passes through clear glass to strike an ultra-thin layer of metallic silver or aluminum on the back.",
+      },
+      {
+        emoji: "⚡",
+        label: "3. Conduction Electron Bouncing",
+        description:
+          "Free electrons in the metal oscillate with the light wave, absorbing and instantly re-emitting photons.",
+      },
+      {
+        emoji: "📐",
+        label: "4. The Law of Reflection (θi = θr)",
+        description:
+          "Light bounces off at the exact angle of incidence relative to the surface normal perpendicular line.",
+      },
+      {
+        emoji: "👁️",
+        label: "5. Virtual Image Reconstruction",
+        description:
+          "Your brain traces rays backward in straight lines, perceiving an upright virtual image located behind the glass.",
+      },
+    ],
+    sections: [
+      {
+        heading: "Specular Reflection vs. Diffuse Scattering",
+        paragraphs: [
+          "Specular Reflection: On an atomically flat, polished mirror, parallel incident light rays bounce off together in parallel reflection, preserving sharp image shapes.",
+          "Diffuse Scattering: On rough surfaces like paper, wood, or white paint, microscopic bumps scatter bouncing rays in every random direction, creating diffuse illumination without any reflection.",
+        ],
+      },
+      {
+        heading: "Flat, Concave, and Convex Mirrors",
+        paragraphs: [
+          "Plane Mirrors: Create a life-sized, upright, laterally reversed virtual image.",
+          "Convex Mirrors: Curve outward like the back of a spoon. They shrink images but provide an ultra-wide panoramic field of view—used for passenger car side mirrors ('Objects in mirror are closer than they appear') and store security.",
+          "Concave Mirrors: Curve inward like a bowl. Up close, they magnify images (shaving and dental mirrors); from far away, they flip real images upside down.",
+        ],
+      },
+      {
+        heading: "Why Do Mirrors Reverse Left and Right?",
+        paragraphs: [
+          "Mirrors do NOT actually reverse left and right! Mirrors reverse front and back along the Z-axis (depth). When you point toward the mirror, the reflection points straight back at you!",
+        ],
+      },
+    ],
+    vocabulary: [
+      { term: "Law of Reflection", definition: "A fundamental principle of optics stating that the angle of incidence equals the angle of reflection (θi = θr)." },
+      { term: "Specular Reflection", definition: "Mirror-like reflection of light from a smooth, uniform surface where rays remain parallel." },
+      { term: "Virtual Image", definition: "An optical image formed where light rays appear to diverge from behind a reflective or refractive surface." },
+      { term: "Angle of Incidence", definition: "The angle between an incoming incident light ray and the imaginary normal line perpendicular to the surface." },
+    ],
+    facts: [
+      "Ancient mirrors 6,000 years ago in Anatolia (modern Turkey) were made by polishing dark volcanic black glass called obsidian.",
+      "The giant James Webb Space Telescope uses 18 hexagonal primary mirror segments coated in an ultra-thin layer of real 24-karat gold to reflect infrared light!",
+      "Two mirrors placed parallel to each other create an 'infinite mirror tunnel' because light bounces back and forth repeatedly, dimming slightly on each bounce.",
+    ],
+    activity: {
+      title: "Explore Spoon Optics: Concave vs. Convex",
+      steps: [
+        "Take a shiny stainless steel soup spoon.",
+        "Look into the front bowl of the spoon (concave): notice your face is upside down! Move it closer until your image suddenly flips right-side up and magnifies.",
+        "Flip the spoon to the curved back (convex): see your miniature, upright face and observe the wide surrounding room view!",
+      ],
+    },
+    related: [
+      { gradeId: "grade-4", subjectId: "science", topic: "Light and Shadows" },
+      { gradeId: "grade-6", subjectId: "science", topic: "Light, Shadows and Reflections" },
+      { gradeId: "grade-7", subjectId: "science", topic: "Light" },
+    ],
+  },
+
+  // 64. How Lenses Bend Light
+  {
+    slug: "how-lenses-bend-light",
+    title: "How Lenses Bend Light",
+    subtitle: "Refraction, Snell's Law, converging convex lenses, and focal point magnification",
+    category: "Everyday Science",
+    categorySlug: "everyday-science",
+    categoryEmoji: "⚡",
+    emoji: "🔍",
+    accent: "teal",
+    readingMinutes: 5,
+    bigIdea:
+      "When light travels from air into curved glass, it slows down and changes direction — a bending phenomenon called Refraction that lets eyeglasses, microscopes, and cameras focus light into sharp images.",
+    intro:
+      "How can a small curved piece of glass help someone with blurry vision read fine print, reveal swimming microbes in pond water, or capture distant craters on the Moon? Lenses bend and steer light waves with mathematical precision through the optical law of refraction.",
+    cycleTitle: "How Light Refracts and Converges Through a Lens",
+    cycle: [
+      {
+        emoji: "💡",
+        label: "1. Incident Light Ray Wavefronts",
+        description:
+          "Parallel light waves travel through air at 300,000 km/s toward a curved transparent lens.",
+      },
+      {
+        emoji: "🐢",
+        label: "2. Optical Medium Slowdown",
+        description:
+          "Light enters dense glass or plastic, slowing down to approximately 200,000 km/s.",
+      },
+      {
+        emoji: "📐",
+        label: "3. Boundary Refraction (Snell's Law)",
+        description:
+          "Because light strikes the curved glass surface at varying angles, rays bend inward toward the normal line.",
+      },
+      {
+        emoji: "🎯",
+        label: "4. Convergence at the Focal Point",
+        description:
+          "In a convex lens, all refracted parallel rays intersect at a single high-intensity focal point (F).",
+      },
+      {
+        emoji: "📷",
+        label: "5. Real / Virtual Image Projection",
+        description:
+          "Beyond the focal point, bent rays project an enlarged, magnified, or focused image onto a camera sensor or retina.",
+      },
+    ],
+    sections: [
+      {
+        heading: "Convex vs. Concave Lenses",
+        paragraphs: [
+          "Convex (Converging) Lens: Thicker in the middle than at the edges. It bends incoming light inward to a single focal point. Used in magnifying glasses, cameras, projectors, human eyes, and farsightedness glasses.",
+          "Concave (Diverging) Lens: Thinner in the middle and thicker at the rims. It spreads incoming light outward. Used in peepholes and eyeglasses for nearsightedness (myopia).",
+        ],
+      },
+      {
+        heading: "Why Does Light Bend in Glass?",
+        paragraphs: [
+          "Imagine a lawnmower pushed at an angle from smooth concrete onto thick grass. The first wheel that hits the grass slows down first, causing the lawnmower to pivot and change direction! The exact same thing happens to the wavefronts of light when they enter dense glass.",
+        ],
+      },
+      {
+        heading: "Chromatic Aberration: Splitting Rainbow Colors",
+        paragraphs: [
+          "Different colors of light travel at slightly different speeds in glass: blue light bends more sharply than red light. High-end camera lenses use special multi-element coatings and fluorite glass to align all colors at the exact same focal point.",
+        ],
+      },
+    ],
+    vocabulary: [
+      { term: "Refraction", definition: "The bending of light as it passes from one transparent medium to another with a different refractive index." },
+      { term: "Focal Point", definition: "The point at which parallel rays of light converge or from which they appear to diverge after passing through a lens." },
+      { term: "Convex Lens", definition: "A converging optical lens that is thicker in the center than at the edges, bringing parallel light rays together." },
+      { term: "Index of Refraction", definition: "A dimensionless number that describes how fast light travels through a specific material compared to a vacuum." },
+    ],
+    facts: [
+      "A drop of clear water resting on a smartphone screen acts as a natural convex magnifying lens that magnifies individual red-green-blue display pixels!",
+      "The natural crystalline lens in the human eye is flexible—ciliary muscles pull and squeeze it to change focal length in milliseconds.",
+      "Compound microscopes use two convex lenses (objective and eyepiece) in series to magnify microscopic bacteria up to 2,000 times!",
+    ],
+    activity: {
+      title: "The Reversing Arrow Water Glass Refraction Trick",
+      steps: [
+        "Draw a horizontal black arrow pointing to the RIGHT on an index card.",
+        "Place an empty, clear round drinking glass in front of the card.",
+        "Slowly pour water into the glass: as the water level rises past the arrow, look through the glass and watch the arrow magically flip to point to the LEFT due to convex refraction!",
+      ],
+    },
+    related: [
+      { gradeId: "grade-5", subjectId: "science", topic: "Light and Shadows" },
+      { gradeId: "grade-7", subjectId: "science", topic: "Light" },
+      { gradeId: "grade-8", subjectId: "science", topic: "Light and Eyes" },
+    ],
+  },
+
+  // 65. Why Objects Float or Sink
+  {
+    slug: "why-objects-float-or-sink",
+    title: "Why Objects Float or Sink",
+    subtitle: "Density, Archimedes' principle, buoyant upward force, and ship hull displacement",
+    category: "Everyday Science",
+    categorySlug: "everyday-science",
+    categoryEmoji: "⚡",
+    emoji: "🚢",
+    accent: "emerald",
+    readingMinutes: 5,
+    bigIdea:
+      "Whether an object floats or sinks is a battle between downward Gravity and upward Buoyancy — if an object is less dense than water (or displaces its own weight in water), it floats!",
+    intro:
+      "Drop a tiny solid steel pebble into a swimming pool and it sinks straight to the bottom. Yet a colossal steel aircraft carrier weighing 100,000 tons floats gracefully on ocean waves! How does density and water displacement govern floating and sinking?",
+    cycleTitle: "The Archimedes Buoyancy and Displacement Principle",
+    cycle: [
+      {
+        emoji: "🌊",
+        label: "1. Fluid Immersion & Displacement",
+        description:
+          "When an object enters water, it pushes aside (displaces) a volume of water equal to its submerged volume.",
+      },
+      {
+        emoji: "⚖️",
+        label: "2. Displaced Water Weight",
+        description:
+          "The displaced water tries to push back, creating an upward hydrostatic force called Buoyant Force.",
+      },
+      {
+        emoji: "⬇️",
+        label: "3. Downward Gravitational Force",
+        description:
+          "Gravity pulls downward on the object's total mass with force equal to its weight.",
+      },
+      {
+        emoji: "⚖️",
+        label: "4. Force Equilibrium (Archimedes' Law)",
+        description:
+          "If Buoyant Force equals or exceeds object weight, the object floats; if weight exceeds buoyant force, it sinks.",
+      },
+      {
+        emoji: "🛳️",
+        label: "5. Average Density Determination",
+        description:
+          "Hollow air cavities inside a steel ship hull reduce its total average density to less than 1.0 g/cm³, ensuring flotation.",
+      },
+    ],
+    sections: [
+      {
+        heading: "Density: Mass Packed into Space",
+        paragraphs: [
+          "Density is mass divided by volume (D = M/V). Pure liquid water has a density of exactly 1.0 gram per cubic centimetre (1.0 g/cm³).",
+          "Objects with density less than 1.0 g/cm³ (like pine wood, cork, or ice at 0.92 g/cm³) float.",
+          "Objects with density greater than 1.0 g/cm³ (like solid iron at 7.8 g/cm³ or gold at 19.3 g/cm³) sink.",
+        ],
+      },
+      {
+        heading: "Archimedes' 'Eureka!' Bath Moment",
+        paragraphs: [
+          "Over 2,200 years ago in Syracuse, the Greek mathematician Archimedes noticed water sloshing over his bathtub when he stepped in. He realized that the upward buoyant force on an object is exactly equal to the weight of the fluid it displaces!",
+        ],
+      },
+      {
+        heading: "Why Massive Steel Ships Float",
+        paragraphs: [
+          "Solid steel is 8 times denser than water, but a ship is not a solid block of metal. It is designed with a broad, hollow hull filled with massive volumes of lightweight air. This makes the AVERAGE density of the entire ship far lighter than water!",
+        ],
+      },
+    ],
+    vocabulary: [
+      { term: "Density", definition: "A measure of how much mass is contained within a given unit volume of a substance (Density = Mass / Volume)." },
+      { term: "Buoyant Force", definition: "The upward force exerted by a fluid on a submerged or floating object opposing gravity." },
+      { term: "Archimedes' Principle", definition: "The physical law stating that any body submerged in a fluid is buoyed up by a force equal to the weight of the fluid displaced." },
+      { term: "Displacement", definition: "The volume or weight of fluid pushed aside when an object is placed in that fluid." },
+    ],
+    facts: [
+      "The Dead Sea is so intensely salty (34% salinity) that its water density is 1.24 g/cm³—humans float effortlessly on the surface like corks without even treading water!",
+      "Submarines dive by flooding internal ballast tanks with heavy sea water; to surface, compressed air blows the water out, reducing average density.",
+      "Ice floats on liquid water because water molecules expand into a hollow hexagonal crystal lattice when freezing, making solid ice 9% less dense than liquid water.",
+    ],
+    activity: {
+      title: "The Floating vs. Sinking Modeling Clay Boat Challenge",
+      steps: [
+        "Roll a clump of modeling clay into a tight, solid ball and drop it into a bowl of water: it sinks instantly.",
+        "Retrieve the clay, dry it, and shape it into a wide, hollow canoe or bowl shape with tall thin walls.",
+        "Place it gently onto the water: observe how shaping it to displace more water allows the exact same clay to float easily!",
+      ],
+    },
+    related: [
+      { gradeId: "grade-3", subjectId: "science", topic: "Matter and Materials" },
+      { gradeId: "grade-6", subjectId: "science", topic: "Sorting Materials into Groups" },
+      { gradeId: "grade-8", subjectId: "science", topic: "Force and Pressure" },
+    ],
+  },
+
+  // 66. How Airplanes Fly
+  {
+    slug: "how-airplanes-fly",
+    title: "How Airplanes Fly",
+    subtitle: "The four forces of flight: Lift, Weight, Thrust, and Drag powered by airfoil aerodynamics",
+    category: "Everyday Science",
+    categorySlug: "everyday-science",
+    categoryEmoji: "⚡",
+    emoji: "✈️",
+    accent: "sky",
+    readingMinutes: 6,
+    bigIdea:
+      "A 400-ton Boeing 747 takes flight through a dynamic balance of four physical forces — generating enormous upward aerodynamic Lift as curved wings deflect air downward at 500 mph.",
+    intro:
+      "When you board a massive commercial airliner made of hundreds of tons of aluminum, titanium, fuel, and luggage, it seems miraculous that it can glide smoothly seven miles above the clouds. Flight is pure physics: balancing Lift, Gravity, Thrust, and Drag.",
+    cycleTitle: "The Four Interacting Forces of Flight",
+    cycle: [
+      {
+        emoji: "🚀",
+        label: "1. Jet Engine Thrust Generation",
+        description:
+          "Turbofan jet engines ignite jet fuel and suck in massive air volumes, blasting exhaust backward to push the plane forward (Newton's 3rd Law).",
+      },
+      {
+        emoji: "💨",
+        label: "2. High-Speed Airfoil Airflow",
+        description:
+          "As the airplane accelerates along the runway, air splits across the curved upper and flat lower surfaces of the wings.",
+      },
+      {
+        emoji: "🎈",
+        label: "3. Pressure Differential & Downwash (Lift)",
+        description:
+          "Faster air over the curved top creates lower pressure (Bernoulli) while the angled wing pushes air downward, creating massive upward Lift.",
+      },
+      {
+        emoji: "⚖️",
+        label: "4. Lift Overcomes Gravity (Takeoff)",
+        description:
+          "When upward aerodynamic Lift exceeds total downward gravitational Weight, the airplane lifts gracefully into the sky.",
+      },
+      {
+        emoji: "🧭",
+        label: "5. Steady Cruising Equilibrium",
+        description:
+          "At cruising altitude, Thrust matches Drag and Lift matches Weight for smooth, steady horizontal flight.",
+      },
+    ],
+    sections: [
+      {
+        heading: "The Four Forces of Aerodynamics",
+        paragraphs: [
+          "Lift: The upward force generated by airflow across the wings, opposing Gravity.",
+          "Weight (Gravity): The downward gravitational pull on the airplane, fuel, and passengers.",
+          "Thrust: The forward mechanical force produced by jet engines or propellers, opposing Drag.",
+          "Drag: The backward aerodynamic air resistance that tries to slow the plane down.",
+        ],
+      },
+      {
+        heading: "How Wings Create Lift: Bernoulli & Newton",
+        paragraphs: [
+          "An airplane wing is shaped like an Airfoil—curved on top and flatter on the bottom.",
+          "1. Bernoulli's Principle: Air flows faster over the curved top surface, creating an area of lower pressure above the wing, which pulls the wing upward.",
+          "2. Newton's Third Law (Action-Reaction): The wing is tilted at an 'Angle of Attack', forcing billions of air molecules downward. Pushing air down creates an equal and opposite reaction that pushes the airplane up!",
+        ],
+      },
+      {
+        heading: "Steering in 3D: Ailerons, Elevators, and Rudders",
+        paragraphs: [
+          "Pilots steer planes along three rotational axes using movable control flaps:",
+          "Ailerons on the wingtips roll the plane left or right.",
+          "Elevators on the horizontal tail pitch the nose up or down.",
+          "Rudder on the vertical tail yaws the nose side to side.",
+        ],
+      },
+    ],
+    vocabulary: [
+      { term: "Airfoil", definition: "The cross-sectional curved shape of a wing designed to produce aerodynamic lift efficiently." },
+      { term: "Bernoulli's Principle", definition: "A physical principle stating that as the speed of a moving fluid increases, internal pressure decreases." },
+      { term: "Angle of Attack", definition: "The acute angle between the chord line of an airfoil wing and the oncoming relative airflow." },
+      { term: "Aileron", definition: "A hinged flight control surface on the trailing edge of each wing used to control aircraft roll." },
+    ],
+    facts: [
+      "The Wright Brothers achieved the world's first powered, controlled airplane flight on December 17, 1903—flying just 120 feet in 12 seconds!",
+      "Modern jet engines operate at internal combustion temperatures exceeding 1,700°C—hotter than the melting point of steel!",
+      "Birds and airplanes share the same airfoil wing physics; bird wingtip feathers even inspired modern vertical winglets that save millions of gallons of aviation fuel.",
+    ],
+    activity: {
+      title: "The Bernoulli Paper Strip Levitation Experiment",
+      steps: [
+        "Cut a strip of paper 5 cm wide and 20 cm long.",
+        "Hold the narrow edge just below your bottom lip so the paper hangs down limp.",
+        "Blow a fast, steady stream of air horizontally across the TOP surface of the paper.",
+        "Watch the limp paper magically levitate upward into the air stream as fast-moving air lowers pressure on top!",
+      ],
+    },
+    related: [
+      { gradeId: "grade-4", subjectId: "science", topic: "Air and Water" },
+      { gradeId: "grade-6", subjectId: "science", topic: "Motion and Measurement" },
+      { gradeId: "grade-8", subjectId: "science", topic: "Force and Pressure" },
+    ],
+  },
+
+  // 67. How Refrigerators Keep Food Cold
+  {
+    slug: "how-refrigerators-keep-food-cold",
+    title: "How Refrigerators Keep Food Cold",
+    subtitle: "Thermodynamics, phase-change refrigerants, compressors, condensers, and evaporators",
+    category: "Everyday Science",
+    categorySlug: "everyday-science",
+    categoryEmoji: "⚡",
+    emoji: "🧊",
+    accent: "teal",
+    readingMinutes: 5,
+    bigIdea:
+      "A refrigerator does NOT actually create coldness — it pumps heat OUT of your milk and vegetables and dumps that heat into your kitchen room air using a circulating chemical coolant.",
+    intro:
+      "Open your refrigerator door and feel the crisp, chilly 3°C air keeping your groceries fresh for weeks. How does a refrigerator stay ice cold inside while the coils on the back feel warm to the touch? The answer is the cyclic Vapor-Compression Refrigeration Loop.",
+    cycleTitle: "The Continuous Four-Step Refrigeration Cycle",
+    cycle: [
+      {
+        emoji: "🔄",
+        label: "1. Compressor Gas Pressurization",
+        description:
+          "The electric compressor pumps cold gaseous refrigerant, squashing it into a high-pressure, scalding hot gas.",
+      },
+      {
+        emoji: "♨️",
+        label: "2. Condenser Heat Dissipation",
+        description:
+          "Hot gas flows through black exterior coils on the back/bottom, releasing heat into kitchen air and condensing into a high-pressure liquid.",
+      },
+      {
+        emoji: "💧",
+        label: "3. Expansion Valve Pressure Drop",
+        description:
+          "Liquid refrigerant passes through a narrow restriction nozzle, causing pressure and temperature to plummet instantly to -40°C.",
+      },
+      {
+        emoji: "❄️",
+        label: "4. Evaporator Heat Absorption",
+        description:
+          "Freezing liquid refrigerant circulates through inside coils, absorbing thermal heat from food and vaporizing back into gas.",
+      },
+      {
+        emoji: "🔁",
+        label: "5. Continuous Thermal Transfer",
+        description:
+          "The warmed gas returns to the compressor to repeat the cycle until the internal thermostat reaches target temperature.",
+      },
+    ],
+    sections: [
+      {
+        heading: "Heat Always Flows from Hot to Cold",
+        paragraphs: [
+          "The Second Law of Thermodynamics dictates that thermal heat naturally flows from hotter objects to colder ones. To make food cold, a refrigerator places an internal coil that is even colder than the food (-40°C). Heat automatically jumps from your warm leftovers into the freezing refrigerant coils!",
+        ],
+      },
+      {
+        heading: "Phase Change: The Secret Cooling Magic",
+        paragraphs: [
+          "Whenever a liquid evaporates into a gas, it absorbs huge amounts of latent heat energy from its surroundings. This is why sweating cools your body, and why spraying compressed aerosol cans makes the metal can feel ice cold in your hand.",
+        ],
+      },
+      {
+        heading: "Eco-Friendly Refrigerants",
+        paragraphs: [
+          "Early 20th-century refrigerators used toxic ammonia, and mid-century models used CFCs (Freon) that damaged Earth's ozone layer. Today, modern eco-fridges use environmentally safe hydrocarbons like R600a (isobutane) that protect both the ozone layer and the global climate.",
+        ],
+      },
+    ],
+    vocabulary: [
+      { term: "Compressor", definition: "A mechanical pump in a refrigeration circuit that compresses low-pressure gas into high-pressure, high-temperature gas." },
+      { term: "Refrigerant", definition: "A specialized chemical compound with a very low boiling point that undergoes repeated phase transitions to transfer heat." },
+      { term: "Evaporator", definition: "The indoor heat-exchanger coil where liquid refrigerant absorbs heat from the cabinet and boils into vapor." },
+      { term: "Condenser", definition: "The outdoor/rear coil where hot refrigerant gas releases heat to the surrounding room and condenses into liquid." },
+    ],
+    facts: [
+      "If you leave your refrigerator door open, it will NOT cool down your room—it will actually make the room warmer because the motor emits more heat than it removes!",
+      "Before electric refrigerators were invented in the 1920s, families used wooden 'iceboxes' insulated with sawdust and stocked with giant blocks of lake ice delivered weekly.",
+      "Ultra-low scientific lab freezers can cool vaccines and biological specimens down to -80°C (-112°F) using cascade multi-stage refrigeration.",
+    ],
+    activity: {
+      title: "Feel Evaporative Phase-Change Cooling with Rubbing Alcohol",
+      steps: [
+        "Place one drop of room-temperature rubbing alcohol (or hand sanitizer) on the back of your hand.",
+        "Leave your other hand dry as a control.",
+        "Blow gently across both hands: notice the intense cold sensation as the alcohol rapidly evaporates, absorbing thermal heat from your skin!",
+      ],
+    },
+    related: [
+      { gradeId: "grade-5", subjectId: "science", topic: "Matter and Materials" },
+      { gradeId: "grade-7", subjectId: "science", topic: "Heat and Temperature" },
+      { gradeId: "grade-8", subjectId: "science", topic: "Force and Energy" },
+    ],
+  },
+
+  // 68. How Solar Panels Make Electricity
+  {
+    slug: "how-solar-panels-make-electricity",
+    title: "How Solar Panels Make Electricity",
+    subtitle: "Photons, semiconductor silicon, p-n junctions, the photovoltaic effect, and inverters",
+    category: "Everyday Science",
+    categorySlug: "everyday-science",
+    categoryEmoji: "⚡",
+    emoji: "☀️",
+    accent: "amber",
+    readingMinutes: 5,
+    bigIdea:
+      "When sunlight strikes purified silicon wafers, photons of light knock electrons free from atoms — an internal electric field channels these loose electrons into a steady flow of clean DC electric current.",
+    intro:
+      "Every hour, more energy from solar sunlight strikes Earth than the entire human population consumes in an entire year! Solar photovoltaic (PV) panels silently convert raw sunlight directly into clean electricity without any moving parts, smoke, or pollution.",
+    cycleTitle: "The Photovoltaic Electron Knockout Process",
+    cycle: [
+      {
+        emoji: "☀️",
+        label: "1. Solar Photon Bombardment",
+        description:
+          "Light packets (photons) travel 93 million miles from the Sun and strike the anti-reflective glass of the solar panel.",
+      },
+      {
+        emoji: "⚛️",
+        label: "2. Silicon Atom Collision",
+        description:
+          "Photons penetrate semiconductor silicon wafers and transfer energy to valence electrons, knocking them loose.",
+      },
+      {
+        emoji: "⚡",
+        label: "3. P-N Junction Electric Field Steering",
+        description:
+          "The internal electric barrier between N-type (phosphorus-doped) and P-type (boron-doped) silicon pushes electrons in one direction.",
+      },
+      {
+        emoji: "🔌",
+        label: "4. Metal Grid Direct Current (DC)",
+        description:
+          "Thin silver contact fingers collect flowing electrons and channel them through external wiring as DC electrical current.",
+      },
+      {
+        emoji: "🏠",
+        label: "5. Inverter AC Conversion for Homes",
+        description:
+          "A solar inverter transforms Direct Current (DC) into 120V/240V Alternating Current (AC) to power lights, laptops, and appliances.",
+      },
+    ],
+    sections: [
+      {
+        heading: "Silicon: The Wonder Semiconductor",
+        paragraphs: [
+          "Silicon is made from common quartz beach sand. Pure silicon is an insulator, but scientists 'dope' it with tiny amounts of phosphorus (creating N-type silicon with extra free electrons) and boron (creating P-type silicon with missing electron 'holes').",
+          "When placed together, they form a P-N Junction with a permanent internal electric one-way gate.",
+        ],
+      },
+      {
+        heading: "The Photovoltaic Effect Explained by Einstein",
+        paragraphs: [
+          "Albert Einstein won the 1921 Nobel Prize in Physics not for his theory of relativity, but for explaining the Photoelectric Effect! He proved that light consists of discrete energy packets called Photons that can dislodge electrons from materials.",
+        ],
+      },
+      {
+        heading: "DC to AC: The Power of Inverters",
+        paragraphs: [
+          "Solar panels naturally produce Direct Current (DC), where electrons flow steadily in one direction (like from a battery). Because our home grid and wall sockets run on Alternating Current (AC) that oscillates back and forth 50 or 60 times a second, an Inverter is required to transform the power.",
+        ],
+      },
+    ],
+    vocabulary: [
+      { term: "Photovoltaic (PV) Effect", definition: "The creation of voltage and electric current in a material upon exposure to electromagnetic light radiation." },
+      { term: "Semiconductor", definition: "A solid substance (like silicon) with electrical conductivity between that of an insulator and a conductor." },
+      { term: "P-N Junction", definition: "The boundary interface inside a semiconductor crystal that creates an internal electric field." },
+      { term: "Inverter", definition: "An electronic device that converts direct current (DC) electricity into alternating current (AC)." },
+    ],
+    facts: [
+      "Solar panels continue generating electricity even on cloudy or rainy days by capturing diffused ultraviolet and visible spectrum light.",
+      "The International Space Station is powered entirely by 8 massive solar array wings containing 262,400 silicon solar cells!",
+      "Most modern residential solar panels have an energy payback time of only 1 to 2 years—meaning they generate all the energy used to manufacture them within two years and then produce free clean energy for 25+ years.",
+    ],
+    activity: {
+      title: "Measure Real-Time Voltage with a Mini Solar Cell",
+      steps: [
+        "Take a small 5V educational solar cell connected to a digital multimeter set to DC Voltage.",
+        "Hold the solar cell under indoor ceiling lights and note the voltage reading.",
+        "Step outside into direct sunlight and angle the panel directly toward the sun: observe the immediate spike in voltage output as photon flux increases!",
+      ],
+    },
+    related: [
+      { gradeId: "grade-5", subjectId: "science", topic: "Force and Energy" },
+      { gradeId: "grade-6", subjectId: "science", topic: "Electricity and Circuits" },
+      { gradeId: "grade-8", subjectId: "science", topic: "Chemical Effects of Electric Current" },
+    ],
+  },
+
+  // 69. How Wi-Fi Carries Information
+  {
+    slug: "how-wi-fi-carries-information",
+    title: "How Wi-Fi Carries Information",
+    subtitle: "Radio frequency spectrum, gigahertz frequencies, QAM binary modulation, and antenna transceivers",
+    category: "Everyday Science",
+    categorySlug: "everyday-science",
+    categoryEmoji: "⚡",
+    emoji: "📶",
+    accent: "indigo",
+    readingMinutes: 6,
+    bigIdea:
+      "Wi-Fi turns photos, videos, and games into billions of binary ones and zeroes (1s and 0s) and beams them invisibly across the room on high-frequency radio electromagnetic waves oscillating billions of times per second.",
+    intro:
+      "When you stream a high-definition movie or video chat with a friend across the globe, invisible wireless radio waves are traveling through walls and air at the speed of light. How does your Wi-Fi router transmit complex computer data through thin air without a single physical wire?",
+    cycleTitle: "How Digital Data Travels Over Radio Waves",
+    cycle: [
+      {
+        emoji: "💻",
+        label: "1. Digital Binary Encoding (1s & 0s)",
+        description:
+          "Your phone converts an image or message into a sequence of binary digital bits (strings of 1s and 0s).",
+      },
+      {
+        emoji: "📻",
+        label: "2. Radio Frequency Modulation (QAM)",
+        description:
+          "The transmitter antenna chip modulates the amplitude, frequency, and phase of a 2.4 GHz or 5 GHz carrier radio wave.",
+      },
+      {
+        emoji: "📡",
+        label: "3. Electromagnetic Wave Propagation",
+        description:
+          "Radio waves radiate outward from the router antenna at the speed of light (300,000 km/s), passing through walls.",
+      },
+      {
+        emoji: "📱",
+        label: "4. Receiver Antenna Induction",
+        description:
+          "Radio waves strike your smartphone antenna, inducing microscopic fluctuating electrical currents.",
+      },
+      {
+        emoji: "🎬",
+        label: "5. Demodulation & Screen Rendering",
+        description:
+          "The Wi-Fi chip demodulates the wave fluctuations back into 1s and 0s, rendering the high-definition video instantly.",
+      },
+    ],
+    sections: [
+      {
+        heading: "Radio Waves: Invisible Light",
+        paragraphs: [
+          "Wi-Fi uses Electromagnetic Radio Waves—the exact same family of waves as visible light, X-rays, and FM radio. The only difference is wavelength: Wi-Fi waves are longer than visible light, allowing them to pass through wooden doors, drywall, and glass windows.",
+        ],
+      },
+      {
+        heading: "2.4 GHz vs. 5 GHz & 6 GHz Wi-Fi Bands",
+        paragraphs: [
+          "2.4 GHz Band: Waves cycle 2.4 billion times per second. Longer range and penetrates solid walls easily, but carries data slightly slower and shares spectrum with microwaves.",
+          "5 GHz / 6 GHz Bands: Waves cycle 5 to 6 billion times per second. Super-fast data download speeds for gaming and 4K streaming, but shorter range through thick concrete walls.",
+        ],
+      },
+      {
+        heading: "Modulation: Encoding Data into Wave Shapes",
+        paragraphs: [
+          "How can a simple wave carry a full movie? Through Modulation (like QAM - Quadrature Amplitude Modulation). By slightly tweaking the wave's height (amplitude), timing (phase), and speed (frequency), billions of unique wave configurations represent specific sequences of binary numbers.",
+        ],
+      },
+    ],
+    vocabulary: [
+      { term: "Radio Frequency (RF)", definition: "An electromagnetic wave frequency within the range used for wireless communications and radar (typically 3 kHz to 300 GHz)." },
+      { term: "Modulation", definition: "The process of varying one or more properties of a carrier wave with a data signal to transmit information." },
+      { term: "Gigahertz (GHz)", definition: "A unit of frequency equal to one billion cycles per second." },
+      { term: "Bandwidth", definition: "The maximum rate of data transfer across a given wireless frequency path in a given amount of time." },
+    ],
+    facts: [
+      "Wi-Fi radio signals travel at the speed of light—roughly 300,000 kilometres per second (186,000 miles per second)!",
+      "The mathematical technology behind modern fast Wi-Fi (frequency-hopping spread spectrum) was co-invented in 1941 by Hollywood actress and inventor Hedy Lamarr!",
+      "Wi-Fi stands for 'Wireless Fidelity'—a catchy branding term created by an advertising agency in 1999 to replace the technical name IEEE 802.11b.",
+    ],
+    activity: {
+      title: "Map Wi-Fi Signal Strength Variations in Your Home",
+      steps: [
+        "Download a free Wi-Fi signal strength analyzer app on a smartphone or tablet.",
+        "Measure the signal strength in dBm standing right next to your home Wi-Fi router (typically -30 dBm, very strong).",
+        "Walk into different rooms, behind closed wooden doors, and behind solid concrete/brick walls to observe how physical obstacles absorb radio frequencies!",
+      ],
+    },
+    related: [
+      { gradeId: "grade-5", subjectId: "science", topic: "Force and Energy" },
+      { gradeId: "grade-7", subjectId: "science", topic: "Light and Waves" },
+      { gradeId: "grade-8", subjectId: "science", topic: "Sound and Waves" },
+    ],
+  },
+
+  // 70. How Touchscreens Work
+  {
+    slug: "how-touchscreens-work",
+    title: "How Touchscreens Work",
+    subtitle: "Capacitive grid matrices, electrostatic fields, finger electrical conductivity, and multi-touch controllers",
+    category: "Everyday Science",
+    categorySlug: "everyday-science",
+    categoryEmoji: "⚡",
+    emoji: "📱",
+    accent: "rose",
+    readingMinutes: 5,
+    bigIdea:
+      "Modern smartphone touchscreens use Projected Capacitive Technology — an invisible electrostatic grid detects the tiny electrical charge in your conductive human finger to pinpoint taps with sub-millimetre precision.",
+    intro:
+      "Every day you swipe, pinch, tap, and type on glass screens without pressing any mechanical buttons. How does a smooth sheet of glass know exactly where your fingertip is touching, and why does a fingernail, pencil eraser, or cloth glove not work?",
+    cycleTitle: "How Capacitive Touch Sensing Detects Fingers",
+    cycle: [
+      {
+        emoji: "⚡",
+        label: "1. Electrostatic Grid Generation",
+        description:
+          "Transparent conductive Indium Tin Oxide (ITO) electrodes under the glass maintain a uniform electrostatic charge field.",
+      },
+      {
+        emoji: "👆",
+        label: "2. Conductive Finger Approach",
+        description:
+          "Human skin contains water and electrolytes (salts), making your body an electrical conductor that carries electrical charge.",
+      },
+      {
+        emoji: "🧲",
+        label: "3. Capacitance Disturbance (Charge Bleed)",
+        description:
+          "When your finger touches the glass, it alters the local electrostatic field, absorbing a microscopic amount of electrical charge.",
+      },
+      {
+        emoji: "📐",
+        label: "4. X-Y Coordinate Calculation",
+        description:
+          "Corner sensor chips measure the exact voltage drop across the grid to calculate precise (X, Y) pixel touch coordinates.",
+      },
+      {
+        emoji: "🎮",
+        label: "5. Multi-Touch Gesture Recognition",
+        description:
+          "The touch controller processes up to 10 simultaneous contact points, translating pinches into zooms and swipes into scrolls.",
+      },
+    ],
+    sections: [
+      {
+        heading: "Capacitive vs. Resistive Touchscreens",
+        paragraphs: [
+          "Capacitive Screens (Smartphones & Tablets): Made of durable glass with a microscopic electrical grid. Highly responsive to human fingers, supports smooth multi-touch gestures, but requires a conductive touch.",
+          "Resistive Screens (Old GPS & ATM machines): Made of two flexible plastic sheets separated by a tiny air gap. Touching presses the layers together to complete a physical circuit. Works with any stylus or gloved finger, but lacks multi-touch and requires firm pressing.",
+        ],
+      },
+      {
+        heading: "Indium Tin Oxide (ITO): The Invisible Conductor",
+        paragraphs: [
+          "How can a screen conduct electricity while staying 100% crystal clear? Modern touchscreens use Indium Tin Oxide (ITO)—a rare transparent conducting oxide coated in microscopic crisscrossing diamond grids across the glass.",
+        ],
+      },
+      {
+        heading: "Why Gloves Don't Work (And How Touch Gloves Fix It)",
+        paragraphs: [
+          "Standard wool or leather gloves are electrical insulators that block the electrostatic field between your skin and the glass. Touchscreen-compatible gloves weave conductive silver or metallic copper threads into the fingertips to bridge the electrical connection!",
+        ],
+      },
+    ],
+    vocabulary: [
+      { term: "Capacitance", definition: "The ability of a system to store an electrical charge; in touchscreens, the measure of electrostatic field change." },
+      { term: "Indium Tin Oxide (ITO)", definition: "A transparent, electrically conductive ceramic material widely used in touchscreens and flat-panel displays." },
+      { term: "Projected Capacitive Touch (PCT)", definition: "A touch technology featuring an etched grid of conductive electrodes that senses touch through protective cover glass." },
+      { term: "Multi-Touch", definition: "The ability of a touch-sensing surface to recognize the presence of two or more simultaneous points of contact." },
+    ],
+    facts: [
+      "Your smartphone scans the touchscreen capacitive grid at up to 240 times every single second (240 Hz touch sampling rate) for zero perceptible lag!",
+      "You can unlock and operate a smartphone touchscreen with a piece of fruit like an apple or banana because fruits are conductive electrolytes!",
+      "Self-cleaning touchscreens are being developed with antimicrobial silver ion coatings and oleophobic coatings that repel greasy fingerprint oils.",
+    ],
+    activity: {
+      title: "Test What Materials Trigger a Smartphone Touchscreen",
+      steps: [
+        "Open a drawing app or camera shutter button on a smartphone.",
+        "Test touching the screen with different everyday objects: a metal spoon, a wooden toothpick, a plastic pen cap, an apple slice, and a regular pencil eraser.",
+        "Observe which items trigger a touch response: only conductive items containing water/metals or your skin will work on capacitive glass!",
+      ],
+    },
+    related: [
+      { gradeId: "grade-5", subjectId: "science", topic: "Force and Energy" },
+      { gradeId: "grade-6", subjectId: "science", topic: "Electricity and Circuits" },
+      { gradeId: "grade-8", subjectId: "science", topic: "Chemical Effects of Electric Current" },
+    ],
+  },
 ];
+

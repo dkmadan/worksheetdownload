@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// Knowledge articles — 60 illustrated explainers across 6 science categories.
+// Knowledge articles — 120 illustrated explainers across 6 science categories.
 // Each article links out to the relevant grade + subject worksheet pages.
 // Rendered by src/app/knowledge/[slug]/page.tsx.
 // ─────────────────────────────────────────────────────────────────────────────
@@ -165,51 +165,52 @@ export const KNOWLEDGE_CATEGORIES: KnowledgeCategory[] = [
     slug: "nature-earth",
     name: "Nature & Earth",
     emoji: "🌍",
-    description: "Discover rock cycles, food webs, carbon paths, rivers, soil formation, and the wonders of our planet.",
+    description: "Discover rock cycles, volcanoes, earthquakes, mountains, glaciers, caves, fossils, and Earth's layers.",
     accent: "emerald",
-    count: 10,
+    count: 20,
   },
   {
     slug: "weather-climate",
     name: "Weather & Climate",
     emoji: "🌦️",
-    description: "Explore cloud creation, wind journeys, rain, thunderstorms, seasons, snow, and weather forecasting.",
+    description: "Explore tornadoes, fog, blue skies, hail, droughts, floods, weather fronts, ocean currents, and climate science.",
     accent: "sky",
-    count: 10,
+    count: 20,
   },
   {
     slug: "space",
     name: "Space",
     emoji: "🪐",
-    description: "Journey across the Solar System, stars, moon phases, eclipses, rocket science, and northern lights.",
+    description: "Journey across gravity, black holes, satellites, lunar origin, telescopes, comets, asteroids, and Mars rovers.",
     accent: "indigo",
-    count: 10,
+    count: 20,
   },
   {
     slug: "animal-plant-life",
     name: "Animal & Plant Life",
     emoji: "🐛",
-    description: "Explore lifecycles, photosynthesis, honey bees, bird nests, and animal adaptations in diverse ecosystems.",
+    description: "Explore butterflies, germination, pollination, autumn leaves, fish respiration, bird flight, and hibernation.",
     accent: "orange",
-    count: 10,
+    count: 20,
   },
   {
     slug: "human-body",
     name: "Human Body",
     emoji: "🧍",
-    description: "Unravel how digestion works, how the heart pumps, brain messages, five senses, and why we sleep.",
+    description: "Unravel vision, hearing, kidney filtration, skin defense, wound healing, skeleton growth, and brain memory.",
     accent: "rose",
-    count: 10,
+    count: 20,
   },
   {
     slug: "everyday-science",
     name: "Everyday Science",
     emoji: "⚡",
-    description: "Understand electricity, magnets, sound waves, light, rainbows, states of matter, and simple machines.",
+    description: "Understand friction, gravity, mirrors, lenses, buoyancy, airplane flight, refrigeration, solar power, and Wi-Fi.",
     accent: "amber",
-    count: 10,
+    count: 20,
   },
 ];
+
 
 export interface CycleStep {
   emoji: string;
