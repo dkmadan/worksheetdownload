@@ -11,18 +11,22 @@ const SIZES = [
   { value: "small", label: "Small (G5+)", pt: 18 },
 ];
 
+const CASES = [
+  { value: "lower", label: "Lowercase (a–z)", text: "a b c d e f g h i j k l m\nn o p q r s t u v w x y z" },
+  { value: "upper", label: "Uppercase (A–Z)", text: "A B C D E F G H I J K L M\nN O P Q R S T U V W X Y Z" },
+  { value: "both", label: "Both (Aa–Zz)", text: "Aa Bb Cc Dd Ee Ff Gg\nHh Ii Jj Kk Ll Mm Nn\nOo Pp Qq Rr Ss Tt Uu\nVv Ww Xx Yy Zz" },
+];
+
 const QUICK = [
-  { label: "a–z", text: "a b c d e f g h i j k l m\nn o p q r s t u v w x y z" },
-  { label: "A–Z", text: "A B C D E F G H I J K L M\nN O P Q R S T U V W X Y Z" },
-  { label: "Aa–Zz", text: "Aa Bb Cc Dd Ee Ff Gg\nHh Ii Jj Kk Ll Mm Nn\nOo Pp Qq Rr Ss Tt Uu\nVv Ww Xx Yy Zz" },
   { label: "Letter joins", text: "th wh sh ch qu\noo ea ou ing all" },
   { label: "Sentence", text: "Practice makes perfect penmanship." },
 ];
 
-const CURSIVE_FONT = "'Cursive Practice', cursive";
+const CURSIVE_FONT = "'Practice Script', cursive";
 
 export default function CursiveGenerator() {
-  const [raw, setRaw] = useState(QUICK[0].text);
+  const [caseMode, setCaseMode] = useState(CASES[0].value);
+  const [raw, setRaw] = useState(CASES[0].text);
   const [size, setSize] = useState("medium");
   const [traceRows, setTraceRows] = useState(1);
   const [blankRows, setBlankRows] = useState(2);
@@ -105,6 +109,17 @@ export default function CursiveGenerator() {
       ]}
       controls={
         <>
+          <Field label="Alphabet case" hint="big or small letters">
+            <Segmented
+              options={CASES.map((c) => ({ value: c.value, label: c.label }))}
+              value={caseMode}
+              onChange={(v) => {
+                setCaseMode(v);
+                setRaw(CASES.find((c) => c.value === v)!.text);
+              }}
+            />
+          </Field>
+
           <Field label="Text to practise" hint="one line = one row">
             <TextArea value={raw} onChange={setRaw} rows={4} placeholder="Type letters, words or a sentence…" />
             <div className="flex flex-wrap gap-1.5 mt-2">
