@@ -10,6 +10,7 @@ import SpellingGenerator from "@/components/tools/SpellingGenerator";
 import TimesTableGenerator from "@/components/tools/TimesTableGenerator";
 import WordSearchGenerator from "@/components/tools/WordSearchGenerator";
 import ClockGenerator from "@/components/tools/ClockGenerator";
+import CursiveGenerator from "@/components/tools/CursiveGenerator";
 import { breadcrumbsJsonLd, softwareAppJsonLd, faqJsonLd } from "@/lib/jsonLd";
 import BookmarkButton from "@/components/bookmarks/BookmarkButton";
 
@@ -61,6 +62,8 @@ function renderTool(slug: string) {
       return <WordSearchGenerator />;
     case "telling-time-worksheet-generator":
       return <ClockGenerator />;
+    case "cursive-writing-generator":
+      return <CursiveGenerator />;
     default:
       return null;
   }

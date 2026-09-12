@@ -11,7 +11,8 @@ export type ToolSlug =
   | "spelling-worksheet-generator"
   | "multiplication-table-generator"
   | "word-search-generator"
-  | "telling-time-worksheet-generator";
+  | "telling-time-worksheet-generator"
+  | "cursive-writing-generator";
 
 export interface ToolMeta {
   slug: ToolSlug;
@@ -186,6 +187,26 @@ export const TOOLS: ToolMeta[] = [
     ],
     gradient: "from-orange-500 via-amber-500 to-yellow-500",
     accent: "bg-orange-600",
+  },
+  {
+    slug: "cursive-writing-generator",
+    title: "Cursive Writing Generator",
+    short: "Cursive Writing",
+    emoji: "✒️",
+    tagline: "Trace-and-write cursive practice in a flowing script font",
+    description:
+      "Type any letters, words or a sentence and generate elegant cursive practice sheets — dotted trace rows in a real connected script font followed by blank rows, with adjustable letter size for every age.",
+    keywords: [
+      "cursive writing generator",
+      "cursive handwriting worksheet",
+      "cursive alphabet practice sheet",
+      "trace cursive letters worksheet",
+      "printable cursive writing practice",
+      "cursive worksheet maker",
+      "cursive writing practice for kids",
+    ],
+    gradient: "from-purple-600 via-violet-600 to-indigo-700",
+    accent: "bg-purple-700",
   },
 ];
 

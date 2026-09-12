@@ -14,6 +14,7 @@ import {
   rgb,
   degrees,
 } from "pdf-lib";
+import fontkit from "@pdf-lib/fontkit";
 import type { MathProblem } from "./math";
 import type { SpellingActivity } from "./spelling";
 import { abcSort, scramble, withMissingLetters, pyramidRows, SPELLING_ACTIVITIES } from "./spelling";
@@ -515,6 +516,149 @@ export async function buildHandwritingPdf(o: HandwritingPdfOpts): Promise<Uint8A
         } else {
           while (gx + glyphW < b.right - 6) {
             page.drawText(glyphs, { x: gx, y: baseline, size, font: F.reg, color: FAINT });
+            gx += repeatW;
+          }
+        }
+      }
+      cursor -= rowUnit + extraPerRow;
+    });
+  });
+
+  return doc.save();
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  CURSIVE WRITING PRACTICE
+// ═══════════════════════════════════════════════════════════════════════════
+
+// The script font is fetched once and reused across every generated PDF in
+// this tab — it's the same "Dancing Script" file also loaded as a CSS
+// @font-face (globals.css) so the on-screen preview matches the PDF exactly.
+let cursiveFontBytes: ArrayBuffer | null = null;
+async function loadCursiveFontBytes(): Promise<ArrayBuffer> {
+  if (!cursiveFontBytes) {
+    const res = await fetch("/fonts/DancingScript-Bold.ttf");
+    cursiveFontBytes = await res.arrayBuffer();
+  }
+  return cursiveFontBytes;
+}
+
+export interface CursivePdfOpts {
+  title: string;
+  lines: string[]; // one string per practice line group
+  sizePt: number; // nominal cursive glyph draw size in points
+  traceRows: number; // dotted trace rows per line
+  blankRows: number; // empty rows per line
+  guideStyle: "dashed" | "solid";
+}
+
+export async function buildCursivePdf(o: CursivePdfOpts): Promise<Uint8Array> {
+  const { doc, F } = await newDoc();
+  doc.registerFontkit(fontkit);
+  const cursive = await doc.embedFont(await loadCursiveFontBytes(), { subset: true });
+
+  const size = o.sizePt;
+  // derive real ascender/descender from the font's own metrics, with a bit of
+  // padding since Dancing Script's swashes/loops overshoot the reported box
+  const unitFull = cursive.heightAtSize(1);
+  const unitAscent = cursive.heightAtSize(1, { descender: false });
+  const unitDescent = Math.max(0, unitFull - unitAscent);
+  const ascender = size * unitAscent * 1.15;
+  const descender = size * unitDescent * 1.3;
+  const groupH = ascender + descender;
+  const rowsPerGroup = Math.max(1, o.traceRows + o.blankRows);
+  const groupGap = 14;
+
+  const glyphSize = size;
+  const rowMaxW = CONTENT_W - 12;
+  const wrapLine = (line: string): string[] => {
+    const s = enc(line);
+    if (cursive.widthOfTextAtSize(s, glyphSize) <= rowMaxW) return [s];
+    const words = s.split(" ");
+    const segs: string[] = [];
+    let cur = "";
+    for (const w of words) {
+      const test = cur ? `${cur} ${w}` : w;
+      if (cursive.widthOfTextAtSize(test, glyphSize) > rowMaxW && cur) {
+        segs.push(cur);
+        cur = w;
+      } else cur = test;
+    }
+    if (cur) segs.push(cur);
+    return segs.length ? segs : [s];
+  };
+
+  type Row = { label: string; trace: boolean; firstOfGroup: boolean; repeat: boolean };
+  const rows: Row[] = [];
+  const sourceLines = o.lines.length ? o.lines : ["a b c d e f g h"];
+  for (const rawLine of sourceLines) {
+    const segs = wrapLine(rawLine);
+    const repeat = segs.length === 1;
+    segs.forEach((line, si) => {
+      for (let t = 0; t < o.traceRows; t++)
+        rows.push({ label: line, trace: true, firstOfGroup: si === 0 && t === 0, repeat });
+      for (let bnk = 0; bnk < o.blankRows; bnk++)
+        rows.push({ label: line, trace: false, firstOfGroup: si === 0 && o.traceRows === 0 && bnk === 0, repeat });
+    });
+  }
+
+  const probe = doc.addPage([PW, PH]);
+  const pbox = drawChrome(probe, F, { title: o.title, badge: "Cursive", studentStrip: true, pageNum: 1, pageCount: 1 });
+  doc.removePage(doc.getPageCount() - 1);
+  const usableH = pbox.top - pbox.bottom;
+
+  const rowUnit = groupH;
+  const perGroupH = rowsPerGroup * rowUnit + groupGap;
+  const groupsPerPage = Math.max(1, Math.floor(usableH / perGroupH));
+  const rowsPerPage = groupsPerPage * rowsPerGroup;
+
+  const pageChunks = paginate(rows, rowsPerPage);
+
+  pageChunks.forEach((chunk, pi) => {
+    const page = doc.addPage([PW, PH]);
+    const b = drawChrome(page, F, {
+      title: o.title,
+      subtitle: "Trace the flowing guide letters, then write on your own.",
+      badge: "Cursive",
+      studentStrip: pi === 0,
+      pageNum: pi + 1,
+      pageCount: pageChunks.length,
+    });
+
+    const groupsThisPage = Math.max(1, chunk.filter((r) => r.firstOfGroup).length);
+    const contentH = chunk.length * rowUnit + (groupsThisPage - 1) * groupGap;
+    const spare = Math.max(0, b.top - b.bottom - contentH - 8);
+    const extraPerRow = Math.min(rowUnit * 0.7, spare / chunk.length);
+
+    let cursor = b.top - 6;
+    chunk.forEach((row, i) => {
+      if (row.firstOfGroup && i !== 0) cursor -= groupGap;
+      const baseline = cursor - ascender;
+      const topline = baseline + ascender;
+      const midline = baseline + size * unitAscent * 0.55; // approx x-height guide
+      const descLine = baseline - descender;
+
+      page.drawLine({ start: { x: b.left, y: topline }, end: { x: b.right, y: topline }, thickness: 0.75, color: FAINT });
+      page.drawLine({
+        start: { x: b.left, y: midline },
+        end: { x: b.right, y: midline },
+        thickness: o.guideStyle === "dashed" ? 0.75 : 0.5,
+        color: o.guideStyle === "dashed" ? LINE : FAINT,
+        dashArray: o.guideStyle === "dashed" ? [3, 3] : undefined,
+      });
+      page.drawLine({ start: { x: b.left, y: baseline }, end: { x: b.right, y: baseline }, thickness: 1, color: BODY });
+      page.drawLine({ start: { x: b.left, y: descLine }, end: { x: b.right, y: descLine }, thickness: 0.5, color: FAINT });
+
+      if (row.trace) {
+        const glyphs = enc(row.label);
+        const glyphW = cursive.widthOfTextAtSize(glyphs, glyphSize);
+        const repeatW = cursive.widthOfTextAtSize(glyphs + "   ", glyphSize);
+        let gx = b.left + 6;
+        if (!row.repeat || repeatW <= 0) {
+          page.drawText(glyphs, { x: gx, y: baseline, size: glyphSize, font: cursive, color: FAINT });
+        } else {
+          while (gx + glyphW < b.right - 6) {
+            page.drawText(glyphs, { x: gx, y: baseline, size: glyphSize, font: cursive, color: FAINT });
             gx += repeatW;
           }
         }
