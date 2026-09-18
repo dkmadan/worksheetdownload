@@ -410,8 +410,8 @@ export function VolcanoEruptScene() {
     <Frame label="How Volcanoes Erupt: Magma Chamber, Conduit Vent, Ash Cloud, Lava Flow">
       <defs>
         <linearGradient id="ve-sky" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#1e1b4b" />
-          <stop offset="40%" stopColor="#431407" />
+          <stop offset="0%" stopColor="#0b0f19" />
+          <stop offset="45%" stopColor="#431407" />
           <stop offset="100%" stopColor="#78350f" />
         </linearGradient>
         <linearGradient id="ve-magma" x1="0" y1="0" x2="1" y2="0">
@@ -421,35 +421,38 @@ export function VolcanoEruptScene() {
         </linearGradient>
         <radialGradient id="ve-glow" cx="50%" cy="50%" r="50%">
           <stop offset="0%" stopColor="#fef08a" stopOpacity="1" />
-          <stop offset="50%" stopColor="#f97316" stopOpacity="0.8" />
+          <stop offset="50%" stopColor="#f97316" stopOpacity="0.85" />
           <stop offset="100%" stopColor="#dc2626" stopOpacity="0" />
         </radialGradient>
       </defs>
       <rect width="440" height="260" fill="url(#ve-sky)" />
       {/* Ash and smoke explosion */}
-      <circle cx="220" cy="45" r="45" fill="#475569" opacity="0.85" />
-      <circle cx="180" cy="55" r="35" fill="#64748b" opacity="0.8" />
-      <circle cx="260" cy="50" r="38" fill="#334155" opacity="0.9" />
-      <circle cx="220" cy="25" r="28" fill="#1e293b" opacity="0.85" />
-      <circle cx="220" cy="75" r="25" fill="url(#ve-glow)" />
+      <circle cx="220" cy="40" r="48" fill="#334155" opacity="0.9" />
+      <circle cx="175" cy="50" r="38" fill="#475569" opacity="0.85" />
+      <circle cx="265" cy="48" r="42" fill="#1e293b" opacity="0.9" />
+      <circle cx="220" cy="20" r="30" fill="#0f172a" opacity="0.85" />
+      <circle cx="220" cy="75" r="28" fill="url(#ve-glow)" />
+      {/* Volcanic lightning */}
+      <path d="M200 30 L210 50 L205 60 L215 75" stroke="#a5f3fc" strokeWidth="1.5" fill="none" />
+      <path d="M240 25 L230 45 L235 55 L228 70" stroke="#fef08a" strokeWidth="1.5" fill="none" />
       {/* Volcano Slopes */}
-      <path d="M50 260 L195 90 L245 90 L390 260 Z" fill="#292524" />
-      <path d="M90 260 L205 95 L235 95 L350 260 Z" fill="#44403c" />
-      {/* Magma Conduit & Chamber */}
-      <path d="M210 90 L210 200 Q210 245 150 245 Q220 260 290 245 Q230 245 230 200 L230 90 Z" fill="url(#ve-magma)" />
+      <path d="M40 260 L195 85 L245 85 L400 260 Z" fill="#292524" />
+      <path d="M80 260 L205 90 L235 90 L360 260 Z" fill="#44403c" />
+      {/* Magma Conduit & Subterranean Chamber */}
+      <path d="M210 88 L210 185 Q210 240 140 240 Q220 258 300 240 Q230 240 230 185 L230 88 Z" fill="url(#ve-magma)" />
       {/* Flowing Lava Streams */}
-      <path d="M200 95 Q170 140 140 260" stroke="#f97316" strokeWidth="6" fill="none" strokeLinecap="round" />
-      <path d="M200 95 Q170 140 140 260" stroke="#fef08a" strokeWidth="2.5" fill="none" strokeLinecap="round" />
-      <path d="M240 95 Q270 150 290 260" stroke="#ef4444" strokeWidth="5" fill="none" strokeLinecap="round" />
+      <path d="M200 90 Q165 140 130 260" stroke="#f97316" strokeWidth="6" fill="none" strokeLinecap="round" />
+      <path d="M200 90 Q165 140 130 260" stroke="#fef08a" strokeWidth="2" fill="none" strokeLinecap="round" />
+      <path d="M240 90 Q275 150 300 260" stroke="#ef4444" strokeWidth="5" fill="none" strokeLinecap="round" />
       {/* Lava Bombs */}
-      <circle cx="160" cy="40" r="4" fill="#facc15" />
-      <circle cx="280" cy="35" r="5" fill="#f97316" />
-      <circle cx="205" cy="15" r="3.5" fill="#ef4444" />
+      <circle cx="155" cy="35" r="4" fill="#facc15" />
+      <circle cx="285" cy="32" r="5" fill="#f97316" />
+      <circle cx="205" cy="12" r="3.5" fill="#ef4444" />
       {/* Labels */}
-      <rect x="25" y="15" width="95" height="22" rx="6" fill="#000000" fillOpacity="0.6" />
-      <text x="32" y="30" fill="#fef08a" fontSize="10" fontWeight="bold">🌋 Ash Cloud</text>
-      <rect x="315" y="195" width="105" height="22" rx="6" fill="#000000" fillOpacity="0.6" />
-      <text x="322" y="210" fill="#f97316" fontSize="10" fontWeight="bold">🔥 Magma Chamber</text>
+      <rect x="20" y="15" width="105" height="22" rx="6" fill="#000000" fillOpacity="0.7" />
+      <text x="28" y="30" fill="#fef08a" fontSize="10" fontWeight="bold">🌋 Ash &amp; Gas Plume</text>
+      <rect x="305" y="200" width="115" height="22" rx="6" fill="#000000" fillOpacity="0.7" />
+      <text x="312" y="215" fill="#fca5a5" fontSize="10" fontWeight="bold">🔥 Magma Chamber</text>
     </Frame>
   );
 }
@@ -825,6 +828,67 @@ export function EarthLayersScene() {
         <line x1="310" y1="162" x2="250" y2="160" />
         <line x1="310" y1="212" x2="230" y2="145" />
       </g>
+    </Frame>
+  );
+}
+
+// 21. How Ocean Tides Work
+export function OceanTidesScene() {
+  return (
+    <Frame label="How Ocean Tides Work: Moon Gravity, Dual Water Bulges, High and Low Tides">
+      <defs>
+        <radialGradient id="ots-moon" cx="35%" cy="35%" r="65%">
+          <stop offset="0%" stopColor="#f8fafc" />
+          <stop offset="60%" stopColor="#94a3b8" />
+          <stop offset="100%" stopColor="#475569" />
+        </radialGradient>
+        <linearGradient id="ots-water" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stopColor="#0284c7" />
+          <stop offset="50%" stopColor="#38bdf8" />
+          <stop offset="100%" stopColor="#0284c7" />
+        </linearGradient>
+      </defs>
+      <rect width="440" height="260" fill="#030712" />
+      {/* Background Stars */}
+      {[...Array(20)].map((_, i) => (
+        <circle key={i} cx={(i * 53) % 440} cy={(i * 37) % 260} r={(i % 2) + 0.7} fill="#ffffff" opacity={0.6} />
+      ))}
+
+      {/* Central Earth System */}
+      <g transform="translate(180, 130)">
+        {/* Dual Tidal Bulge Ellipse */}
+        <ellipse cx="0" cy="0" rx="95" ry="55" fill="url(#ots-water)" opacity="0.75" />
+
+        {/* Solid Earth Sphere */}
+        <circle cx="0" cy="0" r="46" fill="#0369a1" stroke="#0284c7" strokeWidth="2" />
+        {/* Continents */}
+        <path d="M-20 -25 Q-5 -40 15 -25 Q20 -5 5 10 Q-15 15 -25 0 Z" fill="#22c55e" />
+        <path d="M-5 20 Q15 15 25 35 Q5 42 -10 35 Z" fill="#22c55e" />
+        <text x="0" y="4" fill="#ffffff" fontSize="10" fontWeight="black" textAnchor="middle">EARTH</text>
+
+        {/* High Tide Labels */}
+        <text x="75" y="3" fill="#fde047" fontSize="8" fontWeight="black">HIGH ➔</text>
+        <text x="-75" y="3" fill="#fde047" fontSize="8" fontWeight="black" textAnchor="end">HIGH ➔</text>
+        {/* Low Tide Labels */}
+        <text x="0" y="-62" fill="#f87171" fontSize="8" fontWeight="bold" textAnchor="middle">LOW TIDE ⬇️</text>
+        <text x="0" y="70" fill="#f87171" fontSize="8" fontWeight="bold" textAnchor="middle">LOW TIDE ⬆️</text>
+      </g>
+
+      {/* Orbiting Moon on Right */}
+      <g transform="translate(375, 130)">
+        <circle cx="0" cy="0" r="26" fill="url(#ots-moon)" />
+        <circle cx="-6" cy="-6" r="4" fill="#334155" opacity="0.5" />
+        <circle cx="8" cy="5" r="5" fill="#334155" opacity="0.4" />
+        <text x="0" y="38" fill="#f8fafc" fontSize="10" fontWeight="bold" textAnchor="middle">MOON</text>
+      </g>
+
+      {/* Gravity Pull Vector Arrows */}
+      <path d="M280 130 L340 130" stroke="#38bdf8" strokeWidth="3" strokeDasharray="4 3" markerEnd="url(#arrow)" />
+      <text x="310" y="120" fill="#38bdf8" fontSize="8" fontWeight="bold" textAnchor="middle">Gravity ➔</text>
+
+      {/* Top Banner Tag */}
+      <rect x="15" y="12" width="160" height="22" rx="6" fill="#000000" fillOpacity="0.7" />
+      <text x="24" y="27" fill="#38bdf8" fontSize="10" fontWeight="bold">🌊 Moon &amp; Sun Gravity Tides</text>
     </Frame>
   );
 }

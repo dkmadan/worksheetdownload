@@ -1901,5 +1901,122 @@ export const HUMAN_BODY_ARTICLES: KnowledgeArticle[] = [
       { gradeId: "grade-7", subjectId: "science", topic: "Nutrition in Animals" },
     ],
   },
+
+  // 21. How DNA Carries Instructions for Life
+  {
+    slug: "how-dna-carries-instructions-for-life",
+    title: "How DNA Carries Instructions for Life",
+    subtitle: "A kid-friendly journey from cells to chromosomes, DNA, genes, and inherited traits",
+    category: "Human Body",
+    categorySlug: "human-body",
+    categoryEmoji: "🧍",
+    emoji: "🧬",
+    accent: "rose",
+    readingMinutes: 7,
+    bigIdea:
+      "DNA is the microscopic chemical recipe book inside every living cell, written with a four-letter code that determines everything from your eye color to how your body grows and heals.",
+    intro:
+      "Look closely at your reflection in a mirror: where did you get the shape of your smile, the color of your eyes, or the curve of your thumbs? The answer is tucked inside the nucleus of almost every one of the 30 trillion cells that build your body. Inside lies a wonder molecule called DNA (Deoxyribonucleic Acid). If you stretched out the DNA in just one of your microscopic cells, it would be two meters (six feet) long! Folded into tight packages called chromosomes, DNA contains the complete master blueprint that makes you uniquely you.",
+    cycleTitle: "The Five Stages of the DNA Information Flow",
+    cycle: [
+      {
+        emoji: "🔬",
+        label: "1. The Cellular Vault",
+        description:
+          "Inside every cell's nucleus, 23 pairs of chromosomes store meters of tightly spooled DNA like volumes in an encyclopedia library.",
+      },
+      {
+        emoji: "🪜",
+        label: "2. The Double Helix Ladder",
+        description:
+          "DNA twists into a double helix spiral held together by pairs of chemical rungs that make up the genetic code.",
+      },
+      {
+        emoji: "🔤",
+        label: "3. Four-Letter Base Pairing",
+        description:
+          "Four chemical bases—Adenine (A), Thymine (T), Cytosine (C), and Guanine (G)—pair strictly (A with T, C with G) to form genes.",
+      },
+      {
+        emoji: "✉️",
+        label: "4. Messenger RNA Transcription",
+        description:
+          "When the body needs a specific protein, a gene is unzipped and copied into a messenger RNA (mRNA) message sent into the cell.",
+      },
+      {
+        emoji: "🏭",
+        label: "5. Protein Synthesis & Expressed Traits",
+        description:
+          "Ribosomes read the mRNA codons and string together amino acids into functional proteins that build your hair, eyes, and muscles.",
+      },
+    ],
+    sections: [
+      {
+        heading: "The Scale of Life: From Cell to Chromosome to DNA",
+        paragraphs: [
+          "To understand DNA, we have to zoom in from the macroscopic to the microscopic. Your body contains roughly 30 trillion cells. Inside nearly every cell is a protective central control room called the nucleus.",
+          "Inside the nucleus are 46 chromosomes (arranged in 23 pairs—one set from your mother and one set from your father). Each chromosome is a single, extremely long strand of DNA wrapped around spool-like proteins called histones, packing two meters of genetic information into a space smaller than a speck of dust!",
+        ],
+        diagramId: "dna-scale-zoom",
+      },
+      {
+        heading: "The Double Helix & The Four-Letter Chemical Alphabet",
+        paragraphs: [
+          "In 1953, scientists James Watson, Francis Crick, and Rosalind Franklin discovered that DNA has the shape of a twisted spiral staircase called a Double Helix. The handrails of the staircase are made of alternating sugar and phosphate molecules.",
+          "The steps (or rungs) of the ladder are made of four chemical bases: Adenine (A), Thymine (T), Cytosine (C), and Guanine (G). These bases follow an unbreakable base-pairing rule: A always bonds with T, and C always bonds with G. The specific sequence of these letters spells out the recipes for thousands of distinct genes.",
+        ],
+        diagramId: "dna-double-helix-bases",
+      },
+      {
+        heading: "The Protein Factory: How DNA Commands the Cell",
+        paragraphs: [
+          "A gene is simply a specific section of DNA that holds the instructions to manufacture a single protein. Proteins are the molecular machines of your body—keratin forms your hair and nails, hemoglobin carries oxygen in your blood, and melanin gives your skin and eyes their color.",
+          "To make a protein, a process called Transcription makes an RNA photocopy of the gene inside the nucleus. This messenger RNA (mRNA) travels out to a cellular workbench called a Ribosome. During Translation, the ribosome reads the mRNA letters in triplets called codons, assembling amino acids in the exact order needed to fold into a functional protein.",
+        ],
+        diagramId: "dna-protein-factory",
+      },
+      {
+        heading: "Inherited Traits & Alleles: Why You Look Like Your Parents",
+        paragraphs: [
+          "Physical characteristics like eye color, natural freckles, curly or straight hair, and whether your earlobes are free or attached are called inherited traits. You inherit two versions of every gene—one allele from your biological mother and one from your father.",
+          "Some alleles are Dominant (like brown eyes or dark hair), meaning their trait shows up even if you only inherit one copy. Other alleles are Recessive (like blue eyes or red hair), which only appear if you inherit recessive copies from both parents. Scientists use a grid called a Punnett Square to predict the probability of traits being passed down across generations.",
+        ],
+        diagramId: "dna-inherited-traits",
+      },
+    ],
+    vocabulary: [
+      { term: "DNA", definition: "Deoxyribonucleic Acid—the double-stranded molecule carrying genetic instructions for the development and functioning of all living things." },
+      { term: "Gene", definition: "A specific section of DNA that contains instructions for building a particular protein or trait." },
+      { term: "Chromosome", definition: "A tightly coiled structure of DNA and protein found inside the cell nucleus; humans have 23 pairs (46 total)." },
+      { term: "Trait", definition: "A specific physical characteristic or feature of an organism inherited from parents, such as eye color or height." },
+      { term: "Double Helix", definition: "The spiral, twisted-ladder structure of double-stranded DNA." },
+      { term: "Nucleotide", definition: "The basic building block of DNA, consisting of a sugar, a phosphate group, and a nitrogenous base (A, T, C, or G)." },
+      { term: "Allele", definition: "One of two or more alternative versions of a gene that arise by mutation and are found at the same place on a chromosome." },
+      { term: "Ribosome", definition: "A tiny cellular organelle that acts as a protein factory, translating mRNA code into chains of amino acids." },
+    ],
+    facts: [
+      "If you uncoiled and tied together all the DNA from every cell in your body, it would stretch about 10 billion miles—long enough to reach Pluto and back!",
+      "All human beings on Earth share about 99.9% of their DNA sequence. Only 0.1% accounts for all our unique physical differences like skin tone, eye color, and height.",
+      "Humans share about 60% of our DNA with a banana, 85% with a mouse, and 98.8% with a chimpanzee!",
+      "If you could type 60 words per minute for eight hours a day, it would take you about 50 years to type out all 3 billion letters of the human genome.",
+    ],
+    activity: {
+      title: "Kitchen Science: Extract Real Strawberry DNA",
+      steps: [
+        "Place one fresh strawberry into a zip-top plastic bag and mash it thoroughly with your fingers into a smooth puree.",
+        "In a small cup, mix 1/2 cup of warm water, 1 teaspoon of liquid dish soap (to break open cell membranes), and 1/2 teaspoon of salt (to separate DNA from proteins).",
+        "Add 2 teaspoons of this soapy liquid to the mashed strawberry bag and gently mix without creating foam.",
+        "Filter the strawberry mixture through a coffee filter or paper towel into a clear glass.",
+        "Slowly pour ice-cold rubbing alcohol down the side of the glass so it floats on top of the strawberry juice.",
+        "Watch as white, cloudy, stringy mucus-like strands precipitate at the boundary—congratulations, you are looking at real strawberry DNA with your naked eyes!",
+      ],
+    },
+    related: [
+      { gradeId: "grade-8", subjectId: "science", topic: "Cell Structure" },
+      { gradeId: "grade-8", subjectId: "science", topic: "Reproduction in Animals" },
+      { gradeId: "grade-7", subjectId: "science", topic: "Transportation in Plants and Animals" },
+      { gradeId: "grade-6", subjectId: "science", topic: "Living Organisms" },
+    ],
+  },
 ];
 

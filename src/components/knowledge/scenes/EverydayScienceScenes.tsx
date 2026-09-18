@@ -563,34 +563,69 @@ export function AirplaneLiftScene() {
       <defs>
         <linearGradient id="af-bg" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0%" stopColor="#0369a1" />
-          <stop offset="100%" stopColor="#075985" />
+          <stop offset="50%" stopColor="#0284c7" />
+          <stop offset="100%" stopColor="#0c4a6e" />
         </linearGradient>
       </defs>
       <rect width="440" height="260" fill="url(#af-bg)" />
-      {/* Airfoil Wing Cross-Section in Center */}
-      <g transform="translate(220, 130)">
-        {/* Curved Airfoil Wing */}
-        <path d="M-80 0 C-40 -45 40 -35 80 0 C40 10 -40 10 -80 0 Z" fill="#cbd5e1" stroke="#ffffff" strokeWidth="3" />
-        <text x="-25" y="-5" fill="#1e293b" fontSize="10" fontWeight="bold">Airfoil Wing</text>
-        {/* 4 Force Arrows */}
-        {/* 1. LIFT Up */}
-        <line x1="0" y1="-25" x2="0" y2="-80" stroke="#4ade80" strokeWidth="5" strokeLinecap="round" />
-        <polygon points="-6,-80 6,-80 0,-92" fill="#4ade80" />
-        <text x="10" y="-70" fill="#4ade80" fontSize="11" fontWeight="black">LIFT ⬆️</text>
-        {/* 2. WEIGHT Down */}
-        <line x1="0" y1="10" x2="0" y2="65" stroke="#f87171" strokeWidth="5" strokeLinecap="round" />
-        <polygon points="-6,65 6,65 0,77" fill="#f87171" />
-        <text x="10" y="60" fill="#f87171" fontSize="11" fontWeight="black">WEIGHT ⬇️</text>
-        {/* 3. THRUST Forward (Left) */}
-        <line x1="-80" y1="0" x2="-140" y2="0" stroke="#38bdf8" strokeWidth="5" strokeLinecap="round" />
-        <polygon points="-140,-6 -140,6 -152,0" fill="#38bdf8" />
-        <text x="-145" y="-12" fill="#38bdf8" fontSize="11" fontWeight="black">THRUST ⬅️</text>
-        {/* 4. DRAG Backward (Right) */}
-        <line x1="80" y1="0" x2="140" y2="0" stroke="#fbbf24" strokeWidth="5" strokeLinecap="round" />
-        <polygon points="140,-6 140,6 152,0" fill="#fbbf24" />
-        <text x="95" y="-12" fill="#fbbf24" fontSize="11" fontWeight="black">DRAG ➡️</text>
+
+      {/* Fluffy High Altitude Clouds */}
+      <g opacity="0.4">
+        <ellipse cx="70" cy="65" rx="55" ry="18" fill="#ffffff" />
+        <ellipse cx="110" cy="55" rx="40" ry="16" fill="#ffffff" />
+        <ellipse cx="370" cy="200" rx="65" ry="20" fill="#ffffff" />
+        <ellipse cx="330" cy="210" rx="45" ry="16" fill="#ffffff" />
       </g>
-      <text x="110" y="30" fill="#fde047" fontSize="13" fontWeight="black">Bernoulli &amp; Newton Flight Aerodynamics ✈️</text>
+
+      {/* Aerodynamic Airflow Streamlines */}
+      <g stroke="#38bdf8" strokeWidth="2" fill="none" opacity="0.7">
+        <path d="M20 95 Q140 70 230 75 Q320 85 420 120" strokeDasharray="6 3" />
+        <path d="M20 120 Q140 100 230 110 Q320 125 420 150" strokeDasharray="6 3" />
+        <path d="M20 160 Q140 165 230 170 Q320 180 420 205" strokeDasharray="6 3" />
+      </g>
+
+      {/* Sleek Commercial Jetliner in Flight (Heading Right) */}
+      <g transform="translate(210, 130)">
+        {/* Jet Fuselage */}
+        <path d="M-85 0 C-65 -14 65 -14 95 -3 C108 3 95 10 70 10 L-65 10 C-80 8 -90 5 -85 0 Z"
+              fill="#f8fafc" stroke="#e2e8f0" strokeWidth="1.5" />
+        {/* Cockpit Windows */}
+        <path d="M78 -5 L88 -2 L85 2 L76 0 Z" fill="#0284c7" />
+        {/* Swept Main Wing */}
+        <path d="M-15 4 L-38 52 L-12 52 L22 4 Z" fill="#cbd5e1" stroke="#94a3b8" strokeWidth="1" />
+        {/* Vertical Stabilizer Tail */}
+        <path d="M-60 -8 L-88 -45 L-70 -45 L-45 -8 Z" fill="#0284c7" />
+        {/* Horizontal Tailplane */}
+        <path d="M-68 0 L-85 15 L-72 15 L-58 0 Z" fill="#94a3b8" />
+        {/* Jet Engine Nacelle */}
+        <ellipse cx="2" cy="34" rx="18" ry="8" fill="#475569" stroke="#94a3b8" strokeWidth="1" />
+        <ellipse cx="-14" cy="34" rx="4" ry="7" fill="#f97316" />
+
+        {/* ── 4 Force Vector Arrows ── */}
+        {/* 1. LIFT Up (Green) */}
+        <line x1="0" y1="-15" x2="0" y2="-68" stroke="#4ade80" strokeWidth="4" strokeLinecap="round" />
+        <polygon points="-5,-68 5,-68 0,-78" fill="#4ade80" />
+        <text x="8" y="-55" fill="#4ade80" fontSize="10" fontWeight="black">LIFT ⬆️</text>
+
+        {/* 2. WEIGHT Down (Red) */}
+        <line x1="0" y1="12" x2="0" y2="60" stroke="#f87171" strokeWidth="4" strokeLinecap="round" />
+        <polygon points="-5,60 5,60 0,70" fill="#f87171" />
+        <text x="8" y="55" fill="#f87171" fontSize="10" fontWeight="black">WEIGHT ⬇️</text>
+
+        {/* 3. THRUST Forward (Blue) */}
+        <line x1="95" y1="2" x2="148" y2="2" stroke="#38bdf8" strokeWidth="4" strokeLinecap="round" />
+        <polygon points="148,-3 148,7 158,2" fill="#38bdf8" />
+        <text x="100" y="-8" fill="#38bdf8" fontSize="10" fontWeight="black">THRUST ➔</text>
+
+        {/* 4. DRAG Backward (Yellow) */}
+        <line x1="-85" y1="2" x2="-138" y2="2" stroke="#fde047" strokeWidth="4" strokeLinecap="round" />
+        <polygon points="-138,-3 -138,7 -148,2" fill="#fde047" />
+        <text x="-142" y="-8" fill="#fde047" fontSize="10" fontWeight="black">⬅️ DRAG</text>
+      </g>
+
+      {/* Top Banner Tag */}
+      <rect x="15" y="12" width="160" height="22" rx="6" fill="#000000" fillOpacity="0.7" />
+      <text x="24" y="27" fill="#38bdf8" fontSize="10" fontWeight="bold">✈️ The 4 Forces of Flight</text>
     </Frame>
   );
 }

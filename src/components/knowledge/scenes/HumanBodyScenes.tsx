@@ -721,3 +721,88 @@ export function HungerHormonesScene() {
   );
 }
 
+// 81. How DNA Carries Instructions for Life
+export function DnaStructureScene() {
+  return (
+    <Frame label="How DNA Carries Instructions for Life: Double Helix, Base Pairs A-T and C-G, Genes">
+      <defs>
+        <linearGradient id="dna-bg" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stopColor="#0b0f19" />
+          <stop offset="50%" stopColor="#1e1b4b" />
+          <stop offset="100%" stopColor="#311042" />
+        </linearGradient>
+      </defs>
+      <rect width="440" height="260" fill="url(#dna-bg)" />
+
+      {/* Chromosome silhouette in background */}
+      <g transform="translate(370, 70)" opacity="0.25">
+        <g stroke="#f43f5e" strokeWidth="18" strokeLinecap="round">
+          <line x1="-25" y1="-40" x2="25" y2="40" />
+          <line x1="25" y1="-40" x2="-25" y2="40" />
+        </g>
+        <circle cx="0" cy="0" r="10" fill="#facc15" />
+      </g>
+
+      {/* Glowing Molecular Particles */}
+      {[...Array(18)].map((_, i) => (
+        <circle key={i} cx={(i * 51) % 440} cy={(i * 31) % 260} r={(i % 2) + 0.8} fill="#38bdf8" opacity={0.5} />
+      ))}
+
+      {/* Main Double Helix Strands across the center */}
+      <g transform="translate(20, 130)">
+        {/* Base Pair Rungs */}
+        {([
+          [30, -35, 35, "#ef4444", "#22c55e", "A", "T"],
+          [60, -25, 25, "#3b82f6", "#f59e0b", "C", "G"],
+          [90, -5, 5, "#22c55e", "#ef4444", "T", "A"],
+          [120, 15, -15, "#f59e0b", "#3b82f6", "G", "C"],
+          [150, 32, -32, "#ef4444", "#22c55e", "A", "T"],
+          [180, 40, -40, "#3b82f6", "#f59e0b", "C", "G"],
+          [210, 32, -32, "#22c55e", "#ef4444", "T", "A"],
+          [240, 15, -15, "#f59e0b", "#3b82f6", "G", "C"],
+          [270, -5, 5, "#ef4444", "#22c55e", "A", "T"],
+          [300, -25, 25, "#3b82f6", "#f59e0b", "C", "G"],
+          [330, -38, 38, "#22c55e", "#ef4444", "T", "A"],
+          [360, -35, 35, "#f59e0b", "#3b82f6", "G", "C"],
+          [390, -15, 15, "#ef4444", "#22c55e", "A", "T"],
+        ] as const).map(([x, y1, y2, c1, c2, l1, l2], i) => (
+          <g key={i}>
+            <line x1={x} y1={y1} x2={x} y2={0} stroke={c1} strokeWidth="4" strokeLinecap="round" />
+            <line x1={x} y1={0} x2={x} y2={y2} stroke={c2} strokeWidth="4" strokeLinecap="round" />
+            <circle cx={x} cy={0} r="2" fill="#facc15" />
+          </g>
+        ))}
+
+        {/* Sugar-Phosphate Strand 1 (Sine curve) */}
+        <path d="M10 -40 C70 -40 110 40 170 40 C230 40 270 -40 330 -40 C390 -40 420 20 440 35"
+              stroke="#38bdf8" strokeWidth="5" fill="none" strokeLinecap="round" />
+
+        {/* Sugar-Phosphate Strand 2 (Opposite phase sine curve) */}
+        <path d="M10 40 C70 40 110 -40 170 -40 C230 -40 270 40 330 40 C390 40 420 -20 440 -35"
+              stroke="#818cf8" strokeWidth="5" fill="none" strokeLinecap="round" />
+      </g>
+
+      {/* Legend Badges */}
+      <g transform="translate(15, 215)">
+        <rect width="410" height="32" rx="8" fill="#0f172a" fillOpacity="0.85" stroke="#334155" />
+        <circle cx="30" cy="16" r="5" fill="#ef4444" />
+        <text x="42" y="20" fill="#fca5a5" fontSize="10" fontWeight="bold">A (Adenine)</text>
+
+        <circle cx="130" cy="16" r="5" fill="#22c55e" />
+        <text x="142" y="20" fill="#86efac" fontSize="10" fontWeight="bold">T (Thymine)</text>
+
+        <circle cx="230" cy="16" r="5" fill="#3b82f6" />
+        <text x="242" y="20" fill="#93c5fd" fontSize="10" fontWeight="bold">C (Cytosine)</text>
+
+        <circle cx="330" cy="16" r="5" fill="#f59e0b" />
+        <text x="342" y="20" fill="#fde68a" fontSize="10" fontWeight="bold">G (Guanine)</text>
+      </g>
+
+      {/* Top Banner Tag */}
+      <rect x="15" y="12" width="185" height="22" rx="6" fill="#000000" fillOpacity="0.7" />
+      <text x="24" y="27" fill="#f43f5e" fontSize="10" fontWeight="bold">🧬 DNA Double Helix &amp; Genes</text>
+    </Frame>
+  );
+}
+
+

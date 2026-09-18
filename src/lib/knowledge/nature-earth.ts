@@ -1008,32 +1008,47 @@ export const NATURE_EARTH_ARTICLES: KnowledgeArticle[] = [
     ],
     sections: [
       {
-        heading: "Magma vs. Lava: What's the Difference?",
+        heading: "Anatomy of an Erupting Volcano: Magma Chamber to Crater",
         paragraphs: [
-          "The difference comes down to location. While molten rock remains trapped underground beneath Earth's crust, scientists call it magma. The moment it breaks through a vent and flows across the ground or shoots into the air, it is called lava.",
-          "As lava cools in contact with open air or sea water, it hardens rapidly into basalt, obsidian, or pumice, creating new islands and landforms.",
+          "The difference between magma and lava comes down to location. While molten rock remains trapped deep underground beneath Earth's crust, scientists call it magma. The moment it breaks through a vent or crater and flows across the ground or shoots into the air, it is called lava.",
+          "Inside the volcano, a vertical pipe called the conduit acts like a high-pressure chimney. When intense gas pressure builds inside the magma chamber, magma rushes upward through the conduit, blasting through the crater and shattering rock into clouds of volcanic ash and glowing tephra.",
         ],
+        diagramId: "volcano-anatomy",
       },
       {
-        heading: "Shield Volcanoes vs. Stratovolcanoes",
+        heading: "Plate Tectonics & Magma Generation at Subduction Zones",
         paragraphs: [
-          "Not all volcanoes erupt the same way. Shield volcanoes, like Mauna Loa in Hawaii, have runny basaltic lava that flows gently over broad distances, building wide, gently sloping mountains.",
-          "Stratovolcanoes (or composite volcanoes), like Mount Fuji and Mount St. Helens, have thick, sticky magma that traps explosive gas bubbles, producing towering ash columns and violent eruptions.",
+          "Earth's outer shell is cracked into massive tectonic plates that move slowly across the mantle. Where a dense oceanic tectonic plate collides with a continental plate, it plunges downward into the scorching asthenosphere in a process called subduction.",
+          "As the oceanic plate descends 100 kilometers deep, extreme heat and pressure release trapped ocean water. This water lowers the melting temperature of surrounding mantle rock, generating buoyant liquid magma that rises through crustal fissures to feed explosive volcanic chains.",
         ],
+        diagramId: "volcano-tectonics",
       },
       {
-        heading: "The Pacific 'Ring of Fire'",
+        heading: "Shield Volcanoes vs. Stratovolcanoes vs. Cinder Cones",
         paragraphs: [
-          "More than 75% of Earth's active volcanoes are located along a 40,000-kilometer horseshoe-shaped zone around the Pacific Ocean known as the Ring of Fire. Here, dense oceanic tectonic plates slide underneath continental plates (subduction), melting rock into magma.",
+          "Not all volcanoes erupt the same way. Shield volcanoes, like Mauna Loa in Hawaii, produce runny, low-viscosity basaltic lava that flows gently over broad distances, building wide, gently sloping mountains with low slope angles (2° to 10°).",
+          "Stratovolcanoes (composite volcanoes), like Mount Fuji and Mount St. Helens, feature thick, sticky andesite magma that traps explosive gas bubbles, producing steep cones (~30°) and violent ash blasts. Cinder cones are small, steep hills formed from explosive piles of loose volcanic cinders and scoria around a single vent.",
         ],
+        diagramId: "volcano-types",
+      },
+      {
+        heading: "The Pacific 'Ring of Fire' Horseshoe Arc",
+        paragraphs: [
+          "More than 75% of Earth's active volcanoes and 90% of earthquakes occur along a 40,000-kilometer horseshoe-shaped boundary around the Pacific Ocean known as the Ring of Fire.",
+          "This colossal tectonic belt is defined by continuous subduction zones where the Pacific Plate dives beneath adjacent continental plates, creating deep oceanic trenches like the Mariana Trench and towering volcanic arcs like the Andes and the Cascade Range.",
+        ],
+        diagramId: "volcano-ring-of-fire",
       },
     ],
     vocabulary: [
-      { term: "Magma", definition: "Molten liquid rock stored beneath Earth's surface." },
-      { term: "Lava", definition: "Molten rock that has erupted onto Earth's surface." },
-      { term: "Magma Chamber", definition: "A large underground pool of liquid rock located beneath the crust." },
-      { term: "Pyroclastic Flow", definition: "A fast-moving current of superheated gas, ash, and rock fragments rushing down a volcano." },
-      { term: "Vent", definition: "An opening or pipe through which volcanic material escapes to the surface." },
+      { term: "Magma", definition: "Molten liquid rock stored deep beneath Earth's surface in underground chambers." },
+      { term: "Lava", definition: "Molten rock that has erupted onto Earth's surface through a vent or crater." },
+      { term: "Crater", definition: "A circular, bowl-shaped depression at the top or flank of a volcano around the central vent." },
+      { term: "Tectonic Plate", definition: "A massive, rigid slab of Earth's lithosphere that floats and slowly moves across the semi-molten mantle." },
+      { term: "Magma Chamber", definition: "A large subterranean pool of liquid rock situated beneath Earth's crust." },
+      { term: "Pyroclastic Flow", definition: "A superheated avalanche of toxic gas, ash, and pumice racing down a volcano at speeds up to 400 mph." },
+      { term: "Viscosity", definition: "A measure of a fluid's resistance to flow; sticky high-viscosity magma produces violent, explosive eruptions." },
+      { term: "Vent", definition: "An opening or pipe through which volcanic material, steam, and gases escape to the surface." },
     ],
     facts: [
       "The largest volcano in our Solar System is Olympus Mons on Mars—nearly three times taller than Mount Everest!",
@@ -1945,6 +1960,121 @@ export const NATURE_EARTH_ARTICLES: KnowledgeArticle[] = [
       { gradeId: "grade-5", subjectId: "science", topic: "Earth and Space" },
       { gradeId: "grade-6", subjectId: "social-studies", topic: "Major Landforms of the Earth" },
       { gradeId: "grade-7", subjectId: "science", topic: "Soil" },
+    ],
+  },
+
+  // 21. How Ocean Tides Work
+  {
+    slug: "how-ocean-tides-work",
+    title: "How Ocean Tides Work",
+    subtitle: "How the gravitational pull of the Moon and Sun creates daily high tides, low tides, spring tides, and neap tides",
+    category: "Nature & Earth",
+    categorySlug: "nature-earth",
+    categoryEmoji: "🌍",
+    emoji: "🌊",
+    accent: "sky",
+    readingMinutes: 6,
+    bigIdea:
+      "Ocean tides are the rhythmic rise and fall of sea levels caused by the gravitational pull of the Moon and Sun stretching Earth's waters into giant tidal bulges.",
+    intro:
+      "Twice every day along coastlines worldwide, millions of gallons of ocean water surge up onto beaches and rocky cliffs before slowly retreating hours later. This majestic coastal pulse is governed by invisible gravitational tethers reaching across hundreds of thousands of miles of space. Together, the Moon, the Sun, and Earth's daily spin produce high tides, low tides, dramatic spring tides, and calm neap tides that shape marine ecosystems across the globe.",
+    cycleTitle: "The Five Stages of the Ocean Tide Cycle",
+    cycle: [
+      {
+        emoji: "🌕",
+        label: "1. Lunar Gravity Attraction",
+        description:
+          "The Moon's gravitational field pulls directly on Earth's oceans, lifting water into an elongated bulge on the side facing the Moon.",
+      },
+      {
+        emoji: "🌊",
+        label: "2. Dual Bulge Formation",
+        description:
+          "Because gravity weakens with distance, Earth is pulled slightly away from the far-side oceans, creating an equal second bulge on the opposite side.",
+      },
+      {
+        emoji: "🌍",
+        label: "3. Daily Planetary Rotation",
+        description:
+          "As Earth rotates 360 degrees beneath these two water bulges, coastlines cycle through two high tides and two low tides each day.",
+      },
+      {
+        emoji: "☀️",
+        label: "4. Sun Alignment (Spring & Neap)",
+        description:
+          "When the Sun, Earth, and Moon align at New/Full Moon, combined gravity produces massive Spring Tides; at right angles, weaker Neap Tides occur.",
+      },
+      {
+        emoji: "🦀",
+        label: "5. Intertidal Coastal Flow",
+        description:
+          "Rising and falling tidal waters replenish tide pools, distribute marine nutrients, and govern the survival cycles of coastal sea life.",
+      },
+    ],
+    sections: [
+      {
+        heading: "How the Moon Creates Dual Tidal Bulges",
+        paragraphs: [
+          "Gravity is an attractive force that depends on mass and distance. Although the Sun is 27 million times more massive than the Moon, the Moon is nearly 400 times closer to Earth, giving it more than twice the tidal gravitational pull of the Sun.",
+          "The side of Earth facing the Moon experiences the strongest gravitational tug, pulling water into a 'sublunar' high tide bulge. Simultaneously, on the far side of Earth, gravitational pull is weakest, while inertial forces push water outward, creating a matching 'antipodal' high tide. The areas halfway between these bulges experience low tides.",
+        ],
+        diagramId: "tides-lunar-bulge",
+      },
+      {
+        heading: "Spring Tides vs. Neap Tides: The Sun-Moon Alignment",
+        paragraphs: [
+          "Twice every month, when the Moon is New or Full, the Sun, Earth, and Moon line up in a straight line called syzygy. The gravitational pulls of the Sun and Moon reinforce each other, generating Spring Tides—featuring the highest high tides and lowest low tides.",
+          "Conversely, during the First and Third Quarter Moons, the Sun and Moon sit at a 90-degree right angle relative to Earth (quadrature). Their gravitational pulls partially cancel each other out, producing Neap Tides—mild tides with the smallest difference between high and low water.",
+        ],
+        diagramId: "tides-spring-neap",
+      },
+      {
+        heading: "The 24-Hour 50-Minute Lunar Day",
+        paragraphs: [
+          "If Earth only rotated once every 24 hours, high tides would occur at the exact same times every single day. However, high tides arrive approximately 50 minutes later each day.",
+          "This occurs because while Earth completes one 24-hour rotation, the Moon has orbited ahead by about 12.2 degrees in the same direction. Earth must rotate an extra 50 minutes to bring any given coastal point directly beneath the Moon again, defining a 24-hour 50-minute 'lunar day.'",
+        ],
+        diagramId: "tides-daily-clock",
+      },
+      {
+        heading: "Life in the Intertidal Zone: Adapting to High and Low Tides",
+        paragraphs: [
+          "The coastline between the highest high-tide line and the lowest low-tide line is called the Intertidal Zone. Organisms living here face harsh, fluctuating conditions: pounding surf, scorching sun exposure, drying air, and dramatic changes in salinity.",
+          "To survive, creatures have evolved specialized adaptations: barnacles and limpets seal moisture inside rock-hard shells; mussels anchor themselves to rocks with super-strong byssal threads; and sea stars and crabs shelter in cool, watery tide pools during low tide.",
+        ],
+        diagramId: "tides-intertidal-ecosystem",
+      },
+    ],
+    vocabulary: [
+      { term: "Gravity", definition: "The fundamental invisible attractive force that pulls all objects with mass toward one another." },
+      { term: "High Tide", definition: "The point in the tidal cycle where ocean water reaches its highest elevation along the shore." },
+      { term: "Low Tide", definition: "The point in the tidal cycle where ocean water recedes to its lowest level." },
+      { term: "Spring Tide", definition: "An especially high tide occurring twice a month during New and Full Moons when the Sun and Moon align." },
+      { term: "Neap Tide", definition: "A tide with the minimum tidal range occurring during Quarter Moons when the Sun and Moon pull at right angles." },
+      { term: "Tidal Bulge", definition: "A wide ocean swell created by gravitational and inertial forces pulling water outward from Earth." },
+      { term: "Tidal Range", definition: "The vertical difference in height between consecutive high tide and low tide levels." },
+      { term: "Intertidal Zone", definition: "The coastal shoreline exposed to air during low tide and submerged under water during high tide." },
+    ],
+    facts: [
+      "The Bay of Fundy in Canada experiences the highest tides in the world, with water rising up to 16 meters (53 feet)—equal to a 5-story building!",
+      "The gravitational drag of ocean tides acts like a gentle cosmic brake, slowing Earth's rotation and lengthening our days by about 1.8 milliseconds per century.",
+      "Tides also stretch Earth's solid ground! Twice a day, gravitational forces lift Earth's rocky crust up and down by as much as 30 centimeters (12 inches).",
+      "Because the Moon is so much closer to Earth than the Sun, its tidal gravitational pull is 2.2 times stronger than the Sun's.",
+    ],
+    activity: {
+      title: "Model Gravitational Tidal Bulges with a Water Balloon",
+      steps: [
+        "Fill an ordinary latex balloon with water until it forms a loose, flexible sphere about the size of a grapefruit.",
+        "Hold the balloon in your palm to represent the spherical shape of Earth's oceans without external forces.",
+        "Gently pinch one side with your fingers and pull outward to simulate the Moon's gravitational pull.",
+        "Notice how pulling one side causes the opposite side to naturally flatten and elongate—modeling how Earth's oceans form dual tidal bulges simultaneously!",
+      ],
+    },
+    related: [
+      { gradeId: "grade-4", subjectId: "evs", topic: "Water" },
+      { gradeId: "grade-5", subjectId: "science", topic: "Earth and Space" },
+      { gradeId: "grade-6", subjectId: "social-studies", topic: "Major Landforms of the Earth" },
+      { gradeId: "grade-7", subjectId: "science", topic: "Weather and Climate" },
     ],
   },
 ];

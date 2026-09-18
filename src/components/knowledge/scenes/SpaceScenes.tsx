@@ -685,3 +685,66 @@ export function ExploreMarsScene() {
   );
 }
 
+// 41. How Planets Are Formed
+export function PlanetsFormationScene() {
+  return (
+    <Frame label="How Planets Are Formed: Solar Nebula, Accretion Disk, Planetesimals, Protoplanets">
+      <defs>
+        <radialGradient id="pfs-sun" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor="#ffffff" />
+          <stop offset="25%" stopColor="#fef08a" />
+          <stop offset="60%" stopColor="#f97316" />
+          <stop offset="100%" stopColor="#dc2626" />
+        </radialGradient>
+        <radialGradient id="pfs-disk" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor="#f59e0b" stopOpacity="0.8" />
+          <stop offset="50%" stopColor="#ef4444" stopOpacity="0.6" />
+          <stop offset="85%" stopColor="#6366f1" stopOpacity="0.3" />
+          <stop offset="100%" stopColor="#1e1b4b" stopOpacity="0" />
+        </radialGradient>
+      </defs>
+      <rect width="440" height="260" fill="#030712" />
+      {/* Background Stars */}
+      {[...Array(24)].map((_, i) => (
+        <circle key={i} cx={(i * 43) % 440} cy={(i * 29) % 260} r={(i % 2) + 0.7} fill="#ffffff" opacity={0.6} />
+      ))}
+
+      {/* Swirling Protoplanetary Disk */}
+      <g transform="translate(220, 130)">
+        {/* Outer diffuse disk */}
+        <ellipse cx="0" cy="0" rx="190" ry="70" fill="url(#pfs-disk)" />
+
+        {/* Concentric Dust Rings with Gaps */}
+        <ellipse cx="0" cy="0" rx="160" ry="58" fill="none" stroke="#f59e0b" strokeWidth="6" opacity="0.7" />
+        <ellipse cx="0" cy="0" rx="130" ry="46" fill="none" stroke="#030712" strokeWidth="5" />
+        <ellipse cx="0" cy="0" rx="105" ry="36" fill="none" stroke="#ea580c" strokeWidth="5" opacity="0.8" />
+        <ellipse cx="0" cy="0" rx="75" ry="24" fill="none" stroke="#030712" strokeWidth="4" />
+        <ellipse cx="0" cy="0" rx="50" ry="16" fill="none" stroke="#fde047" strokeWidth="3" opacity="0.9" />
+
+        {/* Baby Planets clearing dust lanes */}
+        {/* Rocky Inner Protoplanet */}
+        <circle cx="-50" cy="0" r="3.5" fill="#f97316" stroke="#fef08a" strokeWidth="1" />
+        {/* Giant Outer Protoplanet */}
+        <circle cx="105" cy="0" r="6" fill="#38bdf8" stroke="#ffffff" strokeWidth="1.5" />
+        <circle cx="-130" cy="5" r="4" fill="#a855f7" />
+
+        {/* Accreting dust particles */}
+        {[
+          [35, -12], [-85, 20], [140, -15], [-150, -10], [70, 18], [-20, 10],
+        ].map(([cx, cy], i) => (
+          <circle key={i} cx={cx} cy={cy} r={1.5} fill="#fef08a" opacity={0.8} />
+        ))}
+
+        {/* Nascent Proto-Sun in Center */}
+        <circle cx="0" cy="0" r="22" fill="url(#pfs-sun)" />
+        <circle cx="0" cy="0" r="28" fill="#fef08a" opacity="0.3" />
+      </g>
+
+      {/* Top Banner Tag */}
+      <rect x="15" y="12" width="180" height="22" rx="6" fill="#000000" fillOpacity="0.7" />
+      <text x="24" y="27" fill="#fde047" fontSize="10" fontWeight="bold">🪐 Protoplanetary Disk Accretion</text>
+    </Frame>
+  );
+}
+
+

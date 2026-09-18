@@ -1967,4 +1967,119 @@ export const SPACE_ARTICLES: KnowledgeArticle[] = [
       { gradeId: "grade-6", subjectId: "social-studies", topic: "The Earth in the Solar System" },
     ],
   },
+
+  // 21. How Planets Are Formed
+  {
+    slug: "how-planets-are-formed",
+    title: "How Planets Are Formed",
+    subtitle: "From a swirling cloud of gas and dust to spinning protoplanetary disks, planetesimals, and worlds",
+    category: "Space",
+    categorySlug: "space",
+    categoryEmoji: "🪐",
+    emoji: "🪐",
+    accent: "indigo",
+    readingMinutes: 7,
+    bigIdea:
+      "Planets are born inside swirling disks of gas and dust around newborn stars, growing from microscopic dust grains that collide, stick, and accrete into massive worlds over millions of years.",
+    intro:
+      "Four and a half billion years ago, our Solar System was nothing more than a cold, dark, shapeless cloud of interstellar gas and dust floating in the Milky Way. Triggered by the shockwave of a nearby dying supernova, gravity pulled this cloud together into a blazing central proto-Sun surrounded by a spinning pancake of cosmic debris called a protoplanetary disk. Inside this swirling disk, trillions of dust grains began an epic 100-million-year journey of electrostatic attraction, violent collisions, and gravitational accretion—forging Earth and the planets we know today.",
+    cycleTitle: "The Five Stages of Planetary Formation",
+    cycle: [
+      {
+        emoji: "🌌",
+        label: "1. Solar Nebula Collapse",
+        description:
+          "A massive interstellar molecular cloud of hydrogen, helium, and cosmic dust collapses inward under its own gravitational weight.",
+      },
+      {
+        emoji: "💿",
+        label: "2. Protoplanetary Disk",
+        description:
+          "Conservation of angular momentum causes the collapsing nebula to spin rapidly and flatten into a rotating circumstellar accretion disk.",
+      },
+      {
+        emoji: "🪨",
+        label: "3. Accretion to Planetesimals",
+        description:
+          "Microscopic dust grains stick together electrostatically, gradually forming pebbles, boulders, and kilometer-sized planetesimals.",
+      },
+      {
+        emoji: "💥",
+        label: "4. Collisions to Protoplanets",
+        description:
+          "Planetesimals exert mutual gravitational pull, slamming together in violent collisions to assemble Moon-to-Mars-sized protoplanetary embryos.",
+      },
+      {
+        emoji: "🪐",
+        label: "5. Orbit Clearing & Differentiation",
+        description:
+          "Young worlds clear their orbital paths of lingering debris while internal decay heat melts their interiors into distinct metallic cores and rocky mantles.",
+      },
+    ],
+    sections: [
+      {
+        heading: "From Giant Molecular Cloud to Circumstellar Disk",
+        paragraphs: [
+          "Every planet in our Solar System started inside a giant molecular cloud called the Solar Nebula. When a disturbance—such as the shockwave from a supernova—caused the cloud to condense, gravity began pulling matter inward toward the center.",
+          "As the cloud shrunk, it obeyed the law of Conservation of Angular Momentum (just like a spinning ice skater who pulls in their arms to spin faster). The swirling gas spun faster and flattened out into a vast rotating disc known as a protoplanetary accretion disk, while 99.8% of the mass concentrated into the newborn proto-Sun at the core.",
+        ],
+        diagramId: "planets-nebula-disk",
+      },
+      {
+        heading: "Accretion: From Dust Grains to Planetesimals",
+        paragraphs: [
+          "Inside the swirling disk, matter grew through a progressive process called accretion. At first, microscopic dust grains collided at gentle speeds and stuck together through static electricity, building fluffy dust bunnies and centimeter-sized pebbles.",
+          "As these pebbles accumulated into meter-sized boulders, gas drag helped concentrate them into dense streams. Once clumps reached roughly 1 kilometer in diameter, they were officially planetesimals. At this scale, their mass generated significant gravity, enabling them to vacuum up surrounding space debris like cosmic vacuum cleaners.",
+        ],
+        diagramId: "planets-accretion-growth",
+      },
+      {
+        heading: "The Frost Line: Rocky Terrestrial vs. Gas & Ice Giant Worlds",
+        paragraphs: [
+          "Why are Mercury, Venus, Earth, and Mars small and rocky, while Jupiter, Saturn, Uranus, and Neptune are giant gas and ice worlds? The answer lies in the Frost Line (or Snow Line), located roughly 2.7 astronomical units (AU) from the Sun.",
+          "Inside the Frost Line, temperatures were scorching hot; hydrogen compounds like water, ammonia, and methane remained vaporized, so only rare heavy metals and rock silicates could condense into solid grains. Outside the Frost Line, freezing temperatures allowed abundant ices to freeze solid, providing massive building blocks that formed giant 10-Earth-mass cores capable of pulling in vast gaseous atmospheres.",
+        ],
+        diagramId: "planets-frost-line",
+      },
+      {
+        heading: "Planetary Differentiation: Melting, Core Sinking, and Crust Formation",
+        paragraphs: [
+          "As protoplanets grew to thousands of kilometers in diameter, kinetic energy from non-stop impacts and the radioactive decay of short-lived isotopes (like Aluminum-26) generated immense internal heat, melting the young worlds into glowing spheres of magma.",
+          "During this molten state, a crucial process called Planetary Differentiation occurred: dense, heavy molten iron and nickel sank straight to the center under gravity to form the planet's metallic core, while lighter silicate minerals floated to the surface, cooling over millions of years to form the solid mantle and crust.",
+        ],
+        diagramId: "planets-core-differentiation",
+      },
+    ],
+    vocabulary: [
+      { term: "Nebula", definition: "A vast interstellar cloud of dust, hydrogen, and helium gas in space where stars and planets are born." },
+      { term: "Accretion", definition: "The progressive growth of massive objects by the gradual gravitational attraction and accumulation of smaller particles." },
+      { term: "Planetesimal", definition: "A solid celestial body (1 to 100 km in diameter) formed in an accretion disk that serves as a building block for planets." },
+      { term: "Protoplanet", definition: "A large planetary embryo (roughly the size of the Moon or Mars) formed by the collision and merger of planetesimals." },
+      { term: "Protoplanetary Disk", definition: "A rotating circumstellar disk of dense gas and dust surrounding a newly formed protostar." },
+      { term: "Frost Line", definition: "The distance from a central star beyond which temperatures are cold enough for volatile compounds like water and methane to condense into solid ice." },
+      { term: "Differentiation", definition: "The geological process by which a molten planet separates into compositional layers, with dense metals sinking to the core and lighter silicates forming the mantle and crust." },
+      { term: "Solar Wind", definition: "A stream of charged particles ejected by a star that eventually blew away remaining loose gas from the early Solar System." },
+    ],
+    facts: [
+      "It took only about 10 to 100 million years for Earth to grow from microscopic dust specks into a full-sized planet—a mere cosmic blink in our 13.8-billion-year Universe!",
+      "Jupiter grew so rapidly and became so massive that its powerful gravitational field prevented rocks in the gap between Mars and Jupiter from coalescing, leaving behind the Asteroid Belt.",
+      "Earth's Moon was born when a Mars-sized protoplanet named Theia slammed into young Earth 4.5 billion years ago, blasting vaporized debris into orbit that accreted into the Moon.",
+      "Modern radio telescopes like ALMA in Chile can directly photograph active protoplanetary disks around young infant stars, revealing dark concentric rings carved by baby exoplanets!",
+    ],
+    activity: {
+      title: "Simulate Electrostatic Accretion with Static Electricity",
+      steps: [
+        "Tear a sheet of tissue paper or paper towel into tiny confetti specks (under 2 mm) on a clean tabletop to represent interstellar dust grains.",
+        "Blow up an ordinary balloon and rub it vigorously against a wool sweater or your hair for 20 seconds to generate a strong electrostatic charge.",
+        "Slowly bring the charged balloon close to the paper confetti without touching the table.",
+        "Watch as the confetti specks leap off the table and clump tightly together onto the balloon—demonstrating how early dust grains electrostatically clumped into the first pebbles before gravity took over!",
+      ],
+    },
+    related: [
+      { gradeId: "grade-5", subjectId: "science", topic: "Earth and Space" },
+      { gradeId: "grade-8", subjectId: "science", topic: "Stars and the Solar System" },
+      { gradeId: "grade-6", subjectId: "social-studies", topic: "The Earth in the Solar System" },
+      { gradeId: "grade-7", subjectId: "science", topic: "Physical and Chemical Changes" },
+    ],
+  },
 ];

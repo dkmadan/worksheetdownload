@@ -167,7 +167,7 @@ export const KNOWLEDGE_CATEGORIES: KnowledgeCategory[] = [
     emoji: "🌍",
     description: "Discover rock cycles, volcanoes, earthquakes, mountains, glaciers, caves, fossils, and Earth's layers.",
     accent: "emerald",
-    count: 20,
+    count: 21,
   },
   {
     slug: "weather-climate",
@@ -183,7 +183,7 @@ export const KNOWLEDGE_CATEGORIES: KnowledgeCategory[] = [
     emoji: "🪐",
     description: "Journey across gravity, black holes, satellites, lunar origin, telescopes, comets, asteroids, and Mars rovers.",
     accent: "indigo",
-    count: 20,
+    count: 21,
   },
   {
     slug: "animal-plant-life",
@@ -199,7 +199,7 @@ export const KNOWLEDGE_CATEGORIES: KnowledgeCategory[] = [
     emoji: "🧍",
     description: "Unravel vision, hearing, kidney filtration, skin defense, wound healing, skeleton growth, and brain memory.",
     accent: "rose",
-    count: 20,
+    count: 21,
   },
   {
     slug: "everyday-science",
@@ -221,6 +221,7 @@ export interface CycleStep {
 export interface KnowledgeSection {
   heading: string;
   paragraphs: string[];
+  diagramId?: string;
 }
 
 export interface RelatedLink {

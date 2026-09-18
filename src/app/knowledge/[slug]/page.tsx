@@ -12,6 +12,7 @@ import {
 import KnowledgeArt from "@/components/knowledge/KnowledgeArt";
 import CycleRing from "@/components/knowledge/CycleRing";
 import BookmarkButton from "@/components/bookmarks/BookmarkButton";
+import SectionDiagram from "@/components/knowledge/SectionDiagram";
 
 export function generateStaticParams() {
   return KNOWLEDGE_ARTICLES.map((a) => ({ slug: a.slug }));
@@ -296,6 +297,7 @@ export default async function KnowledgeArticlePage({
                   {p}
                 </p>
               ))}
+              {s.diagramId && <SectionDiagram diagramId={s.diagramId} />}
             </div>
           ))}
         </section>

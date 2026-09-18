@@ -22,6 +22,7 @@ import {
   OceanSalinityScene,
   BeachFormationScene,
   EarthLayersScene,
+  OceanTidesScene,
 } from "./scenes/NatureScenes";
 
 // Weather & Climate Scenes (21–40)
@@ -70,6 +71,7 @@ import {
   WhatAreCometsScene,
   WhatAreAsteroidsScene,
   ExploreMarsScene,
+  PlanetsFormationScene,
 } from "./scenes/SpaceScenes";
 
 // Animal & Plant Life Scenes (61–80)
@@ -118,6 +120,7 @@ import {
   MemorySynapseScene,
   BodyBalanceScene,
   HungerHormonesScene,
+  DnaStructureScene,
 } from "./scenes/HumanBodyScenes";
 
 // Everyday Science Scenes (101–120)
@@ -171,6 +174,7 @@ const SCENE_REGISTRY: Record<string, () => React.ReactElement> = {
   "why-oceans-are-salty": OceanSalinityScene,
   "how-beaches-are-formed": BeachFormationScene,
   "inside-the-layers-of-the-earth": EarthLayersScene,
+  "how-ocean-tides-work": OceanTidesScene,
 
   // ── Weather & Climate (21–40) ──────────────────────────────────────────────
   "how-clouds-are-made": CloudFormationScene,
@@ -215,6 +219,7 @@ const SCENE_REGISTRY: Record<string, () => React.ReactElement> = {
   "what-are-comets": WhatAreCometsScene,
   "what-are-asteroids": WhatAreAsteroidsScene,
   "how-scientists-explore-mars": ExploreMarsScene,
+  "how-planets-are-formed": PlanetsFormationScene,
 
   // ── Animal & Plant Life (61–80) ────────────────────────────────────────────
   "the-life-cycle-of-a-frog": FrogLifeCycleScene,
@@ -259,6 +264,7 @@ const SCENE_REGISTRY: Record<string, () => React.ReactElement> = {
   "how-memory-works": MemorySynapseScene,
   "how-your-body-balances": BodyBalanceScene,
   "why-we-get-hungry": HungerHormonesScene,
+  "how-dna-carries-instructions-for-life": DnaStructureScene,
 
   // ── Everyday Science (101–120) ──────────────────────────────────────────────
   "how-electricity-travels": ElectricityCircuitScene,
