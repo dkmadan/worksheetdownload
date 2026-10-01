@@ -47,4 +47,4 @@ next-env.d.ts
 /public/worksheets/pdfs/*
 !/public/worksheets/pdfs/coloring/
 !/public/worksheets/pdfs/coloring/**
-!/public/worksheets/pdfs/color-elephant.pdf
+
