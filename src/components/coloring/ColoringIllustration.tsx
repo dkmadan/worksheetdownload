@@ -36,7 +36,7 @@ export default function ColoringIllustration({
   );
 }
 
-function renderArtwork(type: string): React.ReactNode {
+export function renderArtwork(type: string): React.ReactNode {
   const expansion = renderExpansionArtwork(type);
   if (expansion) {
     return expansion;
