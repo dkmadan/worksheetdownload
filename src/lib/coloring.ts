@@ -1,3 +1,5 @@
+import { EXPANSION_COLORING_CATEGORIES, EXPANSION_COLORING_SHEETS } from "./coloring-expansion";
+
 export interface ColoringCategory {
   id: string;
   name: string;
@@ -27,7 +29,7 @@ export interface ColoringSheet {
   svgType: string;
 }
 
-export const COLORING_CATEGORIES: ColoringCategory[] = [
+const BASE_COLORING_CATEGORIES: ColoringCategory[] = [
   {
     id: "animals",
     name: "Animals",
@@ -210,8 +212,13 @@ export const COLORING_CATEGORIES: ColoringCategory[] = [
   },
 ];
 
-// Complete list of 150 coloring sheets (15 categories × 10 sheets)
-export const COLORING_SHEETS: ColoringSheet[] = [
+export const COLORING_CATEGORIES: ColoringCategory[] = [
+  ...BASE_COLORING_CATEGORIES,
+  ...EXPANSION_COLORING_CATEGORIES,
+];
+
+// Complete list of 150 base coloring sheets (15 categories × 10 sheets)
+const BASE_COLORING_SHEETS: ColoringSheet[] = [
   // ── 1. ANIMALS ───────────────────────────────────────────────────────────
   {
     id: "animals-elephant",
@@ -2491,6 +2498,11 @@ export const COLORING_SHEETS: ColoringSheet[] = [
     pdfFilename: "color-autumn-pumpkin-patch.pdf",
     svgType: "autumn-pumpkin-patch",
   },
+];
+
+export const COLORING_SHEETS: ColoringSheet[] = [
+  ...BASE_COLORING_SHEETS,
+  ...EXPANSION_COLORING_SHEETS,
 ];
 
 // Helper lookups

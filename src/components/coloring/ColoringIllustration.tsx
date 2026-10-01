@@ -1,4 +1,5 @@
 import React from "react";
+import { renderExpansionArtwork } from "./ExpansionIllustrations";
 
 interface ColoringIllustrationProps {
   type: string;
@@ -36,6 +37,11 @@ export default function ColoringIllustration({
 }
 
 function renderArtwork(type: string): React.ReactNode {
+  const expansion = renderExpansionArtwork(type);
+  if (expansion) {
+    return expansion;
+  }
+
   switch (type) {
     // ══════════════════════════════════════════════════════════════════
     // 1. ANIMALS
