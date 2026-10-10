@@ -12,7 +12,13 @@ export type ToolSlug =
   | "multiplication-table-generator"
   | "word-search-generator"
   | "telling-time-worksheet-generator"
-  | "cursive-writing-generator";
+  | "cursive-writing-generator"
+  | "reading-comprehension-generator"
+  | "fractions-visual-worksheet-generator"
+  | "money-counting-worksheet-generator"
+  | "crossword-generator"
+  | "grammar-exercise-generator"
+  | "flashcard-generator";
 
 export interface ToolMeta {
   slug: ToolSlug;
@@ -207,6 +213,120 @@ export const TOOLS: ToolMeta[] = [
     ],
     gradient: "from-purple-600 via-violet-600 to-indigo-700",
     accent: "bg-purple-700",
+  },
+  {
+    slug: "reading-comprehension-generator",
+    title: "Reading Comprehension Worksheet Generator",
+    short: "Reading Comprehension",
+    emoji: "📖",
+    tagline: "Original passages, multiple question types & answer keys (K–12)",
+    description:
+      "Generate original, age-appropriate reading comprehension passages with multiple-choice, true/false, short-answer, and vocabulary questions. Print or download as PDF with answer keys.",
+    keywords: [
+      "reading comprehension worksheet generator",
+      "free reading comprehension maker",
+      "reading passage generator",
+      "comprehension questions printable",
+      "reading worksheet with answer key",
+      "reading practice pdf k-12",
+    ],
+    gradient: "from-sky-600 via-indigo-600 to-blue-700",
+    accent: "bg-indigo-600",
+  },
+  {
+    slug: "fractions-visual-worksheet-generator",
+    title: "Fractions Visual Worksheet Generator",
+    short: "Visual Fractions",
+    emoji: "🍰",
+    tagline: "Accurate fraction circles, bars, rectangles and number lines (Grades 1–8)",
+    description:
+      "Generate visual fraction worksheets with mathematically accurate circles, bars, and grids. Practice identifying, shading, comparing, adding, and simplifying fractions with answer keys.",
+    keywords: [
+      "visual fractions worksheet generator",
+      "fraction circle generator",
+      "fraction bar worksheet",
+      "fraction shading practice",
+      "equivalent fractions visual",
+      "printable fraction sheets pdf",
+    ],
+    gradient: "from-blue-600 via-cyan-600 to-teal-600",
+    accent: "bg-cyan-600",
+  },
+  {
+    slug: "money-counting-worksheet-generator",
+    title: "Money-Counting Worksheet Generator",
+    short: "Money Counting",
+    emoji: "💰",
+    tagline: "USD, INR, GBP, EUR, CAD & AUD coin and bill counting sheets (K–6)",
+    description:
+      "Create customized money worksheets with authentic vector coins and banknotes. Practice identifying currency, counting mixed cash, comparing amounts, making change, and solving store word problems.",
+    keywords: [
+      "money counting worksheet generator",
+      "coins worksheet maker",
+      "money word problems printable",
+      "counting dollars and cents",
+      "rupees worksheet generator",
+      "counting coins pdf",
+    ],
+    gradient: "from-emerald-600 via-green-600 to-teal-700",
+    accent: "bg-emerald-600",
+  },
+  {
+    slug: "crossword-generator",
+    title: "Crossword Puzzle Generator",
+    short: "Crossword Puzzle",
+    emoji: "🧩",
+    tagline: "Auto-intersecting grids with across & down clues and solutions",
+    description:
+      "Create educational crossword puzzles from curriculum subjects or your own custom words and clues. Automatically generates valid intersecting grids, numbers, clues, and solution sheets.",
+    keywords: [
+      "crossword puzzle generator",
+      "educational crossword maker",
+      "printable crossword pdf",
+      "make your own crossword",
+      "crossword generator with answer key",
+      "vocabulary crossword puzzle",
+    ],
+    gradient: "from-violet-600 via-purple-600 to-fuchsia-600",
+    accent: "bg-purple-600",
+  },
+  {
+    slug: "grammar-exercise-generator",
+    title: "Grammar Exercise Worksheet Generator",
+    short: "Grammar Exercises",
+    emoji: "📝",
+    tagline: "16 grammar topics, 7 exercise types, fill-in blanks & MCQs (Grades 1–12)",
+    description:
+      "Build comprehensive English grammar worksheets covering nouns, verbs, tenses, subject-verb agreement, active/passive voice, punctuation, and more. Includes instant PDF export with answer keys.",
+    keywords: [
+      "grammar worksheet generator",
+      "english grammar practice maker",
+      "parts of speech worksheet",
+      "verb tenses worksheet pdf",
+      "subject verb agreement printable",
+      "grammar exercises with answer key",
+    ],
+    gradient: "from-indigo-600 via-blue-600 to-slate-800",
+    accent: "bg-blue-600",
+  },
+  {
+    slug: "flashcard-generator",
+    title: "Flashcard Generator",
+    short: "Flashcards",
+    emoji: "🃏",
+    tagline: "Printable front-and-back flashcard sets with duplex alignment & cutting guides",
+    description:
+      "Design custom educational flashcards or choose from built-in math, science, and vocabulary collections. Supports 2 to 9 cards per page, cutting guides, and duplex double-sided alignment.",
+    keywords: [
+      "flashcard generator",
+      "printable flashcard maker",
+      "double sided flashcards pdf",
+      "vocabulary flashcard creator",
+      "math flashcards printable",
+      "custom flashcards free",
+    ],
+    gradient: "from-amber-500 via-orange-500 to-rose-600",
+    accent: "bg-amber-600",
   },
 ];
 

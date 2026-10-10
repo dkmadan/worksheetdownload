@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import TopicsBrowser from "@/components/worksheets/TopicsBrowser";
 import type { TopicEntry } from "@/components/worksheets/TopicsBrowser";
 import { CURRICULUM, GRADES_CURRICULUM, SUBJECTS_META, slugifyTopic } from "@/lib/curriculum";
@@ -97,8 +98,31 @@ export default function WorksheetsPage() {
         </p>
       </div>
 
+      {/* Featured Interactive Tools Callout */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-8">
+        <div className="bg-gradient-to-r from-indigo-50 via-blue-50 to-purple-50 border border-blue-200/70 rounded-2xl p-5 sm:p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 shadow-sm">
+          <div className="flex items-start gap-3">
+            <span className="text-3xl sm:text-4xl">⚡</span>
+            <div>
+              <h2 className="text-base sm:text-lg font-bold text-slate-900">
+                Need Custom Worksheets? Try Our Free Interactive Generators
+              </h2>
+              <p className="text-sm text-slate-600 mt-0.5">
+                Build randomized Reading Comprehension, Visual Fractions, Money Counting, Crossword Puzzles, Grammar Exercises, and Flashcards in seconds with matching answer keys.
+              </p>
+            </div>
+          </div>
+          <Link
+            href="/tools"
+            className="shrink-0 bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm px-5 py-2.5 rounded-xl shadow-sm transition-all"
+          >
+            Explore 15 Generators →
+          </Link>
+        </div>
+      </div>
+
       {/* Browser */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
         <TopicsBrowser topics={topics} />
       </div>
     </div>

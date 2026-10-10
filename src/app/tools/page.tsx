@@ -6,25 +6,29 @@ import { breadcrumbsJsonLd, collectionPageJsonLd } from "@/lib/jsonLd";
 export const metadata: Metadata = {
   title: "Free Worksheet Generators — Make Your Own Printable Practice Sheets",
   description:
-    "Free interactive worksheet generators: math practice sheets, handwriting practice, number lines and graph paper. Choose your options and download a randomized printable PDF with answer key — no sign-up.",
+    "Free interactive worksheet generators: reading comprehension, visual fractions, money counting, crossword puzzles, grammar exercises, flashcards, math, handwriting, and more. Instant printable PDFs with answer keys — 100% free.",
   keywords: [
     "worksheet generator",
     "free worksheet maker",
+    "reading comprehension worksheet generator",
+    "visual fractions worksheet generator",
+    "money counting worksheet generator",
+    "crossword puzzle generator",
+    "grammar exercise worksheet generator",
+    "flashcard generator",
     "math worksheet generator",
     "handwriting practice generator",
     "printable worksheet creator",
     "custom worksheets pdf",
     "number line generator",
     "graph paper generator",
-    "multiplication table generator",
     "spelling worksheet generator",
-    "telling time worksheet generator",
   ],
   alternates: { canonical: "/tools" },
   openGraph: {
     title: "Free Worksheet Generators | WorksheetDownload",
     description:
-      "Build your own printable math, handwriting, number line and graph paper worksheets. Instant randomized PDFs with answer keys.",
+      "Build your own printable reading, fractions, money counting, crossword, grammar, flashcards, and math worksheets. Instant randomized PDFs with answer keys.",
     url: "/tools",
     type: "website",
   },

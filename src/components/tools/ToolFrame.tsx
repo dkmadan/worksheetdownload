@@ -14,17 +14,19 @@ export default function ToolFrame({
   preview,
   actions,
   note,
+  previewWidth,
 }: {
   controls: ReactNode;
   preview: ReactNode;
   actions: ToolAction[];
   note?: string;
+  previewWidth?: number | string;
 }) {
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 pb-20">
       <div className="grid lg:grid-cols-[minmax(0,340px)_minmax(0,1fr)] gap-6">
         {/* Controls */}
-        <div className="lg:sticky lg:top-24 lg:self-start">
+        <div className="tool-controls lg:sticky lg:top-24 lg:self-start">
           <div className="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-5 space-y-5">
             {controls}
           </div>
@@ -32,7 +34,7 @@ export default function ToolFrame({
 
         {/* Preview + actions */}
         <div className="space-y-4">
-          <div className="flex flex-wrap gap-2">
+          <div className="no-print flex flex-wrap gap-2">
             {actions.map((a) => (
               <button
                 key={a.label}
@@ -50,10 +52,13 @@ export default function ToolFrame({
             ))}
           </div>
 
-          {note && <p className="text-xs text-slate-400">{note}</p>}
+          {note && <p className="no-print text-xs text-slate-400">{note}</p>}
 
           <div className="bg-slate-100 rounded-2xl border border-slate-200/80 p-3 sm:p-6 overflow-x-auto">
-            <div className="mx-auto bg-white shadow-lg shadow-slate-300/40 rounded-sm origin-top" style={{ width: 640, maxWidth: "100%" }}>
+            <div
+              className="printable-worksheet mx-auto bg-white shadow-lg shadow-slate-300/40 rounded-sm origin-top"
+              style={{ width: previewWidth ?? 640, maxWidth: "100%" }}
+            >
               {preview}
             </div>
           </div>
