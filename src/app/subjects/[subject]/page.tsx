@@ -90,7 +90,7 @@ export default async function SubjectTopicsPage({
   });
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-[#F7F5EF]">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
@@ -118,7 +118,7 @@ export default async function SubjectTopicsPage({
             </div>
 
             <div className="text-white flex-1">
-              <h1 className="text-3xl sm:text-4xl font-extrabold leading-tight">{subjectDef.label}</h1>
+              <h1 className="font-serif text-3xl sm:text-4xl font-normal leading-tight">{subjectDef.label}</h1>
               <p className="mt-1.5 text-white/80 text-sm max-w-lg">{subjectDef.description}</p>
               <div className="flex flex-wrap items-center gap-2.5 mt-3">
                 <span className="bg-white/20 rounded-full px-3 py-1 text-xs font-semibold backdrop-blur-sm">

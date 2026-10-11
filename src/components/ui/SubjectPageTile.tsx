@@ -17,7 +17,7 @@ export default function SubjectPageTile({ subject }: { subject: SubjectDef }) {
   return (
     <Link
       href={`/subjects/${subject.id}`}
-      className="group rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-200 hover:-translate-y-1 bg-white flex flex-col"
+      className="group rounded-2xl overflow-hidden border border-[#E4E0D4] hover:border-[#1E3A8A] shadow-2xs hover:shadow-xl transition-all duration-200 hover:-translate-y-1 bg-white flex flex-col"
     >
       {/* Gradient header */}
       <div className={`bg-gradient-to-br ${subject.headerGradient} h-28 flex items-center justify-center relative overflow-hidden`}>
@@ -26,23 +26,23 @@ export default function SubjectPageTile({ subject }: { subject: SubjectDef }) {
           style={{ width: 88, height: 88, filter: "drop-shadow(0 4px 12px rgba(0,0,0,0.25))" }}
           className="group-hover:scale-105 transition-transform duration-200"
         />
-        <div className="absolute top-3 right-3 bg-black/20 backdrop-blur-sm rounded-full px-2.5 py-0.5 text-white text-xs font-semibold">
+        <div className="absolute top-3 right-3 bg-black/25 backdrop-blur-sm rounded-full px-2.5 py-0.5 text-white text-xs font-semibold border border-white/10">
           {totalTopics} topics
         </div>
       </div>
 
       {/* Body */}
       <div className="p-4 flex flex-col flex-1">
-        <h3 className="font-bold text-gray-900 text-base leading-tight group-hover:text-violet-700 transition-colors">
+        <h3 className="font-bold text-[#0F1E4A] text-base leading-tight group-hover:text-[#1E3A8A] transition-colors">
           {subject.label}
         </h3>
-        <p className="text-xs text-gray-500 mt-1 line-clamp-2 flex-1">{subject.description}</p>
+        <p className="text-xs text-[#5B6072] mt-1 line-clamp-2 flex-1">{subject.description}</p>
 
         <div className="mt-3 flex items-center justify-between">
-          <span className="inline-flex items-center gap-1 text-xs bg-gray-100 rounded-full px-2.5 py-1 text-gray-600 font-medium">
+          <span className="inline-flex items-center gap-1 text-xs bg-[#FAF9F5] border border-[#E4E0D4] rounded-full px-2.5 py-1 text-[#5B6072] font-medium">
             🎓 {gradeRange}
           </span>
-          <span className="text-xs text-gray-400 group-hover:text-violet-600 transition-colors font-semibold">
+          <span className="text-xs text-[#1E3A8A] group-hover:text-[#0F1E4A] transition-colors font-semibold">
             Explore →
           </span>
         </div>

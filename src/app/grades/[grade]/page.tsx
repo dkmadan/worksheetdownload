@@ -98,9 +98,9 @@ export default async function GradePage({
       <div className="mb-8 flex items-center gap-4">
         <span className="text-5xl">{gradeDef.emoji}</span>
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">{gradeDef.label}</h1>
-          <p className="text-gray-500 mt-1">
-            {gradeDef.ageRange} · {subjects.length} subjects · {totalTopics} topics
+          <h1 className="font-serif text-3xl sm:text-4xl font-medium text-[#0F1E4A]">{gradeDef.label}</h1>
+          <p className="text-[#5B6072] mt-1 text-sm sm:text-base">
+            {gradeDef.ageRange} &bull; {subjects.length} subjects &bull; {totalTopics} topics
           </p>
         </div>
       </div>

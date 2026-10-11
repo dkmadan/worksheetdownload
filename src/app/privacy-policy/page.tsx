@@ -29,8 +29,8 @@ export default function PrivacyPolicyPage() {
         <span className="text-gray-700 font-medium">Privacy Policy</span>
       </nav>
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">Privacy Policy</h1>
-        <p className="text-sm text-gray-500 mt-2">Last updated: July 4, 2026</p>
+        <h1 className="font-serif text-3xl sm:text-4xl font-normal text-[#0F1E4A]">Privacy Policy</h1>
+        <p className="text-sm text-[#5B6072] mt-2">Last updated: July 4, 2026</p>
       </div>
 
       <div className="prose prose-gray max-w-none space-y-5 text-gray-600 leading-relaxed">

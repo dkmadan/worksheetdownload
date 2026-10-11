@@ -83,7 +83,7 @@ export default async function ColoringSheetDetailPage({ params }: PageProps) {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50/50 pb-20">
+    <div className="min-h-screen bg-[#F7F5EF] pb-20">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

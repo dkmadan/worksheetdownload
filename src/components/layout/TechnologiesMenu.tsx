@@ -73,23 +73,21 @@ export default function TechnologiesMenu({ dark = false }: { dark?: boolean }) {
             left: "50%",
             transform: "translateX(-50%)",
             width: "min(1240px, calc(100vw - 32px))",
-            background: "rgba(13, 18, 30, 0.98)",
-            backdropFilter: "blur(26px)",
-            WebkitBackdropFilter: "blur(26px)",
-            border: "1px solid rgba(255, 255, 255, 0.1)",
-            boxShadow: "0 35px 85px -15px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255,255,255,0.06)",
+            background: "#ffffff",
+            border: "1px solid #E4E0D4",
+            boxShadow: "0 35px 85px -15px rgba(15, 30, 74, 0.22), 0 0 0 1px #E4E0D4",
           }}
         >
           {/* Header Banner - Compact */}
-          <div className="flex items-center justify-between px-5 py-2.5 border-b border-white/[0.08] bg-white/[0.02]">
+          <div className="flex items-center justify-between px-5 py-2.5 border-b border-[#E4E0D4] bg-[#FAF9F5]">
             <div className="flex items-center gap-2.5">
-              <span className="p-1 rounded-lg bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+              <span className="p-1 rounded-lg bg-[#E8ECF7] text-[#1E3A8A] border border-[#bfdbfe]">
                 <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
                 </svg>
               </span>
-              <span className="text-xs font-bold text-white tracking-wide uppercase">Technology Categories</span>
-              <span className="text-[10px] font-semibold text-slate-400 bg-white/[0.06] px-2 py-0.5 rounded-full border border-white/[0.08]">
+              <span className="text-xs font-bold text-[#0F1E4A] tracking-wider uppercase">Technology Categories</span>
+              <span className="text-[10px] font-bold text-[#9A5B00] bg-white px-2 py-0.5 rounded-full border border-[#E4E0D4] shadow-2xs">
                 {TECH_DATA.length} Domains · 650+ Frameworks
               </span>
             </div>
@@ -97,7 +95,7 @@ export default function TechnologiesMenu({ dark = false }: { dark?: boolean }) {
             <Link
               href="/technologies"
               onClick={() => setOpen(false)}
-              className="text-[11px] font-semibold text-indigo-400 hover:text-indigo-300 transition-colors flex items-center gap-1 group"
+              className="text-[11px] font-bold text-[#1E3A8A] hover:text-[#0F1E4A] transition-colors flex items-center gap-1 group"
             >
               <span>Explore all cheatsheets</span>
               <span className="group-hover:translate-x-0.5 transition-transform">→</span>
@@ -114,16 +112,16 @@ export default function TechnologiesMenu({ dark = false }: { dark?: boolean }) {
                     key={cat.slug}
                     href={`/technologies/${cat.slug}`}
                     onClick={() => setOpen(false)}
-                    className="group flex items-center gap-2 px-2.5 py-2 rounded-xl bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.05] hover:border-indigo-500/40 transition-all duration-150 no-underline hover:shadow-md hover:shadow-indigo-950/30"
+                    className="group flex items-center gap-2 px-2.5 py-2 rounded-xl bg-[#FAF9F5] hover:bg-[#ECEFF8] border border-[#E4E0D4] hover:border-[#1E3A8A] transition-all duration-150 no-underline shadow-2xs"
                   >
                     <span className="text-base flex-shrink-0 leading-none">
                       {cat.icon}
                     </span>
                     <div className="min-w-0 flex-1">
-                      <div className="text-[11px] font-bold text-slate-200 group-hover:text-white leading-tight truncate">
+                      <div className="text-[11px] font-bold text-[#0F1E4A] group-hover:text-[#1E3A8A] leading-tight truncate">
                         {cat.label}
                       </div>
-                      <div className="text-[9px] text-slate-400 group-hover:text-indigo-300 font-medium">
+                      <div className="text-[9px] text-[#5B6072] group-hover:text-[#1E3A8A] font-medium">
                         {totalTopics} topics
                       </div>
                     </div>

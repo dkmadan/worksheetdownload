@@ -1,5 +1,5 @@
 export default function HeroDoodleBackground() {
-  const col = "#6a95b2"; // blue-grey icons on gradient
+  const col = "rgba(15, 30, 74, 0.09)"; // subtle academic blueprint ink on warm ivory
 
   return (
     <svg
@@ -8,11 +8,11 @@ export default function HeroDoodleBackground() {
       aria-hidden="true"
     >
       <defs>
-        {/* Gradient fills the full viewport once */}
-        <radialGradient id="hero-bg-grad" cx="0.32" cy="0.46" r="0.72">
-          <stop offset="0%" stopColor="#4a6478" />
-          <stop offset="50%" stopColor="#2e4559" />
-          <stop offset="100%" stopColor="#192838" />
+        {/* EducationPath Warm Ivory Editorial Background */}
+        <radialGradient id="hero-bg-grad" cx="0.32" cy="0.46" r="0.85">
+          <stop offset="0%" stopColor="#FFFFFF" />
+          <stop offset="45%" stopColor="#FAF8F2" />
+          <stop offset="100%" stopColor="#F7F5EF" />
         </radialGradient>
 
         {/* 400×400 tile — transparent bg so gradient shows through */}

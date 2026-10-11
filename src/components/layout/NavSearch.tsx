@@ -365,7 +365,7 @@ export default function NavSearch({ inline = false, large = false }: NavSearchPr
   if (large) {
     return (
       <div ref={containerRef} className="relative w-full">
-        <div className="relative flex items-center h-10.5 bg-slate-50 hover:bg-white focus-within:bg-white border border-slate-200 focus-within:border-indigo-500 focus-within:ring-3 focus-within:ring-indigo-100 rounded-full transition-all shadow-2xs">
+        <div className="relative flex items-center h-10.5 bg-white hover:bg-[#FAF9F5] focus-within:bg-white border border-[#E4E0D4] focus-within:border-[#1E3A8A] focus-within:ring-3 focus-within:ring-[#1E3A8A]/15 rounded-full transition-all shadow-2xs">
           <div className="flex items-center pl-4 pointer-events-none text-slate-400">
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.2}
@@ -379,13 +379,13 @@ export default function NavSearch({ inline = false, large = false }: NavSearchPr
             onChange={(e) => setQuery(e.target.value)}
             onKeyDown={handleKeyDown}
             placeholder="Search 2,000+ topics, tech cheatsheets, guides, worksheets…"
-            className="flex-1 px-3 text-xs md:text-sm font-medium text-slate-900 bg-transparent outline-none placeholder:text-slate-400"
+            className="flex-1 px-3 text-xs md:text-sm font-medium text-[#14182B] bg-transparent outline-none placeholder:text-slate-400"
           />
           <div className="flex items-center pr-1.5">
             <button
               type="button"
               onClick={() => { if (results[0]) router.push(results[0].href); }}
-              className="flex items-center gap-1.5 px-5 py-2 bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-500 hover:to-indigo-600 text-white text-xs font-bold rounded-full transition-all shadow-xs hover:shadow-indigo-500/20 cursor-pointer"
+              className="flex items-center gap-1.5 px-5 py-2 bg-[#1E3A8A] hover:bg-[#0F1E4A] text-white text-xs font-bold rounded-full transition-all shadow-xs cursor-pointer"
             >
               <span>Search</span>
             </button>
@@ -394,22 +394,22 @@ export default function NavSearch({ inline = false, large = false }: NavSearchPr
 
         {/* Dropdown Suggestions */}
         {query && (
-          <div className="absolute left-0 right-0 top-[calc(100%+8px)] bg-white/98 backdrop-blur-2xl rounded-2xl shadow-[0_25px_60px_-15px_rgba(0,0,0,0.18)] border border-slate-100 overflow-hidden z-[300] animate-in fade-in slide-in-from-top-2 duration-150">
+          <div className="absolute left-0 right-0 top-[calc(100%+8px)] bg-white rounded-2xl shadow-[0_20px_50px_-10px_rgba(15,30,74,0.15)] border border-[#E4E0D4] overflow-hidden z-[300] animate-in fade-in slide-in-from-top-2 duration-150">
             {results.length === 0 ? (
               <div className="px-6 py-8 text-center">
                 <div className="text-3xl mb-2">🔍</div>
-                <p className="text-sm font-semibold text-slate-800">No matching results for &ldquo;{query}&rdquo;</p>
-                <p className="text-xs text-slate-400 mt-1">Try searching for &quot;Rock Cycle&quot;, &quot;Grade 3 Math&quot;, &quot;Python&quot;, or &quot;Photosynthesis&quot;</p>
+                <p className="text-sm font-semibold text-[#0F1E4A]">No matching results for &ldquo;{query}&rdquo;</p>
+                <p className="text-xs text-[#5B6072] mt-1">Try searching for &quot;Rock Cycle&quot;, &quot;Grade 3 Math&quot;, &quot;Python&quot;, or &quot;Photosynthesis&quot;</p>
               </div>
             ) : (
               <>
-                <div className="px-4 py-2 bg-slate-50/90 border-b border-slate-100 flex items-center justify-between">
-                  <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+                <div className="px-4 py-2 bg-[#FAF9F5] border-b border-[#E4E0D4] flex items-center justify-between">
+                  <span className="text-[11px] font-bold text-[#9A5B00] uppercase tracking-wider">
                     Results ({results.length})
                   </span>
                   <span className="text-[10px] text-slate-400 font-medium">Use ↑↓ to navigate · ↵ to open</span>
                 </div>
-                <div className="max-h-[380px] overflow-y-auto divide-y divide-slate-50 p-1">
+                <div className="max-h-[380px] overflow-y-auto divide-y divide-[#E4E0D4]/40 p-1">
                   {results.map((r, i) => (
                     <Link
                       key={i}
@@ -417,7 +417,7 @@ export default function NavSearch({ inline = false, large = false }: NavSearchPr
                       onClick={close}
                       onMouseEnter={() => setSelectedIndex(i)}
                       className={`flex items-center gap-3 px-3.5 py-2.5 rounded-xl transition-all duration-100 group ${
-                        i === selectedIndex ? "bg-indigo-50/80 text-indigo-950" : "hover:bg-slate-50"
+                        i === selectedIndex ? "bg-[#ECEFF8] text-[#0F1E4A]" : "hover:bg-[#FAF9F5]"
                       }`}
                     >
                       <span className="text-xl flex-shrink-0 w-8 text-center leading-none drop-shadow-xs">
@@ -425,11 +425,11 @@ export default function NavSearch({ inline = false, large = false }: NavSearchPr
                       </span>
                       <div className="flex-1 min-w-0">
                         <p className={`text-xs font-semibold truncate ${
-                          i === selectedIndex ? "text-indigo-600" : "text-slate-800 group-hover:text-indigo-600"
+                          i === selectedIndex ? "text-[#1E3A8A]" : "text-[#14182B] group-hover:text-[#1E3A8A]"
                         } transition-colors`}>
                           {r.label}
                         </p>
-                        <p className="text-[11px] text-slate-400 truncate mt-0.5">{r.subtitle}</p>
+                        <p className="text-[11px] text-[#5B6072] truncate mt-0.5">{r.subtitle}</p>
                       </div>
                       <span className={`flex-shrink-0 text-[10px] font-bold px-2 py-0.5 rounded-md ${TYPE_CLASS[r.type]}`}>
                         {TYPE_LABEL[r.type]}
@@ -437,9 +437,9 @@ export default function NavSearch({ inline = false, large = false }: NavSearchPr
                     </Link>
                   ))}
                 </div>
-                <div className="px-4 py-2 bg-slate-50/90 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-400">
+                <div className="px-4 py-2 bg-[#FAF9F5] border-t border-[#E4E0D4] flex items-center justify-between text-[11px] text-slate-400">
                   <span>WorksheetDownload Catalog</span>
-                  <span>Press <kbd className="font-mono bg-white px-1 py-0.5 rounded border border-slate-200">Esc</kbd> to exit</span>
+                  <span>Press <kbd className="font-mono bg-white px-1 py-0.5 rounded border border-[#E4E0D4]">Esc</kbd> to exit</span>
                 </div>
               </>
             )}

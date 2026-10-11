@@ -105,9 +105,9 @@ export default async function SubjectPage({
       <div className="mb-8 flex items-center gap-4">
         <span className="text-5xl">{subjectDef.emoji}</span>
         <div>
-          <p className="text-sm text-gray-400 font-medium">{gradeDef.label}</p>
-          <h1 className="text-3xl font-bold text-gray-900">{subjectDef.label}</h1>
-          <p className="text-gray-500 mt-1">{topics.length} topics available</p>
+          <p className="text-xs font-bold uppercase tracking-wider text-[#9A5B00] mb-0.5">{gradeDef.label}</p>
+          <h1 className="font-serif text-3xl sm:text-4xl font-medium text-[#0F1E4A]">{subjectDef.label}</h1>
+          <p className="text-[#5B6072] mt-1 text-sm">{topics.length} curriculum topics available</p>
         </div>
       </div>
 

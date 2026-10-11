@@ -206,7 +206,7 @@ export default async function ToolPage({
   const toolFaqs = faqJsonLd(getToolSpecificFaqs(slug, tool.title));
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-[#F7F5EF]">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}

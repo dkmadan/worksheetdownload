@@ -145,7 +145,7 @@ export default async function KnowledgeArticlePage({
   };
 
   return (
-    <article className="bg-white">
+    <article className="bg-[#F7F5EF]">
       {/* Schema.org Structured Data */}
       <script
         type="application/ld+json"

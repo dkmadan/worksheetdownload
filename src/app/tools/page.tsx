@@ -52,7 +52,7 @@ export default function ToolsHubPage() {
   });
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
+    <div className="min-h-screen bg-[#F7F5EF]">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
@@ -61,15 +61,16 @@ export default function ToolsHubPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionSchema) }}
       />
-      <div className="bg-gradient-to-br from-slate-800 via-slate-900 to-indigo-950 text-white py-16 sm:py-20 px-4">
+      <div className="bg-[#0F1E4A] border-b border-[#1b2d63] text-white py-16 sm:py-20 px-4">
         <div className="max-w-3xl mx-auto text-center">
-          <div className="inline-flex items-center gap-2 bg-white/10 text-white/90 text-xs font-semibold px-4 py-1.5 rounded-full mb-6 border border-white/20">
-            ⚡ Interactive Generators
+          <div className="inline-flex items-center gap-2 bg-white/10 text-[#F2B33D] text-xs font-bold px-4 py-1.5 rounded-full mb-6 border border-white/20 shadow-2xs">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#F2B33D]" />
+            <span>Interactive Worksheet Generators</span>
           </div>
-          <h1 className="text-4xl sm:text-5xl font-black leading-tight tracking-tight mb-4">
+          <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-normal leading-tight tracking-tight mb-4">
             Build Your Own Worksheets
           </h1>
-          <p className="text-slate-300 text-lg max-w-xl mx-auto leading-relaxed">
+          <p className="text-white/75 text-base sm:text-lg max-w-xl mx-auto leading-relaxed">
             Pick your options and generate a fresh, randomized printable sheet in seconds —
             complete with answer keys. Everything runs in your browser. Always free, no sign-up.
           </p>
@@ -82,17 +83,17 @@ export default function ToolsHubPage() {
             <Link
               key={tool.slug}
               href={`/tools/${tool.slug}`}
-              className="group bg-white rounded-2xl shadow-sm hover:shadow-xl border border-slate-200/80 overflow-hidden transition-all hover:-translate-y-0.5"
+              className="group bg-white rounded-2xl shadow-2xs hover:shadow-xl border border-[#E4E0D4] hover:border-[#1E3A8A] overflow-hidden transition-all hover:-translate-y-1"
             >
               <div className={`h-1.5 bg-gradient-to-r ${tool.gradient}`} />
               <div className="p-6">
                 <div className="flex items-center gap-3 mb-3">
                   <span className="text-3xl">{tool.emoji}</span>
-                  <h2 className="text-lg font-extrabold text-slate-900 group-hover:text-blue-700 transition-colors">
+                  <h2 className="text-lg font-bold text-[#0F1E4A] group-hover:text-[#1E3A8A] transition-colors">
                     {tool.title}
                   </h2>
                 </div>
-                <p className="text-sm text-slate-500 leading-relaxed mb-4">{tool.description}</p>
+                <p className="text-sm text-[#5B6072] leading-relaxed mb-4">{tool.description}</p>
                 <span className="inline-flex items-center gap-1.5 text-sm font-bold text-blue-600">
                   Open generator
                   <svg className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">

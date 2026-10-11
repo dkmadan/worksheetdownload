@@ -48,7 +48,7 @@ export default function MapsHubPage() {
   });
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
+    <div className="min-h-screen bg-[#F7F5EF]">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
@@ -57,15 +57,16 @@ export default function MapsHubPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionSchema) }}
       />
-      <div className="bg-gradient-to-br from-emerald-700 via-teal-800 to-cyan-900 text-white py-16 sm:py-20 px-4">
+      <div className="bg-[#0F1E4A] border-b border-[#1b2d63] text-white py-16 sm:py-20 px-4">
         <div className="max-w-3xl mx-auto text-center">
-          <div className="inline-flex items-center gap-2 bg-white/10 text-white/90 text-xs font-semibold px-4 py-1.5 rounded-full mb-6 border border-white/20">
-            🗺️ {MAP_WORKSHEETS.length} Map Worksheets
+          <div className="inline-flex items-center gap-2 bg-white/10 text-[#F2B33D] text-xs font-bold px-4 py-1.5 rounded-full mb-6 border border-white/20 shadow-2xs">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#F2B33D]" />
+            <span>🗺️ {MAP_WORKSHEETS.length} Map Worksheets</span>
           </div>
-          <h1 className="text-4xl sm:text-5xl font-black leading-tight tracking-tight mb-4">
+          <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-normal leading-tight tracking-tight mb-4">
             Printable Map Worksheets
           </h1>
-          <p className="text-emerald-50/90 text-lg max-w-xl mx-auto leading-relaxed">
+          <p className="text-white/75 text-base sm:text-lg max-w-xl mx-auto leading-relaxed">
             Label the world, your country and the big ideas of geography. Every worksheet has a
             preview, a word bank and an answer key — and downloads as a clean printable PDF. Always free.
           </p>
@@ -77,16 +78,16 @@ export default function MapsHubPage() {
           <section key={g.category} className="mb-10">
             <div className="flex items-center gap-2.5 mb-1">
               <span className="text-2xl">{g.meta.emoji}</span>
-              <h2 className="text-xl font-extrabold text-slate-900">{g.meta.label}</h2>
-              <span className="text-xs font-semibold text-slate-400">({g.maps.length})</span>
+              <h2 className="font-serif text-2xl font-bold text-[#0F1E4A]">{g.meta.label}</h2>
+              <span className="text-xs font-semibold text-[#5B6072]">({g.maps.length})</span>
             </div>
-            <p className="text-sm text-slate-500 mb-4">{g.meta.blurb}</p>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+            <p className="text-sm text-[#5B6072] mb-4">{g.meta.blurb}</p>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
               {g.maps.map((m) => (
                 <Link
                   key={m.slug}
                   href={`/maps/${m.slug}`}
-                  className="group bg-white rounded-xl border border-slate-200/80 p-4 shadow-sm hover:shadow-lg hover:-translate-y-0.5 transition-all"
+                  className="group bg-white rounded-2xl border border-[#E4E0D4] hover:border-[#1E3A8A] p-4 shadow-2xs hover:shadow-lg hover:-translate-y-1 transition-all"
                 >
                   <div className="flex items-start gap-2.5">
                     <span className="text-2xl leading-none">{m.emoji}</span>

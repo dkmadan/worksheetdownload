@@ -63,21 +63,22 @@ export default function QuizPage() {
   ]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
+    <div className="min-h-screen bg-[#F7F5EF]">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
       {/* Hero */}
-      <div className="bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800 text-white py-14 sm:py-20 px-4">
+      <div className="bg-[#0F1E4A] border-b border-[#1b2d63] text-white py-14 sm:py-20 px-4">
         <div className="max-w-2xl mx-auto text-center">
-          <div className="inline-flex items-center gap-2 bg-white/15 text-white/90 text-xs font-semibold px-4 py-1.5 rounded-full mb-6 border border-white/20">
-            🧠 Knowledge Quiz Engine
+          <div className="inline-flex items-center gap-2 bg-white/10 text-[#F2B33D] text-xs font-bold px-4 py-1.5 rounded-full mb-6 border border-white/20 shadow-2xs">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#F2B33D]" />
+            <span>Interactive Knowledge Quiz Engine</span>
           </div>
-          <h1 className="text-4xl sm:text-5xl font-extrabold leading-tight mb-4 tracking-tight">
+          <h1 className="font-serif text-4xl sm:text-5xl font-normal leading-tight mb-4 tracking-tight">
             Test Your Knowledge
           </h1>
-          <p className="text-blue-100 text-lg max-w-md mx-auto leading-relaxed mb-6">
+          <p className="text-white/75 text-base sm:text-lg max-w-md mx-auto leading-relaxed mb-6">
             10 multiple-choice questions. Pick any grade, subject, or technology — get instant results with full explanations.
           </p>
 

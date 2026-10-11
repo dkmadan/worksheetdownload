@@ -67,31 +67,31 @@ export default function ColoringDirectoryPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50/50 pb-20">
+    <div className="min-h-screen bg-[#F7F5EF] pb-20">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
       {/* ── Hero Banner ── */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-indigo-950 via-slate-900 to-slate-900 text-white pt-12 pb-16 px-4 sm:px-6 lg:px-8 border-b border-slate-800">
+      <section className="relative overflow-hidden bg-[#0F1E4A] text-white pt-12 pb-16 px-4 sm:px-6 lg:px-8 border-b border-[#1b2d63]">
         {/* Glow ambient spots */}
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-rose-500/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#F2B33D]/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl pointer-events-none" />
 
         <div className="max-w-6xl mx-auto text-center relative z-10">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/15 border border-amber-500/30 text-amber-300 text-xs font-bold uppercase tracking-wider mb-5">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/20 text-[#F2B33D] text-xs font-bold uppercase tracking-wider mb-5 shadow-2xs">
             <span>🎨 350 Free Printable Coloring Sheets</span>
           </div>
 
-          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white max-w-4xl mx-auto leading-tight sm:leading-tight">
-            Fun, Cute & Bold <br className="hidden sm:inline" />
-            <span className="bg-gradient-to-r from-amber-400 via-rose-400 to-indigo-300 bg-clip-text text-transparent">
+          <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-normal tracking-tight text-white max-w-4xl mx-auto leading-tight sm:leading-tight">
+            Fun, Cute &amp; Bold <br className="hidden sm:inline" />
+            <span className="italic text-[#F2B33D]">
               Printable Coloring Worksheets
             </span>
           </h1>
 
-          <p className="mt-4 sm:mt-6 text-base sm:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed">
+          <p className="mt-4 sm:mt-6 text-base sm:text-lg text-white/75 max-w-2xl mx-auto leading-relaxed">
             Download high-resolution, vector line-art coloring pages with friendly bold outlines — perfect for crayons, colored pencils, and markers at school or home.
           </p>
 

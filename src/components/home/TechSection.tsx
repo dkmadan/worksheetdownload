@@ -25,7 +25,7 @@ export default function TechSection() {
   );
 
   return (
-    <section className="bg-slate-50 py-16 px-4 sm:px-6">
+    <section className="bg-[#FAF9F5] py-16 sm:py-20 px-4 sm:px-6 border-b border-[#E4E0D4]">
       {/* Shared SVG noise filter — one definition, referenced by all cards */}
       <svg style={{ display: "none" }} xmlns="http://www.w3.org/2000/svg">
         <defs>
@@ -38,21 +38,21 @@ export default function TechSection() {
 
       <div className="max-w-6xl mx-auto">
         {/* Heading */}
-        <div className="text-center mb-10">
-          <span className="inline-block text-xs font-bold text-indigo-600 uppercase tracking-widest mb-2">
+        <div className="text-center mb-12">
+          <span className="eb inline-block mb-2.5 text-[#9A5B00]">
             Developer Resources
           </span>
-          <h2 className="text-3xl sm:text-4xl font-bold text-slate-900">
-            Tech Cheat Sheets & Interview Prep
+          <h2 className="font-serif text-3xl sm:text-4xl lg:text-[42px] font-medium text-[#0F1E4A] tracking-tight leading-tight">
+            Tech Cheat Sheets &amp; Interview Prep
           </h2>
-          <p className="text-slate-500 mt-3 max-w-lg mx-auto text-base">
+          <p className="lede text-base sm:text-lg text-[#5B6072] mt-3 max-w-lg mx-auto">
             Free PDF cheat sheets for {totalItems}+ technologies across{" "}
-            {TECH_DATA.length} categories — perfect for interviews and quick reference.
+            {TECH_DATA.length} categories — curated for interviews and rapid reference.
           </p>
         </div>
 
         {/* Featured category cards */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5">
           {featured.map((cat) => {
             const count = cat.subcategories.reduce((n, sub) => n + sub.items.length, 0);
             const bg = FEATURED_MESH[cat.slug] ?? getMeshForIndex(FEATURED_SLUGS.indexOf(cat.slug));
@@ -60,7 +60,7 @@ export default function TechSection() {
               <Link
                 key={cat.slug}
                 href={`/technologies/${cat.slug}`}
-                className="group relative overflow-hidden rounded-2xl p-5 flex flex-col gap-3 hover:-translate-y-1.5 hover:shadow-2xl shadow-lg transition-all duration-250"
+                className="group relative overflow-hidden rounded-2xl p-5 flex flex-col gap-3 hover:-translate-y-1.5 hover:shadow-2xl shadow-lg transition-all duration-250 border border-white/10"
                 style={{ minHeight: 140 }}
               >
                 {/* Mesh gradient background */}
@@ -99,7 +99,7 @@ export default function TechSection() {
                   <h3 className="font-bold text-white text-sm leading-snug drop-shadow-sm">
                     {cat.label}
                   </h3>
-                  <p className="text-white/60 text-xs mt-0.5">{count} resources</p>
+                  <p className="text-white/70 text-xs mt-0.5">{count} resources</p>
                 </div>
               </Link>
             );
@@ -107,12 +107,12 @@ export default function TechSection() {
         </div>
 
         {/* Browse all link */}
-        <div className="text-center mt-8">
+        <div className="text-center mt-10">
           <Link
             href="/technologies"
-            className="inline-flex items-center gap-2 bg-white border border-slate-200 hover:border-indigo-400 text-slate-700 hover:text-indigo-600 font-semibold text-sm px-6 py-3 rounded-full shadow-sm hover:shadow-md transition-all duration-200"
+            className="inline-flex items-center gap-2 bg-white border border-[#E4E0D4] hover:border-[#1E3A8A] text-[#0F1E4A] hover:text-[#1E3A8A] font-semibold text-sm px-6 py-3 rounded-full shadow-2xs hover:shadow-md transition-all duration-200"
           >
-            Browse all {TECH_DATA.length} tech categories
+            <span>Browse all {TECH_DATA.length} tech categories</span>
             <span className="text-base">→</span>
           </Link>
         </div>

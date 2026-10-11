@@ -129,34 +129,32 @@ export default function GradesMenu({ dark = false }: { dark?: boolean }) {
             left: "50%",
             transform: "translateX(-50%)",
             width: "min(1260px, calc(100vw - 32px))",
-            background: "rgba(13, 18, 30, 0.97)",
-            backdropFilter: "blur(24px)",
-            WebkitBackdropFilter: "blur(24px)",
-            border: "1px solid rgba(255, 255, 255, 0.1)",
-            boxShadow: "0 30px 80px -15px rgba(0, 0, 0, 0.75), 0 0 0 1px rgba(255,255,255,0.06)",
+            background: "#ffffff",
+            border: "1px solid #E4E0D4",
+            boxShadow: "0 30px 70px -15px rgba(15, 30, 74, 0.22), 0 0 0 1px #E4E0D4",
           }}
         >
           {/* Header Banner */}
-          <div className="flex items-center justify-between px-6 py-3 border-b border-white/[0.08] bg-white/[0.02]">
+          <div className="flex items-center justify-between px-6 py-3.5 border-b border-[#E4E0D4] bg-[#FAF9F5]">
             <div className="flex items-center gap-2.5">
-              <span className="p-1.5 rounded-lg bg-pink-500/10 text-pink-400 border border-pink-500/20">
+              <span className="p-1.5 rounded-lg bg-[#E8ECF7] text-[#1E3A8A] border border-[#bfdbfe]">
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
                 </svg>
               </span>
               <div>
-                <span className="text-xs font-bold text-white tracking-wide uppercase">K–8 Grade Curriculum Hub</span>
-                <p className="text-[11px] text-slate-400">Structured syllabus with matching worksheets & answer keys</p>
+                <span className="text-xs font-bold text-[#0F1E4A] tracking-wider uppercase">K–8 Grade Curriculum Hub</span>
+                <p className="text-[11px] text-[#5B6072]">Structured syllabus with matching worksheets & answer keys</p>
               </div>
             </div>
-            <span className="text-[11px] font-semibold text-slate-400 bg-white/[0.05] px-3 py-1 rounded-full border border-white/[0.08]">
+            <span className="text-[11px] font-bold text-[#9A5B00] bg-white px-3 py-1 rounded-full border border-[#E4E0D4] shadow-2xs">
               9 Grades · 1,500+ Worksheets
             </span>
           </div>
 
           {/* 9-column grade grid */}
           <div
-            className="grid grid-cols-9 divide-x divide-white/[0.06]"
+            className="grid grid-cols-9 divide-x divide-[#E4E0D4]/70"
             style={{
               padding: "20px 14px 20px",
             }}
@@ -172,15 +170,15 @@ export default function GradesMenu({ dark = false }: { dark?: boolean }) {
                   <Link
                     href={`/grades/${grade.id}`}
                     onClick={() => setOpen(false)}
-                    className="group no-underline mb-3 p-2.5 rounded-2xl bg-gradient-to-b from-white/[0.06] to-white/[0.02] hover:from-white/[0.12] hover:to-white/[0.05] border border-white/[0.08] hover:border-pink-400/40 transition-all text-center block shadow-2xs"
+                    className="group no-underline mb-3 p-2.5 rounded-2xl bg-[#FAF9F5] hover:bg-[#ECEFF8] border border-[#E4E0D4] hover:border-[#1E3A8A] transition-all text-center block shadow-2xs"
                   >
                     <div className="text-2xl leading-none mb-1.5 group-hover:scale-110 transition-transform">
                       {grade.emoji}
                     </div>
-                    <div className="text-[11px] font-bold leading-tight mb-0.5 text-white group-hover:text-pink-300 transition-colors">
+                    <div className="text-[11px] font-bold leading-tight mb-0.5 text-[#0F1E4A] group-hover:text-[#1E3A8A] transition-colors">
                       {grade.label}
                     </div>
-                    <div className="text-[10px] text-slate-400 font-medium">
+                    <div className="text-[10px] text-[#5B6072] font-medium">
                       {grade.ageRange}
                     </div>
                   </Link>
@@ -192,10 +190,10 @@ export default function GradesMenu({ dark = false }: { dark?: boolean }) {
                         key={sub.id}
                         href={`/grades/${grade.id}/${sub.id}`}
                         onClick={() => setOpen(false)}
-                        className="group flex items-center gap-1.5 py-1 px-1.5 rounded-lg hover:bg-white/[0.07] transition-all no-underline"
+                        className="group flex items-center gap-1.5 py-1 px-1.5 rounded-lg hover:bg-[#ECEFF8] transition-all no-underline"
                       >
                         <SubjectIcon id={sub.id} />
-                        <span className="text-[11px] font-medium leading-tight text-slate-300 group-hover:text-white transition-colors truncate">
+                        <span className="text-[11px] font-medium leading-tight text-[#14182B] group-hover:text-[#1E3A8A] transition-colors truncate">
                           {sub.label}
                         </span>
                       </Link>
@@ -207,18 +205,18 @@ export default function GradesMenu({ dark = false }: { dark?: boolean }) {
           </div>
 
           {/* Footer */}
-          <div className="flex items-center justify-between px-6 py-3 border-t border-white/[0.08] bg-slate-950/80">
+          <div className="flex items-center justify-between px-6 py-3 border-t border-[#E4E0D4] bg-[#FAF9F5]">
             <Link
               href="/grades"
               onClick={() => setOpen(false)}
-              className="inline-flex items-center gap-1.5 text-xs font-bold text-pink-400 hover:text-pink-300 transition-colors no-underline group"
+              className="inline-flex items-center gap-1.5 text-xs font-bold text-[#1E3A8A] hover:text-[#0F1E4A] transition-colors no-underline group"
             >
               <span>Explore all grade levels & full lesson plans</span>
               <span className="group-hover:translate-x-1 transition-transform">→</span>
             </Link>
-            <div className="flex items-center gap-3 text-[11px] text-slate-400">
+            <div className="flex items-center gap-3 text-[11px] text-[#5B6072]">
               <span className="flex items-center gap-1">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
                 Free PDF Downloads
               </span>
               <span>•</span>

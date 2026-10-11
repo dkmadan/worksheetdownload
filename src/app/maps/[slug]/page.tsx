@@ -85,7 +85,7 @@ export default async function MapWorksheetPage({
   };
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-[#F7F5EF]">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
       <div className="bg-gradient-to-r from-emerald-700 via-teal-800 to-cyan-900 text-white">

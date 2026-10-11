@@ -43,16 +43,16 @@ export default function MobileMenu() {
     <>
       {/* Hamburger — mobile only */}
       <button
-        className="flex items-center justify-center w-9 h-9 rounded-full bg-slate-100/80 hover:bg-slate-200/80 border border-slate-200/60 transition-all text-slate-700"
+        className="flex items-center justify-center w-9 h-9 rounded-full bg-white hover:bg-[#FAF9F5] border border-[#E4E0D4] transition-all text-[#0F1E4A]"
         onClick={() => setOpen((v) => !v)}
         aria-label={open ? "Close menu" : "Open menu"}
       >
         {open ? (
-          <svg className="w-5 h-5 text-slate-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg className="w-5 h-5 text-[#0F1E4A]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.2} d="M6 18L18 6M6 6l12 12" />
           </svg>
         ) : (
-          <svg className="w-5 h-5 text-slate-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg className="w-5 h-5 text-[#0F1E4A]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.2} d="M4 6h16M4 12h16M4 18h16" />
           </svg>
         )}
@@ -62,8 +62,8 @@ export default function MobileMenu() {
           header's backdrop-blur containing block. Only renders after a click,
           so there is no SSR/hydration branch. */}
       {open && typeof document !== "undefined" && createPortal(
-        <div className="sm:hidden fixed inset-x-0 top-[57px] bottom-0 z-[150] bg-white/95 backdrop-blur-2xl overflow-y-auto border-t border-slate-200/60 animate-in fade-in slide-in-from-top-4 duration-200">
-          <nav className="flex flex-col divide-y divide-slate-100 pb-12">
+        <div className="sm:hidden fixed inset-x-0 top-[57px] bottom-0 z-[150] bg-[#F7F5EF] overflow-y-auto border-t border-[#E4E0D4] animate-in fade-in slide-in-from-top-4 duration-200">
+          <nav className="flex flex-col divide-y divide-[#E4E0D4]/70 pb-12">
 
             {/* Quick CTA pills */}
             <div className="flex gap-2.5 px-4 pt-4 pb-2">

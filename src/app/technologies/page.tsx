@@ -47,7 +47,7 @@ export default function TechnologiesPage() {
   });
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-[#F7F5EF]">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
@@ -58,15 +58,16 @@ export default function TechnologiesPage() {
       />
 
       {/* Hero */}
-      <div className="bg-gradient-to-br from-slate-800 via-slate-900 to-indigo-950 px-4 sm:px-6 pt-14 pb-16">
+      <div className="bg-[#0F1E4A] border-b border-[#1b2d63] px-4 sm:px-6 pt-14 pb-16">
         <div className="max-w-6xl mx-auto text-center">
-          <div className="inline-flex items-center gap-2 bg-indigo-500/20 border border-indigo-400/30 rounded-full px-4 py-1.5 text-sm text-indigo-300 font-semibold mb-5">
-            💻 Technology Learning Hub
+          <div className="inline-flex items-center gap-2 bg-white/10 border border-white/15 rounded-full px-4 py-1.5 text-xs text-[#F2B33D] font-bold mb-5 shadow-2xs">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#F2B33D]" />
+            <span>Developer Learning &amp; Cheatsheet Hub</span>
           </div>
-          <h1 className="text-4xl sm:text-5xl font-extrabold text-white tracking-tight mb-4">
+          <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-normal text-white tracking-tight mb-4">
             Browse by Technology
           </h1>
-          <p className="text-slate-300 text-lg max-w-xl mx-auto">
+          <p className="text-white/75 text-base sm:text-lg max-w-xl mx-auto leading-relaxed">
             {count}+ technologies across {TECH_DATA.length} categories — from AI/ML and Cloud to DevOps, Security, and Web.
           </p>
         </div>
@@ -83,8 +84,8 @@ export default function TechnologiesPage() {
       </svg>
 
       {/* Category grid */}
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10 pb-16">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-12 pb-20">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {TECH_DATA.map((cat, i) => {
             const itemCount = cat.subcategories.reduce((sum, s) => sum + s.items.length, 0);
             const sampleItems = cat.subcategories[0]?.items.slice(0, 4).map((it) => it.name) ?? [];
@@ -93,7 +94,7 @@ export default function TechnologiesPage() {
               <Link
                 key={cat.slug}
                 href={`/technologies/${cat.slug}`}
-                className="group bg-white border border-slate-200 hover:border-slate-300 rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-200 hover:-translate-y-0.5"
+                className="group bg-white border border-[#E4E0D4] hover:border-[#1E3A8A] rounded-2xl overflow-hidden shadow-2xs hover:shadow-xl transition-all duration-200 hover:-translate-y-1"
               >
                 {/* Coloured header strip */}
                 <div
@@ -119,15 +120,15 @@ export default function TechnologiesPage() {
                 </div>
 
                 {/* Card body */}
-                <div className="px-4 py-3">
-                  <p className="text-slate-500 text-xs leading-relaxed line-clamp-2 mb-3">
+                <div className="px-4 py-4">
+                  <p className="text-[#5B6072] text-xs leading-relaxed line-clamp-2 mb-3">
                     {cat.description}
                   </p>
-                  <div className="flex flex-wrap gap-1">
+                  <div className="flex flex-wrap gap-1.5">
                     {sampleItems.map((name) => (
                       <span
                         key={name}
-                        className="px-2 py-0.5 rounded text-[10px] text-slate-500 bg-slate-100 border border-slate-200"
+                        className="px-2.5 py-0.5 rounded-md text-[10px] text-[#5B6072] bg-[#FAF9F5] border border-[#E4E0D4]"
                       >
                         {name}
                       </span>

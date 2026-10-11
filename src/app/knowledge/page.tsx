@@ -45,7 +45,7 @@ export default function KnowledgePage() {
   });
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-[#F7F5EF]">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
@@ -55,18 +55,19 @@ export default function KnowledgePage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionSchema) }}
       />
       {/* ── Hero ─────────────────────────────────────────────────────────── */}
-      <div className="bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 px-4 sm:px-6 py-14 sm:py-20 relative overflow-hidden">
+      <div className="bg-[#0F1E4A] border-b border-[#1b2d63] px-4 sm:px-6 py-14 sm:py-20 relative overflow-hidden">
         {/* Subtle decorative background stars */}
-        <div className="absolute inset-0 opacity-20 pointer-events-none bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:24px_24px]" />
+        <div className="absolute inset-0 opacity-15 pointer-events-none bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:24px_24px]" />
 
         <div className="max-w-5xl mx-auto text-center relative z-10">
-          <span className="inline-flex items-center gap-2 bg-white/10 text-white text-xs font-bold px-4 py-1.5 rounded-full mb-6 border border-white/15 backdrop-blur">
-            📖 Comprehensive STEM Knowledge Library
+          <span className="inline-flex items-center gap-2 bg-white/10 text-[#F2B33D] text-xs font-bold px-4 py-1.5 rounded-full mb-6 border border-white/15 backdrop-blur shadow-2xs">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#F2B33D]" />
+            <span>Comprehensive STEM Knowledge Library</span>
           </span>
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white leading-tight mb-5">
+          <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-normal text-white leading-tight mb-5">
             How the World Works
           </h1>
-          <p className="text-slate-300 text-base sm:text-lg max-w-3xl mx-auto leading-relaxed">
+          <p className="text-white/75 text-base sm:text-lg max-w-3xl mx-auto leading-relaxed">
             120 clearly illustrated, step-by-step science explainers for young learners.
             Explore planetary cycles, rocket physics, human anatomy, ecosystems, and weather
             phenomena — complete with key vocabulary, fun facts, try-it-yourself activities, and

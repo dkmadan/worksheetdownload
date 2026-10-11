@@ -172,34 +172,32 @@ export default function SubjectsMenu({ dark = false }: { dark?: boolean }) {
             left: "50%",
             transform: "translateX(-50%)",
             width: "min(1060px, calc(100vw - 32px))",
-            background: "rgba(13, 18, 30, 0.97)",
-            backdropFilter: "blur(24px)",
-            WebkitBackdropFilter: "blur(24px)",
-            border: "1px solid rgba(255, 255, 255, 0.1)",
-            boxShadow: "0 30px 80px -15px rgba(0, 0, 0, 0.75), 0 0 0 1px rgba(255,255,255,0.06)",
+            background: "#ffffff",
+            border: "1px solid #E4E0D4",
+            boxShadow: "0 30px 70px -15px rgba(15, 30, 74, 0.22), 0 0 0 1px #E4E0D4",
           }}
         >
           {/* Header Banner */}
-          <div className="flex items-center justify-between px-6 py-3.5 border-b border-white/[0.08] bg-white/[0.02]">
+          <div className="flex items-center justify-between px-6 py-3.5 border-b border-[#E4E0D4] bg-[#FAF9F5]">
             <div className="flex items-center gap-2.5">
-              <span className="p-1.5 rounded-lg bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+              <span className="p-1.5 rounded-lg bg-[#E8ECF7] text-[#1E3A8A] border border-[#bfdbfe]">
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                 </svg>
               </span>
               <div>
-                <span className="text-xs font-bold text-white tracking-wide uppercase">Curriculum Subjects Directory</span>
-                <p className="text-[11px] text-slate-400">13 academic disciplines from Kindergarten to Grade 8</p>
+                <span className="text-xs font-bold text-[#0F1E4A] tracking-wider uppercase">Curriculum Subjects Directory</span>
+                <p className="text-[11px] text-[#5B6072]">13 academic disciplines from Kindergarten to Grade 8</p>
               </div>
             </div>
-            <span className="text-[11px] font-semibold text-slate-400 bg-white/[0.05] px-3 py-1 rounded-full border border-white/[0.08]">
+            <span className="text-[11px] font-bold text-[#9A5B00] bg-white px-3 py-1 rounded-full border border-[#E4E0D4] shadow-2xs">
               Topic-Wise Worksheets
             </span>
           </div>
 
           {/* 4-column subject group grid */}
           <div
-            className="grid grid-cols-4 divide-x divide-white/[0.06]"
+            className="grid grid-cols-4 divide-x divide-[#E4E0D4]/70"
             style={{
               padding: "22px 18px 22px",
             }}
@@ -214,9 +212,9 @@ export default function SubjectsMenu({ dark = false }: { dark?: boolean }) {
                   className="flex flex-col px-3.5 first:pl-1 last:pr-1"
                 >
                   {/* Group header */}
-                  <div className="flex items-center gap-1.5 mb-3.5 pb-2 border-b border-white/[0.06]">
+                  <div className="flex items-center gap-1.5 mb-3.5 pb-2 border-b border-[#E4E0D4]/70">
                     <span className="text-xs leading-none">{group.icon}</span>
-                    <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-slate-400">
+                    <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-[#9A5B00]">
                       {group.header}
                     </p>
                   </div>
@@ -228,14 +226,14 @@ export default function SubjectsMenu({ dark = false }: { dark?: boolean }) {
                         key={sub.id}
                         href={`/subjects/${sub.id}`}
                         onClick={() => setOpen(false)}
-                        className="group flex items-start gap-2.5 p-2 rounded-xl hover:bg-white/[0.07] transition-all no-underline"
+                        className="group flex items-start gap-2.5 p-2 rounded-xl hover:bg-[#ECEFF8] transition-all no-underline"
                       >
                         <SubjectDomainIcon id={sub.id} />
                         <div className="min-w-0 flex-1">
-                          <div className="text-[12px] font-semibold text-slate-200 group-hover:text-white transition-colors leading-tight">
+                          <div className="text-[12px] font-semibold text-[#0F1E4A] group-hover:text-[#1E3A8A] transition-colors leading-tight">
                             {sub.label}
                           </div>
-                          <div className="text-[10px] leading-[1.3] text-slate-400 line-clamp-2 mt-0.5">
+                          <div className="text-[10px] leading-[1.3] text-[#5B6072] line-clamp-2 mt-0.5">
                             {sub.description}
                           </div>
                         </div>
@@ -248,16 +246,16 @@ export default function SubjectsMenu({ dark = false }: { dark?: boolean }) {
           </div>
 
           {/* Footer */}
-          <div className="flex items-center justify-between px-6 py-3 border-t border-white/[0.08] bg-slate-950/80">
+          <div className="flex items-center justify-between px-6 py-3 border-t border-[#E4E0D4] bg-[#FAF9F5]">
             <Link
               href="/subjects"
               onClick={() => setOpen(false)}
-              className="inline-flex items-center gap-1.5 text-xs font-bold text-pink-400 hover:text-pink-300 transition-colors no-underline group"
+              className="inline-flex items-center gap-1.5 text-xs font-bold text-[#1E3A8A] hover:text-[#0F1E4A] transition-colors no-underline group"
             >
               <span>Browse all curriculum subjects & topic indices</span>
               <span className="group-hover:translate-x-1 transition-transform">→</span>
             </Link>
-            <span className="text-[11px] text-slate-400">
+            <span className="text-[11px] text-[#5B6072]">
               Kindergarten to Grade 8 · Comprehensive Question Sheets
             </span>
           </div>

@@ -49,7 +49,7 @@ export default function GradesPage() {
   });
 
   return (
-    <div className="bg-gradient-to-br from-orange-50 to-amber-50 min-h-full">
+    <div className="bg-[#F7F5EF] min-h-full">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
@@ -58,15 +58,16 @@ export default function GradesPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionSchema) }}
       />
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-12">
-        <div className="text-center mb-10">
-          <h1 className="text-4xl font-bold text-gray-900">Choose Your Grade</h1>
-          <p className="text-gray-500 mt-2 text-lg">
-            Pick a grade to explore subjects and topics designed just for your level.
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
+        <div className="text-center mb-12">
+          <span className="eb inline-block mb-2 text-[#9A5B00]">K–8 Curriculum</span>
+          <h1 className="font-serif text-3xl sm:text-4xl lg:text-[44px] font-medium text-[#0F1E4A] tracking-tight">Choose Your Grade</h1>
+          <p className="text-[#5B6072] mt-2.5 text-base sm:text-lg max-w-xl mx-auto">
+            Pick a grade level to explore syllabus-aligned practice sheets tailored for every stage of learning.
           </p>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 gap-4 max-w-4xl mx-auto">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 gap-5 max-w-4xl mx-auto">
           {GRADES_CURRICULUM.map((grade) => (
             <GradeTile key={grade.id} {...grade} />
           ))}

@@ -4,64 +4,67 @@ import HeroDoodleBackground from "@/components/home/HeroDoodleBackground";
 
 export default function HeroSection() {
   return (
-    <section className="relative py-16 sm:py-20 px-4 sm:px-6 overflow-hidden">
-      {/* Inline SVG doodle pattern — no external image required */}
+    <section className="relative py-16 sm:py-20 lg:py-24 px-4 sm:px-6 overflow-hidden bg-[#F7F5EF] border-b border-[#E4E0D4]">
+      {/* Inline SVG doodle pattern on warm ivory */}
       <HeroDoodleBackground />
-      <div className="relative z-10 max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-10 md:gap-12">
+      <div className="relative z-10 max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-10 md:gap-14">
 
-        {/* Left column — copy */}
-        <div className="flex-1 flex flex-col gap-5">
-          {/* Eyebrow badges */}
-          <div className="flex flex-wrap gap-2">
-            <span className="text-xs font-bold bg-pink-500/40 text-pink-100 border border-pink-400/60 px-3 py-1 rounded-full tracking-wide">
-              📚 K–8 Printable Worksheets
-            </span>
-            <span className="text-xs font-bold bg-indigo-500/40 text-indigo-100 border border-indigo-400/60 px-3 py-1 rounded-full tracking-wide">
-              💻 647+ Tech Cheat Sheets
-            </span>
+        {/* Left column — editorial copy */}
+        <div className="flex-1 flex flex-col gap-5 text-left">
+          {/* Eyebrow badge (EducationPath style) */}
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-[#E4E0D4] text-[#9A5B00] text-xs font-bold w-fit shadow-2xs">
+            <span className="w-2 h-2 rounded-full bg-[#1E3A8A]" />
+            <span className="eb text-[11.5px]">K–8 Printable Worksheets &bull; 647+ Tech Cheat Sheets</span>
           </div>
 
-          <h1 className="text-4xl sm:text-5xl lg:text-[3.25rem] font-black text-white leading-[1.1] tracking-tight drop-shadow-md">
-            Learn Smarter.{" "}
-            <span className="bg-gradient-to-r from-yellow-300 via-pink-400 to-violet-400 bg-clip-text text-transparent">
+          {/* Editorial Display Headline (Newsreader Serif) */}
+          <h1 className="font-serif text-4xl sm:text-5xl lg:text-[54px] font-normal text-[#0F1E4A] tracking-tight leading-[1.08]">
+            Learn Smarter.<br />
+            <span className="italic font-medium text-[#1E3A8A]">
               Practice Better.
             </span>
           </h1>
 
-          <p className="text-slate-100 text-lg max-w-lg leading-relaxed">
-            Free printable worksheets for every grade{" "}
-            <span className="text-white font-semibold">and</span> developer cheat
-            sheets for 647 technologies — one place for every learner.
+          <p className="text-base sm:text-lg text-[#5B6072] max-w-xl leading-relaxed">
+            Free printable worksheets for Kindergarten through Grade 8{" "}
+            <span className="text-[#0F1E4A] font-semibold">and</span> developer cheat
+            sheets for 647 technologies — curated in one clear place for every learner.
           </p>
 
-          <div className="flex flex-wrap gap-3 pt-1">
+          {/* Action buttons (EducationPath Saffron + Navy) */}
+          <div className="flex flex-wrap gap-3 pt-2">
             <Link
               href="/grades"
-              className="bg-pink-500 hover:bg-pink-400 text-white text-sm font-bold px-6 py-3 rounded-full transition-colors shadow-xl shadow-pink-900/60 ring-1 ring-pink-400/40"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-[#F2B33D] hover:bg-[#e2a42b] text-[#0F1E4A] text-sm font-bold shadow-xs hover:scale-[1.01] transition-all cursor-pointer border border-[#e2a42b]"
             >
-              Browse Worksheets
+              <span>Browse Worksheets</span>
+              <span>→</span>
             </Link>
             <Link
               href="/technologies"
-              className="bg-indigo-500 hover:bg-indigo-400 text-white text-sm font-bold px-6 py-3 rounded-full transition-colors shadow-xl shadow-indigo-900/60 ring-1 ring-indigo-400/40"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-[#1E3A8A] hover:bg-[#0F1E4A] text-white text-sm font-semibold shadow-xs hover:scale-[1.01] transition-all cursor-pointer"
             >
-              Tech Cheat Sheets
+              <span>Tech Cheat Sheets</span>
+              <span>→</span>
             </Link>
           </div>
 
           {/* Stats row */}
-          <div className="flex flex-wrap items-center gap-x-4 gap-y-1 pt-4 border-t border-white/20 text-sm text-slate-200">
-            <span><span className="text-white font-bold">3,000+</span> practice sheets</span>
-            <span className="text-white/30 hidden sm:inline">·</span>
-            <span><span className="text-white font-bold">647</span> tech resources</span>
-            <span className="text-white/30 hidden sm:inline">·</span>
-            <span><span className="text-white font-bold">K–8</span> all grades</span>
-            <span className="text-white/30 hidden sm:inline">·</span>
-            <span className="text-emerald-300 font-bold">Always free</span>
+          <div className="flex flex-wrap items-center gap-x-5 gap-y-2 pt-5 border-t border-[#E4E0D4] text-xs sm:text-sm text-[#5B6072]">
+            <span><span className="text-[#0F1E4A] font-bold">3,000+</span> practice sheets</span>
+            <span className="text-[#E4E0D4] hidden sm:inline">&bull;</span>
+            <span><span className="text-[#0F1E4A] font-bold">647</span> tech resources</span>
+            <span className="text-[#E4E0D4] hidden sm:inline">&bull;</span>
+            <span><span className="text-[#0F1E4A] font-bold">K–8</span> all grades</span>
+            <span className="text-[#E4E0D4] hidden sm:inline">&bull;</span>
+            <span className="text-emerald-700 font-bold flex items-center gap-1">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-600" />
+              Always Free
+            </span>
           </div>
         </div>
 
-        {/* Right column — 3D Subjects Orbital Hero Image (Transparent Background) */}
+        {/* Right column — 3D Subjects Orbital Hero Image */}
         <div className="flex-shrink-0 flex items-center justify-center relative group">
           <div className="relative w-[340px] h-[340px] sm:w-[440px] sm:h-[440px] transition-transform duration-500 hover:scale-105">
             <Image
@@ -70,7 +73,7 @@ export default function HeroSection() {
               fill
               priority
               sizes="(max-width: 640px) 340px, 440px"
-              className="object-contain drop-shadow-2xl"
+              className="object-contain drop-shadow-xl"
             />
           </div>
         </div>

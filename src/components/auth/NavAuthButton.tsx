@@ -47,8 +47,7 @@ export default function NavAuthButton() {
         {/* Sign out */}
         <button
           onClick={() => signOut()}
-          className="text-xs font-bold text-white px-3.5 py-1.5 rounded-full transition-all hover:opacity-95 shadow-2xs cursor-pointer"
-          style={{ backgroundImage: STAR_BUTTON_BG, backgroundSize: "cover", backgroundPosition: "center" }}
+          className="text-xs font-bold text-white bg-[#1E3A8A] hover:bg-[#0F1E4A] px-3.5 py-1.5 rounded-full transition-all shadow-2xs hover:scale-[1.02] cursor-pointer"
         >
           Sign out
         </button>
@@ -60,8 +59,7 @@ export default function NavAuthButton() {
     <>
       <button
         onClick={() => setShowModal(true)}
-        className="text-white text-xs font-bold px-4 py-1.5 rounded-full shadow-2xs transition-all hover:opacity-95 hover:scale-[1.02] cursor-pointer"
-        style={{ backgroundImage: STAR_BUTTON_BG, backgroundSize: "cover", backgroundPosition: "center" }}
+        className="text-white text-xs font-bold bg-[#1E3A8A] hover:bg-[#0F1E4A] px-4 py-1.5 rounded-full shadow-2xs transition-all hover:scale-[1.02] cursor-pointer"
       >
         Sign in
       </button>

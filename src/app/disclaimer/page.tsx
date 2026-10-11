@@ -61,13 +61,13 @@ export default function DisclaimerPage() {
   ]);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-[#F7F5EF]">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
       {/* Header */}
-      <div className="bg-white border-b border-gray-100">
+      <div className="bg-[#FAF9F5] border-b border-[#E4E0D4]">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 py-12">
           <nav className="flex items-center gap-2 text-xs text-gray-400 mb-6">
             <Link href="/" className="hover:text-gray-600 transition-colors">Home</Link>

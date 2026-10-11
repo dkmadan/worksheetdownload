@@ -77,7 +77,7 @@ export default function WorksheetsPage() {
   });
 
   return (
-    <div>
+    <div className="bg-[#F7F5EF] min-h-screen">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
@@ -87,12 +87,12 @@ export default function WorksheetsPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionSchema) }}
       />
       {/* Hero banner */}
-      <div className="bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-700 py-14 px-4 sm:px-6 text-center text-white">
-        <p className="text-sm font-semibold tracking-widest uppercase text-blue-200 mb-2">
+      <div className="bg-[#0F1E4A] border-b border-[#1b2d63] py-16 px-4 sm:px-6 text-center text-white">
+        <p className="text-xs font-bold tracking-widest uppercase text-[#F2B33D] mb-3">
           Free Printable Worksheets
         </p>
-        <h1 className="text-3xl sm:text-4xl font-extrabold mb-3">Browse All Topics</h1>
-        <p className="text-blue-100 text-base sm:text-lg max-w-2xl mx-auto">
+        <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-normal mb-3">Browse All Topics</h1>
+        <p className="text-white/75 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
           {topics.length}+ worksheet topics across Kindergarten – Grade 8. Filter by grade
           or subject, then download 4 unique practice sheets per topic.
         </p>
@@ -100,21 +100,21 @@ export default function WorksheetsPage() {
 
       {/* Featured Interactive Tools Callout */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-8">
-        <div className="bg-gradient-to-r from-indigo-50 via-blue-50 to-purple-50 border border-blue-200/70 rounded-2xl p-5 sm:p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 shadow-sm">
+        <div className="bg-white border border-[#E4E0D4] rounded-2xl p-5 sm:p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 shadow-2xs">
           <div className="flex items-start gap-3">
             <span className="text-3xl sm:text-4xl">⚡</span>
             <div>
-              <h2 className="text-base sm:text-lg font-bold text-slate-900">
+              <h2 className="text-base sm:text-lg font-bold text-[#0F1E4A]">
                 Need Custom Worksheets? Try Our Free Interactive Generators
               </h2>
-              <p className="text-sm text-slate-600 mt-0.5">
+              <p className="text-sm text-[#5B6072] mt-0.5">
                 Build randomized Reading Comprehension, Visual Fractions, Money Counting, Crossword Puzzles, Grammar Exercises, and Flashcards in seconds with matching answer keys.
               </p>
             </div>
           </div>
           <Link
             href="/tools"
-            className="shrink-0 bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm px-5 py-2.5 rounded-xl shadow-sm transition-all"
+            className="shrink-0 bg-[#1E3A8A] hover:bg-[#0F1E4A] text-white font-bold text-sm px-6 py-2.5 rounded-full shadow-xs transition-all"
           >
             Explore 15 Generators →
           </Link>

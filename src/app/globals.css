@@ -1,20 +1,56 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #0f172a;
+  /* EducationPath Editorial Academy Palette */
+  --bg-ivory: #F7F5EF;
+  --brand-navy: #1E3A8A;
+  --brand-ink: #0F1E4A;
+  --brand-saffron: #F2B33D;
+  --brand-ochre: #9A5B00;
+  --border-warm: #E4E0D4;
+  --border-warm-muted: #DAD5C6;
+  --academic-tint: #ECEFF8;
+  --pill-navy-bg: #E8ECF7;
+
+  --background: #F7F5EF;
+  --foreground: #14182B;
+
+  --primary: #1E3A8A;
+  --primary-light: #2563eb;
+  --primary-soft: #E8ECF7;
+  --accent: #F2B33D;
+  --accent-hover: #e09f25;
+  --dark: #0F1E4A;
+  --slate: #5B6072;
+  --card-bg: #ffffff;
+  --border: #E4E0D4;
+
+  --radius-lg: 22px;
+  --radius-md: 14px;
+  --shadow-sm: 0 1px 3px rgba(15, 30, 74, 0.04);
+  --shadow-md: 0 10px 25px -5px rgba(15, 30, 74, 0.05), 0 8px 10px -6px rgba(15, 30, 74, 0.04);
+  --shadow-hover: 0 20px 30px -8px rgba(30, 58, 138, 0.12), 0 8px 12px -4px rgba(30, 58, 138, 0.06);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-plus-jakarta), var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+  --font-serif: var(--font-newsreader), Georgia, Cambria, 'Times New Roman', serif;
+  --color-brand-navy: #1E3A8A;
+  --color-brand-ink: #0F1E4A;
+  --color-brand-saffron: #F2B33D;
+  --color-brand-ochre: #9A5B00;
+  --color-border-warm: #E4E0D4;
+  --color-border-warm-muted: #DAD5C6;
+  --color-bg-ivory: #F7F5EF;
+  --color-academic-tint: #ECEFF8;
+
   --color-brand-teal: #0891b2;
   --color-brand-pink: #fb7185;
-  --color-brand-hero-bg: #dbeafe;
-  --color-text-primary: #0f172a;
-  --color-text-muted: #64748b;
+  --color-brand-hero-bg: #F7F5EF;
+  --color-text-primary: #14182B;
+  --color-text-muted: #5B6072;
 }
 
 @font-face {
@@ -38,9 +74,90 @@ body {
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+  background-color: #F7F5EF;
+  color: #14182B;
+  font-family: var(--font-plus-jakarta), var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+  line-height: 1.6;
+}
+
+/* Editorial Academy Typography & Utility Classes */
+.sf, .font-serif {
+  font-family: var(--font-newsreader), 'Newsreader', Georgia, Cambria, 'Times New Roman', Times, serif;
+}
+
+.font-sans {
+  font-family: var(--font-plus-jakarta), var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+}
+
+.eb {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #9A5B00;
+}
+
+.h2 {
+  font-family: var(--font-newsreader), 'Newsreader', Georgia, serif;
+  font-size: clamp(30px, 3.8vw, 44px);
+  line-height: 1.1;
+  font-weight: 500;
+  letter-spacing: -0.018em;
+  color: #0F1E4A;
+  text-wrap: balance;
+}
+
+.lede {
+  font-size: 17px;
+  line-height: 1.55;
+  color: #5B6072;
+  text-wrap: pretty;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  height: 48px;
+  padding: 0 24px;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 14.5px;
+  border: 0;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.bp {
+  background: #1E3A8A;
+  color: #ffffff;
+}
+
+.bp:hover {
+  background: #0F1E4A;
+}
+
+.bs {
+  background: #F2B33D;
+  color: #0F1E4A;
+  font-weight: 700;
+}
+
+.bs:hover {
+  background: #e5a42d;
+}
+
+.card {
+  background: #ffffff;
+  border: 1px solid #E4E0D4;
+  border-radius: 20px;
+  transition: all 0.2s ease;
+}
+
+.card:hover {
+  border-color: #1E3A8A;
+  box-shadow: 0 12px 30px -10px rgba(15, 30, 74, 0.08);
 }
 
 @keyframes heroFloat {

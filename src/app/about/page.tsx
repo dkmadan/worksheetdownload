@@ -56,7 +56,7 @@ export default function AboutPage() {
   };
 
   return (
-    <div className="bg-white">
+    <div className="bg-[#F7F5EF] min-h-screen">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
@@ -67,15 +67,15 @@ export default function AboutPage() {
       />
 
       {/* ── Hero ─────────────────────────────────────────────────────── */}
-      <div className="bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950 py-16 px-4 sm:px-6">
+      <div className="bg-[#0F1E4A] border-b border-[#1b2d63] py-16 px-4 sm:px-6">
         <div className="max-w-4xl mx-auto text-center">
-          <span className="inline-block text-xs font-bold text-indigo-400 uppercase tracking-widest mb-3">
-            About Us
+          <span className="inline-block text-xs font-bold text-[#F2B33D] uppercase tracking-widest mb-3">
+            About WorksheetDownload
           </span>
-          <h1 className="text-4xl sm:text-5xl font-black text-white leading-tight mb-4">
+          <h1 className="font-serif text-4xl sm:text-5xl font-normal text-white leading-tight mb-4">
             One Platform for Every Learner
           </h1>
-          <p className="text-slate-300 text-lg max-w-2xl mx-auto leading-relaxed">
+          <p className="text-white/75 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
             WorksheetDownload is a free learning hub — printable practice sheets
             for children in Kindergarten through Grade 8, and developer cheat
             sheets for 647 technologies. No sign-up. No paywall. Free forever.
@@ -84,7 +84,7 @@ export default function AboutPage() {
       </div>
 
       {/* ── Stats bar ────────────────────────────────────────────────── */}
-      <div className="border-b border-slate-100">
+      <div className="border-b border-[#E4E0D4] bg-[#FAF9F5]">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 py-8 grid grid-cols-2 sm:grid-cols-4 gap-6 text-center">
           {[
             { value: "3,000+", label: "Practice Sheets" },
@@ -93,8 +93,8 @@ export default function AboutPage() {
             { value: "37",     label: "Tech Categories" },
           ].map((s) => (
             <div key={s.label}>
-              <p className="text-3xl font-black text-indigo-600">{s.value}</p>
-              <p className="text-sm text-slate-500 mt-1 font-medium">{s.label}</p>
+              <p className="text-3xl font-black text-[#1E3A8A]">{s.value}</p>
+              <p className="text-sm text-[#5B6072] mt-1 font-medium">{s.label}</p>
             </div>
           ))}
         </div>
@@ -104,8 +104,8 @@ export default function AboutPage() {
 
         {/* ── Mission ──────────────────────────────────────────────────── */}
         <section className="max-w-3xl">
-          <h2 className="text-2xl font-bold text-slate-900 mb-4">Our Mission</h2>
-          <p className="text-slate-600 leading-relaxed mb-3">
+          <h2 className="font-serif text-2xl sm:text-3xl font-medium text-[#0F1E4A] mb-4">Our Mission</h2>
+          <p className="text-[#5B6072] leading-relaxed mb-3">
             We believe quality learning resources should be accessible to everyone.
             Whether you&apos;re a parent helping your child build foundational skills,
             a teacher looking for ready-to-print practice sheets, or a developer
